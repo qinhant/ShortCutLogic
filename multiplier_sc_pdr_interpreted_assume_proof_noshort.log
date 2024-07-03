@@ -1,0 +1,75 @@
+---------------Invariant Clauses-------------------- 
+!(!assume_1[0] && !a_reg1[0] && b_reg2[0] && a_reg2[0])
+!(!assume_1[0] && !b_reg1[0] && b_reg2[0])
+!(!assume_1[0] && b_reg1[0] && !b_reg2[0])
+!(!assume_1[0] && b_reg1[0] && a_reg1[0] && !a_reg2[0])
+!(!assume_1[0] && !busy1[0] && busy2[0])
+!(!assume_1[0] && busy1[0] && !busy2[0])
+!(out_valid_ever_diff[0] && !assume_1[0])
+!(!copy1.finish[0] && copy2.finish[0] && !assume_1[0])
+!(copy1.finish[0] && !copy2.finish[0] && !assume_1[0])
+
+
+
+---------------PDR Log--------------------
+Trying to justify cube <prop=fail> in frame 1.
+Adding cube (copy1.finish[0]) to frame 1.
+Trying to justify cube <prop=fail> in frame 1.
+Adding cube (copy2.finish[0]) to frame 1.
+Trying to justify cube <prop=fail> in frame 1.
+Adding cube (out_valid_ever_diff[0]) to frame 1.
+1 : 0 3                                                                 1     3      0.00 sec
+Trying to justify cube <prop=fail> in frame 2.
+Trying to justify cube (copy1.finish[0] && !copy2.finish[0] && !assume_1[0]) in frame 1.
+Adding cube (busy1[0] && !busy2[0]) to frame 1.
+Trying to justify cube (!assume_1[0] && busy1[0] && !a_reg1[0] && !busy2[0]) in frame 1.
+Adding cube (!busy1[0] && busy2[0]) to frame 1.
+Adding cube (!busy1[0] && busy2[0] && !a_reg2[0]) to frame 2.
+Adding cube (busy1[0] && !a_reg1[0] && !busy2[0]) to frame 2.
+Trying to justify cube (copy1.finish[0] && !copy2.finish[0] && !assume_1[0]) in frame 1.
+Adding cube (!b_reg1[0] && b_reg2[0]) to frame 2.
+Trying to justify cube (copy1.finish[0] && !copy2.finish[0] && !assume_1[0]) in frame 1.
+Adding cube (!assume_1[0] && !a_reg1[0] && b_reg2[0] && a_reg2[0]) to frame 2.
+Adding cube (copy1.finish[0] && !copy2.finish[0] && !assume_1[0]) to frame 2.
+Trying to justify cube <prop=fail> in frame 2.
+Trying to justify cube (!copy1.finish[0] && copy2.finish[0] && !assume_1[0]) in frame 1.
+Adding cube (b_reg1[0] && !b_reg2[0]) to frame 2.
+Trying to justify cube (!copy1.finish[0] && copy2.finish[0] && !assume_1[0]) in frame 1.
+Adding cube (!assume_1[0] && b_reg1[0] && a_reg1[0] && !a_reg2[0]) to frame 2.
+Adding cube (!copy1.finish[0] && copy2.finish[0] && !assume_1[0]) to frame 2.
+2 : 0 4 9                                                               3    10      0.00 sec
+Trying to justify cube <prop=fail> in frame 3.
+Trying to justify cube (copy1.finish[0] && !copy2.finish[0] && !assume_1[0]) in frame 2.
+Adding cube (!assume_1[0] && busy1[0] && !busy2[0]) to frame 2.
+Trying to justify cube (!assume_1[0] && busy1[0] && !b_reg1[0] && !busy2[0]) in frame 2.
+Adding cube (!assume_1[0] && !busy1[0] && busy2[0]) to frame 3.
+Adding cube (!assume_1[0] && busy1[0] && !busy2[0]) to frame 3.
+Adding cube (copy1.finish[0] && !copy2.finish[0] && !assume_1[0]) to frame 3.
+Trying to justify cube <prop=fail> in frame 3.
+Adding cube (out_valid_ever_diff[0] && !assume_1[0]) to frame 3.
+Trying to justify cube <prop=fail> in frame 3.
+Adding cube (!copy1.finish[0] && copy2.finish[0] && !assume_1[0]) to frame 3.
+3 : 0 4 8 7                                                             3    10      0.01 sec
+Trying to justify cube <prop=fail> in frame 4.
+Trying to justify cube (copy1.finish[0] && !copy2.finish[0] && !assume_1[0]) in frame 3.
+Adding cube (!assume_1[0] && !b_reg1[0] && b_reg2[0]) to frame 4.
+Adding cube (copy1.finish[0] && !copy2.finish[0] && !assume_1[0]) to frame 4.
+Trying to justify cube <prop=fail> in frame 4.
+Trying to justify cube (!copy1.finish[0] && copy2.finish[0] && !assume_1[0]) in frame 3.
+Adding cube (!assume_1[0] && b_reg1[0] && !b_reg2[0]) to frame 4.
+Adding cube (!copy1.finish[0] && copy2.finish[0] && !assume_1[0]) to frame 4.
+4 : 0 4 5 4 7                                                           2    10      0.01 sec
+5 : 0 4 5 0 0 9                                                         0    10      0.01 sec
+Verification of invariant with 9 clauses was successful.  Time =     0.00 sec
+Block =   10  Oblig =    33  Clause =    23  Call =   154 (sat=63.0%)  Cex =   0  Start =   0
+SAT solving =     0.00 sec ( 21.69 %)
+unsat     =     0.00 sec (  0.95 %)
+sat       =     0.00 sec ( 20.74 %)
+Generalize  =     0.00 sec ( 12.00 %)
+Push clause =     0.00 sec (  8.96 %)
+Ternary sim =     0.00 sec (  0.77 %)
+Containment =     0.00 sec (  0.08 %)
+CNF compute =     0.00 sec (  1.18 %)
+Refinement  =     0.00 sec (  0.00 %)
+TOTAL       =     0.02 sec (100.00 %)
+Property proved.  Time =     0.02 sec

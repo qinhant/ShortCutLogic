@@ -1,0 +1,6 @@
+input 0 0 clk
+input 1 0 rst
+input 2 0 a
+input 3 0 b
+invlatch 0 0 c
+invlatch 0 0 o

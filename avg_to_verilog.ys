@@ -1,0 +1,4 @@
+read_aiger -module_name alu -clk_name clk alu.aig 
+
+
+write_verilog alu_aig.v

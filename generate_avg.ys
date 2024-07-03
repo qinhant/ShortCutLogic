@@ -1,0 +1,13 @@
+read_verilog -sv -formal multiplier_sc.sv
+chformal -lower
+prep -top multiplier_sc
+flatten
+write_verilog multiplier_sc_yosys.v
+memory -nordff
+setundef -undriven -init -zero
+#sim -clock clk -reset rst -rstlen 1 -n 5 -w multiplier_sc
+delete -output
+techmap
+abc -fast -g AND
+write_aiger -zinit -map multiplier_sc.map multiplier_sc.aig 
+write_aiger -zinit -ascii multiplier_sc.aag
