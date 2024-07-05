@@ -363,3 +363,145 @@ read multiplier_sc.aig
 get -h
 put -h
 help
+collapse -h
+&read -h
+&read multiplier_sc.aig
+inv_check
+read invariant.v 
+read_verilog invariant.v 
+read invariant.aig 
+collapse -h
+inv_put -h
+read invariant.aig
+inv_put -v
+&read noninterference.aig 
+inv_check
+collapse 
+inv_[ut
+inv_put
+&read invariant.aig 
+inv_put -v
+read_verilog invariant.v 
+help
+&read_ver -h
+&read_ver invariant.v 
+source -s abc.rc
+read invariant.aig 
+collapse
+&read invariant.aig 
+collapse -b
+collapse -h
+help
+write_verilog invariant_abc.v
+&read_ver invariant_abc.v 
+inv_put
+inv_ps -h
+inv_ps
+inv_print
+inv_get -h
+%yosys -h
+&collapse -h
+%collapse -h
+collapse -v
+inv_put -h
+read_verilog invariant_abc.v 
+%collapse
+collapse
+collapse -h
+&read_ver invariant_abc.v 
+source -s abc.rc
+read_pla noninterference_inv.pla 
+read_pla noninterference_inv.pla -v
+collapse -v
+inv_put
+&save2 -h
+save -h
+save 
+&read noninterference_inv.pla 
+help
+&put -h
+put -h
+&put
+print -h
+pf -h
+print_gates
+inv_check -h
+inv_get -h
+read noninterference.aig 
+inv_get -f
+inv_get
+&write_ver noninterference_abc.v
+&write_ver -h
+&write_ver -S noninterference_abc.v
+&write_ver -S noninterference.v noninterference_inv.v
+&write_ver -S noninterference.aig noninterference_inv.v
+source -s abc.rc
+&read invariant.aig 
+read invariant.aig 
+collapse
+inv_put
+read noninterference.aig 
+inv_checkl
+inv_check
+inv_check -v
+inv_ps
+inv_ps -h
+help
+inv_print
+inv_print -v
+inv_print -h
+&extract -h
+&cone -h
+&put -h
+read noninterference.aig 
+collapse
+&put
+&putontop -h
+&save -h
+&verify 
+help
+collapse -h
+inv_put
+read invariant.aig 
+inv_put -h
+read_verilog invariant.v 
+source -s abc.rc
+collapse
+read noninterference.pl
+inv_put -v
+source -s abc.rc
+read invariant.aig 
+&read noninterference.aig 
+collapse
+inv_print
+inv_print -v
+read noninterference_inv.pla 
+inv_put
+inv_check
+inv_check -v
+inv_check -h
+%pdra
+inv_get -h
+source -s abc.rc
+read invariant.aig 
+collapse
+&noninterference.aig 
+&noninterference.aig
+&read noninterference.aig 
+inv_check
+inv_check -v
+write_blif invariant.blif
+read_blif invariant
+read_blif invariant.blif
+inv_print -v
+strash -h
+sop -h
+inv_print
+inv_check -h
+write_cex
+read multiplier_sc_inv_noshort.pla 
+&read multiplier_sc.aig 
+inv_put
+inv_check
+inv_check -v
+source -s abc.rc

@@ -1,0 +1,7 @@
+read_verilog invariant.v
+prep -top inv
+#setundef -undriven -init -zero
+techmap
+abc -fast -g AND
+write_verilog invariant_yosys.v
+write_aiger -zinit -map invariant.map invariant.aig 

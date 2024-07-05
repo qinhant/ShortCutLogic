@@ -6,80 +6,22 @@
 module noninterference(clk, rst, a1, a2, b);
   (* src = "noninterference.sv:58.1-65.4" *)
   wire _00_;
-  (* src = "noninterference.sv:58.1-65.4" *)
-  wire _01_;
-  (* src = "noninterference.sv:4.11-4.13" *)
-  wire _02_;
-  (* src = "noninterference.sv:5.11-5.13" *)
-  wire _03_;
-  wire _04_;
-  (* src = "noninterference.sv:83.6-83.10" *)
-  wire _05_;
-  (* src = "noninterference.sv:81.5-81.10" *)
-  wire _06_;
-  (* src = "noninterference.sv:84.6-84.10" *)
-  wire _07_;
-  (* src = "noninterference.sv:82.5-82.10" *)
-  wire _08_;
-  (* src = "noninterference.sv:76.12-76.13" *)
-  wire _09_;
-  (* src = "noninterference.sv:83.6-83.10" *)
-  wire _10_;
-  (* src = "noninterference.sv:81.5-81.10" *)
-  wire _11_;
-  (* src = "noninterference.sv:84.6-84.10" *)
-  wire _12_;
-  (* src = "noninterference.sv:82.5-82.10" *)
-  wire _13_;
-  (* src = "noninterference.sv:57.5-57.13" *)
-  wire _14_;
-  (* src = "noninterference.sv:6.11-6.12" *)
-  wire _15_;
-  (* src = "noninterference.sv:67.18-67.48" *)
-  wire _16_;
-  wire _17_;
-  wire _18_;
-  wire _19_;
-  wire _20_;
-  wire _21_;
-  wire _22_;
-  wire _23_;
-  wire _24_;
-  wire _25_;
-  wire _26_;
-  wire _27_;
-  wire _28_;
-  wire _29_;
-  wire _30_;
-  wire _31_;
-  wire _32_;
-  wire _33_;
-  wire _34_;
-  wire _35_;
-  wire _36_;
-  wire _37_;
-  (* src = "noninterference.sv:3.11-3.14" *)
-  wire _38_;
-  wire _39_;
-  wire _40_;
-  wire _41_;
-  wire _42_;
   (* src = "noninterference.sv:67.18-67.24" *)
-  wire _43_;
+  wire _01_;
   (* src = "noninterference.sv:86.31-86.44" *)
-  wire _44_;
+  wire _02_;
   (* src = "noninterference.sv:83.13-83.17" *)
-  wire _45_;
+  wire _03_;
   (* src = "noninterference.sv:86.31-86.44" *)
-  wire _46_;
+  wire _04_;
   (* src = "noninterference.sv:83.13-83.17" *)
-  wire _47_;
+  wire _05_;
   (* src = "noninterference.sv:63.21-63.43" *)
-  wire _48_;
+  wire _06_;
   (* src = "noninterference.sv:67.18-67.48" *)
-  wire _49_;
+  wire _07_;
   (* src = "noninterference.sv:63.22-63.30" *)
-  wire _50_;
+  wire _08_;
   (* src = "noninterference.sv:4.11-4.13" *)
   input a1;
   wire a1;
@@ -167,82 +109,49 @@ module noninterference(clk, rst, a1, a2, b);
   (* src = "noninterference.sv:3.11-3.14" *)
   input rst;
   wire rst;
-  assign _09_ = _08_ & _06_;
-  assign _17_ = ~_38_;
-  assign _05_ = _17_ & _02_;
-  assign _07_ = _17_ & _15_;
-  assign _10_ = _03_ & _17_;
-  assign _18_ = ~_04_;
-  assign _19_ = _13_ & _11_;
-  assign _20_ = _19_ & _18_;
-  assign _21_ = ~_20_;
-  assign _22_ = ~_19_;
-  assign _23_ = _22_ & _04_;
-  assign _24_ = ~_23_;
-  assign _25_ = _24_ & _21_;
-  assign _26_ = ~_25_;
-  assign _27_ = ~_14_;
-  assign _28_ = ~_02_;
-  assign _29_ = _03_ & _28_;
-  assign _30_ = ~_29_;
-  assign _31_ = ~_03_;
-  assign _32_ = _31_ & _02_;
-  assign _33_ = ~_32_;
-  assign _34_ = _33_ & _30_;
-  assign _35_ = _34_ & _27_;
-  assign _36_ = _35_ & _26_;
-  assign _16_ = ~_36_;
-  assign _37_ = ~_35_;
-  assign _01_ = _37_ & _17_;
-  assign _12_ = _17_ & _15_;
-  always @* if (1'h1) assert(_49_);
+  always @* if (1'h1) assert(_07_);
+  assign _01_ = o1 == (* src = "noninterference.sv:67.18-67.24" *) o2;
+  assign _02_ = \alu1.a_reg  & (* src = "noninterference.sv:86.31-86.44" *) \alu1.b_reg ;
+  assign \alu1.a_in  = _03_ && (* src = "noninterference.sv:83.13-83.22" *) \alu1.a ;
+  assign \alu1.b_in  = _03_ && (* src = "noninterference.sv:84.13-84.22" *) \alu1.b ;
+  assign _03_ = ! (* src = "noninterference.sv:83.13-83.17" *) \alu1.rst ;
   (* src = "noninterference.sv:88.1-91.4" *)
-  always @(posedge clk)
-    \alu2.b_reg  <= \alu2.b_in ;
+  always @(posedge \alu1.clk )
+    \alu1.a_reg  <= \alu1.a_in ;
   (* src = "noninterference.sv:88.1-91.4" *)
-  always @(posedge clk)
+  always @(posedge \alu1.clk )
+    \alu1.b_reg  <= \alu1.b_in ;
+  assign \alu1.o  = \alu1.same_o  ? (* src = "noninterference.sv:86.12-86.44" *) \alu1.other_o  : _02_;
+  assign _04_ = \alu2.a_reg  & (* src = "noninterference.sv:86.31-86.44" *) \alu2.b_reg ;
+  assign \alu2.a_in  = _05_ && (* src = "noninterference.sv:83.13-83.22" *) \alu2.a ;
+  assign \alu2.b_in  = _05_ && (* src = "noninterference.sv:84.13-84.22" *) \alu2.b ;
+  assign _05_ = ! (* src = "noninterference.sv:83.13-83.17" *) \alu2.rst ;
+  (* src = "noninterference.sv:88.1-91.4" *)
+  always @(posedge \alu2.clk )
     \alu2.a_reg  <= \alu2.a_in ;
+  (* src = "noninterference.sv:88.1-91.4" *)
+  always @(posedge \alu2.clk )
+    \alu2.b_reg  <= \alu2.b_in ;
+  assign \alu2.o  = \alu2.same_o  ? (* src = "noninterference.sv:86.12-86.44" *) \alu2.other_o  : _04_;
+  assign _06_ = _08_ || (* src = "noninterference.sv:63.21-63.43" *) assume_a;
+  assign _07_ = _01_ || (* src = "noninterference.sv:67.18-67.48" *) _06_;
+  assign _08_ = a1 != (* src = "noninterference.sv:63.22-63.30" *) a2;
   (* src = "noninterference.sv:58.1-65.4" *)
   always @(posedge clk)
     assume_a <= _00_;
-  (* src = "noninterference.sv:88.1-91.4" *)
-  always @(posedge clk)
-    \alu1.a_reg  <= \alu1.a_in ;
-  (* src = "noninterference.sv:88.1-91.4" *)
-  always @(posedge clk)
-    \alu1.b_reg  <= \alu1.b_in ;
-  assign \alu1.a  = a1;
-  assign \alu1.b  = b;
-  assign \alu1.clk  = clk;
-  assign \alu1.rst  = rst;
-  assign \alu1.same_o  = 1'h0;
+  assign _00_ = rst ? (* full_case = 32'd1 *) (* src = "noninterference.sv:59.9-59.12|noninterference.sv:59.5-64.8" *) 1'h0 : _06_;
   assign \alu2.a  = a2;
   assign \alu2.b  = b;
   assign \alu2.clk  = clk;
-  assign \alu2.o  = \alu1.other_o ;
-  assign \alu2.other_o  = \alu1.o ;
+  assign o2 = \alu2.o ;
+  assign \alu2.other_o  = o1;
   assign \alu2.rst  = rst;
   assign \alu2.same_o  = 1'h0;
+  assign \alu1.a  = a1;
+  assign \alu1.b  = b;
+  assign \alu1.clk  = clk;
   assign o1 = \alu1.o ;
-  assign o2 = \alu1.other_o ;
-  assign _50_ = _40_;
-  assign _42_ = _41_;
-  assign _39_ = \alu1.o ;
-  assign \alu1.o  = _09_;
-  assign _06_ = \alu1.a_reg ;
-  assign _08_ = \alu1.b_reg ;
-  assign _02_ = a1;
-  assign \alu1.a_in  = _05_;
-  assign _15_ = b;
-  assign \alu1.b_in  = _07_;
-  assign _38_ = rst;
-  assign _11_ = \alu2.a_reg ;
-  assign _13_ = \alu2.b_reg ;
-  assign _03_ = a2;
-  assign \alu2.a_in  = _10_;
-  assign \alu2.b_in  = _12_;
-  assign _14_ = assume_a;
-  assign _49_ = _16_;
-  assign _00_ = _01_;
-  assign _04_ = _39_;
+  assign \alu1.other_o  = o2;
+  assign \alu1.rst  = rst;
+  assign \alu1.same_o  = 1'h0;
 endmodule

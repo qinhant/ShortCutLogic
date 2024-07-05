@@ -1,524 +1,285 @@
 ---------------Invariant Clauses-------------------- 
-!(busy_diff[0] && !assume_2_violate[0] && busy1[0])
-!(busy_diff[0] && !finish_diff[0] && !assume_2_violate[0])
-!(!b_reg_diff[0] && b_reg1[0] && !b_reg2[0])
-!(!a_reg_diff[0] && a_reg1[7] && !a_reg2[7])
-!(!a_reg_diff[0] && a_reg1[6] && !a_reg2[6])
-!(!a_reg_diff[0] && a_reg1[5] && !a_reg2[5])
-!(!a_reg_diff[0] && a_reg1[4] && !a_reg2[4])
-!(!a_reg_diff[0] && a_reg1[3] && !a_reg2[3])
-!(!a_reg_diff[0] && a_reg1[2] && !a_reg2[2])
-!(!a_reg_diff[0] && a_reg1[1] && !a_reg2[1])
-!(!a_reg_diff[0] && a_reg1[0] && !a_reg2[0])
-!(copy2.finish[0] && b_reg2[0] && a_reg2[7])
-!(copy2.finish[0] && b_reg2[0] && a_reg2[6])
-!(copy2.finish[0] && b_reg2[0] && a_reg2[5])
-!(copy2.finish[0] && b_reg2[0] && a_reg2[4])
-!(copy2.finish[0] && b_reg2[0] && a_reg2[3])
-!(copy2.finish[0] && b_reg2[0] && a_reg2[2])
-!(copy2.finish[0] && b_reg2[0] && a_reg2[1])
-!(copy2.finish[0] && b_reg2[0] && a_reg2[0])
-!(copy2.finish[0] && !assume_2_violate[0] && b_reg2[7])
-!(copy2.finish[0] && !assume_2_violate[0] && b_reg2[5] && a_reg2[1])
-!(copy2.finish[0] && !assume_2_violate[0] && b_reg2[5] && a_reg2[0])
-!(copy2.finish[0] && !assume_2_violate[0] && b_reg2[4] && a_reg2[4])
-!(copy2.finish[0] && !assume_2_violate[0] && b_reg2[4] && a_reg2[1])
-!(copy2.finish[0] && !assume_2_violate[0] && b_reg2[3] && a_reg2[5])
-!(copy2.finish[0] && !assume_2_violate[0] && b_reg2[3] && a_reg2[1])
-!(copy2.finish[0] && !assume_2_violate[0] && b_reg2[2] && a_reg2[5])
-!(copy2.finish[0] && !assume_2_violate[0] && b_reg2[2] && a_reg2[3])
-!(copy2.finish[0] && !assume_2_violate[0] && b_reg2[2] && a_reg2[2])
-!(copy2.finish[0] && !assume_2_violate[0] && b_reg2[2] && a_reg2[1])
-!(copy2.finish[0] && !assume_2_violate[0] && b_reg2[2] && a_reg2[0])
-!(copy2.finish[0] && !assume_2_violate[0] && b_reg2[1] && a_reg2[7])
-!(copy2.finish[0] && !assume_2_violate[0] && b_reg2[1] && a_reg2[6])
-!(copy2.finish[0] && !assume_2_violate[0] && b_reg2[1] && a_reg2[5])
-!(copy2.finish[0] && !assume_2_violate[0] && b_reg2[1] && a_reg2[4])
-!(copy2.finish[0] && !assume_2_violate[0] && b_reg2[1] && a_reg2[3])
-!(copy2.finish[0] && !assume_2_violate[0] && b_reg2[1] && a_reg2[1])
-!(copy2.finish[0] && !assume_2_violate[0] && b_reg2[1] && a_reg2[0])
-!(!copy1.finish[0] && busy_diff[0] && !assume_2_violate[0])
-!(!copy1.finish[0] && !copy2.finish[0] && busy_diff[0] && !busy1[0] && !a_reg2[0] && !a_reg2[1] && !a_reg2[2] && !a_reg2[3] && !a_reg2[4] && !a_reg2[5] && !a_reg2[6] && !a_reg2[7])
-!(!copy1.finish[0] && copy2.finish[0] && !assume_2_violate[0])
-!(copy1.finish[0] && b_reg1[7])
-!(copy1.finish[0] && b_reg1[6] && a_reg1[7])
-!(copy1.finish[0] && b_reg1[6] && a_reg1[6])
-!(copy1.finish[0] && b_reg1[6] && a_reg1[5])
-!(copy1.finish[0] && b_reg1[6] && a_reg1[4])
-!(copy1.finish[0] && b_reg1[6] && a_reg1[3])
-!(copy1.finish[0] && b_reg1[6] && a_reg1[2])
-!(copy1.finish[0] && b_reg1[6] && a_reg1[1])
-!(copy1.finish[0] && b_reg1[6] && a_reg1[0])
-!(copy1.finish[0] && b_reg1[5] && a_reg1[3])
-!(copy1.finish[0] && b_reg1[5] && a_reg1[2])
-!(copy1.finish[0] && b_reg1[5] && a_reg1[1])
-!(copy1.finish[0] && b_reg1[5] && a_reg1[0])
-!(copy1.finish[0] && b_reg1[4] && a_reg1[7])
-!(copy1.finish[0] && b_reg1[4] && a_reg1[6])
-!(copy1.finish[0] && b_reg1[4] && a_reg1[5])
-!(copy1.finish[0] && b_reg1[4] && a_reg1[4])
-!(copy1.finish[0] && b_reg1[4] && a_reg1[3])
-!(copy1.finish[0] && b_reg1[4] && a_reg1[2])
-!(copy1.finish[0] && b_reg1[4] && a_reg1[1])
-!(copy1.finish[0] && b_reg1[4] && a_reg1[0])
-!(copy1.finish[0] && b_reg1[3] && a_reg1[7])
-!(copy1.finish[0] && b_reg1[3] && a_reg1[6])
-!(copy1.finish[0] && b_reg1[3] && a_reg1[5])
-!(copy1.finish[0] && b_reg1[3] && a_reg1[4])
-!(copy1.finish[0] && b_reg1[3] && a_reg1[3])
-!(copy1.finish[0] && b_reg1[3] && a_reg1[2])
-!(copy1.finish[0] && b_reg1[3] && a_reg1[1])
-!(copy1.finish[0] && b_reg1[3] && a_reg1[0])
-!(copy1.finish[0] && b_reg1[2] && a_reg1[7])
-!(copy1.finish[0] && b_reg1[2] && a_reg1[6])
-!(copy1.finish[0] && b_reg1[2] && a_reg1[5])
-!(copy1.finish[0] && b_reg1[2] && a_reg1[4])
-!(copy1.finish[0] && b_reg1[2] && a_reg1[3])
-!(copy1.finish[0] && b_reg1[2] && a_reg1[2])
-!(copy1.finish[0] && b_reg1[2] && a_reg1[1])
-!(copy1.finish[0] && b_reg1[2] && a_reg1[0])
-!(copy1.finish[0] && b_reg1[1] && a_reg1[7])
-!(copy1.finish[0] && b_reg1[1] && a_reg1[6])
-!(copy1.finish[0] && b_reg1[1] && a_reg1[5])
-!(copy1.finish[0] && b_reg1[1] && a_reg1[4])
-!(copy1.finish[0] && b_reg1[1] && a_reg1[3])
-!(copy1.finish[0] && b_reg1[1] && a_reg1[2])
-!(copy1.finish[0] && b_reg1[1] && a_reg1[1])
-!(copy1.finish[0] && b_reg1[1] && a_reg1[0])
-!(copy1.finish[0] && b_reg1[0] && a_reg1[7])
-!(copy1.finish[0] && b_reg1[0] && a_reg1[6])
-!(copy1.finish[0] && b_reg1[0] && a_reg1[5])
-!(copy1.finish[0] && b_reg1[0] && a_reg1[4])
-!(copy1.finish[0] && b_reg1[0] && a_reg1[3])
-!(copy1.finish[0] && b_reg1[0] && a_reg1[2])
-!(copy1.finish[0] && b_reg1[0] && a_reg1[1])
-!(copy1.finish[0] && b_reg1[0] && a_reg1[0])
-!(copy1.finish[0] && busy1[0])
-!(copy1.finish[0] && !copy2.finish[0] && !assume_2_violate[0] && !a_reg2[0] && !a_reg2[1] && !a_reg2[2] && !a_reg2[3] && !a_reg2[4] && !a_reg2[5] && !a_reg2[6] && !a_reg2[7])
-!(copy1.finish[0] && !copy2.finish[0] && !assume_2_violate[0] && a_reg1[7])
-!(copy1.finish[0] && !copy2.finish[0] && !assume_2_violate[0] && a_reg1[6])
-!(copy1.finish[0] && !copy2.finish[0] && !assume_2_violate[0] && a_reg1[5])
-!(copy1.finish[0] && !copy2.finish[0] && !assume_2_violate[0] && a_reg1[4])
-!(copy1.finish[0] && !copy2.finish[0] && !assume_2_violate[0] && a_reg1[2])
-!(copy1.finish[0] && !copy2.finish[0] && !assume_2_violate[0] && a_reg1[1])
-!(copy1.finish[0] && !copy2.finish[0] && !assume_2_violate[0] && !b_reg2[0] && !b_reg2[1] && !b_reg2[2] && !b_reg2[3] && !b_reg2[4] && !b_reg2[5] && !b_reg2[6] && !a_reg1[0] && !a_reg1[1] && !a_reg1[2] && !a_reg1[3] && !a_reg1[4] && !a_reg1[5] && !a_reg1[6])
-!(copy1.finish[0] && !copy2.finish[0] && !assume_2_violate[0] && !b_reg1[3] && b_reg1[4] && b_reg2[3])
-!(copy1.finish[0] && !copy2.finish[0] && !assume_2_violate[0] && b_reg1[3] && !b_reg2[3])
-!(copy1.finish[0] && !copy2.finish[0] && !assume_2_violate[0] && b_reg1[2] && !b_reg2[2])
-!(copy1.finish[0] && !copy2.finish[0] && !assume_2_violate[0] && !b_reg1[1] && b_reg1[2] && b_reg2[1])
-!(copy1.finish[0] && !copy2.finish[0] && !assume_2_violate[0] && !b_reg1[0] && b_reg1[2] && b_reg2[0])
-!(copy1.finish[0] && !copy2.finish[0] && !assume_2_violate[0] && !b_reg1[0] && !b_reg1[1] && !b_reg1[2] && !b_reg1[3] && !b_reg1[4] && !b_reg1[5] && !b_reg2[6])
-!(copy1.finish[0] && !copy2.finish[0] && !assume_2_violate[0] && !b_reg1[0] && !b_reg1[1] && !b_reg1[2] && !b_reg1[3] && !b_reg1[4] && !b_reg1[5] && !b_reg1[6])
-!(copy1.finish[0] && !copy2.finish[0] && !assume_2_violate[0] && !b_reg1[0] && b_reg1[1] && b_reg2[0])
-!(copy1.finish[0] && !copy2.finish[0] && !assume_2_violate[0] && b_reg1[0] && !b_reg2[0])
-!(copy1.finish[0] && copy2.finish[0] && finish_diff[0])
+!(finish_diff[0])
+!(busy_diff[0])
+!(counter_diff[0])
+!(o_reg_diff[0] && b_reg1[7])
+!(o_reg_diff[0] && !busy2[0] && b_reg2[7])
+!(copy2.counter[1] && o_reg_diff[0] && b_reg2[7])
+!(copy2.counter[0] && o_reg_diff[0] && b_reg2[7])
 
 
 
 ---------------PDR Log--------------------
 Trying to justify cube <prop=fail> in frame 1.
-Adding cube (copy1.finish[0]) to frame 1.
+Adding cube (o_reg_diff[0]) to frame 1.
 Trying to justify cube <prop=fail> in frame 1.
-Adding cube (copy2.finish[0]) to frame 1.
-1 : 0 2                                                                 1     2      0.01 sec
+Adding cube (counter_diff[0]) to frame 1.
+Trying to justify cube <prop=fail> in frame 1.
+Adding cube (copy1.counter[2]) to frame 1.
+Trying to justify cube <prop=fail> in frame 1.
+Adding cube (finish_diff[0]) to frame 1.
+1 : 0 4                                                                 1     4      0.02 sec
 Trying to justify cube <prop=fail> in frame 2.
-Adding cube (copy1.finish[0] && b_reg1[7]) to frame 2.
+Adding cube (counter_diff[0] && !busy2[0] && b_reg2[7]) to frame 2.
 Trying to justify cube <prop=fail> in frame 2.
-Adding cube (copy2.finish[0] && b_reg2[7]) to frame 2.
+Adding cube (finish_diff[0] && b_reg2[7] && busy1[0]) to frame 2.
 Trying to justify cube <prop=fail> in frame 2.
-Adding cube (copy1.finish[0] && b_reg1[0] && a_reg1[1]) to frame 2.
+Adding cube (o_reg_diff[0] && !busy2[0] && b_reg2[7]) to frame 2.
 Trying to justify cube <prop=fail> in frame 2.
-Adding cube (copy2.finish[0] && b_reg2[0] && a_reg2[1]) to frame 2.
+Adding cube (!copy1.counter[0] && !copy1.counter[1] && !copy1.counter[2] && finish_diff[0] && b_reg2[7]) to frame 2.
 Trying to justify cube <prop=fail> in frame 2.
-Adding cube (copy2.finish[0] && b_reg2[1] && a_reg2[0]) to frame 2.
+Adding cube (copy2.counter[0] && o_reg_diff[0] && b_reg2[7]) to frame 2.
 Trying to justify cube <prop=fail> in frame 2.
-Adding cube (copy1.finish[0] && b_reg1[1] && a_reg1[2]) to frame 2.
+Adding cube (copy2.counter[1] && o_reg_diff[0] && b_reg2[7]) to frame 2.
 Trying to justify cube <prop=fail> in frame 2.
-Adding cube (copy2.finish[0] && b_reg2[1] && a_reg2[2]) to frame 2.
+Adding cube (o_reg_diff[0] && b_reg2[7] && b_reg1[7]) to frame 2.
 Trying to justify cube <prop=fail> in frame 2.
-Adding cube (copy2.finish[0] && b_reg2[0] && a_reg2[3]) to frame 2.
+Adding cube (counter_diff[0] && b_reg2[7] && b_reg1[7]) to frame 2.
 Trying to justify cube <prop=fail> in frame 2.
-Adding cube (copy2.finish[0] && b_reg2[2] && a_reg2[1]) to frame 2.
+Adding cube (copy2.counter[1] && busy_diff[0] && b_reg2[7]) to frame 2.
 Trying to justify cube <prop=fail> in frame 2.
-Adding cube (copy1.finish[0] && b_reg1[1] && a_reg1[1]) to frame 2.
+Adding cube (copy2.counter[1] && finish_diff[0] && b_reg2[7]) to frame 2.
 Trying to justify cube <prop=fail> in frame 2.
-Adding cube (copy1.finish[0] && b_reg1[0] && a_reg1[0]) to frame 2.
+Adding cube (copy2.counter[0] && finish_diff[0] && b_reg2[7]) to frame 2.
 Trying to justify cube <prop=fail> in frame 2.
-Adding cube (copy2.finish[0] && b_reg2[0] && a_reg2[0]) to frame 2.
+Adding cube (copy1.counter[2] && !busy2[0] && b_reg2[7]) to frame 2.
 Trying to justify cube <prop=fail> in frame 2.
-Adding cube (copy2.finish[0] && b_reg2[0] && a_reg2[2]) to frame 2.
+Adding cube (copy2.counter[2] && b_reg2[7]) to frame 2.
 Trying to justify cube <prop=fail> in frame 2.
-Adding cube (copy1.finish[0] && b_reg1[0] && a_reg1[3]) to frame 2.
+Adding cube (copy1.counter[2] && copy2.counter[2] && finish_diff[0]) to frame 2.
 Trying to justify cube <prop=fail> in frame 2.
-Adding cube (copy2.finish[0] && b_reg2[1] && a_reg2[1]) to frame 2.
+Adding cube (finish_diff[0] && b_reg2[1] && a_reg2[5] && b_reg1[7]) to frame 2.
 Trying to justify cube <prop=fail> in frame 2.
-Adding cube (copy2.finish[0] && b_reg2[2] && a_reg2[0]) to frame 2.
+Adding cube (finish_diff[0] && b_reg2[1] && a_reg2[7] && b_reg1[7]) to frame 2.
 Trying to justify cube <prop=fail> in frame 2.
-Adding cube (copy2.finish[0] && b_reg2[3] && a_reg2[0]) to frame 2.
+Adding cube (finish_diff[0] && b_reg2[3] && a_reg2[4] && b_reg1[7]) to frame 2.
 Trying to justify cube <prop=fail> in frame 2.
-Adding cube (copy1.finish[0] && b_reg1[1] && a_reg1[0]) to frame 2.
+Adding cube (!o_reg_diff[0] && finish_diff[0] && copy1.o_reg[4]) to frame 2.
 Trying to justify cube <prop=fail> in frame 2.
-Adding cube (copy1.finish[0] && b_reg1[3] && a_reg1[0]) to frame 2.
+Adding cube (!o_reg_diff[0] && finish_diff[0] && copy1.o_reg[6]) to frame 2.
 Trying to justify cube <prop=fail> in frame 2.
-Adding cube (copy1.finish[0] && b_reg1[2] && a_reg1[0]) to frame 2.
+Adding cube (finish_diff[0] && b_reg2[3] && a_reg2[7] && b_reg1[3] && a_reg1[4]) to frame 2.
 Trying to justify cube <prop=fail> in frame 2.
-Adding cube (copy1.finish[0] && b_reg1[4] && a_reg1[0]) to frame 2.
+Adding cube (finish_diff[0] && b_reg2[5] && a_reg2[7] && b_reg1[3] && a_reg1[4]) to frame 2.
 Trying to justify cube <prop=fail> in frame 2.
-Adding cube (copy2.finish[0] && b_reg2[1] && a_reg2[3]) to frame 2.
+Adding cube (finish_diff[0] && b_reg2[5] && a_reg2[5] && b_reg1[3] && a_reg1[4]) to frame 2.
 Trying to justify cube <prop=fail> in frame 2.
-Adding cube (copy1.finish[0] && b_reg1[2] && a_reg1[3]) to frame 2.
+Adding cube (finish_diff[0] && b_reg2[5] && a_reg2[7] && b_reg1[0] && a_reg1[0]) to frame 2.
 Trying to justify cube <prop=fail> in frame 2.
-Adding cube (copy2.finish[0] && b_reg2[1] && a_reg2[4]) to frame 2.
+Adding cube (finish_diff[0] && b_reg2[7] && b_reg1[0] && a_reg1[0]) to frame 2.
 Trying to justify cube <prop=fail> in frame 2.
-Adding cube (copy2.finish[0] && b_reg2[0] && a_reg2[5]) to frame 2.
+Adding cube (finish_diff[0] && b_reg2[1] && a_reg2[5] && b_reg1[0] && a_reg1[0]) to frame 2.
 Trying to justify cube <prop=fail> in frame 2.
-Adding cube (copy1.finish[0] && b_reg1[4] && a_reg1[1]) to frame 2.
+Adding cube (finish_diff[0] && b_reg2[0] && a_reg2[4] && b_reg1[0] && a_reg1[0]) to frame 2.
 Trying to justify cube <prop=fail> in frame 2.
-Adding cube (copy1.finish[0] && b_reg1[3] && a_reg1[2]) to frame 2.
+Adding cube (finish_diff[0] && b_reg2[0] && a_reg2[6] && b_reg1[0] && a_reg1[0]) to frame 2.
 Trying to justify cube <prop=fail> in frame 2.
-Adding cube (copy1.finish[0] && b_reg1[0] && a_reg1[5]) to frame 2.
+Adding cube (finish_diff[0] && b_reg2[0] && a_reg2[7] && b_reg1[0] && a_reg1[0]) to frame 2.
 Trying to justify cube <prop=fail> in frame 2.
-Adding cube (copy1.finish[0] && b_reg1[5] && a_reg1[0]) to frame 2.
+Adding cube (finish_diff[0] && b_reg2[0] && a_reg2[1] && b_reg1[0] && a_reg1[0]) to frame 2.
 Trying to justify cube <prop=fail> in frame 2.
-Adding cube (copy1.finish[0] && b_reg1[2] && a_reg1[1]) to frame 2.
+Adding cube (finish_diff[0] && b_reg2[0] && a_reg2[0] && b_reg1[0] && a_reg1[0]) to frame 2.
 Trying to justify cube <prop=fail> in frame 2.
-Adding cube (copy1.finish[0] && b_reg1[2] && a_reg1[2]) to frame 2.
+Adding cube (finish_diff[0] && b_reg2[1] && a_reg2[5] && b_reg1[1] && a_reg1[0]) to frame 2.
 Trying to justify cube <prop=fail> in frame 2.
-Adding cube (copy2.finish[0] && b_reg2[2] && a_reg2[2]) to frame 2.
+Adding cube (finish_diff[0] && b_reg2[1] && a_reg2[5] && b_reg1[0] && a_reg1[1]) to frame 2.
 Trying to justify cube <prop=fail> in frame 2.
-Adding cube (copy2.finish[0] && b_reg2[4] && a_reg2[0]) to frame 2.
+Adding cube (finish_diff[0] && b_reg2[7] && b_reg1[0] && a_reg1[1]) to frame 2.
 Trying to justify cube <prop=fail> in frame 2.
-Adding cube (copy2.finish[0] && b_reg2[3] && a_reg2[1]) to frame 2.
+Adding cube (finish_diff[0] && b_reg2[0] && a_reg2[6] && b_reg1[0] && a_reg1[1]) to frame 2.
 Trying to justify cube <prop=fail> in frame 2.
-Adding cube (copy2.finish[0] && b_reg2[0] && a_reg2[4]) to frame 2.
+Adding cube (finish_diff[0] && b_reg2[0] && a_reg2[6] && b_reg1[1] && a_reg1[0]) to frame 2.
 Trying to justify cube <prop=fail> in frame 2.
-Adding cube (copy1.finish[0] && b_reg1[0] && a_reg1[4]) to frame 2.
+Adding cube (finish_diff[0] && b_reg2[0] && a_reg2[4] && b_reg1[1] && a_reg1[0]) to frame 2.
 Trying to justify cube <prop=fail> in frame 2.
-Adding cube (copy1.finish[0] && b_reg1[1] && a_reg1[3]) to frame 2.
+Adding cube (finish_diff[0] && b_reg2[7] && b_reg1[1] && a_reg1[1]) to frame 2.
 Trying to justify cube <prop=fail> in frame 2.
-Adding cube (copy1.finish[0] && b_reg1[1] && a_reg1[4]) to frame 2.
+Adding cube (finish_diff[0] && b_reg2[1] && a_reg2[4] && b_reg1[1] && a_reg1[1]) to frame 2.
 Trying to justify cube <prop=fail> in frame 2.
-Adding cube (copy2.finish[0] && b_reg2[2] && a_reg2[3]) to frame 2.
+Adding cube (finish_diff[0] && b_reg2[1] && a_reg2[5] && b_reg1[1] && a_reg1[1]) to frame 2.
 Trying to justify cube <prop=fail> in frame 2.
-Adding cube (copy2.finish[0] && b_reg2[4] && a_reg2[1]) to frame 2.
+Adding cube (finish_diff[0] && b_reg2[1] && a_reg2[5] && b_reg1[0] && a_reg1[2]) to frame 2.
 Trying to justify cube <prop=fail> in frame 2.
-Adding cube (copy2.finish[0] && b_reg2[3] && a_reg2[2]) to frame 2.
+Adding cube (finish_diff[0] && b_reg2[1] && a_reg2[7] && b_reg1[0] && a_reg1[2]) to frame 2.
 Trying to justify cube <prop=fail> in frame 2.
-Adding cube (copy2.finish[0] && b_reg2[3] && a_reg2[6]) to frame 2.
+Adding cube (finish_diff[0] && b_reg2[1] && a_reg2[6] && b_reg1[0] && a_reg1[2]) to frame 2.
 Trying to justify cube <prop=fail> in frame 2.
-Adding cube (copy2.finish[0] && b_reg2[4] && a_reg2[5]) to frame 2.
+Adding cube (finish_diff[0] && b_reg2[1] && a_reg2[1] && b_reg1[0] && a_reg1[2]) to frame 2.
 Trying to justify cube <prop=fail> in frame 2.
-Adding cube (copy2.finish[0] && b_reg2[2] && a_reg2[6]) to frame 2.
+Adding cube (finish_diff[0] && b_reg2[1] && a_reg2[1] && b_reg1[7]) to frame 2.
 Trying to justify cube <prop=fail> in frame 2.
-Adding cube (copy2.finish[0] && b_reg2[1] && a_reg2[6]) to frame 2.
+Adding cube (finish_diff[0] && b_reg2[1] && a_reg2[1] && b_reg1[5] && a_reg1[2]) to frame 2.
 Trying to justify cube <prop=fail> in frame 2.
-Adding cube (copy2.finish[0] && b_reg2[4] && a_reg2[3]) to frame 2.
+Adding cube (finish_diff[0] && b_reg2[1] && a_reg2[1] && b_reg1[2] && a_reg1[2]) to frame 2.
 Trying to justify cube <prop=fail> in frame 2.
-Adding cube (copy2.finish[0] && b_reg2[5] && a_reg2[2]) to frame 2.
+Adding cube (finish_diff[0] && b_reg2[1] && a_reg2[1] && b_reg1[1] && a_reg1[2]) to frame 2.
 Trying to justify cube <prop=fail> in frame 2.
-Adding cube (copy2.finish[0] && b_reg2[5] && a_reg2[1]) to frame 2.
+Adding cube (finish_diff[0] && b_reg2[1] && a_reg2[1] && b_reg1[1] && a_reg1[0]) to frame 2.
 Trying to justify cube <prop=fail> in frame 2.
-Adding cube (copy2.finish[0] && b_reg2[0] && a_reg2[6]) to frame 2.
+Adding cube (finish_diff[0] && b_reg2[7] && b_reg1[2] && a_reg1[0]) to frame 2.
 Trying to justify cube <prop=fail> in frame 2.
-Adding cube (copy2.finish[0] && b_reg2[4] && a_reg2[4]) to frame 2.
+Adding cube (finish_diff[0] && b_reg2[7] && b_reg1[5] && a_reg1[0]) to frame 2.
 Trying to justify cube <prop=fail> in frame 2.
-Adding cube (copy2.finish[0] && b_reg2[5] && a_reg2[3]) to frame 2.
+Adding cube (finish_diff[0] && b_reg2[7] && b_reg1[4] && a_reg1[1]) to frame 2.
 Trying to justify cube <prop=fail> in frame 2.
-Adding cube (copy2.finish[0] && b_reg2[6] && a_reg2[2]) to frame 2.
+Adding cube (finish_diff[0] && b_reg2[7] && b_reg1[3] && a_reg1[1]) to frame 2.
 Trying to justify cube <prop=fail> in frame 2.
-Adding cube (copy2.finish[0] && b_reg2[6] && a_reg2[0]) to frame 2.
+Adding cube (finish_diff[0] && b_reg2[1] && a_reg2[3] && b_reg1[3] && a_reg1[1]) to frame 2.
 Trying to justify cube <prop=fail> in frame 2.
-Adding cube (copy2.finish[0] && b_reg2[3] && a_reg2[3]) to frame 2.
+Adding cube (finish_diff[0] && b_reg2[1] && a_reg2[7] && b_reg1[5] && a_reg1[0]) to frame 2.
 Trying to justify cube <prop=fail> in frame 2.
-Adding cube (copy2.finish[0] && b_reg2[6] && a_reg2[1]) to frame 2.
+Adding cube (finish_diff[0] && b_reg2[1] && a_reg2[4] && b_reg1[4] && a_reg1[1]) to frame 2.
 Trying to justify cube <prop=fail> in frame 2.
-Adding cube (copy2.finish[0] && b_reg2[0] && a_reg2[7]) to frame 2.
+Adding cube (finish_diff[0] && b_reg2[1] && a_reg2[4] && b_reg1[5] && a_reg1[0]) to frame 2.
 Trying to justify cube <prop=fail> in frame 2.
-Adding cube (copy2.finish[0] && b_reg2[4] && a_reg2[2]) to frame 2.
+Adding cube (finish_diff[0] && b_reg2[1] && a_reg2[4] && b_reg1[5] && a_reg1[1]) to frame 2.
 Trying to justify cube <prop=fail> in frame 2.
-Adding cube (copy2.finish[0] && b_reg2[5] && a_reg2[0]) to frame 2.
+Adding cube (finish_diff[0] && b_reg2[1] && a_reg2[7] && b_reg1[3] && a_reg1[0]) to frame 2.
 Trying to justify cube <prop=fail> in frame 2.
-Adding cube (copy2.finish[0] && b_reg2[1] && a_reg2[5]) to frame 2.
+Adding cube (finish_diff[0] && b_reg2[1] && a_reg2[4] && b_reg1[3] && a_reg1[0]) to frame 2.
 Trying to justify cube <prop=fail> in frame 2.
-Adding cube (copy2.finish[0] && b_reg2[2] && a_reg2[4]) to frame 2.
+Adding cube (finish_diff[0] && b_reg2[7] && b_reg1[1] && a_reg1[2]) to frame 2.
 Trying to justify cube <prop=fail> in frame 2.
-Adding cube (copy2.finish[0] && b_reg2[2] && a_reg2[5]) to frame 2.
+Adding cube (finish_diff[0] && b_reg2[1] && a_reg2[7] && b_reg1[1] && a_reg1[2]) to frame 2.
 Trying to justify cube <prop=fail> in frame 2.
-Adding cube (copy2.finish[0] && b_reg2[3] && a_reg2[4]) to frame 2.
+Adding cube (finish_diff[0] && b_reg2[1] && a_reg2[3] && b_reg1[1] && a_reg1[2]) to frame 2.
 Trying to justify cube <prop=fail> in frame 2.
-Trying to justify cube (!copy1.finish[0] && copy2.finish[0] && !assume_2_violate[0] && !a_reg1[0] && !a_reg1[1] && !a_reg1[2] && !a_reg1[3] && !a_reg1[4] && !a_reg1[5] && !a_reg1[6] && !a_reg1[7] && !a_reg2[0] && !a_reg2[1] && !a_reg2[2] && !a_reg2[3] && !a_reg2[4] && !a_reg2[5] && !a_reg2[6] && !a_reg2[7]) in frame 1.
-Adding cube (busy_diff[0]) to frame 1.
-Adding cube (!copy1.finish[0] && !copy2.finish[0] && busy_diff[0]) to frame 2.
-Adding cube (!copy1.finish[0] && copy2.finish[0] && !a_reg1[0] && !a_reg1[1] && !a_reg1[2] && !a_reg1[3] && !a_reg1[4] && !a_reg1[5] && !a_reg1[6] && !a_reg1[7]) to frame 2.
+Adding cube (finish_diff[0] && b_reg2[0] && a_reg2[3] && b_reg1[7]) to frame 2.
 Trying to justify cube <prop=fail> in frame 2.
-Adding cube (!copy1.finish[0] && copy2.finish[0] && !assume_2_violate[0]) to frame 2.
+Adding cube (finish_diff[0] && b_reg2[0] && a_reg2[3] && b_reg1[1] && a_reg1[2]) to frame 2.
 Trying to justify cube <prop=fail> in frame 2.
-Adding cube (copy1.finish[0] && !copy2.finish[0] && !a_reg2[0] && !a_reg2[1] && !a_reg2[2] && !a_reg2[3] && !a_reg2[4] && !a_reg2[5] && !a_reg2[6] && !a_reg2[7]) to frame 2.
+Adding cube (finish_diff[0] && b_reg2[0] && a_reg2[2] && b_reg1[0] && a_reg1[2]) to frame 2.
 Trying to justify cube <prop=fail> in frame 2.
-Adding cube (copy1.finish[0] && b_reg1[6] && a_reg1[4]) to frame 2.
+Adding cube (finish_diff[0] && b_reg2[2] && a_reg2[2] && b_reg1[0] && a_reg1[2]) to frame 2.
 Trying to justify cube <prop=fail> in frame 2.
-Trying to justify cube (copy1.finish[0] && !copy2.finish[0] && !assume_2_violate[0] && !b_reg2[0] && !b_reg2[1] && !b_reg2[2] && !b_reg2[3] && !b_reg2[4] && !b_reg2[5] && !b_reg2[6] && !b_reg2[7] && !a_reg1[0] && !a_reg1[1] && !a_reg1[2] && !a_reg1[3] && !a_reg1[4] && !a_reg1[5] && !a_reg1[6] && !a_reg1[7]) in frame 1.
-Adding cube (b_reg1[0] && !b_reg2[0]) to frame 1.
-Adding cube (!b_reg_diff[0] && b_reg1[0] && !b_reg2[0]) to frame 2.
-Adding cube (copy1.finish[0] && !copy2.finish[0] && !assume_2_violate[0] && !b_reg2[0] && !b_reg2[1] && !b_reg2[2] && !b_reg2[3] && !b_reg2[4] && !b_reg2[5] && !b_reg2[6] && !a_reg1[0] && !a_reg1[1] && !a_reg1[2] && !a_reg1[3] && !a_reg1[4] && !a_reg1[5] && !a_reg1[6] && !a_reg1[7]) to frame 2.
+Adding cube (finish_diff[0] && b_reg2[2] && a_reg2[2] && b_reg1[4] && a_reg1[1]) to frame 2.
 Trying to justify cube <prop=fail> in frame 2.
-Trying to justify cube (copy1.finish[0] && !copy2.finish[0] && !assume_2_violate[0] && !b_reg1[0] && !b_reg1[1] && !b_reg1[2] && !b_reg1[3] && !b_reg1[4] && !b_reg1[5] && !b_reg1[6] && !b_reg1[7] && !b_reg2[0] && !b_reg2[1] && !b_reg2[2] && !b_reg2[3] && !b_reg2[4] && !b_reg2[5] && !b_reg2[6] && !b_reg2[7]) in frame 1.
-Adding cube (b_reg_diff[0]) to frame 2.
-Adding cube (copy1.finish[0] && !copy2.finish[0] && !assume_2_violate[0] && !b_reg1[0] && !b_reg1[1] && !b_reg1[2] && !b_reg1[3] && !b_reg1[4] && !b_reg1[5] && !b_reg1[6]) to frame 2.
+Adding cube (finish_diff[0] && b_reg2[2] && a_reg2[2] && b_reg1[2] && a_reg1[2]) to frame 2.
 Trying to justify cube <prop=fail> in frame 2.
-Adding cube (!b_reg1[5] && b_reg2[5]) to frame 2.
+Adding cube (finish_diff[0] && b_reg2[0] && a_reg2[2] && b_reg1[2] && a_reg1[2]) to frame 2.
 Trying to justify cube <prop=fail> in frame 2.
-Adding cube (copy1.finish[0] && !copy2.finish[0] && !assume_2_violate[0] && !b_reg1[0] && !b_reg1[1] && !b_reg1[2] && !b_reg1[3] && !b_reg1[4] && !b_reg1[5] && !b_reg2[6]) to frame 2.
+Adding cube (finish_diff[0] && b_reg2[2] && a_reg2[0] && b_reg1[2] && a_reg1[2]) to frame 2.
 Trying to justify cube <prop=fail> in frame 2.
-Adding cube (b_reg1[3] && !b_reg2[3]) to frame 2.
+Adding cube (finish_diff[0] && b_reg2[1] && a_reg2[6] && b_reg1[2] && a_reg1[0]) to frame 2.
 Trying to justify cube <prop=fail> in frame 2.
-Adding cube (b_reg1[2] && !b_reg2[2]) to frame 2.
+Adding cube (finish_diff[0] && b_reg2[1] && a_reg2[6] && b_reg1[1] && a_reg1[2]) to frame 2.
 Trying to justify cube <prop=fail> in frame 2.
-Adding cube (b_reg1[1] && !b_reg2[1]) to frame 2.
+Adding cube (finish_diff[0] && b_reg2[3] && a_reg2[2] && b_reg1[1] && a_reg1[2]) to frame 2.
 Trying to justify cube <prop=fail> in frame 2.
-Adding cube (b_reg1[5] && !b_reg2[5]) to frame 2.
+Adding cube (finish_diff[0] && b_reg2[3] && a_reg2[0] && b_reg1[7]) to frame 2.
 Trying to justify cube <prop=fail> in frame 2.
-Adding cube (copy1.finish[0] && !copy2.finish[0] && a_reg1[7]) to frame 2.
+Adding cube (finish_diff[0] && b_reg2[3] && a_reg2[0] && b_reg1[1] && a_reg1[2]) to frame 2.
 Trying to justify cube <prop=fail> in frame 2.
-Adding cube (copy1.finish[0] && !copy2.finish[0] && a_reg1[5]) to frame 2.
+Adding cube (finish_diff[0] && b_reg2[3] && a_reg2[4] && b_reg1[1] && a_reg1[3]) to frame 2.
 Trying to justify cube <prop=fail> in frame 2.
-Adding cube (copy1.finish[0] && !copy2.finish[0] && a_reg1[6]) to frame 2.
+Adding cube (finish_diff[0] && b_reg2[2] && a_reg2[4] && b_reg1[1] && a_reg1[3]) to frame 2.
 Trying to justify cube <prop=fail> in frame 2.
-Adding cube (copy1.finish[0] && !copy2.finish[0] && a_reg1[4]) to frame 2.
+Adding cube (finish_diff[0] && b_reg2[7] && b_reg1[0] && a_reg1[3]) to frame 2.
 Trying to justify cube <prop=fail> in frame 2.
-Adding cube (!b_reg1[4] && b_reg2[4]) to frame 2.
+Adding cube (finish_diff[0] && b_reg2[2] && a_reg2[1] && b_reg1[0] && a_reg1[3]) to frame 2.
 Trying to justify cube <prop=fail> in frame 2.
-Adding cube (copy1.finish[0] && b_reg1[4] && a_reg1[2]) to frame 2.
+Adding cube (finish_diff[0] && b_reg2[2] && a_reg2[2] && b_reg1[0] && a_reg1[3]) to frame 2.
 Trying to justify cube <prop=fail> in frame 2.
-Adding cube (copy1.finish[0] && b_reg1[5] && a_reg1[2]) to frame 2.
+Adding cube (finish_diff[0] && b_reg2[2] && a_reg2[2] && b_reg1[1] && a_reg1[1]) to frame 2.
 Trying to justify cube <prop=fail> in frame 2.
-Adding cube (b_reg1[4] && !b_reg2[4]) to frame 2.
-Trying to justify cube <prop=fail> in frame 2.
-Adding cube (copy1.finish[0] && b_reg1[4] && a_reg1[3]) to frame 2.
-Trying to justify cube <prop=fail> in frame 2.
-Adding cube (copy1.finish[0] && b_reg1[5] && a_reg1[3]) to frame 2.
-Trying to justify cube <prop=fail> in frame 2.
-Adding cube (copy1.finish[0] && b_reg1[5] && a_reg1[1]) to frame 2.
-Trying to justify cube <prop=fail> in frame 2.
-Adding cube (copy1.finish[0] && !copy2.finish[0] && a_reg1[1]) to frame 2.
-Trying to justify cube <prop=fail> in frame 2.
-Adding cube (copy1.finish[0] && b_reg2[7]) to frame 2.
-Trying to justify cube <prop=fail> in frame 2.
-Adding cube (!b_reg1[0] && b_reg2[0]) to frame 2.
-Trying to justify cube <prop=fail> in frame 2.
-Adding cube (!b_reg1[2] && b_reg2[2]) to frame 2.
-Trying to justify cube <prop=fail> in frame 2.
-Adding cube (copy1.finish[0] && !copy2.finish[0] && a_reg1[2]) to frame 2.
-Trying to justify cube <prop=fail> in frame 2.
-Adding cube (copy1.finish[0] && !copy2.finish[0] && a_reg1[0]) to frame 2.
-Trying to justify cube <prop=fail> in frame 2.
-Adding cube (copy1.finish[0] && !copy2.finish[0] && a_reg1[3]) to frame 2.
-2 : 0 4 95                                                              2    37      0.33 sec
-Trying to justify cube <prop=fail> in frame 3.
-Adding cube (copy2.finish[0] && !assume_2_violate[0] && b_reg2[7]) to frame 3.
-Trying to justify cube <prop=fail> in frame 3.
-Adding cube (copy2.finish[0] && !assume_2_violate[0] && b_reg2[5] && a_reg2[0]) to frame 3.
-Trying to justify cube <prop=fail> in frame 3.
-Adding cube (!copy1.finish[0] && copy2.finish[0] && !assume_2_violate[0] && b_reg2[6]) to frame 3.
-Trying to justify cube <prop=fail> in frame 3.
-Adding cube (copy2.finish[0] && !assume_2_violate[0] && b_reg2[0] && a_reg2[3]) to frame 3.
-Trying to justify cube <prop=fail> in frame 3.
-Adding cube (copy2.finish[0] && !assume_2_violate[0] && b_reg2[0] && a_reg2[4]) to frame 3.
-Trying to justify cube <prop=fail> in frame 3.
-Adding cube (copy2.finish[0] && !assume_2_violate[0] && b_reg2[1] && a_reg2[4]) to frame 3.
-Trying to justify cube <prop=fail> in frame 3.
-Adding cube (copy2.finish[0] && !assume_2_violate[0] && b_reg2[1] && a_reg2[3]) to frame 3.
-Trying to justify cube <prop=fail> in frame 3.
-Adding cube (copy2.finish[0] && !assume_2_violate[0] && b_reg2[1] && a_reg2[1]) to frame 3.
-Trying to justify cube <prop=fail> in frame 3.
-Adding cube (copy2.finish[0] && !assume_2_violate[0] && b_reg2[1] && a_reg2[0]) to frame 3.
-Trying to justify cube <prop=fail> in frame 3.
-Adding cube (copy2.finish[0] && !assume_2_violate[0] && b_reg2[1] && a_reg2[5]) to frame 3.
-Trying to justify cube <prop=fail> in frame 3.
-Adding cube (copy2.finish[0] && !assume_2_violate[0] && b_reg2[0] && a_reg2[6]) to frame 3.
-Trying to justify cube <prop=fail> in frame 3.
-Adding cube (copy2.finish[0] && !assume_2_violate[0] && b_reg2[0] && a_reg2[7]) to frame 3.
-Trying to justify cube <prop=fail> in frame 3.
-Adding cube (copy2.finish[0] && !assume_2_violate[0] && b_reg2[1] && a_reg2[7]) to frame 3.
-Trying to justify cube <prop=fail> in frame 3.
-Adding cube (copy2.finish[0] && !assume_2_violate[0] && b_reg2[4] && a_reg2[4]) to frame 3.
-Trying to justify cube <prop=fail> in frame 3.
-Adding cube (copy2.finish[0] && !assume_2_violate[0] && b_reg2[3] && a_reg2[5]) to frame 3.
-Trying to justify cube <prop=fail> in frame 3.
-Adding cube (copy2.finish[0] && !assume_2_violate[0] && b_reg2[2] && a_reg2[2]) to frame 3.
-Trying to justify cube <prop=fail> in frame 3.
-Adding cube (copy2.finish[0] && !assume_2_violate[0] && b_reg2[2] && a_reg2[1]) to frame 3.
-Trying to justify cube <prop=fail> in frame 3.
-Adding cube (copy2.finish[0] && !assume_2_violate[0] && b_reg2[2] && a_reg2[0]) to frame 3.
-Trying to justify cube <prop=fail> in frame 3.
-Adding cube (copy2.finish[0] && !assume_2_violate[0] && b_reg2[1] && a_reg2[6]) to frame 3.
-Trying to justify cube <prop=fail> in frame 3.
-Adding cube (copy2.finish[0] && !assume_2_violate[0] && b_reg2[2] && a_reg2[5]) to frame 3.
-Trying to justify cube <prop=fail> in frame 3.
-Adding cube (copy2.finish[0] && !assume_2_violate[0] && b_reg2[2] && a_reg2[3]) to frame 3.
-Trying to justify cube <prop=fail> in frame 3.
-Trying to justify cube (!copy1.finish[0] && copy2.finish[0] && !assume_2_violate[0] && !b_reg1[0] && !b_reg1[1] && !b_reg1[2] && !b_reg1[3] && !b_reg1[4] && !b_reg1[5] && !b_reg1[6] && !b_reg1[7] && !a_reg2[0] && !a_reg2[1] && !a_reg2[2] && !a_reg2[3] && !a_reg2[4] && !a_reg2[5] && !a_reg2[6] && !a_reg2[7]) in frame 2.
-Adding cube (copy1.finish[0] && copy2.finish[0] && busy_diff[0]) to frame 2.
-Adding cube (copy1.finish[0] && copy2.finish[0] && finish_diff[0]) to frame 3.
-Adding cube (!copy1.finish[0] && copy2.finish[0] && !assume_2_violate[0]) to frame 3.
-Trying to justify cube <prop=fail> in frame 3.
-Adding cube (copy1.finish[0] && !copy2.finish[0] && !assume_2_violate[0] && !a_reg2[0] && !a_reg2[1] && !a_reg2[2] && !a_reg2[3] && !a_reg2[4] && !a_reg2[5] && !a_reg2[6] && !a_reg2[7]) to frame 3.
-Trying to justify cube <prop=fail> in frame 3.
-Adding cube (copy1.finish[0] && !copy2.finish[0] && !assume_2_violate[0] && b_reg2[2]) to frame 3.
-Trying to justify cube <prop=fail> in frame 3.
-Adding cube (!assume_2_violate[0] && !b_reg1[5] && b_reg2[5]) to frame 3.
-Trying to justify cube <prop=fail> in frame 3.
-Adding cube (copy1.finish[0] && !copy2.finish[0] && !assume_2_violate[0] && !b_reg2[5] && !b_reg2[6]) to frame 3.
-Trying to justify cube <prop=fail> in frame 3.
-Adding cube (copy1.finish[0] && !copy2.finish[0] && !assume_2_violate[0] && a_reg1[7]) to frame 3.
-Trying to justify cube <prop=fail> in frame 3.
-Adding cube (copy1.finish[0] && !copy2.finish[0] && !assume_2_violate[0] && b_reg2[3]) to frame 3.
-Trying to justify cube <prop=fail> in frame 3.
-Adding cube (copy1.finish[0] && !copy2.finish[0] && !assume_2_violate[0] && b_reg1[2]) to frame 3.
-Trying to justify cube <prop=fail> in frame 3.
-Adding cube (copy1.finish[0] && !copy2.finish[0] && !assume_2_violate[0] && b_reg1[3]) to frame 3.
-Trying to justify cube <prop=fail> in frame 3.
-Adding cube (copy1.finish[0] && !copy2.finish[0] && !assume_2_violate[0] && b_reg1[4]) to frame 3.
-Trying to justify cube <prop=fail> in frame 3.
-Adding cube (copy1.finish[0] && !copy2.finish[0] && !assume_2_violate[0] && a_reg1[4]) to frame 3.
-Trying to justify cube <prop=fail> in frame 3.
-Adding cube (copy1.finish[0] && !copy2.finish[0] && !assume_2_violate[0] && a_reg1[6]) to frame 3.
-Trying to justify cube <prop=fail> in frame 3.
-Adding cube (!assume_2_violate[0] && b_reg1[6] && !b_reg2[6]) to frame 3.
-Trying to justify cube <prop=fail> in frame 3.
-Adding cube (copy1.finish[0] && !copy2.finish[0] && !assume_2_violate[0] && a_reg1[5]) to frame 3.
-Trying to justify cube <prop=fail> in frame 3.
-Adding cube (copy1.finish[0] && !copy2.finish[0] && !assume_2_violate[0] && a_reg1[2]) to frame 3.
-Trying to justify cube <prop=fail> in frame 3.
-Adding cube (copy1.finish[0] && !copy2.finish[0] && !assume_2_violate[0] && a_reg1[1]) to frame 3.
-Trying to justify cube <prop=fail> in frame 3.
-Adding cube (copy1.finish[0] && b_reg1[6] && a_reg1[3]) to frame 3.
-Trying to justify cube <prop=fail> in frame 3.
-Adding cube (copy1.finish[0] && b_reg1[6] && a_reg1[0]) to frame 3.
-3 : 0 3 70 66                                                           2    38      0.48 sec
-Trying to justify cube <prop=fail> in frame 4.
-Adding cube (copy2.finish[0] && !assume_2_violate[0] && b_reg2[0] && a_reg2[2]) to frame 4.
-Trying to justify cube <prop=fail> in frame 4.
-Adding cube (copy2.finish[0] && !assume_2_violate[0] && b_reg2[4] && a_reg2[1]) to frame 4.
-Trying to justify cube <prop=fail> in frame 4.
-Adding cube (copy2.finish[0] && !assume_2_violate[0] && b_reg2[3] && a_reg2[1]) to frame 4.
-Trying to justify cube <prop=fail> in frame 4.
-Adding cube (copy2.finish[0] && !assume_2_violate[0] && b_reg2[5] && a_reg2[1]) to frame 4.
-Trying to justify cube <prop=fail> in frame 4.
-Adding cube (copy1.finish[0] && b_reg1[2] && a_reg1[7]) to frame 4.
-Trying to justify cube <prop=fail> in frame 4.
-Adding cube (copy1.finish[0] && b_reg1[2] && a_reg1[4]) to frame 4.
-Trying to justify cube <prop=fail> in frame 4.
-Adding cube (copy1.finish[0] && b_reg1[3] && a_reg1[3]) to frame 4.
-Trying to justify cube <prop=fail> in frame 4.
-Adding cube (copy1.finish[0] && b_reg1[1] && a_reg1[5]) to frame 4.
-Trying to justify cube <prop=fail> in frame 4.
-Adding cube (copy1.finish[0] && b_reg1[0] && a_reg1[6]) to frame 4.
-Trying to justify cube <prop=fail> in frame 4.
-Adding cube (copy1.finish[0] && b_reg1[0] && a_reg1[2]) to frame 4.
-Trying to justify cube <prop=fail> in frame 4.
-Trying to justify cube (copy1.finish[0] && !copy2.finish[0] && !assume_2_violate[0] && !a_reg1[0] && !a_reg1[1] && !a_reg1[2] && !a_reg1[3] && !a_reg1[4] && !a_reg1[5] && !a_reg1[6] && !a_reg1[7] && !a_reg2[0] && !a_reg2[1] && !a_reg2[2] && !a_reg2[3] && !a_reg2[4] && !a_reg2[5] && !a_reg2[6] && !a_reg2[7]) in frame 3.
-Adding cube (busy_diff[0] && !assume_2_violate[0] && busy1[0]) to frame 3.
-Adding cube (!copy2.finish[0] && busy_diff[0] && !assume_2_violate[0] && busy1[0]) to frame 4.
-Adding cube (copy1.finish[0] && !copy2.finish[0] && !assume_2_violate[0] && !a_reg2[0] && !a_reg2[1] && !a_reg2[2] && !a_reg2[3] && !a_reg2[4] && !a_reg2[5] && !a_reg2[6] && !a_reg2[7]) to frame 4.
-Trying to justify cube <prop=fail> in frame 4.
-Adding cube (copy1.finish[0] && !copy2.finish[0] && !assume_2_violate[0] && b_reg1[0] && !b_reg2[0]) to frame 4.
-Trying to justify cube <prop=fail> in frame 4.
-Adding cube (copy1.finish[0] && b_reg1[0] && a_reg1[7]) to frame 4.
-Trying to justify cube <prop=fail> in frame 4.
-Adding cube (copy1.finish[0] && !copy2.finish[0] && !assume_2_violate[0] && b_reg1[5]) to frame 4.
-Trying to justify cube <prop=fail> in frame 4.
-Adding cube (copy1.finish[0] && !copy2.finish[0] && !assume_2_violate[0] && !b_reg1[0] && b_reg1[2] && b_reg2[0]) to frame 4.
-Trying to justify cube <prop=fail> in frame 4.
-Adding cube (copy1.finish[0] && !copy2.finish[0] && !assume_2_violate[0] && !b_reg1[0] && b_reg1[1] && b_reg2[0]) to frame 4.
-Trying to justify cube <prop=fail> in frame 4.
-Adding cube (copy1.finish[0] && b_reg1[1] && a_reg1[6]) to frame 4.
-Trying to justify cube <prop=fail> in frame 4.
-Adding cube (copy1.finish[0] && b_reg1[1] && a_reg1[7]) to frame 4.
-Trying to justify cube <prop=fail> in frame 4.
-Adding cube (copy1.finish[0] && !copy2.finish[0] && !assume_2_violate[0] && !b_reg1[1] && b_reg1[2] && b_reg2[1]) to frame 4.
-Trying to justify cube <prop=fail> in frame 4.
-Adding cube (copy1.finish[0] && !copy2.finish[0] && !assume_2_violate[0] && b_reg1[2] && !b_reg2[2]) to frame 4.
-Trying to justify cube <prop=fail> in frame 4.
-Adding cube (copy1.finish[0] && !copy2.finish[0] && !assume_2_violate[0] && !b_reg1[3] && b_reg1[4] && b_reg2[3]) to frame 4.
-Trying to justify cube <prop=fail> in frame 4.
-Trying to justify cube (copy1.finish[0] && !copy2.finish[0] && !assume_2_violate[0] && !b_reg2[0] && !b_reg2[1] && !b_reg2[2] && !b_reg2[3] && !b_reg2[4] && !b_reg2[5] && !b_reg2[6] && !b_reg2[7] && !a_reg1[0] && !a_reg1[1] && !a_reg1[2] && !a_reg1[3] && !a_reg1[4] && !a_reg1[5] && !a_reg1[6] && !a_reg1[7]) in frame 3.
-Adding cube (copy1.finish[0] && busy1[0]) to frame 4.
-Trying to justify cube (copy1.finish[0] && !copy2.finish[0] && !assume_2_violate[0] && !b_reg2[0] && !b_reg2[1] && !b_reg2[2] && !b_reg2[3] && !b_reg2[4] && !b_reg2[5] && !b_reg2[6] && !b_reg2[7] && !a_reg1[0] && !a_reg1[1] && !a_reg1[2] && !a_reg1[3] && !a_reg1[4] && !a_reg1[5] && !a_reg1[6] && !a_reg1[7]) in frame 3.
-Adding cube (!b_reg_diff[0] && b_reg1[0] && !b_reg2[0]) to frame 4.
-Adding cube (copy1.finish[0] && !copy2.finish[0] && !assume_2_violate[0] && !b_reg2[0] && !b_reg2[1] && !b_reg2[2] && !b_reg2[3] && !b_reg2[4] && !b_reg2[6] && !a_reg1[0] && !a_reg1[1] && !a_reg1[2] && !a_reg1[3] && !a_reg1[4] && !a_reg1[5] && !a_reg1[6] && !a_reg1[7]) to frame 4.
-Trying to justify cube <prop=fail> in frame 4.
-Adding cube (copy1.finish[0] && !copy2.finish[0] && !assume_2_violate[0] && b_reg1[3] && !b_reg2[3]) to frame 4.
-Trying to justify cube <prop=fail> in frame 4.
-Adding cube (copy1.finish[0] && b_reg1[3] && a_reg1[6]) to frame 4.
-Trying to justify cube <prop=fail> in frame 4.
-Adding cube (copy1.finish[0] && b_reg1[3] && a_reg1[1]) to frame 4.
-Trying to justify cube <prop=fail> in frame 4.
-Adding cube (copy1.finish[0] && b_reg1[6] && a_reg1[1]) to frame 4.
-Trying to justify cube <prop=fail> in frame 4.
-Trying to justify cube (copy1.finish[0] && !copy2.finish[0] && !assume_2_violate[0] && !b_reg1[0] && !b_reg1[1] && !b_reg1[2] && !b_reg1[3] && !b_reg1[4] && !b_reg1[5] && !b_reg1[6] && !b_reg1[7] && !b_reg2[0] && !b_reg2[1] && !b_reg2[2] && !b_reg2[3] && !b_reg2[4] && !b_reg2[5] && !b_reg2[6] && !b_reg2[7]) in frame 3.
-Adding cube (!a_reg_diff[0] && a_reg1[5] && !a_reg2[5]) to frame 4.
-Trying to justify cube (copy1.finish[0] && !copy2.finish[0] && !assume_2_violate[0] && !b_reg1[0] && !b_reg1[1] && !b_reg1[2] && !b_reg1[3] && !b_reg1[4] && !b_reg1[5] && !b_reg1[6] && !b_reg1[7] && !b_reg2[0] && !b_reg2[1] && !b_reg2[2] && !b_reg2[3] && !b_reg2[4] && !b_reg2[5] && !b_reg2[6] && !b_reg2[7]) in frame 3.
-Adding cube (!a_reg_diff[0] && a_reg1[7] && !a_reg2[7]) to frame 4.
-Trying to justify cube (copy1.finish[0] && !copy2.finish[0] && !assume_2_violate[0] && !b_reg1[0] && !b_reg1[1] && !b_reg1[2] && !b_reg1[3] && !b_reg1[4] && !b_reg1[5] && !b_reg1[6] && !b_reg1[7] && !b_reg2[0] && !b_reg2[1] && !b_reg2[2] && !b_reg2[3] && !b_reg2[4] && !b_reg2[5] && !b_reg2[6] && !b_reg2[7]) in frame 3.
-Adding cube (!a_reg_diff[0] && a_reg1[6] && !a_reg2[6]) to frame 4.
-Trying to justify cube (copy1.finish[0] && !copy2.finish[0] && !assume_2_violate[0] && !b_reg1[0] && !b_reg1[1] && !b_reg1[2] && !b_reg1[3] && !b_reg1[4] && !b_reg1[5] && !b_reg1[6] && !b_reg1[7] && !b_reg2[0] && !b_reg2[1] && !b_reg2[2] && !b_reg2[3] && !b_reg2[4] && !b_reg2[5] && !b_reg2[6] && !b_reg2[7]) in frame 3.
-Adding cube (!a_reg_diff[0] && a_reg1[0] && !a_reg2[0]) to frame 4.
-Trying to justify cube (copy1.finish[0] && !copy2.finish[0] && !assume_2_violate[0] && !b_reg1[0] && !b_reg1[1] && !b_reg1[2] && !b_reg1[3] && !b_reg1[4] && !b_reg1[5] && !b_reg1[6] && !b_reg1[7] && !b_reg2[0] && !b_reg2[1] && !b_reg2[2] && !b_reg2[3] && !b_reg2[4] && !b_reg2[5] && !b_reg2[6] && !b_reg2[7]) in frame 3.
-Adding cube (!a_reg_diff[0] && a_reg1[4] && !a_reg2[4]) to frame 4.
-Trying to justify cube (copy1.finish[0] && !copy2.finish[0] && !assume_2_violate[0] && !b_reg1[0] && !b_reg1[1] && !b_reg1[2] && !b_reg1[3] && !b_reg1[4] && !b_reg1[5] && !b_reg1[6] && !b_reg1[7] && !b_reg2[0] && !b_reg2[1] && !b_reg2[2] && !b_reg2[3] && !b_reg2[4] && !b_reg2[5] && !b_reg2[6] && !b_reg2[7]) in frame 3.
-Adding cube (!a_reg_diff[0] && a_reg1[1] && !a_reg2[1]) to frame 4.
-Trying to justify cube (copy1.finish[0] && !copy2.finish[0] && !assume_2_violate[0] && !b_reg1[0] && !b_reg1[1] && !b_reg1[2] && !b_reg1[3] && !b_reg1[4] && !b_reg1[5] && !b_reg1[6] && !b_reg1[7] && !b_reg2[0] && !b_reg2[1] && !b_reg2[2] && !b_reg2[3] && !b_reg2[4] && !b_reg2[5] && !b_reg2[6] && !b_reg2[7]) in frame 3.
-Adding cube (!a_reg_diff[0] && a_reg1[3] && !a_reg2[3]) to frame 4.
-Trying to justify cube (copy1.finish[0] && !copy2.finish[0] && !assume_2_violate[0] && !b_reg1[0] && !b_reg1[1] && !b_reg1[2] && !b_reg1[3] && !b_reg1[4] && !b_reg1[5] && !b_reg1[6] && !b_reg1[7] && !b_reg2[0] && !b_reg2[1] && !b_reg2[2] && !b_reg2[3] && !b_reg2[4] && !b_reg2[5] && !b_reg2[6] && !b_reg2[7]) in frame 3.
-Adding cube (!a_reg_diff[0] && a_reg1[2] && !a_reg2[2]) to frame 4.
-Adding cube (copy1.finish[0] && !copy2.finish[0] && !assume_2_violate[0] && !b_reg2[0] && !b_reg2[1] && !b_reg2[2] && !b_reg2[3] && !b_reg2[4] && !b_reg2[6]) to frame 4.
-Trying to justify cube <prop=fail> in frame 4.
-Adding cube (copy1.finish[0] && b_reg1[6] && a_reg1[7]) to frame 4.
-Trying to justify cube <prop=fail> in frame 4.
-Adding cube (copy1.finish[0] && b_reg1[6] && a_reg1[2]) to frame 4.
-Trying to justify cube <prop=fail> in frame 4.
-Adding cube (copy1.finish[0] && b_reg1[6] && a_reg1[5]) to frame 4.
-Trying to justify cube <prop=fail> in frame 4.
-Adding cube (copy1.finish[0] && b_reg1[4] && a_reg1[7]) to frame 4.
-Trying to justify cube <prop=fail> in frame 4.
-Adding cube (copy1.finish[0] && b_reg1[4] && a_reg1[6]) to frame 4.
-Trying to justify cube <prop=fail> in frame 4.
-Adding cube (copy1.finish[0] && b_reg1[4] && a_reg1[4]) to frame 4.
-Trying to justify cube <prop=fail> in frame 4.
-Adding cube (copy1.finish[0] && b_reg1[4] && a_reg1[5]) to frame 4.
-Trying to justify cube <prop=fail> in frame 4.
-Adding cube (copy1.finish[0] && b_reg1[3] && a_reg1[7]) to frame 4.
-Trying to justify cube <prop=fail> in frame 4.
-Adding cube (copy1.finish[0] && b_reg1[3] && a_reg1[4]) to frame 4.
-Trying to justify cube <prop=fail> in frame 4.
-Adding cube (copy1.finish[0] && b_reg1[2] && a_reg1[5]) to frame 4.
-Trying to justify cube <prop=fail> in frame 4.
-Adding cube (copy1.finish[0] && b_reg1[2] && a_reg1[6]) to frame 4.
-Trying to justify cube <prop=fail> in frame 4.
-Adding cube (copy1.finish[0] && b_reg1[6] && a_reg1[6]) to frame 4.
-Trying to justify cube <prop=fail> in frame 4.
-Adding cube (copy1.finish[0] && b_reg1[3] && a_reg1[5]) to frame 4.
-Trying to justify cube <prop=fail> in frame 4.
-Trying to justify cube (!copy1.finish[0] && copy2.finish[0] && !assume_2_violate[0] && !a_reg1[0] && !a_reg1[1] && !a_reg1[2] && !a_reg1[3] && !a_reg1[4] && !a_reg1[5] && !a_reg1[6] && !a_reg1[7] && !a_reg2[0] && !a_reg2[1] && !a_reg2[2] && !a_reg2[3] && !a_reg2[4] && !a_reg2[5] && !a_reg2[6] && !a_reg2[7]) in frame 3.
-Adding cube (!copy1.finish[0] && busy_diff[0] && !assume_2_violate[0]) to frame 3.
-Adding cube (!copy1.finish[0] && !copy2.finish[0] && busy_diff[0] && !busy1[0] && !a_reg2[0] && !a_reg2[1] && !a_reg2[2] && !a_reg2[3] && !a_reg2[4] && !a_reg2[5] && !a_reg2[6] && !a_reg2[7]) to frame 4.
-Trying to justify cube (!copy1.finish[0] && copy2.finish[0] && !assume_2_violate[0] && !a_reg1[0] && !a_reg1[1] && !a_reg1[2] && !a_reg1[3] && !a_reg1[4] && !a_reg1[5] && !a_reg1[6] && !a_reg1[7] && !a_reg2[0] && !a_reg2[1] && !a_reg2[2] && !a_reg2[3] && !a_reg2[4] && !a_reg2[5] && !a_reg2[6] && !a_reg2[7]) in frame 3.
-Adding cube (busy_diff[0] && !finish_diff[0] && !assume_2_violate[0]) to frame 4.
-Adding cube (!copy1.finish[0] && copy2.finish[0] && !assume_2_violate[0]) to frame 4.
-4 : 0 3 66 21 103                                                       2    40      0.67 sec
-5 : 0 3 28 38 3 113                                                     0    40      0.71 sec
-6 : 0 3 28 38 2 0 113                                                   0    40      0.74 sec
-Verification of invariant with 113 clauses was successful.  Time =     0.03 sec
-Block =  174  Oblig =   213  Clause =   196  Call =  1904 (sat=62.0%)  Cex =   0  Start =   3
-SAT solving =     0.56 sec ( 72.03 %)
-unsat     =     0.10 sec ( 12.51 %)
-sat       =     0.47 sec ( 59.52 %)
-Generalize  =     0.26 sec ( 32.79 %)
-Push clause =     0.12 sec ( 14.73 %)
-Ternary sim =     0.11 sec ( 14.61 %)
+Adding cube (finish_diff[0] && b_reg2[2] && a_reg2[0] && b_reg1[1] && a_reg1[0]) to frame 2.
+Trying to justify cube <prop=fail> in frame 2.
+Adding cube (finish_diff[0] && b_reg2[2] && a_reg2[1] && b_reg1[1] && a_reg1[0]) to frame 2.
+Trying to justify cube <prop=fail> in frame 2.
+Adding cube (finish_diff[0] && b_reg2[3] && a_reg2[1] && b_reg1[1] && a_reg1[0]) to frame 2.
+Trying to justify cube <prop=fail> in frame 2.
+Adding cube (finish_diff[0] && b_reg2[2] && a_reg2[1] && b_reg1[1] && a_reg1[1]) to frame 2.
+Trying to justify cube <prop=fail> in frame 2.
+Adding cube (finish_diff[0] && b_reg2[2] && a_reg2[0] && b_reg1[1] && a_reg1[1]) to frame 2.
+Trying to justify cube <prop=fail> in frame 2.
+Adding cube (finish_diff[0] && b_reg2[4] && a_reg2[2] && b_reg1[1] && a_reg1[1]) to frame 2.
+Trying to justify cube <prop=fail> in frame 2.
+Adding cube (finish_diff[0] && b_reg2[0] && a_reg2[1] && b_reg1[1] && a_reg1[0]) to frame 2.
+Trying to justify cube <prop=fail> in frame 2.
+Adding cube (finish_diff[0] && b_reg2[0] && a_reg2[2] && b_reg1[1] && a_reg1[1]) to frame 2.
+Trying to justify cube <prop=fail> in frame 2.
+Adding cube (finish_diff[0] && b_reg2[1] && a_reg2[1] && b_reg1[1] && a_reg1[1]) to frame 2.
+Trying to justify cube <prop=fail> in frame 2.
+Adding cube (finish_diff[0] && b_reg2[1] && a_reg2[0] && b_reg1[1] && a_reg1[0]) to frame 2.
+Trying to justify cube <prop=fail> in frame 2.
+Adding cube (finish_diff[0] && b_reg2[2] && a_reg2[3] && b_reg1[1] && a_reg1[3]) to frame 2.
+Trying to justify cube <prop=fail> in frame 2.
+Adding cube (finish_diff[0] && b_reg2[2] && a_reg2[5] && b_reg1[4] && a_reg1[3]) to frame 2.
+Trying to justify cube <prop=fail> in frame 2.
+Adding cube (finish_diff[0] && b_reg2[1] && a_reg2[5] && b_reg1[3] && a_reg1[3]) to frame 2.
+Trying to justify cube <prop=fail> in frame 2.
+Adding cube (finish_diff[0] && b_reg2[1] && a_reg2[5] && b_reg1[5] && a_reg1[3]) to frame 2.
+Trying to justify cube <prop=fail> in frame 2.
+Adding cube (finish_diff[0] && b_reg2[1] && a_reg2[5] && b_reg1[6] && a_reg1[3]) to frame 2.
+Trying to justify cube <prop=fail> in frame 2.
+Adding cube (finish_diff[0] && b_reg2[1] && a_reg2[5] && b_reg1[1] && a_reg1[7]) to frame 2.
+Trying to justify cube <prop=fail> in frame 2.
+Adding cube (finish_diff[0] && b_reg2[1] && a_reg2[5] && b_reg1[0] && a_reg1[7]) to frame 2.
+Trying to justify cube <prop=fail> in frame 2.
+Adding cube (finish_diff[0] && b_reg2[1] && a_reg2[5] && b_reg1[6] && a_reg1[7]) to frame 2.
+Trying to justify cube <prop=fail> in frame 2.
+Adding cube (finish_diff[0] && b_reg2[1] && a_reg2[5] && b_reg1[5] && a_reg1[7]) to frame 2.
+Trying to justify cube <prop=fail> in frame 2.
+Adding cube (finish_diff[0] && b_reg2[1] && a_reg2[5] && b_reg1[1] && a_reg1[4]) to frame 2.
+Trying to justify cube <prop=fail> in frame 2.
+Adding cube (finish_diff[0] && b_reg2[1] && a_reg2[5] && b_reg1[1] && a_reg1[5]) to frame 2.
+Trying to justify cube <prop=fail> in frame 2.
+Adding cube (finish_diff[0] && b_reg2[1] && a_reg2[5] && b_reg1[1] && a_reg1[3]) to frame 2.
+Trying to justify cube <prop=fail> in frame 2.
+Adding cube (finish_diff[0] && b_reg2[1] && a_reg2[5] && b_reg1[0] && a_reg1[3]) to frame 2.
+Trying to justify cube <prop=fail> in frame 2.
+Adding cube (finish_diff[0] && b_reg2[1] && a_reg2[5] && b_reg1[2] && a_reg1[1]) to frame 2.
+Trying to justify cube <prop=fail> in frame 2.
+Adding cube (finish_diff[0] && b_reg2[1] && a_reg2[5] && b_reg1[5] && a_reg1[1]) to frame 2.
+Trying to justify cube <prop=fail> in frame 2.
+Adding cube (finish_diff[0] && b_reg2[1] && a_reg2[5] && b_reg1[6] && a_reg1[0]) to frame 2.
+Trying to justify cube <prop=fail> in frame 2.
+Adding cube (finish_diff[0] && b_reg2[1] && a_reg2[5] && b_reg1[4] && a_reg1[1]) to frame 2.
+Trying to justify cube <prop=fail> in frame 2.
+Adding cube (finish_diff[0] && b_reg2[1] && a_reg2[5] && b_reg1[0] && a_reg1[5]) to frame 2.
+Trying to justify cube <prop=fail> in frame 2.
+Adding cube (finish_diff[0] && b_reg2[1] && a_reg2[5] && b_reg1[4] && a_reg1[2]) to frame 2.
+Trying to justify cube <prop=fail> in frame 2.
+Adding cube (finish_diff[0] && b_reg2[1] && a_reg2[5] && b_reg1[2] && a_reg1[3]) to frame 2.
+Trying to justify cube <prop=fail> in frame 2.
+Adding cube (finish_diff[0] && b_reg2[1] && a_reg2[5] && b_reg1[2] && a_reg1[2]) to frame 2.
+Trying to justify cube <prop=fail> in frame 2.
+Adding cube (finish_diff[0] && b_reg2[1] && a_reg2[5] && b_reg1[0] && a_reg1[4]) to frame 2.
+Trying to justify cube <prop=fail> in frame 2.
+Adding cube (finish_diff[0] && b_reg2[1] && a_reg2[5] && b_reg1[3] && a_reg1[2]) to frame 2.
+Trying to justify cube <prop=fail> in frame 2.
+Adding cube (finish_diff[0] && b_reg2[1] && a_reg2[5] && b_reg1[3] && a_reg1[1]) to frame 2.
+Trying to justify cube <prop=fail> in frame 2.
+Adding cube (finish_diff[0] && b_reg2[1] && a_reg2[5] && b_reg1[4] && a_reg1[0]) to frame 2.
+Trying to justify cube <prop=fail> in frame 2.
+Adding cube (finish_diff[0] && b_reg2[1] && a_reg2[5] && b_reg1[0] && a_reg1[6]) to frame 2.
+Trying to justify cube <prop=fail> in frame 2.
+Adding cube (finish_diff[0] && b_reg2[1] && a_reg2[5] && b_reg1[2] && a_reg1[4]) to frame 2.
+Trying to justify cube <prop=fail> in frame 2.
+Adding cube (finish_diff[0] && b_reg2[1] && a_reg2[5] && b_reg1[2] && a_reg1[0]) to frame 2.
+Trying to justify cube <prop=fail> in frame 2.
+Adding cube (finish_diff[0] && b_reg2[1] && a_reg2[5] && b_reg1[3] && a_reg1[0]) to frame 2.
+Trying to justify cube <prop=fail> in frame 2.
+Adding cube (finish_diff[0] && b_reg2[1] && a_reg2[5] && b_reg1[5] && a_reg1[0]) to frame 2.
+Trying to justify cube <prop=fail> in frame 2.
+Trying to justify cube (a_reg_diff[0] && b_reg_diff[0] && o_reg_diff[0] && counter_diff[0] && busy_diff[0] && finish_diff[0] && !assume_2_violate[0] && !assume_predicate_violate[0] && !a_reg2[0] && !a_reg2[1] && !a_reg2[2] && !a_reg2[3] && !a_reg2[4] && !a_reg2[5] && !a_reg2[6] && !a_reg2[7] && !b_reg1[0] && !b_reg1[1] && !b_reg1[2] && !b_reg1[3] && !b_reg1[4] && !b_reg1[5] && !b_reg1[6] && !b_reg1[7]) in frame 1.
+Adding cube (copy1.finish[0]) to frame 1.
+Adding cube (busy_diff[0]) to frame 2.
+Trying to justify cube <prop=fail> in frame 2.
+Adding cube (finish_diff[0]) to frame 2.
+2 : 0 5 123                                                             2    46      0.71 sec
+3 : 0 3 2 7                                                             0    46      0.74 sec
+4 : 0 3 2 0 7                                                           0    46      0.76 sec
+Verification of invariant with 7 clauses was successful.  Time =     0.01 sec
+Block =  127  Oblig =   130  Clause =   128  Call =  1172 (sat=59.9%)  Cex =   0  Start =   3
+SAT solving =     0.57 sec ( 72.66 %)
+unsat     =     0.10 sec ( 12.93 %)
+sat       =     0.47 sec ( 59.73 %)
+Generalize  =     0.30 sec ( 38.35 %)
+Push clause =     0.05 sec (  6.60 %)
+Ternary sim =     0.13 sec ( 17.03 %)
 Containment =     0.00 sec (  0.04 %)
-CNF compute =     0.01 sec (  0.72 %)
+CNF compute =     0.01 sec (  0.80 %)
 Refinement  =     0.00 sec (  0.00 %)
-TOTAL       =     0.78 sec (100.00 %)
+TOTAL       =     0.79 sec (100.00 %)
 Property proved.  Time =     0.79 sec
