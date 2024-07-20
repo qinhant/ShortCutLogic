@@ -53,7 +53,7 @@ def pdr_interpret(design, logfile):
     log_output += "\n\n\n"
 
     log_output += "---------------PDR Log--------------------\n"
-    file = open(design + "_pdr.log", "r")
+    file = open("pdr_log/" + design + "_pdr.log", "r")
     log = [line.strip() for line in file.readlines()]
     file.close()
     for line in log:
@@ -76,8 +76,8 @@ def pdr_interpret(design, logfile):
         elif line.find(" sec") >= 0:
             log_output += line + "\n"
 
-    if logfile == "./":
-        logfile += design + "_pdr_interpreted.log"
+    if logfile == None:
+        logfile = "pdr_log/" + design + "_pdr_interpreted.log"
     file = open(logfile, "w")
     file.write(log_output)
     file.close()
@@ -111,7 +111,7 @@ if __name__ == "__main__":
     parse.add_argument(
         "--output",
         dest="logfile",
-        default="./",
+        default=None,
         help="output file",
     )
     args = parse.parse_args()
