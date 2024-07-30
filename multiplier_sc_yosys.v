@@ -2,842 +2,710 @@
 
 (* keep =  1  *)
 (* top =  1  *)
-(* src = "multiplier_sc.sv:16.1-265.10" *)
-module multiplier_sc(clk, a1, a2, b, in_valid, a_reg_diff_in, b_reg_diff_in, o_reg_diff_in, counter_diff_in, finish_diff_in, busy_diff_in);
-  (* src = "multiplier_sc.sv:65.1-72.4" *)
+(* src = "multiplier_sc.sv:20.1-262.10" *)
+module multiplier_sc(clk, a1, a2, b, in_valid);
+  (* src = "multiplier_sc.sv:171.1-175.4" *)
   wire _000_;
-  (* src = "multiplier_sc.sv:65.1-72.4" *)
+  (* src = "multiplier_sc.sv:207.25-207.31" *)
   wire _001_;
-  (* src = "multiplier_sc.sv:65.1-72.4" *)
+  (* src = "multiplier_sc.sv:369.5-376.8" *)
   wire _002_;
-  (* src = "multiplier_sc.sv:65.1-72.4" *)
+  (* src = "multiplier_sc.sv:369.5-376.8" *)
   wire _003_;
-  (* src = "multiplier_sc.sv:65.1-72.4" *)
+  (* src = "multiplier_sc.sv:369.5-376.8" *)
   wire _004_;
-  (* src = "multiplier_sc.sv:65.1-72.4" *)
+  (* src = "multiplier_sc.sv:369.5-376.8" *)
   wire _005_;
-  (* src = "multiplier_sc.sv:74.1-81.4" *)
+  (* src = "multiplier_sc.sv:369.5-376.8" *)
   wire _006_;
-  (* src = "multiplier_sc.sv:74.1-81.4" *)
-  wire _007_;
-  (* src = "multiplier_sc.sv:74.1-81.4" *)
+  (* src = "multiplier_sc.sv:369.5-376.8" *)
+  wire [1:0] _007_;
   wire _008_;
-  (* src = "multiplier_sc.sv:74.1-81.4" *)
-  wire _009_;
-  (* src = "multiplier_sc.sv:74.1-81.4" *)
-  wire _010_;
-  (* src = "multiplier_sc.sv:74.1-81.4" *)
-  wire _011_;
-  (* src = "multiplier_sc.sv:157.21-157.32" *)
-  wire [31:0] _012_;
-  (* src = "multiplier_sc.sv:159.21-159.32" *)
-  wire [31:0] _013_;
-  (* src = "multiplier_sc.sv:161.20-161.30" *)
-  wire [31:0] _014_;
-  (* src = "multiplier_sc.sv:372.5-379.8" *)
-  wire [7:0] _015_;
-  (* src = "multiplier_sc.sv:372.5-379.8" *)
-  wire [7:0] _016_;
-  (* src = "multiplier_sc.sv:372.5-379.8" *)
+  wire [1:0] _009_;
+  (* src = "multiplier_sc.sv:366.113-366.139" *)
+  (* unused_bits = "2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31" *)
+  wire [31:0] _010_;
+  (* src = "multiplier_sc.sv:366.66-366.144" *)
+  wire [31:0] _011_;
+  (* src = "multiplier_sc.sv:362.48-362.63" *)
+  wire _012_;
+  (* src = "multiplier_sc.sv:362.73-362.88" *)
+  wire _013_;
+  (* src = "multiplier_sc.sv:361.42-361.64" *)
+  wire _014_;
+  (* src = "multiplier_sc.sv:361.68-361.93" *)
+  wire _015_;
+  (* src = "multiplier_sc.sv:362.46-362.103" *)
+  wire _016_;
+  (* src = "multiplier_sc.sv:361.68-361.80" *)
   wire _017_;
-  (* src = "multiplier_sc.sv:372.5-379.8" *)
-  wire [3:0] _018_;
-  (* src = "multiplier_sc.sv:372.5-379.8" *)
+  (* src = "multiplier_sc.sv:361.42-361.93" *)
+  wire _018_;
+  (* src = "multiplier_sc.sv:362.47-362.89" *)
   wire _019_;
-  (* src = "multiplier_sc.sv:372.5-379.8" *)
-  wire [15:0] _020_;
-  wire [3:0] _021_;
-  wire [15:0] _022_;
-  (* src = "multiplier_sc.sv:369.113-369.139" *)
-  (* unused_bits = "16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31" *)
+  (* src = "multiplier_sc.sv:363.59-363.98" *)
+  wire _020_;
+  (* src = "multiplier_sc.sv:364.59-364.103" *)
+  wire _021_;
+  (* src = "multiplier_sc.sv:365.54-365.87" *)
+  wire [31:0] _022_;
+  (* src = "multiplier_sc.sv:366.97-366.143" *)
   wire [31:0] _023_;
-  (* src = "multiplier_sc.sv:369.97-369.143" *)
-  wire [31:0] _024_;
-  (* src = "multiplier_sc.sv:369.66-369.144" *)
-  wire [31:0] _025_;
-  (* src = "multiplier_sc.sv:365.48-365.63" *)
+  (* src = "multiplier_sc.sv:369.5-376.8" *)
+  wire _024_;
+  (* src = "multiplier_sc.sv:369.5-376.8" *)
+  wire _025_;
+  (* src = "multiplier_sc.sv:369.5-376.8" *)
   wire _026_;
-  (* src = "multiplier_sc.sv:365.73-365.88" *)
+  (* src = "multiplier_sc.sv:369.5-376.8" *)
   wire _027_;
-  (* src = "multiplier_sc.sv:364.42-364.64" *)
+  (* src = "multiplier_sc.sv:369.5-376.8" *)
   wire _028_;
-  (* src = "multiplier_sc.sv:364.68-364.93" *)
-  wire _029_;
-  (* src = "multiplier_sc.sv:365.46-365.103" *)
+  (* src = "multiplier_sc.sv:369.5-376.8" *)
+  wire [1:0] _029_;
   wire _030_;
-  (* src = "multiplier_sc.sv:364.68-364.80" *)
-  wire _031_;
-  (* src = "multiplier_sc.sv:364.42-364.93" *)
-  wire _032_;
-  (* src = "multiplier_sc.sv:365.47-365.89" *)
-  wire _033_;
-  (* src = "multiplier_sc.sv:366.59-366.98" *)
-  wire [7:0] _034_;
-  (* src = "multiplier_sc.sv:367.59-367.103" *)
-  wire [7:0] _035_;
-  (* src = "multiplier_sc.sv:368.54-368.87" *)
-  wire [31:0] _036_;
-  (* src = "multiplier_sc.sv:372.5-379.8" *)
-  wire [7:0] _037_;
-  (* src = "multiplier_sc.sv:372.5-379.8" *)
-  wire [7:0] _038_;
-  (* src = "multiplier_sc.sv:372.5-379.8" *)
+  wire [1:0] _031_;
+  (* src = "multiplier_sc.sv:366.113-366.139" *)
+  (* unused_bits = "2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31" *)
+  wire [31:0] _032_;
+  (* src = "multiplier_sc.sv:366.66-366.144" *)
+  wire [31:0] _033_;
+  (* src = "multiplier_sc.sv:362.48-362.63" *)
+  wire _034_;
+  (* src = "multiplier_sc.sv:362.73-362.88" *)
+  wire _035_;
+  (* src = "multiplier_sc.sv:361.42-361.64" *)
+  wire _036_;
+  (* src = "multiplier_sc.sv:361.68-361.93" *)
+  wire _037_;
+  (* src = "multiplier_sc.sv:362.46-362.103" *)
+  wire _038_;
+  (* src = "multiplier_sc.sv:361.68-361.80" *)
   wire _039_;
-  (* src = "multiplier_sc.sv:372.5-379.8" *)
-  wire [3:0] _040_;
-  (* src = "multiplier_sc.sv:372.5-379.8" *)
+  (* src = "multiplier_sc.sv:361.42-361.93" *)
+  wire _040_;
+  (* src = "multiplier_sc.sv:362.47-362.89" *)
   wire _041_;
-  (* src = "multiplier_sc.sv:372.5-379.8" *)
-  wire [15:0] _042_;
-  wire [3:0] _043_;
-  wire [15:0] _044_;
-  (* src = "multiplier_sc.sv:369.113-369.139" *)
-  (* unused_bits = "16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31" *)
+  (* src = "multiplier_sc.sv:363.59-363.98" *)
+  wire _042_;
+  (* src = "multiplier_sc.sv:364.59-364.103" *)
+  wire _043_;
+  (* src = "multiplier_sc.sv:365.54-365.87" *)
+  wire [31:0] _044_;
+  (* src = "multiplier_sc.sv:366.97-366.143" *)
   wire [31:0] _045_;
-  (* src = "multiplier_sc.sv:369.97-369.143" *)
-  wire [31:0] _046_;
-  (* src = "multiplier_sc.sv:369.66-369.144" *)
-  wire [31:0] _047_;
-  (* src = "multiplier_sc.sv:365.48-365.63" *)
+  (* src = "multiplier_sc.sv:174.17-174.42" *)
+  wire _046_;
+  (* src = "multiplier_sc.sv:174.46-174.71" *)
+  wire _047_;
+  (* src = "multiplier_sc.sv:176.18-176.33" *)
   wire _048_;
-  (* src = "multiplier_sc.sv:365.73-365.88" *)
+  (* src = "multiplier_sc.sv:177.18-177.33" *)
   wire _049_;
-  (* src = "multiplier_sc.sv:364.42-364.64" *)
+  (* src = "multiplier_sc.sv:207.23-207.46" *)
   wire _050_;
-  (* src = "multiplier_sc.sv:364.68-364.93" *)
+  (* src = "multiplier_sc.sv:207.23-207.60" *)
   wire _051_;
-  (* src = "multiplier_sc.sv:365.46-365.103" *)
+  (* src = "multiplier_sc.sv:176.37-176.48" *)
   wire _052_;
-  (* src = "multiplier_sc.sv:364.68-364.80" *)
+  (* src = "multiplier_sc.sv:177.37-177.48" *)
   wire _053_;
-  (* src = "multiplier_sc.sv:364.42-364.93" *)
+  (* src = "multiplier_sc.sv:207.23-207.32" *)
   wire _054_;
-  (* src = "multiplier_sc.sv:365.47-365.89" *)
+  (* src = "multiplier_sc.sv:244.36-244.44" *)
   wire _055_;
-  (* src = "multiplier_sc.sv:366.59-366.98" *)
-  wire [7:0] _056_;
-  (* src = "multiplier_sc.sv:367.59-367.103" *)
-  wire [7:0] _057_;
-  (* src = "multiplier_sc.sv:368.54-368.87" *)
-  wire [31:0] _058_;
-  (* src = "multiplier_sc.sv:195.18-195.33" *)
-  wire _059_;
-  (* src = "multiplier_sc.sv:195.18-195.48" *)
-  wire _060_;
-  (* src = "multiplier_sc.sv:196.18-196.33" *)
-  wire _061_;
-  (* src = "multiplier_sc.sv:196.18-196.48" *)
-  wire _062_;
-  (* src = "multiplier_sc.sv:226.69-226.102" *)
-  wire _063_;
-  (* src = "multiplier_sc.sv:227.37-227.70" *)
-  wire _064_;
-  (* src = "multiplier_sc.sv:227.76-227.101" *)
-  wire _065_;
-  (* src = "multiplier_sc.sv:228.37-228.76" *)
-  wire _066_;
-  (* src = "multiplier_sc.sv:228.82-228.112" *)
-  wire _067_;
-  (* src = "multiplier_sc.sv:229.37-229.73" *)
-  wire _068_;
-  (* src = "multiplier_sc.sv:259.33-259.47" *)
-  wire _069_;
-  (* src = "multiplier_sc.sv:66.42-66.88" *)
-  wire _070_;
-  (* src = "multiplier_sc.sv:67.42-67.88" *)
-  wire _071_;
-  (* src = "multiplier_sc.sv:68.42-68.80" *)
-  wire _072_;
-  (* src = "multiplier_sc.sv:69.46-69.98" *)
-  wire _073_;
-  (* src = "multiplier_sc.sv:70.40-70.83" *)
-  wire _074_;
-  (* src = "multiplier_sc.sv:71.44-71.93" *)
-  wire _075_;
-  (* src = "multiplier_sc.sv:158.21-158.32" *)
-  wire [31:0] _076_;
-  (* src = "multiplier_sc.sv:160.23-160.36" *)
-  wire [31:0] _077_;
-  (* src = "multiplier_sc.sv:162.22-162.34" *)
-  wire [31:0] _078_;
-  (* src = "multiplier_sc.sv:195.37-195.48" *)
-  wire _079_;
-  (* src = "multiplier_sc.sv:196.37-196.48" *)
-  wire _080_;
-  (* src = "multiplier_sc.sv:226.40-226.103" *)
-  wire _081_;
-  (* src = "multiplier_sc.sv:226.40-227.71" *)
-  wire _082_;
-  (* src = "multiplier_sc.sv:226.40-227.102" *)
-  wire _083_;
-  (* src = "multiplier_sc.sv:226.40-228.77" *)
-  wire _084_;
-  (* src = "multiplier_sc.sv:226.40-228.113" *)
-  wire _085_;
-  (* src = "multiplier_sc.sv:242.18-242.75" *)
-  wire _086_;
-  (* src = "multiplier_sc.sv:226.85-226.101" *)
-  wire _087_;
-  (* src = "multiplier_sc.sv:227.53-227.69" *)
-  wire _088_;
-  (* src = "multiplier_sc.sv:227.92-227.100" *)
-  wire _089_;
-  (* src = "multiplier_sc.sv:228.55-228.75" *)
-  wire _090_;
-  (* src = "multiplier_sc.sv:228.97-228.111" *)
-  wire _091_;
-  (* src = "multiplier_sc.sv:229.54-229.72" *)
-  wire _092_;
-  (* src = "multiplier_sc.sv:259.33-259.39" *)
-  wire _093_;
-  (* src = "multiplier_sc.sv:259.43-259.47" *)
-  wire _094_;
-  (* src = "multiplier_sc.sv:18.26-18.28" *)
-  input [7:0] a1;
-  wire [7:0] a1;
-  (* src = "multiplier_sc.sv:19.26-19.28" *)
-  input [7:0] a2;
-  wire [7:0] a2;
-  (* src = "multiplier_sc.sv:33.21-33.27" *)
-  wire [7:0] a_reg1;
-  (* src = "multiplier_sc.sv:33.29-33.40" *)
-  wire [7:0] a_reg1_next;
-  (* src = "multiplier_sc.sv:33.42-33.48" *)
-  wire [7:0] a_reg2;
-  (* src = "multiplier_sc.sv:33.50-33.61" *)
-  wire [7:0] a_reg2_next;
-  (* src = "multiplier_sc.sv:39.5-39.15" *)
-  reg a_reg_diff;
-  (* src = "multiplier_sc.sv:22.11-22.24" *)
-  input a_reg_diff_in;
+  (* src = "multiplier_sc.sv:119.12-119.32" *)
+  wire _056_;
+  (* src = "multiplier_sc.sv:164.12-164.32" *)
+  wire _057_;
+  (* src = "multiplier_sc.sv:244.18-244.44" *)
+  wire _058_;
+  (* src = "multiplier_sc.sv:22.26-22.28" *)
+  input a1;
+  wire a1;
+  (* src = "multiplier_sc.sv:23.26-23.28" *)
+  input a2;
+  wire a2;
+  (* src = "multiplier_sc.sv:31.21-31.27" *)
+  wire a_reg1;
+  (* src = "multiplier_sc.sv:31.29-31.40" *)
+  wire a_reg1_next;
+  (* src = "multiplier_sc.sv:31.42-31.48" *)
+  (* unused_bits = "0" *)
+  wire a_reg2;
+  (* src = "multiplier_sc.sv:31.50-31.61" *)
+  (* unused_bits = "0" *)
+  wire a_reg2_next;
+  (* src = "multiplier_sc.sv:66.6-66.19" *)
   wire a_reg_diff_in;
-  (* src = "multiplier_sc.sv:57.6-57.21" *)
+  (* src = "multiplier_sc.sv:49.6-49.21" *)
   wire a_reg_next_same;
-  (* src = "multiplier_sc.sv:258.5-258.21" *)
-  reg assume_1_violate = 1'h0;
-  (* src = "multiplier_sc.sv:259.6-259.25" *)
+  (* src = "multiplier_sc.sv:181.6-181.15" *)
+  wire all_pause;
+  (* src = "multiplier_sc.sv:189.6-189.25" *)
   wire assume_1_violate_in;
-  (* src = "multiplier_sc.sv:208.6-208.25" *)
+  (* src = "multiplier_sc.sv:199.6-199.25" *)
   wire assume_2_violate_in;
-  (* src = "multiplier_sc.sv:224.5-224.29" *)
-  reg assume_predicate_violate = 1'h0;
-  (* src = "multiplier_sc.sv:226.6-226.33" *)
+  (* src = "multiplier_sc.sv:212.6-212.25" *)
+  wire assume_3_violate_in;
+  (* src = "multiplier_sc.sv:225.6-225.33" *)
   wire assume_predicate_violate_in;
-  (* src = "multiplier_sc.sv:41.6-41.20" *)
+  (* src = "multiplier_sc.sv:39.6-39.20" *)
   wire assume_violate;
-  (* src = "multiplier_sc.sv:20.26-20.27" *)
-  input [7:0] b;
-  wire [7:0] b;
-  (* src = "multiplier_sc.sv:33.63-33.69" *)
-  wire [7:0] b_reg1;
-  (* src = "multiplier_sc.sv:33.71-33.82" *)
-  wire [7:0] b_reg1_next;
-  (* src = "multiplier_sc.sv:33.84-33.90" *)
-  wire [7:0] b_reg2;
-  (* src = "multiplier_sc.sv:33.92-33.103" *)
-  wire [7:0] b_reg2_next;
-  (* src = "multiplier_sc.sv:39.17-39.27" *)
-  reg b_reg_diff;
-  (* src = "multiplier_sc.sv:23.11-23.24" *)
-  input b_reg_diff_in;
+  (* src = "multiplier_sc.sv:24.26-24.27" *)
+  input b;
+  wire b;
+  (* src = "multiplier_sc.sv:31.63-31.69" *)
+  wire b_reg1;
+  (* src = "multiplier_sc.sv:31.71-31.82" *)
+  wire b_reg1_next;
+  (* src = "multiplier_sc.sv:31.84-31.90" *)
+  (* unused_bits = "0" *)
+  wire b_reg2;
+  (* src = "multiplier_sc.sv:31.92-31.103" *)
+  (* unused_bits = "0" *)
+  wire b_reg2_next;
+  (* src = "multiplier_sc.sv:67.6-67.19" *)
   wire b_reg_diff_in;
-  (* src = "multiplier_sc.sv:58.6-58.21" *)
+  (* src = "multiplier_sc.sv:50.6-50.21" *)
   wire b_reg_next_same;
-  (* src = "multiplier_sc.sv:32.6-32.11" *)
+  (* src = "multiplier_sc.sv:30.6-30.11" *)
   wire busy1;
-  (* src = "multiplier_sc.sv:32.13-32.23" *)
+  (* src = "multiplier_sc.sv:30.13-30.23" *)
   wire busy1_next;
-  (* src = "multiplier_sc.sv:32.25-32.30" *)
+  (* src = "multiplier_sc.sv:30.25-30.30" *)
+  (* unused_bits = "0" *)
   wire busy2;
-  (* src = "multiplier_sc.sv:32.32-32.42" *)
+  (* src = "multiplier_sc.sv:30.32-30.42" *)
+  (* unused_bits = "0" *)
   wire busy2_next;
-  (* src = "multiplier_sc.sv:39.55-39.64" *)
-  reg busy_diff;
-  (* src = "multiplier_sc.sv:27.11-27.23" *)
-  input busy_diff_in;
+  (* src = "multiplier_sc.sv:71.6-71.18" *)
   wire busy_diff_in;
-  (* src = "multiplier_sc.sv:61.6-61.20" *)
+  (* src = "multiplier_sc.sv:53.6-53.20" *)
   wire busy_next_same;
-  (* src = "multiplier_sc.sv:17.11-17.14" *)
+  (* src = "multiplier_sc.sv:21.11-21.14" *)
   input clk;
   wire clk;
   (* hdlname = "copy1 a" *)
-  (* src = "multiplier_sc.sv:272.26-272.27" *)
-  wire [7:0] \copy1.a ;
+  (* src = "multiplier_sc.sv:269.26-269.27" *)
+  wire \copy1.a ;
   (* hdlname = "copy1 a_reg" *)
-  (* src = "multiplier_sc.sv:279.27-279.32" *)
-  reg [7:0] \copy1.a_reg  = 8'h00;
+  (* src = "multiplier_sc.sv:276.27-276.32" *)
+  reg \copy1.a_reg  = 1'h0;
   (* hdlname = "copy1 a_reg_next" *)
-  (* src = "multiplier_sc.sv:284.27-284.37" *)
-  wire [7:0] \copy1.a_reg_next ;
+  (* src = "multiplier_sc.sv:281.27-281.37" *)
+  wire \copy1.a_reg_next ;
   (* hdlname = "copy1 a_reg_next_same" *)
-  (* src = "multiplier_sc.sv:295.11-295.26" *)
+  (* src = "multiplier_sc.sv:292.11-292.26" *)
   wire \copy1.a_reg_next_same ;
   (* hdlname = "copy1 a_reg_other" *)
-  (* src = "multiplier_sc.sv:301.26-301.37" *)
-  wire [7:0] \copy1.a_reg_other ;
+  (* src = "multiplier_sc.sv:298.26-298.37" *)
+  wire \copy1.a_reg_other ;
   (* hdlname = "copy1 a_reg_other_next" *)
-  (* src = "multiplier_sc.sv:307.26-307.42" *)
-  wire [7:0] \copy1.a_reg_other_next ;
+  (* src = "multiplier_sc.sv:304.26-304.42" *)
+  wire \copy1.a_reg_other_next ;
   (* hdlname = "copy1 a_reg_same" *)
-  (* src = "multiplier_sc.sv:289.11-289.21" *)
+  (* src = "multiplier_sc.sv:286.11-286.21" *)
   wire \copy1.a_reg_same ;
   (* hdlname = "copy1 a_reg_this" *)
-  (* src = "multiplier_sc.sv:331.25-331.35" *)
-  wire [7:0] \copy1.a_reg_this ;
+  (* src = "multiplier_sc.sv:328.25-328.35" *)
+  wire \copy1.a_reg_this ;
   (* hdlname = "copy1 b" *)
-  (* src = "multiplier_sc.sv:273.26-273.27" *)
-  wire [7:0] \copy1.b ;
+  (* src = "multiplier_sc.sv:270.26-270.27" *)
+  wire \copy1.b ;
   (* hdlname = "copy1 b_reg" *)
-  (* src = "multiplier_sc.sv:280.27-280.32" *)
-  reg [7:0] \copy1.b_reg  = 8'h00;
+  (* src = "multiplier_sc.sv:277.27-277.32" *)
+  reg \copy1.b_reg  = 1'h0;
   (* hdlname = "copy1 b_reg_next" *)
-  (* src = "multiplier_sc.sv:285.27-285.37" *)
-  wire [7:0] \copy1.b_reg_next ;
+  (* src = "multiplier_sc.sv:282.27-282.37" *)
+  wire \copy1.b_reg_next ;
   (* hdlname = "copy1 b_reg_next_same" *)
-  (* src = "multiplier_sc.sv:296.11-296.26" *)
+  (* src = "multiplier_sc.sv:293.11-293.26" *)
   wire \copy1.b_reg_next_same ;
   (* hdlname = "copy1 b_reg_other" *)
-  (* src = "multiplier_sc.sv:302.26-302.37" *)
-  wire [7:0] \copy1.b_reg_other ;
+  (* src = "multiplier_sc.sv:299.26-299.37" *)
+  wire \copy1.b_reg_other ;
   (* hdlname = "copy1 b_reg_other_next" *)
-  (* src = "multiplier_sc.sv:308.26-308.42" *)
-  wire [7:0] \copy1.b_reg_other_next ;
+  (* src = "multiplier_sc.sv:305.26-305.42" *)
+  wire \copy1.b_reg_other_next ;
   (* hdlname = "copy1 b_reg_same" *)
-  (* src = "multiplier_sc.sv:290.11-290.21" *)
+  (* src = "multiplier_sc.sv:287.11-287.21" *)
   wire \copy1.b_reg_same ;
   (* hdlname = "copy1 b_reg_this" *)
-  (* src = "multiplier_sc.sv:332.25-332.35" *)
-  wire [7:0] \copy1.b_reg_this ;
+  (* src = "multiplier_sc.sv:329.25-329.35" *)
+  wire \copy1.b_reg_this ;
   (* hdlname = "copy1 busy" *)
-  (* src = "multiplier_sc.sv:277.12-277.16" *)
+  (* src = "multiplier_sc.sv:274.12-274.16" *)
   reg \copy1.busy  = 1'h0;
   (* hdlname = "copy1 busy_next" *)
-  (* src = "multiplier_sc.sv:282.12-282.21" *)
+  (* src = "multiplier_sc.sv:279.12-279.21" *)
   wire \copy1.busy_next ;
   (* hdlname = "copy1 busy_next_same" *)
-  (* src = "multiplier_sc.sv:299.11-299.25" *)
+  (* src = "multiplier_sc.sv:296.11-296.25" *)
   wire \copy1.busy_next_same ;
   (* hdlname = "copy1 busy_other" *)
-  (* src = "multiplier_sc.sv:305.11-305.21" *)
+  (* src = "multiplier_sc.sv:302.11-302.21" *)
   wire \copy1.busy_other ;
   (* hdlname = "copy1 busy_other_next" *)
-  (* src = "multiplier_sc.sv:311.11-311.26" *)
+  (* src = "multiplier_sc.sv:308.11-308.26" *)
   wire \copy1.busy_other_next ;
   (* hdlname = "copy1 busy_same" *)
-  (* src = "multiplier_sc.sv:293.11-293.20" *)
+  (* src = "multiplier_sc.sv:290.11-290.20" *)
   wire \copy1.busy_same ;
   (* hdlname = "copy1 busy_this" *)
-  (* src = "multiplier_sc.sv:329.10-329.19" *)
+  (* src = "multiplier_sc.sv:326.10-326.19" *)
   wire \copy1.busy_this ;
   (* hdlname = "copy1 clk" *)
-  (* src = "multiplier_sc.sv:270.11-270.14" *)
+  (* src = "multiplier_sc.sv:267.11-267.14" *)
   wire \copy1.clk ;
   (* hdlname = "copy1 counter" *)
-  (* src = "multiplier_sc.sv:281.18-281.25" *)
-  reg [3:0] \copy1.counter ;
+  (* src = "multiplier_sc.sv:278.18-278.25" *)
+  reg \copy1.counter ;
   (* hdlname = "copy1 counter_next" *)
-  (* src = "multiplier_sc.sv:287.18-287.30" *)
-  wire [3:0] \copy1.counter_next ;
+  (* src = "multiplier_sc.sv:284.18-284.30" *)
+  wire \copy1.counter_next ;
   (* hdlname = "copy1 counter_next_same" *)
-  (* src = "multiplier_sc.sv:298.11-298.28" *)
+  (* src = "multiplier_sc.sv:295.11-295.28" *)
   wire \copy1.counter_next_same ;
   (* hdlname = "copy1 counter_other" *)
-  (* src = "multiplier_sc.sv:304.17-304.30" *)
-  wire [3:0] \copy1.counter_other ;
+  (* src = "multiplier_sc.sv:301.17-301.30" *)
+  wire \copy1.counter_other ;
   (* hdlname = "copy1 counter_other_next" *)
-  (* src = "multiplier_sc.sv:310.17-310.35" *)
-  wire [3:0] \copy1.counter_other_next ;
+  (* src = "multiplier_sc.sv:307.17-307.35" *)
+  wire \copy1.counter_other_next ;
   (* hdlname = "copy1 counter_same" *)
-  (* src = "multiplier_sc.sv:292.11-292.23" *)
+  (* src = "multiplier_sc.sv:289.11-289.23" *)
   wire \copy1.counter_same ;
   (* hdlname = "copy1 counter_this" *)
-  (* src = "multiplier_sc.sv:333.16-333.28" *)
-  wire [3:0] \copy1.counter_this ;
+  (* src = "multiplier_sc.sv:330.16-330.28" *)
+  wire \copy1.counter_this ;
   (* hdlname = "copy1 finish" *)
-  (* src = "multiplier_sc.sv:278.12-278.18" *)
+  (* src = "multiplier_sc.sv:275.12-275.18" *)
   reg \copy1.finish  = 1'h0;
   (* hdlname = "copy1 finish_next" *)
-  (* src = "multiplier_sc.sv:283.12-283.23" *)
+  (* src = "multiplier_sc.sv:280.12-280.23" *)
   wire \copy1.finish_next ;
   (* hdlname = "copy1 finish_next_same" *)
-  (* src = "multiplier_sc.sv:300.11-300.27" *)
+  (* src = "multiplier_sc.sv:297.11-297.27" *)
   wire \copy1.finish_next_same ;
   (* hdlname = "copy1 finish_other" *)
-  (* src = "multiplier_sc.sv:306.11-306.23" *)
+  (* src = "multiplier_sc.sv:303.11-303.23" *)
   wire \copy1.finish_other ;
   (* hdlname = "copy1 finish_other_next" *)
-  (* src = "multiplier_sc.sv:312.11-312.28" *)
+  (* src = "multiplier_sc.sv:309.11-309.28" *)
   wire \copy1.finish_other_next ;
   (* hdlname = "copy1 finish_same" *)
-  (* src = "multiplier_sc.sv:294.11-294.22" *)
+  (* src = "multiplier_sc.sv:291.11-291.22" *)
   wire \copy1.finish_same ;
   (* hdlname = "copy1 finish_this" *)
-  (* src = "multiplier_sc.sv:330.10-330.21" *)
+  (* src = "multiplier_sc.sv:327.10-327.21" *)
   wire \copy1.finish_this ;
   (* hdlname = "copy1 in_ready" *)
-  (* src = "multiplier_sc.sv:276.12-276.20" *)
+  (* src = "multiplier_sc.sv:273.12-273.20" *)
   wire \copy1.in_ready ;
   (* hdlname = "copy1 in_valid" *)
-  (* src = "multiplier_sc.sv:271.11-271.19" *)
+  (* src = "multiplier_sc.sv:268.11-268.19" *)
   wire \copy1.in_valid ;
   (* hdlname = "copy1 o" *)
-  (* src = "multiplier_sc.sv:274.34-274.35" *)
-  wire [15:0] \copy1.o ;
+  (* src = "multiplier_sc.sv:271.34-271.35" *)
+  wire [1:0] \copy1.o ;
   (* hdlname = "copy1 o_reg" *)
-  (* src = "multiplier_sc.sv:316.31-316.36" *)
-  reg [15:0] \copy1.o_reg  = 16'h0000;
+  (* src = "multiplier_sc.sv:313.31-313.36" *)
+  reg [1:0] \copy1.o_reg  = 2'h0;
   (* hdlname = "copy1 o_reg_next" *)
-  (* src = "multiplier_sc.sv:286.34-286.44" *)
-  wire [15:0] \copy1.o_reg_next ;
+  (* src = "multiplier_sc.sv:283.34-283.44" *)
+  wire [1:0] \copy1.o_reg_next ;
   (* hdlname = "copy1 o_reg_next_same" *)
-  (* src = "multiplier_sc.sv:297.11-297.26" *)
+  (* src = "multiplier_sc.sv:294.11-294.26" *)
   wire \copy1.o_reg_next_same ;
   (* hdlname = "copy1 o_reg_other" *)
-  (* src = "multiplier_sc.sv:303.33-303.44" *)
-  wire [15:0] \copy1.o_reg_other ;
+  (* src = "multiplier_sc.sv:300.33-300.44" *)
+  wire [1:0] \copy1.o_reg_other ;
   (* hdlname = "copy1 o_reg_other_next" *)
-  (* src = "multiplier_sc.sv:309.33-309.49" *)
-  wire [15:0] \copy1.o_reg_other_next ;
+  (* src = "multiplier_sc.sv:306.33-306.49" *)
+  wire [1:0] \copy1.o_reg_other_next ;
   (* hdlname = "copy1 o_reg_same" *)
-  (* src = "multiplier_sc.sv:291.11-291.21" *)
+  (* src = "multiplier_sc.sv:288.11-288.21" *)
   wire \copy1.o_reg_same ;
   (* hdlname = "copy1 o_reg_this" *)
-  (* src = "multiplier_sc.sv:334.32-334.42" *)
-  wire [15:0] \copy1.o_reg_this ;
+  (* src = "multiplier_sc.sv:331.32-331.42" *)
+  wire [1:0] \copy1.o_reg_this ;
   (* hdlname = "copy1 out_valid" *)
-  (* src = "multiplier_sc.sv:275.12-275.21" *)
+  (* src = "multiplier_sc.sv:272.12-272.21" *)
   wire \copy1.out_valid ;
   (* hdlname = "copy1 pause" *)
-  (* src = "multiplier_sc.sv:313.11-313.16" *)
+  (* src = "multiplier_sc.sv:310.11-310.16" *)
   wire \copy1.pause ;
   (* hdlname = "copy2 a" *)
-  (* src = "multiplier_sc.sv:272.26-272.27" *)
-  wire [7:0] \copy2.a ;
+  (* src = "multiplier_sc.sv:269.26-269.27" *)
+  wire \copy2.a ;
   (* hdlname = "copy2 a_reg" *)
-  (* src = "multiplier_sc.sv:279.27-279.32" *)
-  reg [7:0] \copy2.a_reg  = 8'h00;
+  (* src = "multiplier_sc.sv:276.27-276.32" *)
+  reg \copy2.a_reg  = 1'h0;
   (* hdlname = "copy2 a_reg_next" *)
-  (* src = "multiplier_sc.sv:284.27-284.37" *)
-  wire [7:0] \copy2.a_reg_next ;
+  (* src = "multiplier_sc.sv:281.27-281.37" *)
+  wire \copy2.a_reg_next ;
   (* hdlname = "copy2 a_reg_next_same" *)
-  (* src = "multiplier_sc.sv:295.11-295.26" *)
+  (* src = "multiplier_sc.sv:292.11-292.26" *)
   wire \copy2.a_reg_next_same ;
   (* hdlname = "copy2 a_reg_other" *)
-  (* src = "multiplier_sc.sv:301.26-301.37" *)
-  wire [7:0] \copy2.a_reg_other ;
+  (* src = "multiplier_sc.sv:298.26-298.37" *)
+  wire \copy2.a_reg_other ;
   (* hdlname = "copy2 a_reg_other_next" *)
-  (* src = "multiplier_sc.sv:307.26-307.42" *)
-  wire [7:0] \copy2.a_reg_other_next ;
+  (* src = "multiplier_sc.sv:304.26-304.42" *)
+  wire \copy2.a_reg_other_next ;
   (* hdlname = "copy2 a_reg_same" *)
-  (* src = "multiplier_sc.sv:289.11-289.21" *)
+  (* src = "multiplier_sc.sv:286.11-286.21" *)
   wire \copy2.a_reg_same ;
   (* hdlname = "copy2 a_reg_this" *)
-  (* src = "multiplier_sc.sv:331.25-331.35" *)
-  wire [7:0] \copy2.a_reg_this ;
+  (* src = "multiplier_sc.sv:328.25-328.35" *)
+  wire \copy2.a_reg_this ;
   (* hdlname = "copy2 b" *)
-  (* src = "multiplier_sc.sv:273.26-273.27" *)
-  wire [7:0] \copy2.b ;
+  (* src = "multiplier_sc.sv:270.26-270.27" *)
+  wire \copy2.b ;
   (* hdlname = "copy2 b_reg" *)
-  (* src = "multiplier_sc.sv:280.27-280.32" *)
-  reg [7:0] \copy2.b_reg  = 8'h00;
+  (* src = "multiplier_sc.sv:277.27-277.32" *)
+  reg \copy2.b_reg  = 1'h0;
   (* hdlname = "copy2 b_reg_next" *)
-  (* src = "multiplier_sc.sv:285.27-285.37" *)
-  wire [7:0] \copy2.b_reg_next ;
+  (* src = "multiplier_sc.sv:282.27-282.37" *)
+  wire \copy2.b_reg_next ;
   (* hdlname = "copy2 b_reg_next_same" *)
-  (* src = "multiplier_sc.sv:296.11-296.26" *)
+  (* src = "multiplier_sc.sv:293.11-293.26" *)
   wire \copy2.b_reg_next_same ;
   (* hdlname = "copy2 b_reg_other" *)
-  (* src = "multiplier_sc.sv:302.26-302.37" *)
-  wire [7:0] \copy2.b_reg_other ;
+  (* src = "multiplier_sc.sv:299.26-299.37" *)
+  wire \copy2.b_reg_other ;
   (* hdlname = "copy2 b_reg_other_next" *)
-  (* src = "multiplier_sc.sv:308.26-308.42" *)
-  wire [7:0] \copy2.b_reg_other_next ;
+  (* src = "multiplier_sc.sv:305.26-305.42" *)
+  wire \copy2.b_reg_other_next ;
   (* hdlname = "copy2 b_reg_same" *)
-  (* src = "multiplier_sc.sv:290.11-290.21" *)
+  (* src = "multiplier_sc.sv:287.11-287.21" *)
   wire \copy2.b_reg_same ;
   (* hdlname = "copy2 b_reg_this" *)
-  (* src = "multiplier_sc.sv:332.25-332.35" *)
-  wire [7:0] \copy2.b_reg_this ;
+  (* src = "multiplier_sc.sv:329.25-329.35" *)
+  wire \copy2.b_reg_this ;
   (* hdlname = "copy2 busy" *)
-  (* src = "multiplier_sc.sv:277.12-277.16" *)
+  (* src = "multiplier_sc.sv:274.12-274.16" *)
   reg \copy2.busy  = 1'h0;
   (* hdlname = "copy2 busy_next" *)
-  (* src = "multiplier_sc.sv:282.12-282.21" *)
+  (* src = "multiplier_sc.sv:279.12-279.21" *)
   wire \copy2.busy_next ;
   (* hdlname = "copy2 busy_next_same" *)
-  (* src = "multiplier_sc.sv:299.11-299.25" *)
+  (* src = "multiplier_sc.sv:296.11-296.25" *)
   wire \copy2.busy_next_same ;
   (* hdlname = "copy2 busy_other" *)
-  (* src = "multiplier_sc.sv:305.11-305.21" *)
+  (* src = "multiplier_sc.sv:302.11-302.21" *)
   wire \copy2.busy_other ;
   (* hdlname = "copy2 busy_other_next" *)
-  (* src = "multiplier_sc.sv:311.11-311.26" *)
+  (* src = "multiplier_sc.sv:308.11-308.26" *)
   wire \copy2.busy_other_next ;
   (* hdlname = "copy2 busy_same" *)
-  (* src = "multiplier_sc.sv:293.11-293.20" *)
+  (* src = "multiplier_sc.sv:290.11-290.20" *)
   wire \copy2.busy_same ;
   (* hdlname = "copy2 busy_this" *)
-  (* src = "multiplier_sc.sv:329.10-329.19" *)
+  (* src = "multiplier_sc.sv:326.10-326.19" *)
   wire \copy2.busy_this ;
   (* hdlname = "copy2 clk" *)
-  (* src = "multiplier_sc.sv:270.11-270.14" *)
+  (* src = "multiplier_sc.sv:267.11-267.14" *)
   wire \copy2.clk ;
   (* hdlname = "copy2 counter" *)
-  (* src = "multiplier_sc.sv:281.18-281.25" *)
-  reg [3:0] \copy2.counter ;
+  (* src = "multiplier_sc.sv:278.18-278.25" *)
+  reg \copy2.counter ;
   (* hdlname = "copy2 counter_next" *)
-  (* src = "multiplier_sc.sv:287.18-287.30" *)
-  wire [3:0] \copy2.counter_next ;
+  (* src = "multiplier_sc.sv:284.18-284.30" *)
+  wire \copy2.counter_next ;
   (* hdlname = "copy2 counter_next_same" *)
-  (* src = "multiplier_sc.sv:298.11-298.28" *)
+  (* src = "multiplier_sc.sv:295.11-295.28" *)
   wire \copy2.counter_next_same ;
   (* hdlname = "copy2 counter_other" *)
-  (* src = "multiplier_sc.sv:304.17-304.30" *)
-  wire [3:0] \copy2.counter_other ;
+  (* src = "multiplier_sc.sv:301.17-301.30" *)
+  wire \copy2.counter_other ;
   (* hdlname = "copy2 counter_other_next" *)
-  (* src = "multiplier_sc.sv:310.17-310.35" *)
-  wire [3:0] \copy2.counter_other_next ;
+  (* src = "multiplier_sc.sv:307.17-307.35" *)
+  wire \copy2.counter_other_next ;
   (* hdlname = "copy2 counter_same" *)
-  (* src = "multiplier_sc.sv:292.11-292.23" *)
+  (* src = "multiplier_sc.sv:289.11-289.23" *)
   wire \copy2.counter_same ;
   (* hdlname = "copy2 counter_this" *)
-  (* src = "multiplier_sc.sv:333.16-333.28" *)
-  wire [3:0] \copy2.counter_this ;
+  (* src = "multiplier_sc.sv:330.16-330.28" *)
+  wire \copy2.counter_this ;
   (* hdlname = "copy2 finish" *)
-  (* src = "multiplier_sc.sv:278.12-278.18" *)
+  (* src = "multiplier_sc.sv:275.12-275.18" *)
   reg \copy2.finish  = 1'h0;
   (* hdlname = "copy2 finish_next" *)
-  (* src = "multiplier_sc.sv:283.12-283.23" *)
+  (* src = "multiplier_sc.sv:280.12-280.23" *)
   wire \copy2.finish_next ;
   (* hdlname = "copy2 finish_next_same" *)
-  (* src = "multiplier_sc.sv:300.11-300.27" *)
+  (* src = "multiplier_sc.sv:297.11-297.27" *)
   wire \copy2.finish_next_same ;
   (* hdlname = "copy2 finish_other" *)
-  (* src = "multiplier_sc.sv:306.11-306.23" *)
+  (* src = "multiplier_sc.sv:303.11-303.23" *)
   wire \copy2.finish_other ;
   (* hdlname = "copy2 finish_other_next" *)
-  (* src = "multiplier_sc.sv:312.11-312.28" *)
+  (* src = "multiplier_sc.sv:309.11-309.28" *)
   wire \copy2.finish_other_next ;
   (* hdlname = "copy2 finish_same" *)
-  (* src = "multiplier_sc.sv:294.11-294.22" *)
+  (* src = "multiplier_sc.sv:291.11-291.22" *)
   wire \copy2.finish_same ;
   (* hdlname = "copy2 finish_this" *)
-  (* src = "multiplier_sc.sv:330.10-330.21" *)
+  (* src = "multiplier_sc.sv:327.10-327.21" *)
   wire \copy2.finish_this ;
   (* hdlname = "copy2 in_ready" *)
-  (* src = "multiplier_sc.sv:276.12-276.20" *)
+  (* src = "multiplier_sc.sv:273.12-273.20" *)
   wire \copy2.in_ready ;
   (* hdlname = "copy2 in_valid" *)
-  (* src = "multiplier_sc.sv:271.11-271.19" *)
+  (* src = "multiplier_sc.sv:268.11-268.19" *)
   wire \copy2.in_valid ;
   (* hdlname = "copy2 o" *)
-  (* src = "multiplier_sc.sv:274.34-274.35" *)
-  wire [15:0] \copy2.o ;
+  (* src = "multiplier_sc.sv:271.34-271.35" *)
+  wire [1:0] \copy2.o ;
   (* hdlname = "copy2 o_reg" *)
-  (* src = "multiplier_sc.sv:316.31-316.36" *)
-  reg [15:0] \copy2.o_reg  = 16'h0000;
+  (* src = "multiplier_sc.sv:313.31-313.36" *)
+  reg [1:0] \copy2.o_reg  = 2'h0;
   (* hdlname = "copy2 o_reg_next" *)
-  (* src = "multiplier_sc.sv:286.34-286.44" *)
-  wire [15:0] \copy2.o_reg_next ;
+  (* src = "multiplier_sc.sv:283.34-283.44" *)
+  wire [1:0] \copy2.o_reg_next ;
   (* hdlname = "copy2 o_reg_next_same" *)
-  (* src = "multiplier_sc.sv:297.11-297.26" *)
+  (* src = "multiplier_sc.sv:294.11-294.26" *)
   wire \copy2.o_reg_next_same ;
   (* hdlname = "copy2 o_reg_other" *)
-  (* src = "multiplier_sc.sv:303.33-303.44" *)
-  wire [15:0] \copy2.o_reg_other ;
+  (* src = "multiplier_sc.sv:300.33-300.44" *)
+  wire [1:0] \copy2.o_reg_other ;
   (* hdlname = "copy2 o_reg_other_next" *)
-  (* src = "multiplier_sc.sv:309.33-309.49" *)
-  wire [15:0] \copy2.o_reg_other_next ;
+  (* src = "multiplier_sc.sv:306.33-306.49" *)
+  wire [1:0] \copy2.o_reg_other_next ;
   (* hdlname = "copy2 o_reg_same" *)
-  (* src = "multiplier_sc.sv:291.11-291.21" *)
+  (* src = "multiplier_sc.sv:288.11-288.21" *)
   wire \copy2.o_reg_same ;
   (* hdlname = "copy2 o_reg_this" *)
-  (* src = "multiplier_sc.sv:334.32-334.42" *)
-  wire [15:0] \copy2.o_reg_this ;
+  (* src = "multiplier_sc.sv:331.32-331.42" *)
+  wire [1:0] \copy2.o_reg_this ;
   (* hdlname = "copy2 out_valid" *)
-  (* src = "multiplier_sc.sv:275.12-275.21" *)
+  (* src = "multiplier_sc.sv:272.12-272.21" *)
   wire \copy2.out_valid ;
   (* hdlname = "copy2 pause" *)
-  (* src = "multiplier_sc.sv:313.11-313.16" *)
+  (* src = "multiplier_sc.sv:310.11-310.16" *)
   wire \copy2.pause ;
-  (* src = "multiplier_sc.sv:34.12-34.20" *)
-  wire [3:0] counter1;
-  (* src = "multiplier_sc.sv:34.22-34.35" *)
-  wire [3:0] counter1_next;
-  (* src = "multiplier_sc.sv:34.37-34.45" *)
-  wire [3:0] counter2;
-  (* src = "multiplier_sc.sv:34.47-34.60" *)
-  wire [3:0] counter2_next;
-  (* src = "multiplier_sc.sv:39.41-39.53" *)
-  reg counter_diff;
-  (* src = "multiplier_sc.sv:25.11-25.26" *)
-  input counter_diff_in;
+  (* src = "multiplier_sc.sv:32.12-32.20" *)
+  wire counter1;
+  (* src = "multiplier_sc.sv:32.22-32.35" *)
+  wire counter1_next;
+  (* src = "multiplier_sc.sv:32.37-32.45" *)
+  (* unused_bits = "0" *)
+  wire counter2;
+  (* src = "multiplier_sc.sv:32.47-32.60" *)
+  (* unused_bits = "0" *)
+  wire counter2_next;
+  (* src = "multiplier_sc.sv:69.6-69.21" *)
   wire counter_diff_in;
-  (* src = "multiplier_sc.sv:60.6-60.23" *)
+  (* src = "multiplier_sc.sv:52.6-52.23" *)
   wire counter_next_same;
-  (* src = "multiplier_sc.sv:32.44-32.51" *)
+  (* src = "multiplier_sc.sv:170.5-170.12" *)
+  reg drained;
+  (* src = "multiplier_sc.sv:30.44-30.51" *)
   wire finish1;
-  (* src = "multiplier_sc.sv:32.53-32.65" *)
+  (* src = "multiplier_sc.sv:30.53-30.65" *)
   wire finish1_next;
-  (* src = "multiplier_sc.sv:32.67-32.74" *)
+  (* src = "multiplier_sc.sv:30.67-30.74" *)
+  (* unused_bits = "0" *)
   wire finish2;
-  (* src = "multiplier_sc.sv:32.76-32.88" *)
+  (* src = "multiplier_sc.sv:30.76-30.88" *)
+  (* unused_bits = "0" *)
   wire finish2_next;
-  (* src = "multiplier_sc.sv:39.66-39.77" *)
-  reg finish_diff;
-  (* src = "multiplier_sc.sv:26.11-26.25" *)
-  input finish_diff_in;
+  (* src = "multiplier_sc.sv:70.6-70.20" *)
   wire finish_diff_in;
-  (* src = "multiplier_sc.sv:62.6-62.22" *)
+  (* src = "multiplier_sc.sv:54.6-54.22" *)
   wire finish_next_same;
-  (* src = "multiplier_sc.sv:21.11-21.19" *)
+  (* src = "multiplier_sc.sv:25.11-25.19" *)
   input in_valid;
   wire in_valid;
-  (* src = "multiplier_sc.sv:30.28-30.30" *)
-  wire [15:0] o1;
-  (* src = "multiplier_sc.sv:30.32-30.39" *)
-  wire [15:0] o1_next;
-  (* src = "multiplier_sc.sv:30.41-30.43" *)
-  wire [15:0] o2;
-  (* src = "multiplier_sc.sv:30.45-30.52" *)
-  wire [15:0] o2_next;
-  (* src = "multiplier_sc.sv:39.29-39.39" *)
-  reg o_reg_diff;
-  (* src = "multiplier_sc.sv:24.11-24.24" *)
-  input o_reg_diff_in;
+  (* src = "multiplier_sc.sv:28.28-28.30" *)
+  wire [1:0] o1;
+  (* src = "multiplier_sc.sv:28.32-28.39" *)
+  wire [1:0] o1_next;
+  (* src = "multiplier_sc.sv:28.41-28.43" *)
+  wire [1:0] o2;
+  (* src = "multiplier_sc.sv:28.45-28.52" *)
+  (* unused_bits = "0 1" *)
+  wire [1:0] o2_next;
+  (* src = "multiplier_sc.sv:206.5-206.16" *)
+  reg o_ever_diff = 1'h0;
+  (* src = "multiplier_sc.sv:207.6-207.20" *)
+  wire o_ever_diff_in;
+  (* src = "multiplier_sc.sv:68.6-68.19" *)
   wire o_reg_diff_in;
-  (* src = "multiplier_sc.sv:59.6-59.21" *)
+  (* src = "multiplier_sc.sv:51.6-51.21" *)
   wire o_reg_next_same;
-  (* src = "multiplier_sc.sv:31.6-31.16" *)
+  (* src = "multiplier_sc.sv:29.6-29.16" *)
   wire out_valid1;
-  (* src = "multiplier_sc.sv:31.18-31.28" *)
+  (* src = "multiplier_sc.sv:29.18-29.28" *)
   wire out_valid2;
-  (* src = "multiplier_sc.sv:185.6-185.13" *)
+  (* src = "multiplier_sc.sv:168.6-168.13" *)
   wire pause_1;
-  (* src = "multiplier_sc.sv:185.15-185.22" *)
+  (* src = "multiplier_sc.sv:169.5-169.16" *)
+  reg pause_1_reg;
+  (* src = "multiplier_sc.sv:168.15-168.22" *)
   wire pause_2;
-  always @* if (1'h1) assert(_086_);
-  assign _021_ = \copy1.counter_this  + (* src = "multiplier_sc.sv:368.71-368.87" *) 1'h1;
-  assign _022_ = \copy1.o_reg_this  + (* src = "multiplier_sc.sv:369.83-369.144" *) _024_[15:0];
-  assign _026_ = ! (* src = "multiplier_sc.sv:365.48-365.63" *) \copy1.a_reg_this ;
-  assign _027_ = ! (* src = "multiplier_sc.sv:365.73-365.88" *) \copy1.b_reg_this ;
-  assign _028_ = \copy1.in_valid  && (* src = "multiplier_sc.sv:364.42-364.64" *) \copy1.in_ready ;
-  assign _029_ = _031_ && (* src = "multiplier_sc.sv:364.68-364.93" *) \copy1.busy_this ;
-  assign _030_ = _033_ && (* src = "multiplier_sc.sv:365.46-365.103" *) \copy1.busy_this ;
-  assign \copy1.in_ready  = ! (* src = "multiplier_sc.sv:364.54-364.64" *) \copy1.busy_this ;
-  assign _031_ = ! (* src = "multiplier_sc.sv:364.68-364.80" *) \copy1.finish_next ;
-  assign _032_ = _028_ || (* src = "multiplier_sc.sv:364.42-364.93" *) _029_;
-  assign _033_ = _026_ || (* src = "multiplier_sc.sv:365.47-365.89" *) _027_;
-  (* src = "multiplier_sc.sv:372.5-379.8" *)
+  (* src = "multiplier_sc.sv:169.18-169.29" *)
+  reg pause_2_reg;
+  always @* if (1'h1) assert(_058_);
+  assign _001_ = o1 == (* src = "multiplier_sc.sv:207.25-207.31" *) o2;
+  assign _008_ = \copy1.counter_this  + (* src = "multiplier_sc.sv:365.71-365.87" *) 1'h1;
+  assign _009_ = \copy1.o_reg_this  + (* src = "multiplier_sc.sv:366.83-366.144" *) _023_[1:0];
+  assign _012_ = ~ (* src = "multiplier_sc.sv:362.48-362.63" *) \copy1.a_reg_this ;
+  assign _013_ = ~ (* src = "multiplier_sc.sv:362.73-362.88" *) \copy1.b_reg_this ;
+  assign _014_ = \copy1.in_valid  && (* src = "multiplier_sc.sv:361.42-361.64" *) \copy1.in_ready ;
+  assign _015_ = _017_ && (* src = "multiplier_sc.sv:361.68-361.93" *) \copy1.busy_this ;
+  assign _016_ = _019_ && (* src = "multiplier_sc.sv:362.46-362.103" *) \copy1.busy_this ;
+  assign \copy1.in_ready  = ! (* src = "multiplier_sc.sv:361.54-361.64" *) \copy1.busy_this ;
+  assign _017_ = ! (* src = "multiplier_sc.sv:361.68-361.80" *) \copy1.finish_next ;
+  assign _018_ = _014_ || (* src = "multiplier_sc.sv:361.42-361.93" *) _015_;
+  assign _019_ = _012_ || (* src = "multiplier_sc.sv:362.47-362.89" *) _013_;
+  (* src = "multiplier_sc.sv:369.5-376.8" *)
   always @(posedge \copy1.clk )
-    \copy1.a_reg  <= _015_;
-  (* src = "multiplier_sc.sv:372.5-379.8" *)
+    \copy1.a_reg  <= _002_;
+  (* src = "multiplier_sc.sv:369.5-376.8" *)
   always @(posedge \copy1.clk )
-    \copy1.b_reg  <= _016_;
-  (* src = "multiplier_sc.sv:372.5-379.8" *)
+    \copy1.b_reg  <= _003_;
+  (* src = "multiplier_sc.sv:369.5-376.8" *)
   always @(posedge \copy1.clk )
-    \copy1.counter  <= _018_;
-  (* src = "multiplier_sc.sv:372.5-379.8" *)
+    \copy1.counter  <= _005_;
+  (* src = "multiplier_sc.sv:369.5-376.8" *)
   always @(posedge \copy1.clk )
-    \copy1.busy  <= _017_;
-  (* src = "multiplier_sc.sv:372.5-379.8" *)
+    \copy1.busy  <= _004_;
+  (* src = "multiplier_sc.sv:369.5-376.8" *)
   always @(posedge \copy1.clk )
-    \copy1.finish  <= _019_;
-  (* src = "multiplier_sc.sv:372.5-379.8" *)
+    \copy1.finish  <= _006_;
+  (* src = "multiplier_sc.sv:369.5-376.8" *)
   always @(posedge \copy1.clk )
-    \copy1.o_reg  <= _020_;
-  assign _023_[15:0] = \copy1.a_reg_this  << (* src = "multiplier_sc.sv:369.113-369.139" *) \copy1.counter_this ;
-  assign \copy1.busy_this  = \copy1.busy_same  ? (* src = "multiplier_sc.sv:329.22-329.51" *) \copy1.busy_other  : \copy1.busy ;
-  assign \copy1.finish_this  = \copy1.finish_same  ? (* src = "multiplier_sc.sv:330.24-330.59" *) \copy1.finish_other  : \copy1.finish ;
-  assign \copy1.a_reg_this  = \copy1.a_reg_same  ? (* src = "multiplier_sc.sv:331.38-331.70" *) \copy1.a_reg_other  : \copy1.a_reg ;
-  assign \copy1.b_reg_this  = \copy1.b_reg_same  ? (* src = "multiplier_sc.sv:332.38-332.70" *) \copy1.b_reg_other  : \copy1.b_reg ;
-  assign \copy1.counter_this  = \copy1.counter_same  ? (* src = "multiplier_sc.sv:333.31-333.69" *) \copy1.counter_other  : \copy1.counter ;
-  assign \copy1.o_reg_this  = \copy1.o_reg_same  ? (* src = "multiplier_sc.sv:334.45-334.77" *) \copy1.o_reg_other  : \copy1.o_reg ;
-  assign \copy1.busy_next  = \copy1.pause  ? (* src = "multiplier_sc.sv:364.22-364.93" *) \copy1.busy_this  : _032_;
-  assign \copy1.finish_next  = \copy1.pause  ? (* src = "multiplier_sc.sv:365.24-365.103" *) \copy1.finish_this  : _030_;
-  assign _034_ = _028_ ? (* src = "multiplier_sc.sv:366.59-366.98" *) \copy1.a  : \copy1.a_reg_this ;
-  assign \copy1.a_reg_next  = \copy1.pause  ? (* src = "multiplier_sc.sv:366.38-366.98" *) \copy1.a_reg_this  : _034_;
-  assign _035_ = _028_ ? (* src = "multiplier_sc.sv:367.59-367.103" *) \copy1.b  : { 1'h0, \copy1.b_reg_this [7:1] };
-  assign \copy1.b_reg_next  = \copy1.pause  ? (* src = "multiplier_sc.sv:367.38-367.103" *) \copy1.b_reg_this  : _035_;
-  assign _036_[3:0] = \copy1.busy_this  ? (* src = "multiplier_sc.sv:368.54-368.87" *) _021_ : 4'h0;
-  assign \copy1.counter_next  = \copy1.pause  ? (* src = "multiplier_sc.sv:368.31-368.87" *) \copy1.counter_this  : _036_[3:0];
-  assign _024_[15:0] = \copy1.b_reg_this [0] ? (* src = "multiplier_sc.sv:369.97-369.143" *) _023_[15:0] : 16'h0000;
-  assign _025_[15:0] = \copy1.busy_this  ? (* src = "multiplier_sc.sv:369.66-369.144" *) _022_ : 16'h0000;
-  assign \copy1.o_reg_next  = \copy1.pause  ? (* src = "multiplier_sc.sv:369.45-369.144" *) \copy1.o_reg_this  : _025_[15:0];
-  assign _019_ = \copy1.finish_next_same  ? (* src = "multiplier_sc.sv:373.19-373.69" *) \copy1.finish_other_next  : \copy1.finish_next ;
-  assign _017_ = \copy1.busy_next_same  ? (* src = "multiplier_sc.sv:374.17-374.61" *) \copy1.busy_other_next  : \copy1.busy_next ;
-  assign _015_ = \copy1.a_reg_next_same  ? (* src = "multiplier_sc.sv:375.18-375.65" *) \copy1.a_reg_other_next  : \copy1.a_reg_next ;
-  assign _016_ = \copy1.b_reg_next_same  ? (* src = "multiplier_sc.sv:376.18-376.65" *) \copy1.b_reg_other_next  : \copy1.b_reg_next ;
-  assign _018_ = \copy1.counter_next_same  ? (* src = "multiplier_sc.sv:377.20-377.73" *) \copy1.counter_other_next  : \copy1.counter_next ;
-  assign _020_ = \copy1.o_reg_next_same  ? (* src = "multiplier_sc.sv:378.18-378.65" *) \copy1.o_reg_other_next  : \copy1.o_reg_next ;
-  assign _043_ = \copy2.counter_this  + (* src = "multiplier_sc.sv:368.71-368.87" *) 1'h1;
-  assign _044_ = \copy2.o_reg_this  + (* src = "multiplier_sc.sv:369.83-369.144" *) _046_[15:0];
-  assign _048_ = ! (* src = "multiplier_sc.sv:365.48-365.63" *) \copy2.a_reg_this ;
-  assign _049_ = ! (* src = "multiplier_sc.sv:365.73-365.88" *) \copy2.b_reg_this ;
-  assign _050_ = \copy2.in_valid  && (* src = "multiplier_sc.sv:364.42-364.64" *) \copy2.in_ready ;
-  assign _051_ = _053_ && (* src = "multiplier_sc.sv:364.68-364.93" *) \copy2.busy_this ;
-  assign _052_ = _055_ && (* src = "multiplier_sc.sv:365.46-365.103" *) \copy2.busy_this ;
-  assign \copy2.in_ready  = ! (* src = "multiplier_sc.sv:364.54-364.64" *) \copy2.busy_this ;
-  assign _053_ = ! (* src = "multiplier_sc.sv:364.68-364.80" *) \copy2.finish_next ;
-  assign _054_ = _050_ || (* src = "multiplier_sc.sv:364.42-364.93" *) _051_;
-  assign _055_ = _048_ || (* src = "multiplier_sc.sv:365.47-365.89" *) _049_;
-  (* src = "multiplier_sc.sv:372.5-379.8" *)
+    \copy1.o_reg  <= _007_;
+  assign _010_[1:0] = \copy1.a_reg_this  << (* src = "multiplier_sc.sv:366.113-366.139" *) \copy1.counter_this ;
+  assign \copy1.busy_this  = \copy1.busy_same  ? (* src = "multiplier_sc.sv:326.22-326.51" *) \copy1.busy_other  : \copy1.busy ;
+  assign \copy1.finish_this  = \copy1.finish_same  ? (* src = "multiplier_sc.sv:327.24-327.59" *) \copy1.finish_other  : \copy1.finish ;
+  assign \copy1.a_reg_this  = \copy1.a_reg_same  ? (* src = "multiplier_sc.sv:328.38-328.70" *) \copy1.a_reg_other  : \copy1.a_reg ;
+  assign \copy1.b_reg_this  = \copy1.b_reg_same  ? (* src = "multiplier_sc.sv:329.38-329.70" *) \copy1.b_reg_other  : \copy1.b_reg ;
+  assign \copy1.counter_this  = \copy1.counter_same  ? (* src = "multiplier_sc.sv:330.31-330.69" *) \copy1.counter_other  : \copy1.counter ;
+  assign \copy1.o_reg_this  = \copy1.o_reg_same  ? (* src = "multiplier_sc.sv:331.45-331.77" *) \copy1.o_reg_other  : \copy1.o_reg ;
+  assign \copy1.busy_next  = \copy1.pause  ? (* src = "multiplier_sc.sv:361.22-361.93" *) \copy1.busy_this  : _018_;
+  assign \copy1.finish_next  = \copy1.pause  ? (* src = "multiplier_sc.sv:362.24-362.103" *) \copy1.finish_this  : _016_;
+  assign _020_ = _014_ ? (* src = "multiplier_sc.sv:363.59-363.98" *) \copy1.a  : \copy1.a_reg_this ;
+  assign \copy1.a_reg_next  = \copy1.pause  ? (* src = "multiplier_sc.sv:363.38-363.98" *) \copy1.a_reg_this  : _020_;
+  assign _021_ = _014_ ? (* src = "multiplier_sc.sv:364.59-364.103" *) \copy1.b  : 1'h0;
+  assign \copy1.b_reg_next  = \copy1.pause  ? (* src = "multiplier_sc.sv:364.38-364.103" *) \copy1.b_reg_this  : _021_;
+  assign _022_[0] = \copy1.busy_this  ? (* src = "multiplier_sc.sv:365.54-365.87" *) _008_ : 1'h0;
+  assign \copy1.counter_next  = \copy1.pause  ? (* src = "multiplier_sc.sv:365.31-365.87" *) \copy1.counter_this  : _022_[0];
+  assign _023_[1:0] = \copy1.b_reg_this  ? (* src = "multiplier_sc.sv:366.97-366.143" *) _010_[1:0] : 2'h0;
+  assign _011_[1:0] = \copy1.busy_this  ? (* src = "multiplier_sc.sv:366.66-366.144" *) _009_ : 2'h0;
+  assign \copy1.o_reg_next  = \copy1.pause  ? (* src = "multiplier_sc.sv:366.45-366.144" *) \copy1.o_reg_this  : _011_[1:0];
+  assign _006_ = \copy1.finish_next_same  ? (* src = "multiplier_sc.sv:370.19-370.69" *) \copy1.finish_other_next  : \copy1.finish_next ;
+  assign _004_ = \copy1.busy_next_same  ? (* src = "multiplier_sc.sv:371.17-371.61" *) \copy1.busy_other_next  : \copy1.busy_next ;
+  assign _002_ = \copy1.a_reg_next_same  ? (* src = "multiplier_sc.sv:372.18-372.65" *) \copy1.a_reg_other_next  : \copy1.a_reg_next ;
+  assign _003_ = \copy1.b_reg_next_same  ? (* src = "multiplier_sc.sv:373.18-373.65" *) \copy1.b_reg_other_next  : \copy1.b_reg_next ;
+  assign _005_ = \copy1.counter_next_same  ? (* src = "multiplier_sc.sv:374.20-374.73" *) \copy1.counter_other_next  : \copy1.counter_next ;
+  assign _007_ = \copy1.o_reg_next_same  ? (* src = "multiplier_sc.sv:375.18-375.65" *) \copy1.o_reg_other_next  : \copy1.o_reg_next ;
+  assign _030_ = \copy2.counter_this  + (* src = "multiplier_sc.sv:365.71-365.87" *) 1'h1;
+  assign _031_ = \copy2.o_reg_this  + (* src = "multiplier_sc.sv:366.83-366.144" *) _045_[1:0];
+  assign _034_ = ~ (* src = "multiplier_sc.sv:362.48-362.63" *) \copy2.a_reg_this ;
+  assign _035_ = ~ (* src = "multiplier_sc.sv:362.73-362.88" *) \copy2.b_reg_this ;
+  assign _036_ = \copy2.in_valid  && (* src = "multiplier_sc.sv:361.42-361.64" *) \copy2.in_ready ;
+  assign _037_ = _039_ && (* src = "multiplier_sc.sv:361.68-361.93" *) \copy2.busy_this ;
+  assign _038_ = _041_ && (* src = "multiplier_sc.sv:362.46-362.103" *) \copy2.busy_this ;
+  assign \copy2.in_ready  = ! (* src = "multiplier_sc.sv:361.54-361.64" *) \copy2.busy_this ;
+  assign _039_ = ! (* src = "multiplier_sc.sv:361.68-361.80" *) \copy2.finish_next ;
+  assign _040_ = _036_ || (* src = "multiplier_sc.sv:361.42-361.93" *) _037_;
+  assign _041_ = _034_ || (* src = "multiplier_sc.sv:362.47-362.89" *) _035_;
+  (* src = "multiplier_sc.sv:369.5-376.8" *)
   always @(posedge \copy2.clk )
-    \copy2.a_reg  <= _037_;
-  (* src = "multiplier_sc.sv:372.5-379.8" *)
+    \copy2.a_reg  <= _024_;
+  (* src = "multiplier_sc.sv:369.5-376.8" *)
   always @(posedge \copy2.clk )
-    \copy2.b_reg  <= _038_;
-  (* src = "multiplier_sc.sv:372.5-379.8" *)
+    \copy2.b_reg  <= _025_;
+  (* src = "multiplier_sc.sv:369.5-376.8" *)
   always @(posedge \copy2.clk )
-    \copy2.counter  <= _040_;
-  (* src = "multiplier_sc.sv:372.5-379.8" *)
+    \copy2.counter  <= _027_;
+  (* src = "multiplier_sc.sv:369.5-376.8" *)
   always @(posedge \copy2.clk )
-    \copy2.busy  <= _039_;
-  (* src = "multiplier_sc.sv:372.5-379.8" *)
+    \copy2.busy  <= _026_;
+  (* src = "multiplier_sc.sv:369.5-376.8" *)
   always @(posedge \copy2.clk )
-    \copy2.finish  <= _041_;
-  (* src = "multiplier_sc.sv:372.5-379.8" *)
+    \copy2.finish  <= _028_;
+  (* src = "multiplier_sc.sv:369.5-376.8" *)
   always @(posedge \copy2.clk )
-    \copy2.o_reg  <= _042_;
-  assign _045_[15:0] = \copy2.a_reg_this  << (* src = "multiplier_sc.sv:369.113-369.139" *) \copy2.counter_this ;
-  assign \copy2.busy_this  = \copy2.busy_same  ? (* src = "multiplier_sc.sv:329.22-329.51" *) \copy2.busy_other  : \copy2.busy ;
-  assign \copy2.finish_this  = \copy2.finish_same  ? (* src = "multiplier_sc.sv:330.24-330.59" *) \copy2.finish_other  : \copy2.finish ;
-  assign \copy2.a_reg_this  = \copy2.a_reg_same  ? (* src = "multiplier_sc.sv:331.38-331.70" *) \copy2.a_reg_other  : \copy2.a_reg ;
-  assign \copy2.b_reg_this  = \copy2.b_reg_same  ? (* src = "multiplier_sc.sv:332.38-332.70" *) \copy2.b_reg_other  : \copy2.b_reg ;
-  assign \copy2.counter_this  = \copy2.counter_same  ? (* src = "multiplier_sc.sv:333.31-333.69" *) \copy2.counter_other  : \copy2.counter ;
-  assign \copy2.o_reg_this  = \copy2.o_reg_same  ? (* src = "multiplier_sc.sv:334.45-334.77" *) \copy2.o_reg_other  : \copy2.o_reg ;
-  assign \copy2.busy_next  = \copy2.pause  ? (* src = "multiplier_sc.sv:364.22-364.93" *) \copy2.busy_this  : _054_;
-  assign \copy2.finish_next  = \copy2.pause  ? (* src = "multiplier_sc.sv:365.24-365.103" *) \copy2.finish_this  : _052_;
-  assign _056_ = _050_ ? (* src = "multiplier_sc.sv:366.59-366.98" *) \copy2.a  : \copy2.a_reg_this ;
-  assign \copy2.a_reg_next  = \copy2.pause  ? (* src = "multiplier_sc.sv:366.38-366.98" *) \copy2.a_reg_this  : _056_;
-  assign _057_ = _050_ ? (* src = "multiplier_sc.sv:367.59-367.103" *) \copy2.b  : { 1'h0, \copy2.b_reg_this [7:1] };
-  assign \copy2.b_reg_next  = \copy2.pause  ? (* src = "multiplier_sc.sv:367.38-367.103" *) \copy2.b_reg_this  : _057_;
-  assign _058_[3:0] = \copy2.busy_this  ? (* src = "multiplier_sc.sv:368.54-368.87" *) _043_ : 4'h0;
-  assign \copy2.counter_next  = \copy2.pause  ? (* src = "multiplier_sc.sv:368.31-368.87" *) \copy2.counter_this  : _058_[3:0];
-  assign _046_[15:0] = \copy2.b_reg_this [0] ? (* src = "multiplier_sc.sv:369.97-369.143" *) _045_[15:0] : 16'h0000;
-  assign _047_[15:0] = \copy2.busy_this  ? (* src = "multiplier_sc.sv:369.66-369.144" *) _044_ : 16'h0000;
-  assign \copy2.o_reg_next  = \copy2.pause  ? (* src = "multiplier_sc.sv:369.45-369.144" *) \copy2.o_reg_this  : _047_[15:0];
-  assign _041_ = \copy2.finish_next_same  ? (* src = "multiplier_sc.sv:373.19-373.69" *) \copy2.finish_other_next  : \copy2.finish_next ;
-  assign _039_ = \copy2.busy_next_same  ? (* src = "multiplier_sc.sv:374.17-374.61" *) \copy2.busy_other_next  : \copy2.busy_next ;
-  assign _037_ = \copy2.a_reg_next_same  ? (* src = "multiplier_sc.sv:375.18-375.65" *) \copy2.a_reg_other_next  : \copy2.a_reg_next ;
-  assign _038_ = \copy2.b_reg_next_same  ? (* src = "multiplier_sc.sv:376.18-376.65" *) \copy2.b_reg_other_next  : \copy2.b_reg_next ;
-  assign _040_ = \copy2.counter_next_same  ? (* src = "multiplier_sc.sv:377.20-377.73" *) \copy2.counter_other_next  : \copy2.counter_next ;
-  assign _042_ = \copy2.o_reg_next_same  ? (* src = "multiplier_sc.sv:378.18-378.65" *) \copy2.o_reg_other_next  : \copy2.o_reg_next ;
-  assign _059_ = $signed(32'd1) && (* src = "multiplier_sc.sv:195.18-195.33" *) out_valid1;
-  assign _060_ = _059_ && (* src = "multiplier_sc.sv:195.18-195.48" *) _079_;
-  assign _061_ = $signed(32'd1) && (* src = "multiplier_sc.sv:196.18-196.33" *) out_valid2;
-  assign _062_ = _061_ && (* src = "multiplier_sc.sv:196.18-196.48" *) _080_;
-  assign _063_ = _012_[0] && (* src = "multiplier_sc.sv:226.69-226.102" *) _087_;
-  assign _064_ = _076_[0] && (* src = "multiplier_sc.sv:227.37-227.70" *) _088_;
-  assign _065_ = _013_[0] && (* src = "multiplier_sc.sv:227.76-227.101" *) _089_;
-  assign _066_ = _077_[0] && (* src = "multiplier_sc.sv:228.37-228.76" *) _090_;
-  assign _067_ = _014_[0] && (* src = "multiplier_sc.sv:228.82-228.112" *) _091_;
-  assign _068_ = _078_[0] && (* src = "multiplier_sc.sv:229.37-229.73" *) _092_;
-  assign _069_ = _093_ && (* src = "multiplier_sc.sv:259.33-259.47" *) _094_;
-  assign _012_[0] = ! (* src = "multiplier_sc.sv:157.21-157.32" *) a_reg_diff;
-  assign _076_[0] = ! (* src = "multiplier_sc.sv:158.21-158.32" *) b_reg_diff;
-  assign _013_[0] = ! (* src = "multiplier_sc.sv:159.21-159.32" *) o_reg_diff;
-  assign _077_[0] = ! (* src = "multiplier_sc.sv:160.23-160.36" *) counter_diff;
-  assign _014_[0] = ! (* src = "multiplier_sc.sv:161.20-161.30" *) busy_diff;
-  assign _078_[0] = ! (* src = "multiplier_sc.sv:162.22-162.34" *) finish_diff;
-  assign _079_ = ! (* src = "multiplier_sc.sv:195.37-195.48" *) out_valid2;
-  assign _080_ = ! (* src = "multiplier_sc.sv:196.37-196.48" *) out_valid1;
-  assign pause_1 = _060_ || (* src = "multiplier_sc.sv:195.18-195.66" *) assume_violate;
-  assign pause_2 = _062_ || (* src = "multiplier_sc.sv:196.18-196.66" *) assume_violate;
-  assign assume_predicate_violate_in = _085_ || (* src = "multiplier_sc.sv:226.40-229.74" *) _068_;
-  assign _081_ = assume_predicate_violate || (* src = "multiplier_sc.sv:226.40-226.103" *) _063_;
-  assign _082_ = _081_ || (* src = "multiplier_sc.sv:226.40-227.71" *) _064_;
-  assign _083_ = _082_ || (* src = "multiplier_sc.sv:226.40-227.102" *) _065_;
-  assign _084_ = _083_ || (* src = "multiplier_sc.sv:226.40-228.77" *) _066_;
-  assign _085_ = _084_ || (* src = "multiplier_sc.sv:226.40-228.113" *) _067_;
-  assign _086_ = _078_[0] || (* src = "multiplier_sc.sv:242.18-242.75" *) assume_violate;
-  assign assume_1_violate_in = _069_ || (* src = "multiplier_sc.sv:259.32-259.68" *) assume_1_violate;
-  assign assume_violate = assume_1_violate_in || (* src = "multiplier_sc.sv:41.23-41.96" *) assume_predicate_violate_in;
-  assign _087_ = a_reg1 != (* src = "multiplier_sc.sv:226.85-226.101" *) a_reg2;
-  assign _088_ = b_reg1 != (* src = "multiplier_sc.sv:227.53-227.69" *) b_reg2;
-  assign _089_ = o1 != (* src = "multiplier_sc.sv:227.92-227.100" *) o2;
-  assign _090_ = counter1 != (* src = "multiplier_sc.sv:228.55-228.75" *) counter2;
-  assign _091_ = busy1 != (* src = "multiplier_sc.sv:228.97-228.111" *) busy2;
-  assign _092_ = finish1 != (* src = "multiplier_sc.sv:229.54-229.72" *) finish2;
-  assign _093_ = a1 != (* src = "multiplier_sc.sv:259.33-259.39" *) a2;
-  assign _094_ = | (* src = "multiplier_sc.sv:259.43-259.47" *) b;
-  assign _070_ = a_reg1_next != (* src = "multiplier_sc.sv:66.42-66.68" *) a_reg2_next;
-  assign _071_ = b_reg1_next != (* src = "multiplier_sc.sv:67.42-67.68" *) b_reg2_next;
-  assign _072_ = o1_next != (* src = "multiplier_sc.sv:68.42-68.60" *) o2_next;
-  assign _073_ = counter1_next != (* src = "multiplier_sc.sv:69.46-69.76" *) counter2_next;
-  assign _074_ = busy1_next != (* src = "multiplier_sc.sv:70.40-70.64" *) busy2_next;
-  assign _075_ = finish1_next != (* src = "multiplier_sc.sv:71.44-71.72" *) finish2_next;
-  (* src = "multiplier_sc.sv:260.1-262.4" *)
+    \copy2.o_reg  <= _029_;
+  assign _032_[1:0] = \copy2.a_reg_this  << (* src = "multiplier_sc.sv:366.113-366.139" *) \copy2.counter_this ;
+  assign \copy2.busy_this  = \copy2.busy_same  ? (* src = "multiplier_sc.sv:326.22-326.51" *) \copy2.busy_other  : \copy2.busy ;
+  assign \copy2.finish_this  = \copy2.finish_same  ? (* src = "multiplier_sc.sv:327.24-327.59" *) \copy2.finish_other  : \copy2.finish ;
+  assign \copy2.a_reg_this  = \copy2.a_reg_same  ? (* src = "multiplier_sc.sv:328.38-328.70" *) \copy2.a_reg_other  : \copy2.a_reg ;
+  assign \copy2.b_reg_this  = \copy2.b_reg_same  ? (* src = "multiplier_sc.sv:329.38-329.70" *) \copy2.b_reg_other  : \copy2.b_reg ;
+  assign \copy2.counter_this  = \copy2.counter_same  ? (* src = "multiplier_sc.sv:330.31-330.69" *) \copy2.counter_other  : \copy2.counter ;
+  assign \copy2.o_reg_this  = \copy2.o_reg_same  ? (* src = "multiplier_sc.sv:331.45-331.77" *) \copy2.o_reg_other  : \copy2.o_reg ;
+  assign \copy2.busy_next  = \copy2.pause  ? (* src = "multiplier_sc.sv:361.22-361.93" *) \copy2.busy_this  : _040_;
+  assign \copy2.finish_next  = \copy2.pause  ? (* src = "multiplier_sc.sv:362.24-362.103" *) \copy2.finish_this  : _038_;
+  assign _042_ = _036_ ? (* src = "multiplier_sc.sv:363.59-363.98" *) \copy2.a  : \copy2.a_reg_this ;
+  assign \copy2.a_reg_next  = \copy2.pause  ? (* src = "multiplier_sc.sv:363.38-363.98" *) \copy2.a_reg_this  : _042_;
+  assign _043_ = _036_ ? (* src = "multiplier_sc.sv:364.59-364.103" *) \copy2.b  : 1'h0;
+  assign \copy2.b_reg_next  = \copy2.pause  ? (* src = "multiplier_sc.sv:364.38-364.103" *) \copy2.b_reg_this  : _043_;
+  assign _044_[0] = \copy2.busy_this  ? (* src = "multiplier_sc.sv:365.54-365.87" *) _030_ : 1'h0;
+  assign \copy2.counter_next  = \copy2.pause  ? (* src = "multiplier_sc.sv:365.31-365.87" *) \copy2.counter_this  : _044_[0];
+  assign _045_[1:0] = \copy2.b_reg_this  ? (* src = "multiplier_sc.sv:366.97-366.143" *) _032_[1:0] : 2'h0;
+  assign _033_[1:0] = \copy2.busy_this  ? (* src = "multiplier_sc.sv:366.66-366.144" *) _031_ : 2'h0;
+  assign \copy2.o_reg_next  = \copy2.pause  ? (* src = "multiplier_sc.sv:366.45-366.144" *) \copy2.o_reg_this  : _033_[1:0];
+  assign _028_ = \copy2.finish_next_same  ? (* src = "multiplier_sc.sv:370.19-370.69" *) \copy2.finish_other_next  : \copy2.finish_next ;
+  assign _026_ = \copy2.busy_next_same  ? (* src = "multiplier_sc.sv:371.17-371.61" *) \copy2.busy_other_next  : \copy2.busy_next ;
+  assign _024_ = \copy2.a_reg_next_same  ? (* src = "multiplier_sc.sv:372.18-372.65" *) \copy2.a_reg_other_next  : \copy2.a_reg_next ;
+  assign _025_ = \copy2.b_reg_next_same  ? (* src = "multiplier_sc.sv:373.18-373.65" *) \copy2.b_reg_other_next  : \copy2.b_reg_next ;
+  assign _027_ = \copy2.counter_next_same  ? (* src = "multiplier_sc.sv:374.20-374.73" *) \copy2.counter_other_next  : \copy2.counter_next ;
+  assign _029_ = \copy2.o_reg_next_same  ? (* src = "multiplier_sc.sv:375.18-375.65" *) \copy2.o_reg_other_next  : \copy2.o_reg_next ;
+  assign _046_ = pause_1_reg && (* src = "multiplier_sc.sv:174.17-174.42" *) out_valid2;
+  assign _047_ = pause_2_reg && (* src = "multiplier_sc.sv:174.46-174.71" *) out_valid1;
+  assign _048_ = $signed(32'd1) && (* src = "multiplier_sc.sv:176.18-176.33" *) out_valid1;
+  assign pause_1 = _048_ && (* src = "multiplier_sc.sv:176.18-176.48" *) _052_;
+  assign _049_ = $signed(32'd1) && (* src = "multiplier_sc.sv:177.18-177.33" *) out_valid2;
+  assign pause_2 = _049_ && (* src = "multiplier_sc.sv:177.18-177.48" *) _053_;
+  assign _050_ = _054_ && (* src = "multiplier_sc.sv:207.23-207.46" *) out_valid1;
+  assign _051_ = _050_ && (* src = "multiplier_sc.sv:207.23-207.60" *) out_valid2;
+  assign _052_ = ! (* src = "multiplier_sc.sv:176.37-176.48" *) out_valid2;
+  assign _053_ = ! (* src = "multiplier_sc.sv:177.37-177.48" *) out_valid1;
+  assign _054_ = ! (* src = "multiplier_sc.sv:207.23-207.32" *) _001_;
+  assign _055_ = ! (* src = "multiplier_sc.sv:244.36-244.44" *) drained;
+  assign _056_ = all_pause || (* src = "multiplier_sc.sv:119.12-119.32" *) pause_1;
+  assign _057_ = all_pause || (* src = "multiplier_sc.sv:164.12-164.32" *) pause_2;
+  assign _000_ = _046_ || (* src = "multiplier_sc.sv:174.17-174.71" *) _047_;
+  assign all_pause = _051_ || (* src = "multiplier_sc.sv:207.23-207.75" *) o_ever_diff;
+  assign _058_ = all_pause || (* src = "multiplier_sc.sv:244.18-244.44" *) _055_;
+  (* src = "multiplier_sc.sv:208.1-210.4" *)
   always @(posedge clk)
-    assume_1_violate <= assume_1_violate_in;
-  (* src = "multiplier_sc.sv:231.1-233.4" *)
+    o_ever_diff <= all_pause;
+  (* src = "multiplier_sc.sv:171.1-175.4" *)
   always @(posedge clk)
-    assume_predicate_violate <= assume_predicate_violate_in;
-  (* src = "multiplier_sc.sv:74.1-81.4" *)
+    pause_1_reg <= pause_1;
+  (* src = "multiplier_sc.sv:171.1-175.4" *)
   always @(posedge clk)
-    a_reg_diff <= _006_;
-  (* src = "multiplier_sc.sv:74.1-81.4" *)
+    pause_2_reg <= pause_2;
+  (* src = "multiplier_sc.sv:171.1-175.4" *)
   always @(posedge clk)
-    b_reg_diff <= _007_;
-  (* src = "multiplier_sc.sv:74.1-81.4" *)
-  always @(posedge clk)
-    o_reg_diff <= _011_;
-  (* src = "multiplier_sc.sv:74.1-81.4" *)
-  always @(posedge clk)
-    counter_diff <= _009_;
-  (* src = "multiplier_sc.sv:74.1-81.4" *)
-  always @(posedge clk)
-    busy_diff <= _008_;
-  (* src = "multiplier_sc.sv:74.1-81.4" *)
-  always @(posedge clk)
-    finish_diff <= _010_;
-  (* src = "multiplier_sc.sv:65.1-72.4" *)
-  always @(posedge clk)
-    a_reg_diff <= _000_;
-  (* src = "multiplier_sc.sv:65.1-72.4" *)
-  always @(posedge clk)
-    b_reg_diff <= _001_;
-  (* src = "multiplier_sc.sv:65.1-72.4" *)
-  always @(posedge clk)
-    o_reg_diff <= _005_;
-  (* src = "multiplier_sc.sv:65.1-72.4" *)
-  always @(posedge clk)
-    counter_diff <= _003_;
-  (* src = "multiplier_sc.sv:65.1-72.4" *)
-  always @(posedge clk)
-    busy_diff <= _002_;
-  (* src = "multiplier_sc.sv:65.1-72.4" *)
-  always @(posedge clk)
-    finish_diff <= _004_;
-  assign _000_ = pause_1 ? (* src = "multiplier_sc.sv:66.19-66.88" *) a_reg_diff : _070_;
-  assign _001_ = pause_1 ? (* src = "multiplier_sc.sv:67.19-67.88" *) b_reg_diff : _071_;
-  assign _005_ = pause_1 ? (* src = "multiplier_sc.sv:68.19-68.80" *) o_reg_diff : _072_;
-  assign _003_ = pause_1 ? (* src = "multiplier_sc.sv:69.21-69.98" *) counter_diff : _073_;
-  assign _002_ = pause_1 ? (* src = "multiplier_sc.sv:70.18-70.83" *) busy_diff : _074_;
-  assign _004_ = pause_1 ? (* src = "multiplier_sc.sv:71.20-71.93" *) finish_diff : _075_;
-  assign _006_ = pause_1 ? (* src = "multiplier_sc.sv:75.19-75.55" *) a_reg_diff : a_reg_diff_in;
-  assign _007_ = pause_1 ? (* src = "multiplier_sc.sv:76.19-76.55" *) b_reg_diff : b_reg_diff_in;
-  assign _011_ = pause_1 ? (* src = "multiplier_sc.sv:77.19-77.55" *) o_reg_diff : o_reg_diff_in;
-  assign _009_ = pause_1 ? (* src = "multiplier_sc.sv:78.21-78.61" *) counter_diff : counter_diff_in;
-  assign _008_ = pause_1 ? (* src = "multiplier_sc.sv:79.18-79.52" *) busy_diff : busy_diff_in;
-  assign _010_ = pause_1 ? (* src = "multiplier_sc.sv:80.20-80.58" *) finish_diff : finish_diff_in;
-  assign _012_[31:1] = 31'h00000000;
-  assign _013_[31:1] = 31'h00000000;
-  assign _014_[31:1] = 31'h00000000;
-  assign _076_[31:1] = 31'h00000000;
-  assign _077_[31:1] = 31'h00000000;
-  assign _078_[31:1] = 31'h00000000;
+    drained <= _000_;
+  assign a_reg_diff_in = 1'h1;
   assign a_reg_next_same = 1'h0;
+  assign assume_1_violate_in = 1'h0;
   assign assume_2_violate_in = 1'h0;
+  assign assume_3_violate_in = all_pause;
+  assign assume_predicate_violate_in = 1'h0;
+  assign assume_violate = all_pause;
+  assign b_reg_diff_in = 1'h1;
   assign b_reg_next_same = 1'h0;
+  assign busy_diff_in = 1'h1;
   assign busy_next_same = 1'h0;
+  assign counter_diff_in = 1'h1;
   assign counter_next_same = 1'h0;
+  assign finish_diff_in = 1'h1;
   assign finish_next_same = 1'h0;
+  assign o_ever_diff_in = all_pause;
+  assign o_reg_diff_in = 1'h1;
   assign o_reg_next_same = 1'h0;
-  assign _046_[31:16] = 16'hxxxx;
-  assign _047_[31:16] = 16'hxxxx;
-  assign _058_[31:4] = 28'b000000000000000000000000000x;
+  assign _033_[31:2] = 30'hxxxxxxxx;
+  assign _044_[31:1] = 31'b000000000000000000000000000000x;
+  assign _045_[31:2] = 30'hxxxxxxxx;
   assign \copy2.o  = \copy2.o_reg_this ;
   assign \copy2.out_valid  = \copy2.finish_this ;
   assign \copy2.a  = a2;
@@ -846,45 +714,45 @@ module multiplier_sc(clk, a1, a2, b, in_valid, a_reg_diff_in, b_reg_diff_in, o_r
   assign \copy2.a_reg_next_same  = 1'h0;
   assign \copy2.a_reg_other  = a_reg1;
   assign \copy2.a_reg_other_next  = a_reg1_next;
-  assign \copy2.a_reg_same  = _012_[0];
+  assign \copy2.a_reg_same  = 1'h0;
   assign \copy2.b  = b;
   assign b_reg2 = \copy2.b_reg ;
   assign b_reg2_next = \copy2.b_reg_next ;
   assign \copy2.b_reg_next_same  = 1'h0;
   assign \copy2.b_reg_other  = b_reg1;
   assign \copy2.b_reg_other_next  = b_reg1_next;
-  assign \copy2.b_reg_same  = _076_[0];
+  assign \copy2.b_reg_same  = 1'h0;
   assign busy2 = \copy2.busy ;
   assign busy2_next = \copy2.busy_next ;
   assign \copy2.busy_next_same  = 1'h0;
   assign \copy2.busy_other  = busy1;
   assign \copy2.busy_other_next  = busy1_next;
-  assign \copy2.busy_same  = _014_[0];
+  assign \copy2.busy_same  = 1'h0;
   assign \copy2.clk  = clk;
   assign counter2 = \copy2.counter ;
   assign counter2_next = \copy2.counter_next ;
   assign \copy2.counter_next_same  = 1'h0;
   assign \copy2.counter_other  = counter1;
   assign \copy2.counter_other_next  = counter1_next;
-  assign \copy2.counter_same  = _077_[0];
+  assign \copy2.counter_same  = 1'h0;
   assign finish2 = \copy2.finish ;
   assign finish2_next = \copy2.finish_next ;
   assign \copy2.finish_next_same  = 1'h0;
   assign \copy2.finish_other  = finish1;
   assign \copy2.finish_other_next  = finish1_next;
-  assign \copy2.finish_same  = _078_[0];
+  assign \copy2.finish_same  = 1'h0;
   assign \copy2.in_valid  = in_valid;
   assign o2 = \copy2.o ;
   assign o2_next = \copy2.o_reg_next ;
   assign \copy2.o_reg_next_same  = 1'h0;
   assign \copy2.o_reg_other  = o1;
   assign \copy2.o_reg_other_next  = o1_next;
-  assign \copy2.o_reg_same  = _013_[0];
+  assign \copy2.o_reg_same  = 1'h0;
   assign out_valid2 = \copy2.out_valid ;
-  assign \copy2.pause  = pause_2;
-  assign _024_[31:16] = 16'hxxxx;
-  assign _025_[31:16] = 16'hxxxx;
-  assign _036_[31:4] = 28'b000000000000000000000000000x;
+  assign \copy2.pause  = _057_;
+  assign _011_[31:2] = 30'hxxxxxxxx;
+  assign _022_[31:1] = 31'b000000000000000000000000000000x;
+  assign _023_[31:2] = 30'hxxxxxxxx;
   assign \copy1.o  = \copy1.o_reg_this ;
   assign \copy1.out_valid  = \copy1.finish_this ;
   assign \copy1.a  = a1;
@@ -916,5 +784,5 @@ module multiplier_sc(clk, a1, a2, b, in_valid, a_reg_diff_in, b_reg_diff_in, o_r
   assign \copy1.o_reg_next_same  = 1'h0;
   assign \copy1.o_reg_same  = 1'h0;
   assign out_valid1 = \copy1.out_valid ;
-  assign \copy1.pause  = pause_1;
+  assign \copy1.pause  = _056_;
 endmodule

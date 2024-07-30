@@ -1,11 +1,15 @@
-`define WIDTH_LOG 3
+`define WIDTH_LOG 0
 `define WIDTH (1 << `WIDTH_LOG)
 `define OUT_WIDTH (`WIDTH << 1)
 `define CT_TIME 0
-`define SHORTCUT 1
-`define ASSUME_1 1
+`define SHORTCUT 0
+// `define MULTI_ASSERT
+`define ASSUME_1 0
+`define ASSUME_2 0
+`define ASSUME_3 1
 `define FOUR_TRACE_PROP
-`define MULTI_ASSERT
+`define PREDICATE_ASSUME 0
+`define ALL_PAUSE
 
 `ifdef FOUR_TRACE_PROP
 `define SYNC 1
@@ -18,13 +22,7 @@ module multiplier_sc(
     input [`WIDTH-1:0] a1,
     input [`WIDTH-1:0] a2,
     input [`WIDTH-1:0] b,
-    input in_valid,
-    input a_reg_diff_in,
-    input b_reg_diff_in,
-    input o_reg_diff_in,
-    input counter_diff_in,
-    input finish_diff_in,
-    input busy_diff_in
+    input in_valid
 );
 
 wire [`OUT_WIDTH-1:0] o1, o1_next, o2, o2_next;
@@ -38,21 +36,15 @@ wire [`WIDTH_LOG:0] counter1, counter1_next, counter2, counter2_next;
 // Also need to add the relation between predicate variables to make them inductive
 reg a_reg_diff, b_reg_diff, o_reg_diff, counter_diff, busy_diff, finish_diff;
 
-wire assume_violate = assume_1_violate_in || assume_2_violate_in || assume_predicate_violate_in;
+wire assume_violate = assume_1_violate_in || assume_2_violate_in || assume_3_violate_in || assume_predicate_violate_in;
 
-// wire a_reg_next_same = assume_1_violate_in || assume_violate || (!busy_diff && !a_reg_diff && a1==a2);
-// wire b_reg_next_same = assume_1_violate_in || assume_violate || (!busy_diff && !b_reg_diff);
-// wire o_reg_next_same = assume_1_violate_in || assume_violate || (!busy_diff && !o_reg_diff && !a_reg_diff && !b_reg_diff && !counter_diff);
-// wire counter_next_same = assume_1_violate_in || assume_violate || (!busy_diff && !counter_diff);
-// wire busy_next_same = assume_1_violate_in || assume_violate || (!busy_diff && !finish_diff && !(`CT_TIME ? 0 : a_reg_diff) && !b_reg_diff);
-// wire finish_next_same = assume_1_violate_in || assume_violate || (!busy_diff && !(`CT_TIME ? 0 : a_reg_diff) && !b_reg_diff);
+// wire a_reg_next_same = (!busy_diff && !a_reg_diff && a1==a2);
+// wire b_reg_next_same = (!busy_diff && !b_reg_diff);
+// wire o_reg_next_same = (!busy_diff && !o_reg_diff && !a_reg_diff && !b_reg_diff && !counter_diff);
+// wire counter_next_same = (!busy_diff && !counter_diff);
+// wire busy_next_same = (!busy_diff && !finish_diff && !(`CT_TIME ? 0 : a_reg_diff) && !b_reg_diff);
+// wire finish_next_same = (!busy_diff && !(`CT_TIME ? 0 : a_reg_diff) && !b_reg_diff);
 
-// wire a_reg_next_same = assume_1_violate_in || assume_violate;
-// wire b_reg_next_same = assume_1_violate_in || assume_violate;
-// wire o_reg_next_same = assume_1_violate_in || assume_violate;
-// wire counter_next_same = assume_1_violate_in || assume_violate;
-// wire busy_next_same = assume_1_violate_in || assume_violate;
-// wire finish_next_same = assume_1_violate_in || assume_violate;
 
 wire a_reg_next_same = 0;
 wire b_reg_next_same = 0;
@@ -63,37 +55,28 @@ wire finish_next_same = 0;
 
 
 always @(posedge clk) begin
-    a_reg_diff <= pause_1 ? a_reg_diff : a_reg1_next != a_reg2_next && !a_reg_next_same;
-    b_reg_diff <= pause_1 ? b_reg_diff : b_reg1_next != b_reg2_next && !b_reg_next_same;
-    o_reg_diff <= pause_1 ? o_reg_diff : o1_next != o2_next && !o_reg_next_same;
-    counter_diff <= pause_1 ? counter_diff : counter1_next != counter2_next && !counter_next_same;
-    busy_diff <= pause_1 ? busy_diff : busy1_next != busy2_next && !busy_next_same;
-    finish_diff <= pause_1 ? finish_diff : finish1_next != finish2_next && !finish_next_same;
+    a_reg_diff <= a_reg_diff_in;
+    b_reg_diff <= b_reg_diff_in;
+    o_reg_diff <= o_reg_diff_in;
+    counter_diff <= counter_diff_in;
+    busy_diff <= busy_diff_in;
+    finish_diff <= finish_diff_in;
 end
 
-always @(posedge clk) begin
-    a_reg_diff <= pause_1 ? a_reg_diff : a_reg_diff_in;
-    b_reg_diff <= pause_1 ? b_reg_diff : b_reg_diff_in;
-    o_reg_diff <= pause_1 ? o_reg_diff : o_reg_diff_in;
-    counter_diff <= pause_1 ? counter_diff : counter_diff_in;
-    busy_diff <= pause_1 ? busy_diff : busy_diff_in;
-    finish_diff <= pause_1 ? finish_diff : finish_diff_in;
-end
+wire a_reg_diff_in = `SHORTCUT ? (all_pause ? a_reg_diff : a_reg1_next != a_reg2_next && !a_reg_next_same) : 1;
+wire b_reg_diff_in = `SHORTCUT ? (all_pause ? b_reg_diff : b_reg1_next != b_reg2_next && !b_reg_next_same) : 1;
+wire o_reg_diff_in = `SHORTCUT ? (all_pause ? o_reg_diff : o1_next != o2_next && !o_reg_next_same) : 1;
+wire counter_diff_in = `SHORTCUT ? (all_pause ? counter_diff : counter1_next != counter2_next && !counter_next_same) : 1;
+wire finish_diff_in = `SHORTCUT ? (all_pause ? finish_diff : finish1_next != finish2_next && !finish_next_same) : 1;
+wire busy_diff_in = `SHORTCUT ? (all_pause ? busy_diff : busy1_next != busy2_next && !busy_next_same) : 1;
+
 
 
 
 // always @(posedge clk) begin
-//     a_reg_diff <= pause_1 ? 0 : a_reg1_next != a_reg2_next && !a_reg_next_same;
-//     b_reg_diff <= pause_1 ? 0 : b_reg1_next != b_reg2_next && !b_reg_next_same;
-//     o_reg_diff <= pause_1 ? 0 : o1_next != o2_next && !o_reg_next_same;
-//     counter_diff <= pause_1 ? 0 : counter1_next != counter2_next && !counter_next_same;
-//     busy_diff <= pause_1 ? 0 : busy1_next != busy2_next && !busy_next_same;
-//     finish_diff <= pause_1 ? 0 : finish1_next != finish2_next && !finish_next_same;
-// end
 
 
-// always @(posedge clk) begin
-//     a_reg_diff <= (pause_1 || pause_2) || !(busy1==busy2 && a_reg1==a_reg2 && a1==a2);
+
 //     b_reg_diff <= (pause_1 || pause_2) || !(busy1==busy2 && b_reg1==b_reg2);
 //     o_reg_diff <= (pause_1 || pause_2) || !(busy1==busy2 && o1==o2 && a_reg1==a_reg2 && b_reg1==b_reg2 && counter1==counter2);
 //     counter_diff <= (pause_1 || pause_2) || !(busy1==busy2 && counter1==counter2);
@@ -133,7 +116,7 @@ MUL copy1(
     .counter_next_same(0),
     .busy_next_same(0),
     .finish_next_same(0),
-    .pause(pause_1)
+    .pause(all_pause || pause_1)
 );
 
 MUL copy2(
@@ -178,7 +161,7 @@ MUL copy2(
     .counter_other_next(counter1_next),
     .busy_other_next(busy1_next),
     .finish_other_next(finish1_next),
-    .pause(pause_2)
+    .pause(all_pause || pause_2)
 );
 
 // Pausing Logic
@@ -190,32 +173,48 @@ always @(posedge clk) begin
     pause_2_reg <= pause_2;
     drained <= (pause_1_reg && out_valid2 || pause_2_reg && out_valid1);
 end
-// assign pause_1 = `SYNC && out_valid1 && !out_valid2;
-// assign pause_2 = `SYNC && out_valid2 && !out_valid1;
-assign pause_1 = `SYNC && out_valid1 && !out_valid2 || assume_violate;
-assign pause_2 = `SYNC && out_valid2 && !out_valid1 || assume_violate;
-// Assumption
+assign pause_1 = `SYNC && out_valid1 && !out_valid2;
+assign pause_2 = `SYNC && out_valid2 && !out_valid1;
+
+`ifdef ALL_PAUSE
+// Pause all registers when it is all_pause
+wire all_pause = assume_violate;
+`endif
+// assign pause_1 = `SYNC && out_valid1 && !out_valid2 || assume_violate;
+// assign pause_2 = `SYNC && out_valid2 && !out_valid1 || assume_violate;
+
+
+// Assumption on the input
+reg assume_1_violate = 0;
+wire assume_1_violate_in = `ASSUME_1 ? (a1!=a2 && b!=0) || assume_1_violate : 0;
+always @(posedge clk) begin
+    assume_1_violate <= assume_1_violate_in;
+end
+
+// Assumption on an internal register
+reg assume_2_violate = 0;
+always @(posedge clk) begin
+    assume_2_violate <= assume_2_violate_in;
+end
+wire assume_2_violate_in = `ASSUME_2 ? (((res1 != res2)) || assume_2_violate) : 0;
+wire [`OUT_WIDTH-1:0] res1 = a_reg1 * b_reg1;
+wire [`OUT_WIDTH-1:0] res2 = a_reg2 * b_reg2;
+// wire assume_2_violate_in = (a_reg1 * b_reg1 != a_reg2 * b_reg2) || assume_2_violate;
+// wire assume_2_violate_in = (in_valid && (a1*b != a2*b)) || o_ever_diff_in;
+
+// Assumption on the output
 reg o_ever_diff = 0;
 wire o_ever_diff_in = !(o1==o2) && out_valid1 && out_valid2 || o_ever_diff;
 always @(posedge clk) begin
     o_ever_diff <= o_ever_diff_in;
 end
 
-reg assume_2_violate = 0;
-always @(posedge clk) begin
-    assume_2_violate <= assume_2_violate_in;
-end
-wire assume_2_violate_in = 0;//((res1 != res2)) || assume_2_violate;
-wire [`OUT_WIDTH-1:0] res1 = a_reg1 * b_reg1;
-wire [`OUT_WIDTH-1:0] res2 = a_reg2 * b_reg2;
-// wire assume_2_violate_in = (a_reg1 * b_reg1 != a_reg2 * b_reg2) || assume_2_violate;
-// wire assume_2_violate_in = (in_valid && (a1*b != a2*b)) || o_ever_diff_in;
-
+wire assume_3_violate_in = `ASSUME_3 ? o_ever_diff_in : 0;
 
 // Assertion
 
 reg out_valid_ever_diff = 0;
-wire out_valid_ever_diff_in = out_valid1 != out_valid2 || out_valid_ever_diff;
+wire out_valid_ever_diff_in = (out_valid1 != out_valid2) || out_valid_ever_diff;
 always @(posedge clk) begin
     out_valid_ever_diff <= out_valid_ever_diff_in;
 end
@@ -223,10 +222,10 @@ end
 
 reg assume_predicate_violate = 0;
 
-wire assume_predicate_violate_in = `SHORTCUT ? assume_predicate_violate || (!a_reg_diff && (a_reg1 != a_reg2))
-                                || (!b_reg_diff && (b_reg1 != b_reg2)) || (!o_reg_diff && (o1 != o2))
-                                || (!counter_diff && (counter1 != counter2)) || (!busy_diff && (busy1 != busy2))
-                                || (!finish_diff && (finish1 != finish2)) : 0;
+wire assume_predicate_violate_in = `PREDICATE_ASSUME ? (`SHORTCUT ? (assume_predicate_violate || (a_reg_diff != (a_reg1 != a_reg2))
+                                || (b_reg_diff != (b_reg1 != b_reg2)) || (o_reg_diff != (o1 != o2))
+                                || (counter_diff != (counter1 != counter2)) || (busy_diff != (busy1 != busy2))
+                                || (finish_diff != (finish1 != finish2))) : 0) : 0;
 
 always @(posedge clk) begin
     assume_predicate_violate <= assume_predicate_violate_in;
@@ -239,27 +238,25 @@ always @(posedge clk) begin
     assert_violate <= drained && out_valid_ever_diff;
 end
 
-assert property ((`SHORTCUT ? !finish_diff : finish1 == finish2) || assume_violate);
+// `ifndef ASSUME_3
+// assert property ((`SHORTCUT ? !finish_diff : finish1 == finish2) || assume_violate);
+// `else
+assert property (assume_violate || !drained);
+// `endif
 
 `ifdef MULTI_ASSERT
 
 // assert property (!a_reg_diff || assume_violate);
-// assert property (!b_reg_diff || assume_violate);
+assert property (!b_reg_diff || assume_violate || !drained);
 // assert property (!o_reg_diff || assume_violate);
-// assert property (!busy_diff || assume_violate);
-// assert property (!counter_diff || assume_violate);
+assert property (!busy_diff || assume_violate || !drained);
+assert property (!counter_diff || assume_violate || !drained);
 
 `endif
 
 `else
 assert property ((`SHORTCUT ? !finish_diff : finish1 == finish2) || assume_1_violate_in || assume_predicate_violate_in);
 `endif
-
-reg assume_1_violate = 0;
-wire assume_1_violate_in = `ASSUME_1 ? (a1!=a2 && b!=0) || assume_1_violate : 0;
-always @(posedge clk) begin
-    assume_1_violate <= assume_1_violate_in;
-end
 
 
 endmodule

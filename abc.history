@@ -508,6 +508,8 @@ pdr -a
 pdr -h
 pdr -h -a -d
 pdr -a -d
-source -s abc.rc
 read multiplier_sc.aig 
 pdr -w -v -d -a
+source -s abc.rc
+read multiplier_sc.aig
+pdr -d -a -v -w
