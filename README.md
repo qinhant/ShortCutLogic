@@ -1,4 +1,15 @@
-Command:
-1. `yosys generate_avg.ys`
-2. `../abc -c "read multiplier_sc.aig; fold; pdr -v -w -d; write_cex -n -m -f multiplier_sc.cex; write_verilog multiplier_sc_abc.v" > multiplier_sc_pdr.log`
-3. `python3 pdr_interpreter.py --design multiplier_sc`
+
+# Repo Hierarchy:
+- /verilog/ : include all verilog and system verilog files
+- /scripts/ : include all yosys and python scripts
+- /yosys_output/ : include all yosys output files such as .aig and .map files
+- /abc_output/ : include all abc output files such as .cex and .pla files
+
+
+# Requirements: 
+- [yosys](https://github.com/YosysHQ/yosys)
+- [abc](https://github.com/berkeley-abc/abc) 
+
+
+# Usage:
+- flatten verilog: `python3 scripts/transform_verilog.py --input input_path --output ouptut_path --top top module --option flatten`

@@ -1,0 +1,491 @@
+
+ /----------------------------------------------------------------------------\
+ |  yosys -- Yosys Open SYnthesis Suite                                       |
+ |  Copyright (C) 2012 - 2024  Claire Xenia Wolf <claire@yosyshq.com>         |
+ |  Distributed under an ISC-like license, type "license" to see terms        |
+ \----------------------------------------------------------------------------/
+ Yosys 0.40+50 (git sha1 0f9ee20ea, clang++ 15.0.0 -fPIC -Os)
+
+-- Executing script file `scripts/generate_aig.ys' --
+
+1. Executing Verilog-2005 frontend: verilog/backup/multiplier_sc.sv
+Parsing formal SystemVerilog input from `verilog/backup/multiplier_sc.sv' to AST representation.
+Generating RTLIL representation for module `\multiplier_sc'.
+Generating RTLIL representation for module `\MUL'.
+Successfully finished Verilog frontend.
+
+2. Executing PREP pass.
+
+2.1. Executing HIERARCHY pass (managing design hierarchy).
+Module multiplier_sc directly or indirectly contains formal properties -> setting "keep" attribute.
+Warning: Resizing cell port multiplier_sc.copy1.finish_next_same from 32 bits to 1 bits.
+Warning: Resizing cell port multiplier_sc.copy1.busy_next_same from 32 bits to 1 bits.
+Warning: Resizing cell port multiplier_sc.copy1.counter_next_same from 32 bits to 1 bits.
+Warning: Resizing cell port multiplier_sc.copy1.o_reg_next_same from 32 bits to 1 bits.
+Warning: Resizing cell port multiplier_sc.copy1.b_reg_next_same from 32 bits to 1 bits.
+Warning: Resizing cell port multiplier_sc.copy1.a_reg_next_same from 32 bits to 1 bits.
+Warning: Resizing cell port multiplier_sc.copy1.finish_same from 32 bits to 1 bits.
+Warning: Resizing cell port multiplier_sc.copy1.busy_same from 32 bits to 1 bits.
+Warning: Resizing cell port multiplier_sc.copy1.counter_same from 32 bits to 1 bits.
+Warning: Resizing cell port multiplier_sc.copy1.o_reg_same from 32 bits to 1 bits.
+Warning: Resizing cell port multiplier_sc.copy1.b_reg_same from 32 bits to 1 bits.
+Warning: Resizing cell port multiplier_sc.copy1.a_reg_same from 32 bits to 1 bits.
+
+2.2. Executing PROC pass (convert processes to netlists).
+
+2.2.1. Executing PROC_CLEAN pass (remove empty switches from decision trees).
+Cleaned up 0 empty switches.
+
+2.2.2. Executing PROC_RMDEAD pass (remove dead branches from decision trees).
+Removed a total of 0 dead cases.
+
+2.2.3. Executing PROC_PRUNE pass (remove redundant assignments in processes).
+Removed 0 redundant assignments.
+Promoted 32 assignments to connections.
+
+2.2.4. Executing PROC_INIT pass (extract init attributes).
+Found init rule in `\MUL.$proc$verilog/backup/multiplier_sc.sv:0$101'.
+  Set init value: \a_reg = 1'0
+  Set init value: \b_reg = 1'0
+  Set init value: \busy = 1'0
+  Set init value: \finish = 1'0
+  Set init value: \o_reg = 2'00
+Found init rule in `\multiplier_sc.$proc$verilog/backup/multiplier_sc.sv:236$53'.
+  Set init value: \assert_violate = 1'0
+Found init rule in `\multiplier_sc.$proc$verilog/backup/multiplier_sc.sv:223$52'.
+  Set init value: \assume_predicate_violate = 1'0
+Found init rule in `\multiplier_sc.$proc$verilog/backup/multiplier_sc.sv:216$51'.
+  Set init value: \out_valid_ever_diff = 1'0
+Found init rule in `\multiplier_sc.$proc$verilog/backup/multiplier_sc.sv:206$50'.
+  Set init value: \o_ever_diff = 1'0
+Found init rule in `\multiplier_sc.$proc$verilog/backup/multiplier_sc.sv:195$49'.
+  Set init value: \assume_2_violate = 1'0
+Found init rule in `\multiplier_sc.$proc$verilog/backup/multiplier_sc.sv:188$48'.
+  Set init value: \assume_1_violate = 1'0
+
+2.2.5. Executing PROC_ARST pass (detect async resets in processes).
+
+2.2.6. Executing PROC_ROM pass (convert switches to ROMs).
+Converted 0 switches.
+
+2.2.7. Executing PROC_MUX pass (convert decision trees to multiplexers).
+Creating decoders for process `\MUL.$proc$verilog/backup/multiplier_sc.sv:0$101'.
+Creating decoders for process `\MUL.$proc$verilog/backup/multiplier_sc.sv:369$93'.
+Creating decoders for process `\multiplier_sc.$proc$verilog/backup/multiplier_sc.sv:236$53'.
+Creating decoders for process `\multiplier_sc.$proc$verilog/backup/multiplier_sc.sv:223$52'.
+Creating decoders for process `\multiplier_sc.$proc$verilog/backup/multiplier_sc.sv:216$51'.
+Creating decoders for process `\multiplier_sc.$proc$verilog/backup/multiplier_sc.sv:206$50'.
+Creating decoders for process `\multiplier_sc.$proc$verilog/backup/multiplier_sc.sv:195$49'.
+Creating decoders for process `\multiplier_sc.$proc$verilog/backup/multiplier_sc.sv:188$48'.
+Creating decoders for process `\multiplier_sc.$proc$verilog/backup/multiplier_sc.sv:237$43'.
+Creating decoders for process `\multiplier_sc.$proc$verilog/backup/multiplier_sc.sv:230$42'.
+Creating decoders for process `\multiplier_sc.$proc$verilog/backup/multiplier_sc.sv:218$41'.
+Creating decoders for process `\multiplier_sc.$proc$verilog/backup/multiplier_sc.sv:208$38'.
+Creating decoders for process `\multiplier_sc.$proc$verilog/backup/multiplier_sc.sv:196$30'.
+Creating decoders for process `\multiplier_sc.$proc$verilog/backup/multiplier_sc.sv:190$29'.
+Creating decoders for process `\multiplier_sc.$proc$verilog/backup/multiplier_sc.sv:171$19'.
+Creating decoders for process `\multiplier_sc.$proc$verilog/backup/multiplier_sc.sv:57$4'.
+
+2.2.8. Executing PROC_DLATCH pass (convert process syncs to latches).
+
+2.2.9. Executing PROC_DFF pass (convert process syncs to FFs).
+Creating register for signal `\MUL.\a_reg' using process `\MUL.$proc$verilog/backup/multiplier_sc.sv:369$93'.
+  created $dff cell `$procdff$107' with positive edge clock.
+Creating register for signal `\MUL.\b_reg' using process `\MUL.$proc$verilog/backup/multiplier_sc.sv:369$93'.
+  created $dff cell `$procdff$108' with positive edge clock.
+Creating register for signal `\MUL.\counter' using process `\MUL.$proc$verilog/backup/multiplier_sc.sv:369$93'.
+  created $dff cell `$procdff$109' with positive edge clock.
+Creating register for signal `\MUL.\busy' using process `\MUL.$proc$verilog/backup/multiplier_sc.sv:369$93'.
+  created $dff cell `$procdff$110' with positive edge clock.
+Creating register for signal `\MUL.\finish' using process `\MUL.$proc$verilog/backup/multiplier_sc.sv:369$93'.
+  created $dff cell `$procdff$111' with positive edge clock.
+Creating register for signal `\MUL.\o_reg' using process `\MUL.$proc$verilog/backup/multiplier_sc.sv:369$93'.
+  created $dff cell `$procdff$112' with positive edge clock.
+Creating register for signal `\multiplier_sc.\assert_violate' using process `\multiplier_sc.$proc$verilog/backup/multiplier_sc.sv:237$43'.
+  created $dff cell `$procdff$113' with positive edge clock.
+Creating register for signal `\multiplier_sc.\assume_predicate_violate' using process `\multiplier_sc.$proc$verilog/backup/multiplier_sc.sv:230$42'.
+  created $dff cell `$procdff$114' with positive edge clock.
+Creating register for signal `\multiplier_sc.\out_valid_ever_diff' using process `\multiplier_sc.$proc$verilog/backup/multiplier_sc.sv:218$41'.
+  created $dff cell `$procdff$115' with positive edge clock.
+Creating register for signal `\multiplier_sc.\o_ever_diff' using process `\multiplier_sc.$proc$verilog/backup/multiplier_sc.sv:208$38'.
+  created $dff cell `$procdff$116' with positive edge clock.
+Creating register for signal `\multiplier_sc.\assume_2_violate' using process `\multiplier_sc.$proc$verilog/backup/multiplier_sc.sv:196$30'.
+  created $dff cell `$procdff$117' with positive edge clock.
+Creating register for signal `\multiplier_sc.\assume_1_violate' using process `\multiplier_sc.$proc$verilog/backup/multiplier_sc.sv:190$29'.
+  created $dff cell `$procdff$118' with positive edge clock.
+Creating register for signal `\multiplier_sc.\pause_1_reg' using process `\multiplier_sc.$proc$verilog/backup/multiplier_sc.sv:171$19'.
+  created $dff cell `$procdff$119' with positive edge clock.
+Creating register for signal `\multiplier_sc.\pause_2_reg' using process `\multiplier_sc.$proc$verilog/backup/multiplier_sc.sv:171$19'.
+  created $dff cell `$procdff$120' with positive edge clock.
+Creating register for signal `\multiplier_sc.\drained' using process `\multiplier_sc.$proc$verilog/backup/multiplier_sc.sv:171$19'.
+  created $dff cell `$procdff$121' with positive edge clock.
+Creating register for signal `\multiplier_sc.\a_reg_diff' using process `\multiplier_sc.$proc$verilog/backup/multiplier_sc.sv:57$4'.
+  created $dff cell `$procdff$122' with positive edge clock.
+Creating register for signal `\multiplier_sc.\b_reg_diff' using process `\multiplier_sc.$proc$verilog/backup/multiplier_sc.sv:57$4'.
+  created $dff cell `$procdff$123' with positive edge clock.
+Creating register for signal `\multiplier_sc.\o_reg_diff' using process `\multiplier_sc.$proc$verilog/backup/multiplier_sc.sv:57$4'.
+  created $dff cell `$procdff$124' with positive edge clock.
+Creating register for signal `\multiplier_sc.\counter_diff' using process `\multiplier_sc.$proc$verilog/backup/multiplier_sc.sv:57$4'.
+  created $dff cell `$procdff$125' with positive edge clock.
+Creating register for signal `\multiplier_sc.\busy_diff' using process `\multiplier_sc.$proc$verilog/backup/multiplier_sc.sv:57$4'.
+  created $dff cell `$procdff$126' with positive edge clock.
+Creating register for signal `\multiplier_sc.\finish_diff' using process `\multiplier_sc.$proc$verilog/backup/multiplier_sc.sv:57$4'.
+  created $dff cell `$procdff$127' with positive edge clock.
+
+2.2.10. Executing PROC_MEMWR pass (convert process memory writes to cells).
+
+2.2.11. Executing PROC_CLEAN pass (remove empty switches from decision trees).
+Removing empty process `MUL.$proc$verilog/backup/multiplier_sc.sv:0$101'.
+Removing empty process `MUL.$proc$verilog/backup/multiplier_sc.sv:369$93'.
+Removing empty process `multiplier_sc.$proc$verilog/backup/multiplier_sc.sv:236$53'.
+Removing empty process `multiplier_sc.$proc$verilog/backup/multiplier_sc.sv:223$52'.
+Removing empty process `multiplier_sc.$proc$verilog/backup/multiplier_sc.sv:216$51'.
+Removing empty process `multiplier_sc.$proc$verilog/backup/multiplier_sc.sv:206$50'.
+Removing empty process `multiplier_sc.$proc$verilog/backup/multiplier_sc.sv:195$49'.
+Removing empty process `multiplier_sc.$proc$verilog/backup/multiplier_sc.sv:188$48'.
+Removing empty process `multiplier_sc.$proc$verilog/backup/multiplier_sc.sv:237$43'.
+Removing empty process `multiplier_sc.$proc$verilog/backup/multiplier_sc.sv:230$42'.
+Removing empty process `multiplier_sc.$proc$verilog/backup/multiplier_sc.sv:218$41'.
+Removing empty process `multiplier_sc.$proc$verilog/backup/multiplier_sc.sv:208$38'.
+Removing empty process `multiplier_sc.$proc$verilog/backup/multiplier_sc.sv:196$30'.
+Removing empty process `multiplier_sc.$proc$verilog/backup/multiplier_sc.sv:190$29'.
+Removing empty process `multiplier_sc.$proc$verilog/backup/multiplier_sc.sv:171$19'.
+Removing empty process `multiplier_sc.$proc$verilog/backup/multiplier_sc.sv:57$4'.
+Cleaned up 0 empty switches.
+
+2.2.12. Executing OPT_EXPR pass (perform const folding).
+Optimizing module MUL.
+<suppressed ~6 debug messages>
+Optimizing module multiplier_sc.
+<suppressed ~4 debug messages>
+
+2.3. Executing FUTURE pass.
+
+2.4. Executing OPT_EXPR pass (perform const folding).
+Optimizing module MUL.
+Optimizing module multiplier_sc.
+
+2.5. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \MUL..
+Finding unused cells or wires in module \multiplier_sc..
+Removed 19 unused cells and 88 unused wires.
+<suppressed ~37 debug messages>
+
+2.6. Executing CHECK pass (checking for obvious problems).
+Checking module MUL...
+Checking module multiplier_sc...
+Found and reported 0 problems.
+
+2.7. Executing OPT pass (performing simple optimizations).
+
+2.7.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module MUL.
+Optimizing module multiplier_sc.
+
+2.7.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\MUL'.
+<suppressed ~15 debug messages>
+Finding identical cells in module `\multiplier_sc'.
+Removed a total of 5 cells.
+
+2.7.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \MUL..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module \multiplier_sc..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Removed 0 multiplexer ports.
+<suppressed ~19 debug messages>
+
+2.7.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \MUL.
+  Optimizing cells in module \multiplier_sc.
+Performed a total of 0 changes.
+
+2.7.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\MUL'.
+Finding identical cells in module `\multiplier_sc'.
+Removed a total of 0 cells.
+
+2.7.6. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \MUL..
+Finding unused cells or wires in module \multiplier_sc..
+Removed 0 unused cells and 5 unused wires.
+<suppressed ~1 debug messages>
+
+2.7.7. Executing OPT_EXPR pass (perform const folding).
+Optimizing module MUL.
+Optimizing module multiplier_sc.
+
+2.7.8. Rerunning OPT passes. (Maybe there is more to do..)
+
+2.7.9. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \MUL..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module \multiplier_sc..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Removed 0 multiplexer ports.
+<suppressed ~19 debug messages>
+
+2.7.10. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \MUL.
+  Optimizing cells in module \multiplier_sc.
+Performed a total of 0 changes.
+
+2.7.11. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\MUL'.
+Finding identical cells in module `\multiplier_sc'.
+Removed a total of 0 cells.
+
+2.7.12. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \MUL..
+Finding unused cells or wires in module \multiplier_sc..
+
+2.7.13. Executing OPT_EXPR pass (perform const folding).
+Optimizing module MUL.
+Optimizing module multiplier_sc.
+
+2.7.14. Finished OPT passes. (There is nothing left to do.)
+
+2.8. Executing WREDUCE pass (reducing word size of cells).
+Removed top 31 bits (of 32) from port B of cell MUL.$add$verilog/backup/multiplier_sc.sv:365$82 ($add).
+Removed top 30 bits (of 32) from port Y of cell MUL.$add$verilog/backup/multiplier_sc.sv:365$82 ($add).
+Removed top 30 bits (of 32) from mux cell MUL.$ternary$verilog/backup/multiplier_sc.sv:365$83 ($mux).
+Removed top 31 bits (of 32) from mux cell MUL.$ternary$verilog/backup/multiplier_sc.sv:365$85 ($mux).
+Removed top 30 bits (of 32) from mux cell MUL.$ternary$verilog/backup/multiplier_sc.sv:366$92 ($mux).
+Removed top 1 bits (of 2) from mux cell MUL.$ternary$verilog/backup/multiplier_sc.sv:365$83 ($mux).
+Removed top 30 bits (of 32) from mux cell MUL.$ternary$verilog/backup/multiplier_sc.sv:366$90 ($mux).
+Removed top 1 bits (of 2) from port Y of cell MUL.$add$verilog/backup/multiplier_sc.sv:365$82 ($add).
+Removed top 30 bits (of 32) from port Y of cell MUL.$add$verilog/backup/multiplier_sc.sv:366$89 ($add).
+Removed top 30 bits (of 32) from port B of cell MUL.$add$verilog/backup/multiplier_sc.sv:366$89 ($add).
+Removed top 30 bits (of 32) from mux cell MUL.$ternary$verilog/backup/multiplier_sc.sv:366$88 ($mux).
+Removed top 30 bits (of 32) from port Y of cell MUL.$shl$verilog/backup/multiplier_sc.sv:366$87 ($shl).
+Removed top 31 bits (of 32) from wire MUL.$add$verilog/backup/multiplier_sc.sv:365$82_Y.
+Removed top 30 bits (of 32) from wire MUL.$add$verilog/backup/multiplier_sc.sv:366$89_Y.
+Removed top 31 bits (of 32) from wire MUL.$shl$verilog/backup/multiplier_sc.sv:366$87_Y.
+Removed top 30 bits (of 32) from wire MUL.$ternary$verilog/backup/multiplier_sc.sv:366$90_Y.
+
+2.9. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \MUL..
+Finding unused cells or wires in module \multiplier_sc..
+Removed 0 unused cells and 6 unused wires.
+<suppressed ~1 debug messages>
+
+2.10. Executing MEMORY_COLLECT pass (generating $mem cells).
+
+2.11. Executing OPT pass (performing simple optimizations).
+
+2.11.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module MUL.
+Optimizing module multiplier_sc.
+
+2.11.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\MUL'.
+Finding identical cells in module `\multiplier_sc'.
+Removed a total of 0 cells.
+
+2.11.3. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \MUL..
+Finding unused cells or wires in module \multiplier_sc..
+
+2.11.4. Finished fast OPT passes.
+
+2.12. Printing statistics.
+
+=== MUL ===
+
+   Number of wires:                 72
+   Number of wire bits:            204
+   Number of public wires:          50
+   Number of public wire bits:      56
+   Number of ports:                 43
+   Number of port bits:             47
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                 41
+     $add                            2
+     $dff                            6
+     $logic_and                      3
+     $logic_not                      2
+     $logic_or                       2
+     $mux                           23
+     $not                            2
+     $shl                            1
+
+=== multiplier_sc ===
+
+   Number of wires:                 71
+   Number of wire bits:             75
+   Number of public wires:          56
+   Number of public wire bits:      60
+   Number of ports:                  5
+   Number of port bits:              5
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                 25
+     $assert                         1
+     $dff                            4
+     $eq                             1
+     $logic_and                      8
+     $logic_not                      4
+     $logic_or                       5
+     MUL                             2
+
+2.13. Executing CHECK pass (checking for obvious problems).
+Checking module MUL...
+Checking module multiplier_sc...
+Found and reported 0 problems.
+
+3. Executing FLATTEN pass (flatten design).
+<suppressed ~2 debug messages>
+
+4. Executing Verilog backend.
+
+4.1. Executing BMUXMAP pass.
+
+4.2. Executing DEMUXMAP pass.
+Dumping module `\MUL'.
+Dumping module `\multiplier_sc'.
+
+5. Executing MEMORY pass.
+
+5.1. Executing OPT_MEM pass (optimize memories).
+Performed a total of 0 transformations.
+
+5.2. Executing OPT_MEM_PRIORITY pass (removing unnecessary memory write priority relations).
+Performed a total of 0 transformations.
+
+5.3. Executing OPT_MEM_FEEDBACK pass (finding memory read-to-write feedback paths).
+
+5.4. Executing MEMORY_BMUX2ROM pass (converting muxes to ROMs).
+
+5.5. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \MUL..
+Finding unused cells or wires in module \multiplier_sc..
+Removed 0 unused cells and 2 unused wires.
+<suppressed ~1 debug messages>
+
+5.6. Executing MEMORY_SHARE pass (consolidating $memrd/$memwr cells).
+
+5.7. Executing OPT_MEM_WIDEN pass (optimize memories where all ports are wide).
+Performed a total of 0 transformations.
+
+5.8. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \MUL..
+Finding unused cells or wires in module \multiplier_sc..
+
+5.9. Executing MEMORY_COLLECT pass (generating $mem cells).
+
+5.10. Executing MEMORY_MAP pass (converting memories to logic and flip-flops).
+
+6. Executing SETUNDEF pass (replace undef values with defined constants).
+
+7. Executing TECHMAP pass (map to technology primitives).
+
+7.1. Executing Verilog-2005 frontend: /usr/local/bin/../share/yosys/techmap.v
+Parsing Verilog input from `/usr/local/bin/../share/yosys/techmap.v' to AST representation.
+Generating RTLIL representation for module `\_90_simplemap_bool_ops'.
+Generating RTLIL representation for module `\_90_simplemap_reduce_ops'.
+Generating RTLIL representation for module `\_90_simplemap_logic_ops'.
+Generating RTLIL representation for module `\_90_simplemap_compare_ops'.
+Generating RTLIL representation for module `\_90_simplemap_various'.
+Generating RTLIL representation for module `\_90_simplemap_registers'.
+Generating RTLIL representation for module `\_90_shift_ops_shr_shl_sshl_sshr'.
+Generating RTLIL representation for module `\_90_shift_shiftx'.
+Generating RTLIL representation for module `\_90_fa'.
+Generating RTLIL representation for module `\_90_lcu_brent_kung'.
+Generating RTLIL representation for module `\_90_alu'.
+Generating RTLIL representation for module `\_90_macc'.
+Generating RTLIL representation for module `\_90_alumacc'.
+Generating RTLIL representation for module `\$__div_mod_u'.
+Generating RTLIL representation for module `\$__div_mod_trunc'.
+Generating RTLIL representation for module `\_90_div'.
+Generating RTLIL representation for module `\_90_mod'.
+Generating RTLIL representation for module `\$__div_mod_floor'.
+Generating RTLIL representation for module `\_90_divfloor'.
+Generating RTLIL representation for module `\_90_modfloor'.
+Generating RTLIL representation for module `\_90_pow'.
+Generating RTLIL representation for module `\_90_pmux'.
+Generating RTLIL representation for module `\_90_demux'.
+Generating RTLIL representation for module `\_90_lut'.
+Successfully finished Verilog frontend.
+
+7.2. Continuing TECHMAP pass.
+Using extmapper simplemap for cells of type $logic_not.
+Using extmapper simplemap for cells of type $logic_and.
+Using extmapper simplemap for cells of type $logic_or.
+Using extmapper simplemap for cells of type $dff.
+Using extmapper simplemap for cells of type $eq.
+Using template $paramod$constmap:7e7b0a15aaca16161841ffdeb0270bfb1257cf5d$paramod$640153b3f54eea4944e561520acd295aeb1e03d2\_90_shift_ops_shr_shl_sshl_sshr for cells of type $shl.
+Running "alumacc" on wrapper $extern:wrap:$add:A_SIGNED=0:A_WIDTH=2:B_SIGNED=0:B_WIDTH=2:Y_WIDTH=2:394426c56d1a028ba8fdd5469b163e04011def47.
+Using template $extern:wrap:$add:A_SIGNED=0:A_WIDTH=2:B_SIGNED=0:B_WIDTH=2:Y_WIDTH=2:394426c56d1a028ba8fdd5469b163e04011def47 for cells of type $extern:wrap:$add:A_SIGNED=0:A_WIDTH=2:B_SIGNED=0:B_WIDTH=2:Y_WIDTH=2:394426c56d1a028ba8fdd5469b163e04011def47.
+Running "alumacc" on wrapper $extern:wrap:$add:A_SIGNED=0:A_WIDTH=1:B_SIGNED=0:B_WIDTH=1:Y_WIDTH=1:394426c56d1a028ba8fdd5469b163e04011def47.
+Using template $extern:wrap:$add:A_SIGNED=0:A_WIDTH=1:B_SIGNED=0:B_WIDTH=1:Y_WIDTH=1:394426c56d1a028ba8fdd5469b163e04011def47 for cells of type $extern:wrap:$add:A_SIGNED=0:A_WIDTH=1:B_SIGNED=0:B_WIDTH=1:Y_WIDTH=1:394426c56d1a028ba8fdd5469b163e04011def47.
+Using extmapper simplemap for cells of type $not.
+Using template $paramod$7e708ae28ab761f11d0fb59d3ffc72f6a4baf5d9\_90_alu for cells of type $alu.
+Using template $paramod$fc972a7a46956c1788f3cb5257b53c8f1df2d0cc\_90_alu for cells of type $alu.
+Using extmapper simplemap for cells of type $xor.
+Using extmapper simplemap for cells of type $and.
+Using template $paramod\_90_lcu_brent_kung\WIDTH=32'00000000000000000000000000000010 for cells of type $lcu.
+Using extmapper simplemap for cells of type $pos.
+Using template $paramod\_90_lcu_brent_kung\WIDTH=32'00000000000000000000000000000001 for cells of type $lcu.
+Using extmapper simplemap for cells of type $or.
+No more expansions possible.
+<suppressed ~685 debug messages>
+
+8. Executing ABC pass (technology mapping using ABC).
+
+8.1. Extracting gate netlist of module `\MUL' to `<abc-temp-dir>/input.blif'..
+Extracted 62 gates and 101 wires to a netlist network with 37 inputs and 7 outputs.
+
+8.1.1. Executing ABC.
+Running ABC command: "<yosys-exe-dir>/yosys-abc" -s -f <abc-temp-dir>/abc.script 2>&1
+ABC: ABC command line: "source <abc-temp-dir>/abc.script".
+ABC: 
+ABC: + read_blif <abc-temp-dir>/input.blif 
+ABC: + read_library <abc-temp-dir>/stdcells.genlib 
+ABC: Entered genlib library with 5 gates from file "<abc-temp-dir>/stdcells.genlib".
+ABC: + strash 
+ABC: + dretime 
+ABC: + map 
+ABC: + write_blif <abc-temp-dir>/output.blif 
+
+8.1.2. Re-integrating ABC results.
+ABC RESULTS:               AND cells:       89
+ABC RESULTS:               NOT cells:       95
+ABC RESULTS:        internal signals:       57
+ABC RESULTS:           input signals:       37
+ABC RESULTS:          output signals:        7
+Removing temp directory.
+
+8.2. Extracting gate netlist of module `\multiplier_sc' to `<abc-temp-dir>/input.blif'..
+Extracted 207 gates and 231 wires to a netlist network with 22 inputs and 19 outputs.
+
+8.2.1. Executing ABC.
+Running ABC command: "<yosys-exe-dir>/yosys-abc" -s -f <abc-temp-dir>/abc.script 2>&1
+ABC: ABC command line: "source <abc-temp-dir>/abc.script".
+ABC: 
+ABC: + read_blif <abc-temp-dir>/input.blif 
+ABC: + read_library <abc-temp-dir>/stdcells.genlib 
+ABC: Entered genlib library with 5 gates from file "<abc-temp-dir>/stdcells.genlib".
+ABC: + strash 
+ABC: + dretime 
+ABC: + map 
+ABC: + write_blif <abc-temp-dir>/output.blif 
+
+8.2.2. Re-integrating ABC results.
+ABC RESULTS:               AND cells:      112
+ABC RESULTS:               NOT cells:      106
+ABC RESULTS:        internal signals:      190
+ABC RESULTS:           input signals:       22
+ABC RESULTS:          output signals:       19
+Removing temp directory.
+
+9. Executing AIGER backend.

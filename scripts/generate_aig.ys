@@ -1,6 +1,6 @@
-read_verilog -sv -formal multiplier_sc.sv
+read_verilog -sv -formal verilog/backup/multiplier_sc.sv
 chformal -lower
-prep -top multiplier_sc
+prep
 flatten
 write_verilog multiplier_sc_yosys.v
 memory -nordff
