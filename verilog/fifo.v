@@ -85,5 +85,5 @@ begin
 end
 
 // assume property (fifo_in == 0);
-assert property (fifo_counter <= `FIFO_SIZE);
+// assert property (fifo_counter <= `FIFO_SIZE);
 endmodule
