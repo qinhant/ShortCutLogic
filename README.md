@@ -11,5 +11,8 @@
 - [abc](https://github.com/berkeley-abc/abc) 
 
 
-# Usage:
-- flatten verilog: `python3 scripts/transform_verilog.py --input input_path --output ouptut_path --top top module --option flatten`
+# Usage Example:
+- flatten verilog: `python3 scripts/transform_verilog.py --input verilog/self_composition_multiplier.sv --output verilog/self_composition_multiplier_yosys.sv --option flatten --top top`
+- convert verilog to aig (primary outputs only have assertions) and generate the map file `python3 scripts/transform_verilog.py --input verilog/self_composition_multiplier.sv --output yosys_output/self_composition_multiplier.aig --option verilog_to_aig --top top`
+- run pdr in abc and output log, invariant, counterexample `abc -c "read yosys_output/self_composition_multiplier.aig; fold; pdr -v -w -d -I abc_output/self_composition_multiplier.pla; write_cex -n -m -f abc_output/multiplier_sc.cex;" > ./abc_output/multiplier_sc_pdr.log`
+- interpret the abc output log using the variable names from verilog (use `--cex` to interpret the counterexample if there is any)`python3 scripts/pdr_interpreter.py --log abc_output/multiplier_sc_pdr.log --map yosys_output/self_composition_multiplier.map --inv abc_output/self_composition_multiplier.pla --output abc_output/multiplier_sc_pdr_interpreted.log`

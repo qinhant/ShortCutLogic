@@ -2,8 +2,8 @@ import sys
 import argparse
 
 
-def pdr_interpret(design, logfile):
-    file = open(design + ".map", "r")
+def pdr_interpret(log_path, map_path, inv_path, output_path, cex_path):
+    file = open(map_path, "r")
     mapping = [line.strip() for line in file.readlines()]
     file.close()
     latch_map = dict()
@@ -26,7 +26,7 @@ def pdr_interpret(design, logfile):
             if input_num not in input_map.keys():
                 input_map[input_num] = signal_name + "[" + bit + "]"
 
-    file = open(design + "_inv.pla", "r")
+    file = open(inv_path, "r")
     content = file.read()
     file.close()
     latch_list = [
@@ -53,7 +53,7 @@ def pdr_interpret(design, logfile):
     log_output += "\n\n\n"
 
     log_output += "---------------PDR Log--------------------\n"
-    file = open("pdr_log/" + design + "_pdr.log", "r")
+    file = open(log_path, "r")
     log = [line.strip() for line in file.readlines()]
     file.close()
     for line in log:
@@ -76,14 +76,14 @@ def pdr_interpret(design, logfile):
         elif line.find(" sec") >= 0:
             log_output += line + "\n"
 
-    if logfile == None:
-        logfile = "pdr_log/" + design + "_pdr_interpreted.log"
-    file = open(logfile, "w")
+    file = open(output_path, "w")
     file.write(log_output)
     file.close()
 
+    if cex_path == None:
+        return
     cex_output = "---------------Counterexample-------------------- \n"
-    file = open(design + ".cex", "r")
+    file = open(cex_path, "r")
     cex = file.read().strip().split(" ")
     file.close()
     for line in cex:
@@ -99,7 +99,7 @@ def pdr_interpret(design, logfile):
                 "lo" + latch_num + "@", latch_map[str(int(latch_num))] + "@"
             )
             cex_output += line + "\n"
-    cex_file = design + "_interpreted.cex"
+    cex_file = cex_path.replace(".cex", "_interpreted.cex")
     file = open(cex_file, "w")
     file.write(cex_output)
     file.close()
@@ -107,13 +107,41 @@ def pdr_interpret(design, logfile):
 
 if __name__ == "__main__":
     parse = argparse.ArgumentParser()
-    parse.add_argument("--design", dest="design", required=True, help="design name")
+    parse.add_argument("--log", dest="log_path", required=True, help="input .log path")
+    parse.add_argument("--map", dest="map_path", required=True, help="input .map path")
+    parse.add_argument(
+        "--inv", dest="inv_path", required=True, help="input invariant (.pla) path"
+    )
     parse.add_argument(
         "--output",
-        dest="logfile",
+        dest="output_path",
+        required=True,
+        help="output log path",
+    )
+    parse.add_argument(
+        "--cex",
+        dest="cex_path",
         default=None,
-        help="output file",
+        help="input counterexample(.cex) file path",
     )
     args = parse.parse_args()
 
-    pdr_interpret(args.design, args.logfile)
+    if not args.log_path.endswith(".log"):
+        print("Invalid log file, must be a .log file")
+        sys.exit(1)
+    if not args.map_path.endswith(".map"):
+        print("Invalid map file, must be a .map file")
+        sys.exit(1)
+    if not args.inv_path.endswith(".pla"):
+        print("Invalid invariant file, must be a .pla file")
+        sys.exit(1)
+    if not args.output_path.endswith(".log"):
+        print("Invalid output file, must be a .log file")
+        sys.exit(1)
+    if args.cex_path != None and not args.cex_path.endswith(".cex"):
+        print("Invalid counterexample file, must be a .cex file")
+        sys.exit(1)
+
+    pdr_interpret(
+        args.log_path, args.map_path, args.inv_path, args.output_path, args.cex_path
+    )

@@ -1,4 +1,4 @@
-`define WIDTH_LOG 0
+`define WIDTH_LOG 2
 `define WIDTH (1 << `WIDTH_LOG)
 `define OUT_WIDTH (`WIDTH << 1)
 
@@ -34,6 +34,9 @@ MUL copy2(
     .o(o2),
     .out_valid(out_valid2)
 );
+
+assume property (a1 == a2 || b == 0);
+assert property (out_valid1 == out_valid2);
 
 endmodule
 
