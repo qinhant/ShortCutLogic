@@ -1,0 +1,64 @@
+ABC command line: "read yosys_output/self_composition_multiplier.aig; fold; pdr -v -w -d -I abc_output/self_composition_multiplier.pla; write_cex -n -m -f abc_output/multiplier_sc.cex;".
+
+Warning: The last output is interpreted as a constraint.
+VarMax = 300. FrameMax = 10000. QueMax = 0. TimeMax = 0. MonoCNF = no. SkipGen = no. SolveAll = no.
+Frame Clauses                                                     Max Queue Flops Cex      Time
+Trying to justify cube <prop=fail> in frame 1.
+-000000000000-10--0
+-000000000000-10--0
+Cube:
+0 
+Adding cube 1---- to frame 1.
+Trying to justify cube <prop=fail> in frame 1.
+-000000000010-01--0
+-000000000010-01--0
+Cube:
+2 
+Adding cube -1--- to frame 1.
+  1 : 0 2                                                                 1     2      0.00 sec
+Trying to justify cube <prop=fail> in frame 2.
+-000000000000-10--0
+-000000000000-10--0
+Trying to justify cube 10--0 in frame 1.
+-001000000000---010
+-001000000000---010
+Cube:
+5 6 
+Adding cube --01- to frame 1.
+Trying to justify cube --010 in frame 1.
+-0010000000001--100
+-0010000000001--100
+Cube:
+4 7 
+Adding cube --10- to frame 2.
+Cube:
+5 6 
+Adding cube --01- to frame 2.
+Cube:
+0 3 
+Adding cube 10--- to frame 2.
+Trying to justify cube <prop=fail> in frame 2.
+-001000100010-01--0
+-001000100010-01--0
+Cube:
+1 2 
+Adding cube 01--- to frame 2.
+  2 : 0 3 4                                                               3     4      0.00 sec
+  3 : 0 2 0 4                                                             0     4      0.00 sec
+Invariant F[2] : 4 clauses with 4 flops (out of 5) (cex = 0, ave = 3.00)
+Verification of invariant with 4 clauses was successful.  Time =     0.00 sec
+Inductive invariant was written into file "abc_output/self_composition_multiplier.pla".
+Dumped inductive invariant in file "abc_output/self_composition_multiplier.pla".
+Block =    4  Oblig =     9  Clause =     7  Call =    32 (sat=50.0%)  Cex =   0  Start =   0
+SAT solving =     0.00 sec (  2.12 %)
+  unsat     =     0.00 sec (  0.09 %)
+  sat       =     0.00 sec (  2.03 %)
+Generalize  =     0.00 sec (  1.72 %)
+Push clause =     0.00 sec (  0.70 %)
+Ternary sim =     0.00 sec (  0.57 %)
+Containment =     0.00 sec (  0.03 %)
+CNF compute =     0.00 sec (  0.40 %)
+Refinement  =     0.00 sec (  0.00 %)
+TOTAL       =     0.01 sec (100.00 %)
+Property proved.  Time =     0.01 sec
+Counter-example is not available.
