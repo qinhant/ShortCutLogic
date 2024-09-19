@@ -1,38 +1,38 @@
 ---------------Invariant Clauses-------------------- 
-!(!copy1.o[2] && copy1.o[3])
-!(copy1.o[2] && !copy1.o[3])
-!(!copy1.o[0] && copy1.o[1])
-!(copy1.o[0] && !copy1.o[1])
+!(!copy2.busy[0] && copy1.busy[0])
+!(copy2.busy[0] && !copy1.busy[0])
+!(!copy1.finish[0] && copy2.finish[0])
+!(copy1.finish[0] && !copy2.finish[0])
 
 
 
 ---------------PDR Log--------------------
 Trying to justify cube <prop=fail> in frame 1.
-Adding cube (copy1.o[0]) to frame 1.
+Adding cube (copy1.finish[0]) to frame 1.
 Trying to justify cube <prop=fail> in frame 1.
-Adding cube (copy1.o[1]) to frame 1.
+Adding cube (copy2.finish[0]) to frame 1.
 1 : 0 2                                                                 1     2      0.00 sec
 Trying to justify cube <prop=fail> in frame 2.
-Trying to justify cube (copy1.o[0] && !copy1.o[1] && !copy1.o[4]) in frame 1.
-Adding cube (!copy1.o[2] && copy1.o[3]) to frame 1.
-Trying to justify cube (!copy1.o[2] && copy1.o[3] && !copy1.o[4]) in frame 1.
-Adding cube (copy1.o[2] && !copy1.o[3]) to frame 2.
-Adding cube (!copy1.o[2] && copy1.o[3]) to frame 2.
-Adding cube (copy1.o[0] && !copy1.o[1]) to frame 2.
+Trying to justify cube (copy1.finish[0] && !copy2.finish[0] && !assume_1_violate[0]) in frame 1.
+Adding cube (!copy2.busy[0] && copy1.busy[0]) to frame 1.
+Trying to justify cube (!assume_1_violate[0] && !copy2.busy[0] && copy1.busy[0]) in frame 1.
+Adding cube (copy2.busy[0] && !copy1.busy[0]) to frame 2.
+Adding cube (!copy2.busy[0] && copy1.busy[0]) to frame 2.
+Adding cube (copy1.finish[0] && !copy2.finish[0]) to frame 2.
 Trying to justify cube <prop=fail> in frame 2.
-Adding cube (!copy1.o[0] && copy1.o[1]) to frame 2.
+Adding cube (!copy1.finish[0] && copy2.finish[0]) to frame 2.
 2 : 0 3 4                                                               3     4      0.00 sec
 3 : 0 2 0 4                                                             0     4      0.00 sec
 Verification of invariant with 4 clauses was successful.  Time =     0.00 sec
 Block =    4  Oblig =     9  Clause =     7  Call =    32 (sat=50.0%)  Cex =   0  Start =   0
-SAT solving =     0.00 sec (  2.12 %)
-unsat     =     0.00 sec (  0.09 %)
-sat       =     0.00 sec (  2.03 %)
-Generalize  =     0.00 sec (  1.72 %)
-Push clause =     0.00 sec (  0.70 %)
-Ternary sim =     0.00 sec (  0.57 %)
-Containment =     0.00 sec (  0.03 %)
-CNF compute =     0.00 sec (  0.40 %)
+SAT solving =     0.00 sec (  2.10 %)
+unsat     =     0.00 sec (  0.13 %)
+sat       =     0.00 sec (  1.97 %)
+Generalize  =     0.00 sec (  1.40 %)
+Push clause =     0.00 sec (  0.73 %)
+Ternary sim =     0.00 sec (  0.51 %)
+Containment =     0.00 sec (  0.00 %)
+CNF compute =     0.00 sec (  0.39 %)
 Refinement  =     0.00 sec (  0.00 %)
 TOTAL       =     0.01 sec (100.00 %)
 Property proved.  Time =     0.01 sec

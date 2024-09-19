@@ -35,8 +35,15 @@ MUL copy2(
     .out_valid(out_valid2)
 );
 
-assume property (a1 == a2 || b == 0);
-assert property (out_valid1 == out_valid2);
+// assume property (a1 == a2 || b == 0);
+// Do not use assume property because it will mess up with the mapping, do the following instead
+reg assume_1_violate = 0;
+wire assume_1_violate_in = !(a1 == a2 || b == 0) || assume_1_violate;
+always @(posedge clk) begin
+    assume_1_violate <= assume_1_violate_in;
+end
+
+assert property (out_valid1 == out_valid2 || assume_1_violate_in);
 
 endmodule
 
