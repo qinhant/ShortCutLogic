@@ -71,9 +71,21 @@ def pdr_interpret(log_path, map_path, inv_path, output_path, cex_path):
                     literals.append(latch_map[str(i)])
             line = line.replace(cube, "(" + " && ".join(literals) + ")")
             log_output += line + "\n"
-        elif line.find(" =   ") >= 0:
+        elif len(line) == (len(latch_map) + len(input_map)):
+            literals = []
+            for i in range(len(input_map)):
+                if line[i] == "0":
+                    literals.append("!" + input_map[str(i)])
+                elif line[i] == "1":
+                    literals.append(input_map[str(i)])
+            for i in range(len(input_map), len(line)):
+                if line[i] == "0":
+                    literals.append("!" + latch_map[str(i - len(input_map))])
+                elif line[i] == "1":
+                    literals.append(latch_map[str(i - len(input_map))])
+            line = line.replace(line, "(" + " && ".join(literals) + ")")
             log_output += line + "\n"
-        elif line.find(" sec") >= 0:
+        else:
             log_output += line + "\n"
 
     file = open(output_path, "w")
