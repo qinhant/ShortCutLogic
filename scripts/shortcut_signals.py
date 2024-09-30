@@ -82,11 +82,11 @@ def add_shortcut_signals(filein, fileout, *, cfg: ShortcutSignalsConfig):
                 shortcut = f"{cfg.shortcut_prefix}{copy_id}.{id}"
                 eq_signals[rc.full_name] = signal
                 shortcuts[rc.full_name] = shortcut
-                fout.write(f"  reg {signal} = 1;\n")
+                fout.write(f"  reg {signal} = 1 ;\n")
                 width = f" {rc.width}" if rc.width else ""
-                fout.write(f"  wire{width} {shortcut};\n")
+                fout.write(f"  wire{width} {shortcut} ;\n")
                 shortcut_assigns.append(
-                    f"  assign {shortcut} = {signal} ? {r.full_name} : {rc.full_name};\n")
+                    f"  assign {shortcut} = {signal} ? {r.full_name} : {rc.full_name} ;\n")
 
         fout.write(''.join(shortcut_assigns))
 
@@ -102,10 +102,10 @@ def add_shortcut_signals(filein, fileout, *, cfg: ShortcutSignalsConfig):
                 rhs = match.group('rhs')
                 comments = match.group('comments')
                 for copy, shortcut in shortcuts.items():
-                    rhs = rhs.replace(copy, shortcut)
+                    rhs = re.sub(rf' {re.escape(copy)} ', f' {re.escape(shortcut)} ', rhs)
                 assert var not in assignments, "not implemented: handle repeated assignment"
                 assignments[var] = rhs
-                l = f"{lhs} {rhs};{comments}"
+                l = f"{lhs} {rhs} ;{comments}"
             fout.write(l)
 
         # set equality signals
@@ -117,7 +117,7 @@ def add_shortcut_signals(filein, fileout, *, cfg: ShortcutSignalsConfig):
                 # FIXME, track each copy's clock
                 fout.write(textwrap.indent(textwrap.dedent(f"""
                   always @(posedge clk)
-                    {eq_signal} <= {orig_assign} == {copy_assign};
+                    {eq_signal} <= {orig_assign} == {copy_assign} ;
                 """).removeprefix('\n'), "  "))
 
         for l in lines:
