@@ -21,10 +21,11 @@ latch 5 0 copy1.b_reg
 latch 6 1 copy1.b_reg
 latch 7 2 copy1.b_reg
 latch 8 3 copy1.b_reg
-latch 9 0 copy1.busy
-latch 10 0 copy1.counter
-latch 11 1 copy1.counter
-latch 12 2 copy1.counter
+latch 9 0 copy1.counter
+latch 10 1 copy1.counter
+latch 11 2 copy1.counter
+latch 12 0 copy1.busy
+latch 12 0 copy1.finish_next
 latch 13 0 copy2.a_reg
 latch 14 1 copy2.a_reg
 latch 15 2 copy2.a_reg

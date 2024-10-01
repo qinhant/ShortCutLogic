@@ -1,0 +1,428 @@
+---------------Invariant Clauses-------------------- 
+!(!copy1.busy[0] && copy2.busy[0])
+!(copy1.busy[0] && !copy2.busy[0])
+!(!copy1.b_reg[3] && copy2.b_reg[3])
+!(copy1.b_reg[3] && !copy2.busy[0])
+!(copy1.b_reg[3] && !copy2.b_reg[3])
+!(!copy1.b_reg[2] && copy2.b_reg[2])
+!(copy1.b_reg[2] && !copy2.b_reg[2])
+!(!copy1.b_reg[1] && copy2.b_reg[1])
+!(copy1.b_reg[1] && !copy2.b_reg[1])
+!(!copy1.b_reg[0] && copy2.b_reg[0])
+!(copy1.b_reg[0] && !copy2.b_reg[0])
+!(!assume_1_violate[0] && !copy2.finish[0] && copy1.finish[0])
+!(!assume_1_violate[0] && copy2.finish[0] && !copy1.finish[0])
+!(!assume_1_violate[0] && !copy1.a_reg[3] && copy2.a_reg[3] && copy2.b_reg[3])
+!(!assume_1_violate[0] && !copy1.a_reg[3] && copy2.a_reg[3] && copy2.b_reg[2])
+!(!assume_1_violate[0] && !copy1.a_reg[3] && copy2.a_reg[3] && copy2.b_reg[1])
+!(!assume_1_violate[0] && !copy1.a_reg[3] && copy2.a_reg[3] && copy2.b_reg[0])
+!(!assume_1_violate[0] && copy1.a_reg[3] && copy1.b_reg[3] && !copy2.a_reg[3])
+!(!assume_1_violate[0] && copy1.a_reg[3] && copy1.b_reg[2] && !copy2.a_reg[3])
+!(!assume_1_violate[0] && copy1.a_reg[3] && copy1.b_reg[1] && !copy2.a_reg[3])
+!(!assume_1_violate[0] && copy1.a_reg[3] && copy1.b_reg[0] && !copy2.a_reg[3])
+!(!assume_1_violate[0] && !copy1.a_reg[2] && copy2.a_reg[2] && copy2.b_reg[3])
+!(!assume_1_violate[0] && !copy1.a_reg[2] && copy2.a_reg[2] && copy2.b_reg[2])
+!(!assume_1_violate[0] && !copy1.a_reg[2] && copy2.a_reg[2] && copy2.b_reg[1])
+!(!assume_1_violate[0] && !copy1.a_reg[2] && copy2.a_reg[2] && copy2.b_reg[0])
+!(!assume_1_violate[0] && copy1.a_reg[2] && copy1.b_reg[3] && !copy2.a_reg[2])
+!(!assume_1_violate[0] && copy1.a_reg[2] && copy1.b_reg[2] && !copy2.a_reg[2])
+!(!assume_1_violate[0] && copy1.a_reg[2] && copy1.b_reg[1] && !copy2.a_reg[2])
+!(!assume_1_violate[0] && copy1.a_reg[2] && copy1.b_reg[0] && !copy2.a_reg[2])
+!(!assume_1_violate[0] && !copy1.a_reg[1] && copy2.a_reg[1] && copy2.b_reg[3])
+!(!assume_1_violate[0] && !copy1.a_reg[1] && copy2.a_reg[1] && copy2.b_reg[2])
+!(!assume_1_violate[0] && !copy1.a_reg[1] && copy2.a_reg[1] && copy2.b_reg[1])
+!(!assume_1_violate[0] && !copy1.a_reg[1] && copy2.a_reg[1] && copy2.b_reg[0])
+!(!assume_1_violate[0] && copy1.a_reg[1] && copy1.b_reg[3] && !copy2.a_reg[1])
+!(!assume_1_violate[0] && copy1.a_reg[1] && copy1.b_reg[2] && !copy2.a_reg[1])
+!(!assume_1_violate[0] && copy1.a_reg[1] && copy1.b_reg[1] && !copy2.a_reg[1])
+!(!assume_1_violate[0] && copy1.a_reg[1] && copy1.b_reg[0] && !copy2.a_reg[1])
+!(!assume_1_violate[0] && !copy1.a_reg[0] && copy2.a_reg[0] && copy2.b_reg[3])
+!(!assume_1_violate[0] && !copy1.a_reg[0] && copy2.a_reg[0] && copy2.b_reg[2])
+!(!assume_1_violate[0] && !copy1.a_reg[0] && copy2.a_reg[0] && copy2.b_reg[1])
+!(!assume_1_violate[0] && !copy1.a_reg[0] && copy2.a_reg[0] && copy2.b_reg[0])
+!(!assume_1_violate[0] && copy1.a_reg[0] && copy1.b_reg[3] && !copy2.a_reg[0])
+!(!assume_1_violate[0] && copy1.a_reg[0] && copy1.b_reg[2] && !copy2.a_reg[0])
+!(!assume_1_violate[0] && copy1.a_reg[0] && copy1.b_reg[1] && !copy2.a_reg[0])
+!(!assume_1_violate[0] && copy1.a_reg[0] && copy1.b_reg[0] && !copy2.a_reg[0])
+
+
+
+---------------PDR Log--------------------
+ABC command line: "
+read output/multiplier_sc/shortcut.aig;
+fold;
+pdr -v -w -d -I output/multiplier_sc/shortcut.pla;
+write_cex -n -m -f output/multiplier_sc/shortcut.cex
+".
+
+Warning: The network has no constraints.
+VarMax = 300. FrameMax = 10000. QueMax = 0. TimeMax = 0. MonoCNF = no. SkipGen = no. SolveAll = no.
+Frame Clauses                                                     Max Queue Flops Cex      Time
+Trying to justify cube <prop=fail> in frame 1.
+(!a1[0] && !a1[1] && !a1[2] && !a1[3] && !a2[0] && !a2[1] && !a2[2] && !a2[3] && !b[0] && !b[1] && !b[2] && !b[3] && !assume_1_violate[0] && copy2.finish[0] && !copy1.finish[0] && shortcut.eq_finish_copy2[0])
+(!a1[0] && !a1[1] && !a1[2] && !a1[3] && !a2[0] && !a2[1] && !a2[2] && !a2[3] && !b[0] && !b[1] && !b[2] && !b[3] && !assume_1_violate[0] && copy2.finish[0] && !copy1.finish[0] && shortcut.eq_finish_copy2[0])
+Cube:
+50
+Adding cube (copy2.finish[0]) to frame 1.
+Trying to justify cube <prop=fail> in frame 1.
+(!a1[0] && !a1[1] && !a1[2] && !a1[3] && !a2[0] && !a2[1] && !a2[2] && !a2[3] && !b[0] && b[1] && !b[2] && !b[3] && !assume_1_violate[0] && !copy2.finish[0] && copy1.finish[0] && shortcut.eq_finish_copy2[0])
+(!a1[0] && !a1[1] && !a1[2] && !a1[3] && !a2[0] && !a2[1] && !a2[2] && !a2[3] && !b[0] && b[1] && !b[2] && !b[3] && !assume_1_violate[0] && !copy2.finish[0] && copy1.finish[0] && shortcut.eq_finish_copy2[0])
+Cube:
+84
+Adding cube (copy1.finish[0]) to frame 1.
+1 : 0 2                                                                 1     2      0.00 sec
+Trying to justify cube <prop=fail> in frame 2.
+(!a1[0] && !a1[1] && !a1[2] && !a1[3] && !a2[0] && !a2[1] && !a2[2] && !a2[3] && !b[0] && !b[1] && !b[2] && !b[3] && !assume_1_violate[0] && copy2.finish[0] && !copy1.finish[0] && shortcut.eq_finish_copy2[0])
+(!a1[0] && !a1[1] && !a1[2] && !a1[3] && !a2[0] && !a2[1] && !a2[2] && !a2[3] && !b[0] && !b[1] && !b[2] && !b[3] && !assume_1_violate[0] && copy2.finish[0] && !copy1.finish[0] && shortcut.eq_finish_copy2[0])
+Trying to justify cube (!assume_1_violate[0] && copy2.finish[0] && !copy1.finish[0] && shortcut.eq_finish_copy2[0]) in frame 1.
+(!a1[0] && !a1[1] && !a1[2] && !a1[3] && !a2[0] && !a2[1] && !a2[2] && !a2[3] && !b[0] && !b[1] && !b[2] && b[3] && !assume_1_violate[0] && !copy1.a_reg[0] && !copy1.a_reg[1] && !copy1.a_reg[2] && !copy1.a_reg[3] && copy1.b_reg[0] && !copy1.b_reg[1] && !copy1.b_reg[2] && !copy1.b_reg[3] && !copy1.busy[0] && !copy2.a_reg[0] && !copy2.a_reg[1] && !copy2.a_reg[2] && copy2.a_reg[3] && !copy2.b_reg[0] && !copy2.b_reg[1] && !copy2.b_reg[2] && !copy2.b_reg[3] && copy2.busy[0] && shortcut.eq_a_reg_copy2[0] && shortcut.eq_b_reg_copy2[0] && shortcut.eq_busy_copy2[0])
+(!a1[0] && !a1[1] && !a1[2] && !a1[3] && !a2[0] && !a2[1] && !a2[2] && !a2[3] && !b[0] && !b[1] && !b[2] && b[3] && !assume_1_violate[0] && !copy1.busy[0] && !copy2.b_reg[0] && !copy2.b_reg[1] && !copy2.b_reg[2] && !copy2.b_reg[3] && copy2.busy[0] && shortcut.eq_b_reg_copy2[0] && shortcut.eq_busy_copy2[0])
+Cube:
+19 42
+Adding cube (!copy1.busy[0] && copy2.busy[0]) to frame 1.
+Trying to justify cube (!assume_1_violate[0] && !copy1.busy[0] && !copy2.b_reg[0] && !copy2.b_reg[1] && !copy2.b_reg[2] && !copy2.b_reg[3] && copy2.busy[0] && shortcut.eq_b_reg_copy2[0] && shortcut.eq_busy_copy2[0]) in frame 1.
+(!a1[0] && !a1[1] && !a1[2] && !a1[3] && !a2[0] && !a2[1] && !a2[2] && !a2[3] && !b[0] && !b[1] && !b[2] && !b[3] && in_valid[0] && !assume_1_violate[0] && !copy1.b_reg[1] && !copy1.b_reg[2] && copy1.b_reg[3] && copy1.busy[0] && !copy2.b_reg[1] && !copy2.b_reg[2] && !copy2.b_reg[3] && !copy2.busy[0] && shortcut.eq_b_reg_copy2[0] && shortcut.eq_busy_copy2[0])
+(!a1[0] && !a1[1] && !a1[2] && !a1[3] && !a2[0] && !a2[1] && !a2[2] && !a2[3] && !b[0] && !b[1] && !b[2] && !b[3] && in_valid[0] && !assume_1_violate[0] && copy1.b_reg[3] && copy1.busy[0] && !copy2.busy[0] && shortcut.eq_busy_copy2[0])
+Cube:
+16 43
+Adding cube (copy1.b_reg[3] && !copy2.busy[0]) to frame 2.
+Trying to justify cube (!assume_1_violate[0] && !copy1.busy[0] && !copy2.b_reg[0] && !copy2.b_reg[1] && !copy2.b_reg[2] && !copy2.b_reg[3] && copy2.busy[0] && shortcut.eq_b_reg_copy2[0] && shortcut.eq_busy_copy2[0]) in frame 1.
+(!a1[0] && !a1[1] && !a1[2] && !a1[3] && !a2[0] && !a2[1] && !a2[2] && !a2[3] && !b[0] && !b[1] && !b[2] && !b[3] && in_valid[0] && !assume_1_violate[0] && !copy1.b_reg[1] && copy1.b_reg[2] && !copy1.b_reg[3] && copy1.busy[0] && !copy2.b_reg[1] && !copy2.b_reg[2] && !copy2.b_reg[3] && !copy2.busy[0] && shortcut.eq_b_reg_copy2[0] && shortcut.eq_busy_copy2[0])
+(!a1[0] && !a1[1] && !a1[2] && !a1[3] && !a2[0] && !a2[1] && !a2[2] && !a2[3] && !b[0] && !b[1] && !b[2] && !b[3] && in_valid[0] && !assume_1_violate[0] && copy1.b_reg[2] && copy1.busy[0] && !copy2.busy[0] && shortcut.eq_busy_copy2[0])
+Cube:
+14 43
+Adding cube (copy1.b_reg[2] && !copy2.busy[0]) to frame 1.
+Cube:
+18 43
+Adding cube (copy1.busy[0] && !copy2.busy[0]) to frame 2.
+Cube:
+19 42
+Adding cube (!copy1.busy[0] && copy2.busy[0]) to frame 2.
+Trying to justify cube (!assume_1_violate[0] && copy2.finish[0] && !copy1.finish[0] && shortcut.eq_finish_copy2[0]) in frame 1.
+(!a1[0] && !a1[1] && !a1[2] && !a1[3] && !a2[0] && !a2[1] && !a2[2] && !a2[3] && !b[0] && b[1] && !b[2] && !b[3] && !assume_1_violate[0] && !copy1.a_reg[0] && copy1.a_reg[1] && !copy1.a_reg[2] && !copy1.a_reg[3] && copy1.b_reg[0] && !copy1.b_reg[1] && !copy1.b_reg[2] && !copy1.b_reg[3] && copy1.busy[0] && !copy2.a_reg[0] && !copy2.a_reg[1] && !copy2.a_reg[2] && copy2.a_reg[3] && !copy2.b_reg[0] && !copy2.b_reg[1] && !copy2.b_reg[2] && !copy2.b_reg[3] && copy2.busy[0] && shortcut.eq_a_reg_copy2[0] && shortcut.eq_b_reg_copy2[0] && shortcut.eq_busy_copy2[0])
+(!a1[0] && !a1[1] && !a1[2] && !a1[3] && !a2[0] && !a2[1] && !a2[2] && !a2[3] && !b[0] && b[1] && !b[2] && !b[3] && !assume_1_violate[0] && copy1.a_reg[1] && copy1.b_reg[0] && !copy2.b_reg[0] && !copy2.b_reg[1] && !copy2.b_reg[2] && !copy2.b_reg[3] && copy2.busy[0] && shortcut.eq_b_reg_copy2[0] && shortcut.eq_busy_copy2[0])
+Cube:
+10 35
+Adding cube (copy1.b_reg[0] && !copy2.b_reg[0]) to frame 1.
+Cube:
+10 35 42
+Adding cube (copy1.b_reg[0] && !copy2.b_reg[0] && copy2.busy[0]) to frame 2.
+Trying to justify cube (!assume_1_violate[0] && copy2.finish[0] && !copy1.finish[0] && shortcut.eq_finish_copy2[0]) in frame 1.
+(!a1[0] && a1[1] && !a1[2] && !a1[3] && !a2[0] && a2[1] && !a2[2] && !a2[3] && b[0] && !b[1] && !b[2] && !b[3] && !assume_1_violate[0] && !copy1.a_reg[0] && copy1.a_reg[1] && !copy1.a_reg[2] && !copy1.a_reg[3] && !copy1.b_reg[0] && copy1.b_reg[1] && !copy1.b_reg[2] && !copy1.b_reg[3] && copy1.busy[0] && !copy2.a_reg[0] && !copy2.a_reg[1] && !copy2.a_reg[2] && copy2.a_reg[3] && !copy2.b_reg[0] && !copy2.b_reg[1] && !copy2.b_reg[2] && !copy2.b_reg[3] && copy2.busy[0] && shortcut.eq_a_reg_copy2[0] && shortcut.eq_b_reg_copy2[0] && shortcut.eq_busy_copy2[0])
+(!a1[0] && a1[1] && !a1[2] && !a1[3] && !a2[0] && a2[1] && !a2[2] && !a2[3] && b[0] && !b[1] && !b[2] && !b[3] && !assume_1_violate[0] && copy1.a_reg[1] && copy1.b_reg[1] && !copy2.b_reg[0] && !copy2.b_reg[1] && !copy2.b_reg[2] && !copy2.b_reg[3] && copy2.busy[0] && shortcut.eq_b_reg_copy2[0] && shortcut.eq_busy_copy2[0])
+Cube:
+12 37
+Adding cube (copy1.b_reg[1] && !copy2.b_reg[1]) to frame 1.
+Cube:
+12 37 42
+Adding cube (copy1.b_reg[1] && !copy2.b_reg[1] && copy2.busy[0]) to frame 2.
+Trying to justify cube (!assume_1_violate[0] && copy2.finish[0] && !copy1.finish[0] && shortcut.eq_finish_copy2[0]) in frame 1.
+(!a1[0] && a1[1] && !a1[2] && !a1[3] && !a2[0] && a2[1] && !a2[2] && !a2[3] && b[0] && b[1] && !b[2] && !b[3] && !assume_1_violate[0] && !copy1.a_reg[0] && copy1.a_reg[1] && !copy1.a_reg[2] && !copy1.a_reg[3] && !copy1.b_reg[0] && copy1.b_reg[1] && copy1.b_reg[2] && !copy1.b_reg[3] && copy1.busy[0] && !copy2.a_reg[0] && !copy2.a_reg[1] && !copy2.a_reg[2] && !copy2.a_reg[3] && !copy2.b_reg[0] && copy2.b_reg[1] && !copy2.b_reg[2] && !copy2.b_reg[3] && copy2.busy[0] && shortcut.eq_a_reg_copy2[0] && shortcut.eq_b_reg_copy2[0] && shortcut.eq_busy_copy2[0])
+(!a1[0] && a1[1] && !a1[2] && !a1[3] && !a2[0] && a2[1] && !a2[2] && !a2[3] && b[0] && b[1] && !b[2] && !b[3] && !assume_1_violate[0] && copy1.a_reg[1] && copy1.b_reg[1] && !copy2.a_reg[0] && !copy2.a_reg[1] && !copy2.a_reg[2] && !copy2.a_reg[3] && copy2.busy[0] && shortcut.eq_a_reg_copy2[0] && shortcut.eq_busy_copy2[0])
+Cube:
+1 4 12 29
+Adding cube (!assume_1_violate[0] && copy1.a_reg[1] && copy1.b_reg[1] && !copy2.a_reg[1]) to frame 1.
+Cube:
+1 4 12 29 42
+Adding cube (!assume_1_violate[0] && copy1.a_reg[1] && copy1.b_reg[1] && !copy2.a_reg[1] && copy2.busy[0]) to frame 2.
+Trying to justify cube (!assume_1_violate[0] && copy2.finish[0] && !copy1.finish[0] && shortcut.eq_finish_copy2[0]) in frame 1.
+(!a1[0] && a1[1] && !a1[2] && a1[3] && !a2[0] && !a2[1] && !a2[2] && a2[3] && !b[0] && !b[1] && !b[2] && !b[3] && !assume_1_violate[0] && !copy1.a_reg[0] && copy1.a_reg[1] && !copy1.a_reg[2] && copy1.a_reg[3] && !copy1.b_reg[0] && !copy1.b_reg[1] && copy1.b_reg[2] && !copy1.b_reg[3] && copy1.busy[0] && !copy2.a_reg[0] && !copy2.a_reg[1] && !copy2.a_reg[2] && copy2.a_reg[3] && !copy2.b_reg[0] && !copy2.b_reg[1] && !copy2.b_reg[2] && !copy2.b_reg[3] && copy2.busy[0] && shortcut.eq_a_reg_copy2[0] && shortcut.eq_b_reg_copy2[0] && shortcut.eq_busy_copy2[0])
+(!a1[0] && a1[1] && !a1[2] && a1[3] && !a2[0] && !a2[1] && !a2[2] && a2[3] && !b[0] && !b[1] && !b[2] && !b[3] && !assume_1_violate[0] && copy1.a_reg[1] && copy1.b_reg[2] && !copy2.b_reg[0] && !copy2.b_reg[1] && !copy2.b_reg[2] && !copy2.b_reg[3] && copy2.busy[0] && shortcut.eq_b_reg_copy2[0] && shortcut.eq_busy_copy2[0])
+Cube:
+14 39
+Adding cube (copy1.b_reg[2] && !copy2.b_reg[2]) to frame 1.
+Cube:
+14 39 42
+Adding cube (copy1.b_reg[2] && !copy2.b_reg[2] && copy2.busy[0]) to frame 2.
+Trying to justify cube (!assume_1_violate[0] && copy2.finish[0] && !copy1.finish[0] && shortcut.eq_finish_copy2[0]) in frame 1.
+(!a1[0] && a1[1] && !a1[2] && a1[3] && !a2[0] && a2[1] && !a2[2] && a2[3] && !b[0] && b[1] && !b[2] && !b[3] && !assume_1_violate[0] && !copy1.a_reg[0] && copy1.a_reg[1] && !copy1.a_reg[2] && !copy1.a_reg[3] && !copy1.b_reg[0] && !copy1.b_reg[1] && copy1.b_reg[2] && copy1.b_reg[3] && copy1.busy[0] && !copy2.a_reg[0] && !copy2.a_reg[1] && !copy2.a_reg[2] && !copy2.a_reg[3] && !copy2.b_reg[0] && !copy2.b_reg[1] && copy2.b_reg[2] && !copy2.b_reg[3] && copy2.busy[0] && shortcut.eq_a_reg_copy2[0] && shortcut.eq_b_reg_copy2[0] && shortcut.eq_busy_copy2[0])
+(!a1[0] && a1[1] && !a1[2] && a1[3] && !a2[0] && a2[1] && !a2[2] && a2[3] && !b[0] && b[1] && !b[2] && !b[3] && !assume_1_violate[0] && copy1.a_reg[1] && copy1.b_reg[3] && !copy2.a_reg[0] && !copy2.a_reg[1] && !copy2.a_reg[2] && !copy2.a_reg[3] && copy2.busy[0] && shortcut.eq_a_reg_copy2[0] && shortcut.eq_busy_copy2[0])
+Cube:
+1 4 16 29
+Adding cube (!assume_1_violate[0] && copy1.a_reg[1] && copy1.b_reg[3] && !copy2.a_reg[1]) to frame 2.
+Trying to justify cube (!assume_1_violate[0] && copy2.finish[0] && !copy1.finish[0] && shortcut.eq_finish_copy2[0]) in frame 1.
+(!a1[0] && a1[1] && !a1[2] && a1[3] && !a2[0] && a2[1] && !a2[2] && a2[3] && !b[0] && b[1] && !b[2] && b[3] && !assume_1_violate[0] && copy1.a_reg[0] && !copy1.a_reg[1] && !copy1.a_reg[2] && !copy1.a_reg[3] && !copy1.b_reg[0] && !copy1.b_reg[1] && copy1.b_reg[2] && copy1.b_reg[3] && copy1.busy[0] && !copy2.a_reg[0] && !copy2.a_reg[1] && !copy2.a_reg[2] && !copy2.a_reg[3] && !copy2.b_reg[0] && !copy2.b_reg[1] && copy2.b_reg[2] && !copy2.b_reg[3] && copy2.busy[0] && shortcut.eq_a_reg_copy2[0] && shortcut.eq_b_reg_copy2[0] && shortcut.eq_busy_copy2[0])
+(!a1[0] && a1[1] && !a1[2] && a1[3] && !a2[0] && a2[1] && !a2[2] && a2[3] && !b[0] && b[1] && !b[2] && b[3] && !assume_1_violate[0] && copy1.a_reg[0] && copy1.b_reg[3] && !copy2.a_reg[0] && !copy2.a_reg[1] && !copy2.a_reg[2] && !copy2.a_reg[3] && copy2.busy[0] && shortcut.eq_a_reg_copy2[0] && shortcut.eq_busy_copy2[0])
+Cube:
+1 2 16 27
+Adding cube (!assume_1_violate[0] && copy1.a_reg[0] && copy1.b_reg[3] && !copy2.a_reg[0]) to frame 2.
+Trying to justify cube (!assume_1_violate[0] && copy2.finish[0] && !copy1.finish[0] && shortcut.eq_finish_copy2[0]) in frame 1.
+(a1[0] && a1[1] && !a1[2] && a1[3] && a2[0] && a2[1] && !a2[2] && a2[3] && !b[0] && b[1] && !b[2] && b[3] && !assume_1_violate[0] && !copy1.a_reg[0] && !copy1.a_reg[1] && copy1.a_reg[2] && !copy1.a_reg[3] && !copy1.b_reg[0] && !copy1.b_reg[1] && copy1.b_reg[2] && copy1.b_reg[3] && copy1.busy[0] && !copy2.a_reg[0] && !copy2.a_reg[1] && !copy2.a_reg[2] && !copy2.a_reg[3] && !copy2.b_reg[0] && !copy2.b_reg[1] && copy2.b_reg[2] && !copy2.b_reg[3] && copy2.busy[0] && shortcut.eq_a_reg_copy2[0] && shortcut.eq_b_reg_copy2[0] && shortcut.eq_busy_copy2[0])
+(a1[0] && a1[1] && !a1[2] && a1[3] && a2[0] && a2[1] && !a2[2] && a2[3] && !b[0] && b[1] && !b[2] && b[3] && !assume_1_violate[0] && copy1.a_reg[2] && copy1.b_reg[3] && !copy2.a_reg[0] && !copy2.a_reg[1] && !copy2.a_reg[2] && !copy2.a_reg[3] && copy2.busy[0] && shortcut.eq_a_reg_copy2[0] && shortcut.eq_busy_copy2[0])
+Cube:
+1 6 16 31
+Adding cube (!assume_1_violate[0] && copy1.a_reg[2] && copy1.b_reg[3] && !copy2.a_reg[2]) to frame 2.
+Trying to justify cube (!assume_1_violate[0] && copy2.finish[0] && !copy1.finish[0] && shortcut.eq_finish_copy2[0]) in frame 1.
+(a1[0] && a1[1] && a1[2] && a1[3] && a2[0] && a2[1] && a2[2] && a2[3] && !b[0] && b[1] && !b[2] && b[3] && !assume_1_violate[0] && !copy1.a_reg[0] && !copy1.a_reg[1] && copy1.a_reg[2] && !copy1.a_reg[3] && !copy1.b_reg[0] && !copy1.b_reg[1] && copy1.b_reg[2] && !copy1.b_reg[3] && copy1.busy[0] && !copy2.a_reg[0] && !copy2.a_reg[1] && !copy2.a_reg[2] && !copy2.a_reg[3] && !copy2.b_reg[0] && !copy2.b_reg[1] && copy2.b_reg[2] && !copy2.b_reg[3] && copy2.busy[0] && shortcut.eq_a_reg_copy2[0] && shortcut.eq_b_reg_copy2[0] && shortcut.eq_busy_copy2[0])
+(a1[0] && a1[1] && a1[2] && a1[3] && a2[0] && a2[1] && a2[2] && a2[3] && !b[0] && b[1] && !b[2] && b[3] && !assume_1_violate[0] && copy1.a_reg[2] && copy1.b_reg[2] && !copy2.a_reg[0] && !copy2.a_reg[1] && !copy2.a_reg[2] && !copy2.a_reg[3] && copy2.busy[0] && shortcut.eq_a_reg_copy2[0] && shortcut.eq_busy_copy2[0])
+Cube:
+1 6 14 31
+Adding cube (!assume_1_violate[0] && copy1.a_reg[2] && copy1.b_reg[2] && !copy2.a_reg[2]) to frame 2.
+Trying to justify cube (!assume_1_violate[0] && copy2.finish[0] && !copy1.finish[0] && shortcut.eq_finish_copy2[0]) in frame 1.
+(a1[0] && a1[1] && a1[2] && a1[3] && a2[0] && a2[1] && a2[2] && a2[3] && !b[0] && b[1] && !b[2] && b[3] && !assume_1_violate[0] && !copy1.a_reg[0] && !copy1.a_reg[1] && copy1.a_reg[2] && !copy1.a_reg[3] && copy1.b_reg[0] && !copy1.b_reg[1] && !copy1.b_reg[2] && !copy1.b_reg[3] && copy1.busy[0] && !copy2.a_reg[0] && !copy2.a_reg[1] && !copy2.a_reg[2] && !copy2.a_reg[3] && copy2.b_reg[0] && !copy2.b_reg[1] && !copy2.b_reg[2] && !copy2.b_reg[3] && copy2.busy[0] && shortcut.eq_a_reg_copy2[0] && shortcut.eq_b_reg_copy2[0] && shortcut.eq_busy_copy2[0])
+(a1[0] && a1[1] && a1[2] && a1[3] && a2[0] && a2[1] && a2[2] && a2[3] && !b[0] && b[1] && !b[2] && b[3] && !assume_1_violate[0] && copy1.a_reg[2] && copy1.b_reg[0] && !copy2.a_reg[0] && !copy2.a_reg[1] && !copy2.a_reg[2] && !copy2.a_reg[3] && copy2.busy[0] && shortcut.eq_a_reg_copy2[0] && shortcut.eq_busy_copy2[0])
+Cube:
+1 6 10 31
+Adding cube (!assume_1_violate[0] && copy1.a_reg[2] && copy1.b_reg[0] && !copy2.a_reg[2]) to frame 1.
+Cube:
+1 6 10 31 42
+Adding cube (!assume_1_violate[0] && copy1.a_reg[2] && copy1.b_reg[0] && !copy2.a_reg[2] && copy2.busy[0]) to frame 2.
+Trying to justify cube (!assume_1_violate[0] && copy2.finish[0] && !copy1.finish[0] && shortcut.eq_finish_copy2[0]) in frame 1.
+(!a1[0] && a1[1] && a1[2] && !a1[3] && !a2[0] && a2[1] && !a2[2] && !a2[3] && !b[0] && !b[1] && !b[2] && !b[3] && !assume_1_violate[0] && !copy1.a_reg[0] && !copy1.a_reg[1] && copy1.a_reg[2] && !copy1.a_reg[3] && !copy1.b_reg[0] && copy1.b_reg[1] && !copy1.b_reg[2] && !copy1.b_reg[3] && copy1.busy[0] && !copy2.a_reg[0] && !copy2.a_reg[1] && !copy2.a_reg[2] && !copy2.a_reg[3] && copy2.b_reg[0] && copy2.b_reg[1] && !copy2.b_reg[2] && !copy2.b_reg[3] && copy2.busy[0] && shortcut.eq_a_reg_copy2[0] && shortcut.eq_b_reg_copy2[0] && shortcut.eq_busy_copy2[0])
+(!a1[0] && a1[1] && a1[2] && !a1[3] && !a2[0] && a2[1] && !a2[2] && !a2[3] && !b[0] && !b[1] && !b[2] && !b[3] && !assume_1_violate[0] && copy1.a_reg[2] && copy1.b_reg[1] && !copy2.a_reg[0] && !copy2.a_reg[1] && !copy2.a_reg[2] && !copy2.a_reg[3] && copy2.busy[0] && shortcut.eq_a_reg_copy2[0] && shortcut.eq_busy_copy2[0])
+Cube:
+1 6 12 31
+Adding cube (!assume_1_violate[0] && copy1.a_reg[2] && copy1.b_reg[1] && !copy2.a_reg[2]) to frame 2.
+Trying to justify cube (!assume_1_violate[0] && copy2.finish[0] && !copy1.finish[0] && shortcut.eq_finish_copy2[0]) in frame 1.
+(!a1[0] && a1[1] && a1[2] && !a1[3] && !a2[0] && a2[1] && !a2[2] && !a2[3] && !b[0] && !b[1] && !b[2] && !b[3] && !assume_1_violate[0] && !copy1.a_reg[0] && !copy1.a_reg[1] && !copy1.a_reg[2] && copy1.a_reg[3] && !copy1.b_reg[0] && copy1.b_reg[1] && copy1.b_reg[2] && !copy1.b_reg[3] && copy1.busy[0] && !copy2.a_reg[0] && !copy2.a_reg[1] && !copy2.a_reg[2] && !copy2.a_reg[3] && copy2.b_reg[0] && copy2.b_reg[1] && copy2.b_reg[2] && !copy2.b_reg[3] && copy2.busy[0] && shortcut.eq_a_reg_copy2[0] && shortcut.eq_b_reg_copy2[0] && shortcut.eq_busy_copy2[0])
+(!a1[0] && a1[1] && a1[2] && !a1[3] && !a2[0] && a2[1] && !a2[2] && !a2[3] && !b[0] && !b[1] && !b[2] && !b[3] && !assume_1_violate[0] && copy1.a_reg[3] && copy1.b_reg[1] && !copy2.a_reg[0] && !copy2.a_reg[1] && !copy2.a_reg[2] && !copy2.a_reg[3] && copy2.busy[0] && shortcut.eq_a_reg_copy2[0] && shortcut.eq_busy_copy2[0])
+Cube:
+1 8 12 33
+Adding cube (!assume_1_violate[0] && copy1.a_reg[3] && copy1.b_reg[1] && !copy2.a_reg[3]) to frame 1.
+Cube:
+1 8 12 33 42
+Adding cube (!assume_1_violate[0] && copy1.a_reg[3] && copy1.b_reg[1] && !copy2.a_reg[3] && copy2.busy[0]) to frame 2.
+Trying to justify cube (!assume_1_violate[0] && copy2.finish[0] && !copy1.finish[0] && shortcut.eq_finish_copy2[0]) in frame 1.
+(!a1[0] && a1[1] && !a1[2] && a1[3] && !a2[0] && a2[1] && !a2[2] && !a2[3] && !b[0] && !b[1] && !b[2] && !b[3] && !assume_1_violate[0] && !copy1.a_reg[0] && !copy1.a_reg[1] && !copy1.a_reg[2] && copy1.a_reg[3] && !copy1.b_reg[0] && !copy1.b_reg[1] && copy1.b_reg[2] && !copy1.b_reg[3] && copy1.busy[0] && !copy2.a_reg[0] && !copy2.a_reg[1] && !copy2.a_reg[2] && !copy2.a_reg[3] && copy2.b_reg[0] && !copy2.b_reg[1] && copy2.b_reg[2] && !copy2.b_reg[3] && copy2.busy[0] && shortcut.eq_a_reg_copy2[0] && shortcut.eq_b_reg_copy2[0] && shortcut.eq_busy_copy2[0])
+(!a1[0] && a1[1] && !a1[2] && a1[3] && !a2[0] && a2[1] && !a2[2] && !a2[3] && !b[0] && !b[1] && !b[2] && !b[3] && !assume_1_violate[0] && copy1.a_reg[3] && copy1.b_reg[2] && !copy2.a_reg[0] && !copy2.a_reg[1] && !copy2.a_reg[2] && !copy2.a_reg[3] && copy2.busy[0] && shortcut.eq_a_reg_copy2[0] && shortcut.eq_busy_copy2[0])
+Cube:
+1 8 14 33
+Adding cube (!assume_1_violate[0] && copy1.a_reg[3] && copy1.b_reg[2] && !copy2.a_reg[3]) to frame 1.
+Cube:
+1 8 14 33 42
+Adding cube (!assume_1_violate[0] && copy1.a_reg[3] && copy1.b_reg[2] && !copy2.a_reg[3] && copy2.busy[0]) to frame 2.
+Trying to justify cube (!assume_1_violate[0] && copy2.finish[0] && !copy1.finish[0] && shortcut.eq_finish_copy2[0]) in frame 1.
+(!a1[0] && !a1[1] && !a1[2] && a1[3] && !a2[0] && !a2[1] && !a2[2] && !a2[3] && !b[0] && !b[1] && !b[2] && !b[3] && !assume_1_violate[0] && !copy1.a_reg[0] && !copy1.a_reg[1] && !copy1.a_reg[2] && copy1.a_reg[3] && !copy1.b_reg[0] && !copy1.b_reg[1] && !copy1.b_reg[2] && copy1.b_reg[3] && copy1.busy[0] && !copy2.a_reg[0] && !copy2.a_reg[1] && !copy2.a_reg[2] && !copy2.a_reg[3] && copy2.b_reg[0] && !copy2.b_reg[1] && !copy2.b_reg[2] && copy2.b_reg[3] && copy2.busy[0] && shortcut.eq_a_reg_copy2[0] && shortcut.eq_b_reg_copy2[0] && shortcut.eq_busy_copy2[0])
+(!a1[0] && !a1[1] && !a1[2] && a1[3] && !a2[0] && !a2[1] && !a2[2] && !a2[3] && !b[0] && !b[1] && !b[2] && !b[3] && !assume_1_violate[0] && copy1.a_reg[3] && copy1.b_reg[3] && !copy2.a_reg[0] && !copy2.a_reg[1] && !copy2.a_reg[2] && !copy2.a_reg[3] && copy2.busy[0] && shortcut.eq_a_reg_copy2[0] && shortcut.eq_busy_copy2[0])
+Cube:
+1 8 16 33
+Adding cube (!assume_1_violate[0] && copy1.a_reg[3] && copy1.b_reg[3] && !copy2.a_reg[3]) to frame 2.
+Trying to justify cube (!assume_1_violate[0] && copy2.finish[0] && !copy1.finish[0] && shortcut.eq_finish_copy2[0]) in frame 1.
+(!a1[0] && !a1[1] && !a1[2] && a1[3] && !a2[0] && !a2[1] && !a2[2] && a2[3] && !b[0] && !b[1] && !b[2] && b[3] && !assume_1_violate[0] && !copy1.a_reg[0] && copy1.a_reg[1] && !copy1.a_reg[2] && !copy1.a_reg[3] && !copy1.b_reg[0] && !copy1.b_reg[1] && !copy1.b_reg[2] && copy1.b_reg[3] && copy1.busy[0] && !copy2.a_reg[0] && copy2.a_reg[1] && !copy2.a_reg[2] && copy2.a_reg[3] && !copy2.b_reg[0] && !copy2.b_reg[1] && !copy2.b_reg[2] && !copy2.b_reg[3] && copy2.busy[0] && shortcut.eq_a_reg_copy2[0] && shortcut.eq_b_reg_copy2[0] && shortcut.eq_busy_copy2[0])
+(!a1[0] && !a1[1] && !a1[2] && a1[3] && !a2[0] && !a2[1] && !a2[2] && a2[3] && !b[0] && !b[1] && !b[2] && b[3] && !assume_1_violate[0] && copy1.a_reg[1] && copy1.b_reg[3] && !copy2.b_reg[0] && !copy2.b_reg[1] && !copy2.b_reg[2] && !copy2.b_reg[3] && copy2.busy[0] && shortcut.eq_b_reg_copy2[0] && shortcut.eq_busy_copy2[0])
+Cube:
+16 41
+Adding cube (copy1.b_reg[3] && !copy2.b_reg[3]) to frame 2.
+Trying to justify cube (!assume_1_violate[0] && copy2.finish[0] && !copy1.finish[0] && shortcut.eq_finish_copy2[0]) in frame 1.
+(!a1[0] && !a1[1] && !a1[2] && a1[3] && !a2[0] && !a2[1] && !a2[2] && a2[3] && !b[0] && !b[1] && !b[2] && b[3] && !assume_1_violate[0] && !copy1.a_reg[0] && copy1.a_reg[1] && !copy1.a_reg[2] && copy1.a_reg[3] && copy1.b_reg[0] && !copy1.b_reg[1] && !copy1.b_reg[2] && !copy1.b_reg[3] && copy1.busy[0] && !copy2.a_reg[0] && !copy2.a_reg[1] && !copy2.a_reg[2] && !copy2.a_reg[3] && copy2.b_reg[0] && !copy2.b_reg[1] && !copy2.b_reg[2] && !copy2.b_reg[3] && copy2.busy[0] && shortcut.eq_a_reg_copy2[0] && shortcut.eq_b_reg_copy2[0] && shortcut.eq_busy_copy2[0])
+(!a1[0] && !a1[1] && !a1[2] && a1[3] && !a2[0] && !a2[1] && !a2[2] && a2[3] && !b[0] && !b[1] && !b[2] && b[3] && !assume_1_violate[0] && copy1.a_reg[1] && copy1.b_reg[0] && !copy2.a_reg[0] && !copy2.a_reg[1] && !copy2.a_reg[2] && !copy2.a_reg[3] && copy2.busy[0] && shortcut.eq_a_reg_copy2[0] && shortcut.eq_busy_copy2[0])
+Cube:
+1 4 10 29
+Adding cube (!assume_1_violate[0] && copy1.a_reg[1] && copy1.b_reg[0] && !copy2.a_reg[1]) to frame 2.
+Trying to justify cube (!assume_1_violate[0] && copy2.finish[0] && !copy1.finish[0] && shortcut.eq_finish_copy2[0]) in frame 1.
+(!a1[0] && !a1[1] && !a1[2] && a1[3] && !a2[0] && !a2[1] && !a2[2] && a2[3] && !b[0] && !b[1] && !b[2] && b[3] && !assume_1_violate[0] && !copy1.a_reg[0] && !copy1.a_reg[1] && !copy1.a_reg[2] && copy1.a_reg[3] && copy1.b_reg[0] && !copy1.b_reg[1] && !copy1.b_reg[2] && !copy1.b_reg[3] && copy1.busy[0] && !copy2.a_reg[0] && !copy2.a_reg[1] && !copy2.a_reg[2] && !copy2.a_reg[3] && copy2.b_reg[0] && !copy2.b_reg[1] && !copy2.b_reg[2] && !copy2.b_reg[3] && copy2.busy[0] && shortcut.eq_a_reg_copy2[0] && shortcut.eq_b_reg_copy2[0] && shortcut.eq_busy_copy2[0])
+(!a1[0] && !a1[1] && !a1[2] && a1[3] && !a2[0] && !a2[1] && !a2[2] && a2[3] && !b[0] && !b[1] && !b[2] && b[3] && !assume_1_violate[0] && copy1.a_reg[3] && copy1.b_reg[0] && !copy2.a_reg[0] && !copy2.a_reg[1] && !copy2.a_reg[2] && !copy2.a_reg[3] && copy2.busy[0] && shortcut.eq_a_reg_copy2[0] && shortcut.eq_busy_copy2[0])
+Cube:
+1 8 10 33
+Adding cube (!assume_1_violate[0] && copy1.a_reg[3] && copy1.b_reg[0] && !copy2.a_reg[3]) to frame 2.
+Trying to justify cube (!assume_1_violate[0] && copy2.finish[0] && !copy1.finish[0] && shortcut.eq_finish_copy2[0]) in frame 1.
+(!a1[0] && !a1[1] && !a1[2] && a1[3] && !a2[0] && !a2[1] && !a2[2] && a2[3] && !b[0] && !b[1] && !b[2] && b[3] && !assume_1_violate[0] && copy1.a_reg[0] && !copy1.a_reg[1] && !copy1.a_reg[2] && !copy1.a_reg[3] && copy1.b_reg[0] && !copy1.b_reg[1] && !copy1.b_reg[2] && !copy1.b_reg[3] && copy1.busy[0] && !copy2.a_reg[0] && !copy2.a_reg[1] && !copy2.a_reg[2] && !copy2.a_reg[3] && copy2.b_reg[0] && !copy2.b_reg[1] && !copy2.b_reg[2] && !copy2.b_reg[3] && copy2.busy[0] && shortcut.eq_a_reg_copy2[0] && shortcut.eq_b_reg_copy2[0] && shortcut.eq_busy_copy2[0])
+(!a1[0] && !a1[1] && !a1[2] && a1[3] && !a2[0] && !a2[1] && !a2[2] && a2[3] && !b[0] && !b[1] && !b[2] && b[3] && !assume_1_violate[0] && copy1.a_reg[0] && copy1.b_reg[0] && !copy2.a_reg[0] && !copy2.a_reg[1] && !copy2.a_reg[2] && !copy2.a_reg[3] && copy2.busy[0] && shortcut.eq_a_reg_copy2[0] && shortcut.eq_busy_copy2[0])
+Cube:
+1 2 10 27
+Adding cube (!assume_1_violate[0] && copy1.a_reg[0] && copy1.b_reg[0] && !copy2.a_reg[0]) to frame 1.
+Cube:
+1 2 10 27 42
+Adding cube (!assume_1_violate[0] && copy1.a_reg[0] && copy1.b_reg[0] && !copy2.a_reg[0] && copy2.busy[0]) to frame 2.
+Trying to justify cube (!assume_1_violate[0] && copy2.finish[0] && !copy1.finish[0] && shortcut.eq_finish_copy2[0]) in frame 1.
+(a1[0] && !a1[1] && !a1[2] && !a1[3] && a2[0] && !a2[1] && !a2[2] && !a2[3] && b[0] && !b[1] && !b[2] && !b[3] && !assume_1_violate[0] && copy1.a_reg[0] && !copy1.a_reg[1] && !copy1.a_reg[2] && !copy1.a_reg[3] && !copy1.b_reg[0] && copy1.b_reg[1] && !copy1.b_reg[2] && !copy1.b_reg[3] && copy1.busy[0] && !copy2.a_reg[0] && !copy2.a_reg[1] && !copy2.a_reg[2] && !copy2.a_reg[3] && copy2.b_reg[0] && copy2.b_reg[1] && !copy2.b_reg[2] && !copy2.b_reg[3] && copy2.busy[0] && shortcut.eq_a_reg_copy2[0] && shortcut.eq_b_reg_copy2[0] && shortcut.eq_busy_copy2[0])
+(a1[0] && !a1[1] && !a1[2] && !a1[3] && a2[0] && !a2[1] && !a2[2] && !a2[3] && b[0] && !b[1] && !b[2] && !b[3] && !assume_1_violate[0] && copy1.a_reg[0] && copy1.b_reg[1] && !copy2.a_reg[0] && !copy2.a_reg[1] && !copy2.a_reg[2] && !copy2.a_reg[3] && copy2.busy[0] && shortcut.eq_a_reg_copy2[0] && shortcut.eq_busy_copy2[0])
+Cube:
+1 2 12 27
+Adding cube (!assume_1_violate[0] && copy1.a_reg[0] && copy1.b_reg[1] && !copy2.a_reg[0]) to frame 1.
+Cube:
+1 2 12 27 42
+Adding cube (!assume_1_violate[0] && copy1.a_reg[0] && copy1.b_reg[1] && !copy2.a_reg[0] && copy2.busy[0]) to frame 2.
+Trying to justify cube (!assume_1_violate[0] && copy2.finish[0] && !copy1.finish[0] && shortcut.eq_finish_copy2[0]) in frame 1.
+(a1[0] && !a1[1] && !a1[2] && !a1[3] && a2[0] && !a2[1] && !a2[2] && !a2[3] && !b[0] && b[1] && !b[2] && !b[3] && !assume_1_violate[0] && copy1.a_reg[0] && !copy1.a_reg[1] && !copy1.a_reg[2] && !copy1.a_reg[3] && !copy1.b_reg[0] && !copy1.b_reg[1] && copy1.b_reg[2] && !copy1.b_reg[3] && copy1.busy[0] && !copy2.a_reg[0] && !copy2.a_reg[1] && !copy2.a_reg[2] && !copy2.a_reg[3] && copy2.b_reg[0] && copy2.b_reg[1] && copy2.b_reg[2] && !copy2.b_reg[3] && copy2.busy[0] && shortcut.eq_a_reg_copy2[0] && shortcut.eq_b_reg_copy2[0] && shortcut.eq_busy_copy2[0])
+(a1[0] && !a1[1] && !a1[2] && !a1[3] && a2[0] && !a2[1] && !a2[2] && !a2[3] && !b[0] && b[1] && !b[2] && !b[3] && !assume_1_violate[0] && copy1.a_reg[0] && copy1.b_reg[2] && !copy2.a_reg[0] && !copy2.a_reg[1] && !copy2.a_reg[2] && !copy2.a_reg[3] && copy2.busy[0] && shortcut.eq_a_reg_copy2[0] && shortcut.eq_busy_copy2[0])
+Cube:
+1 2 14 27
+Adding cube (!assume_1_violate[0] && copy1.a_reg[0] && copy1.b_reg[2] && !copy2.a_reg[0]) to frame 2.
+Trying to justify cube (!assume_1_violate[0] && copy2.finish[0] && !copy1.finish[0] && shortcut.eq_finish_copy2[0]) in frame 1.
+(a1[0] && !a1[1] && !a1[2] && !a1[3] && a2[0] && !a2[1] && !a2[2] && !a2[3] && !b[0] && b[1] && !b[2] && !b[3] && !assume_1_violate[0] && !copy1.a_reg[0] && copy1.a_reg[1] && !copy1.a_reg[2] && !copy1.a_reg[3] && !copy1.b_reg[0] && !copy1.b_reg[1] && copy1.b_reg[2] && !copy1.b_reg[3] && copy1.busy[0] && !copy2.a_reg[0] && !copy2.a_reg[1] && !copy2.a_reg[2] && !copy2.a_reg[3] && copy2.b_reg[0] && copy2.b_reg[1] && copy2.b_reg[2] && !copy2.b_reg[3] && copy2.busy[0] && shortcut.eq_a_reg_copy2[0] && shortcut.eq_b_reg_copy2[0] && shortcut.eq_busy_copy2[0])
+(a1[0] && !a1[1] && !a1[2] && !a1[3] && a2[0] && !a2[1] && !a2[2] && !a2[3] && !b[0] && b[1] && !b[2] && !b[3] && !assume_1_violate[0] && copy1.a_reg[1] && copy1.b_reg[2] && !copy2.a_reg[0] && !copy2.a_reg[1] && !copy2.a_reg[2] && !copy2.a_reg[3] && copy2.busy[0] && shortcut.eq_a_reg_copy2[0] && shortcut.eq_busy_copy2[0])
+Cube:
+1 4 14 29
+Adding cube (!assume_1_violate[0] && copy1.a_reg[1] && copy1.b_reg[2] && !copy2.a_reg[1]) to frame 2.
+Cube:
+1 50 85
+Adding cube (!assume_1_violate[0] && copy2.finish[0] && !copy1.finish[0]) to frame 2.
+Trying to justify cube <prop=fail> in frame 2.
+(!a1[0] && !a1[1] && !a1[2] && !a1[3] && !a2[0] && !a2[1] && !a2[2] && !a2[3] && !b[0] && !b[1] && !b[2] && b[3] && !assume_1_violate[0] && !copy2.finish[0] && copy1.finish[0] && shortcut.eq_finish_copy2[0])
+(!a1[0] && !a1[1] && !a1[2] && !a1[3] && !a2[0] && !a2[1] && !a2[2] && !a2[3] && !b[0] && !b[1] && !b[2] && b[3] && !assume_1_violate[0] && !copy2.finish[0] && copy1.finish[0] && shortcut.eq_finish_copy2[0])
+Trying to justify cube (!assume_1_violate[0] && !copy2.finish[0] && copy1.finish[0] && shortcut.eq_finish_copy2[0]) in frame 1.
+(a1[0] && !a1[1] && !a1[2] && !a1[3] && a2[0] && !a2[1] && !a2[2] && !a2[3] && !b[0] && b[1] && !b[2] && !b[3] && !assume_1_violate[0] && !copy1.a_reg[0] && !copy1.a_reg[1] && !copy1.a_reg[2] && !copy1.a_reg[3] && !copy1.b_reg[0] && !copy1.b_reg[1] && copy1.b_reg[2] && !copy1.b_reg[3] && copy1.busy[0] && copy2.a_reg[0] && !copy2.a_reg[1] && !copy2.a_reg[2] && !copy2.a_reg[3] && copy2.b_reg[0] && copy2.b_reg[1] && copy2.b_reg[2] && !copy2.b_reg[3] && copy2.busy[0] && shortcut.eq_a_reg_copy2[0] && shortcut.eq_b_reg_copy2[0] && shortcut.eq_busy_copy2[0])
+(a1[0] && !a1[1] && !a1[2] && !a1[3] && a2[0] && !a2[1] && !a2[2] && !a2[3] && !b[0] && b[1] && !b[2] && !b[3] && !assume_1_violate[0] && !copy1.a_reg[0] && !copy1.a_reg[1] && !copy1.a_reg[2] && !copy1.a_reg[3] && copy1.busy[0] && copy2.a_reg[0] && copy2.b_reg[0] && shortcut.eq_a_reg_copy2[0] && shortcut.eq_b_reg_copy2[0])
+Cube:
+1 3 26 34
+Adding cube (!assume_1_violate[0] && !copy1.a_reg[0] && copy2.a_reg[0] && copy2.b_reg[0]) to frame 1.
+Cube:
+1 3 18 26 34
+Adding cube (!assume_1_violate[0] && !copy1.a_reg[0] && copy1.busy[0] && copy2.a_reg[0] && copy2.b_reg[0]) to frame 2.
+Trying to justify cube (!assume_1_violate[0] && !copy2.finish[0] && copy1.finish[0] && shortcut.eq_finish_copy2[0]) in frame 1.
+(a1[0] && !a1[1] && !a1[2] && !a1[3] && a2[0] && !a2[1] && !a2[2] && !a2[3] && b[0] && !b[1] && !b[2] && !b[3] && !assume_1_violate[0] && !copy1.a_reg[0] && !copy1.a_reg[1] && !copy1.a_reg[2] && !copy1.a_reg[3] && copy1.b_reg[0] && !copy1.b_reg[1] && !copy1.b_reg[2] && !copy1.b_reg[3] && copy1.busy[0] && !copy2.a_reg[0] && !copy2.a_reg[1] && !copy2.a_reg[2] && copy2.a_reg[3] && copy2.b_reg[0] && copy2.b_reg[1] && copy2.b_reg[2] && !copy2.b_reg[3] && copy2.busy[0] && shortcut.eq_a_reg_copy2[0] && shortcut.eq_b_reg_copy2[0] && shortcut.eq_busy_copy2[0])
+(a1[0] && !a1[1] && !a1[2] && !a1[3] && a2[0] && !a2[1] && !a2[2] && !a2[3] && b[0] && !b[1] && !b[2] && !b[3] && !assume_1_violate[0] && !copy1.a_reg[0] && !copy1.a_reg[1] && !copy1.a_reg[2] && !copy1.a_reg[3] && copy1.busy[0] && copy2.a_reg[3] && copy2.b_reg[0] && shortcut.eq_a_reg_copy2[0] && shortcut.eq_b_reg_copy2[0])
+Cube:
+1 9 32 34
+Adding cube (!assume_1_violate[0] && !copy1.a_reg[3] && copy2.a_reg[3] && copy2.b_reg[0]) to frame 1.
+Cube:
+1 9 18 32 34
+Adding cube (!assume_1_violate[0] && !copy1.a_reg[3] && copy1.busy[0] && copy2.a_reg[3] && copy2.b_reg[0]) to frame 2.
+Trying to justify cube (!assume_1_violate[0] && !copy2.finish[0] && copy1.finish[0] && shortcut.eq_finish_copy2[0]) in frame 1.
+(!a1[0] && !a1[1] && !a1[2] && a1[3] && !a2[0] && !a2[1] && !a2[2] && a2[3] && b[0] && !b[1] && !b[2] && !b[3] && !assume_1_violate[0] && !copy1.a_reg[0] && !copy1.a_reg[1] && !copy1.a_reg[2] && !copy1.a_reg[3] && !copy1.b_reg[0] && !copy1.b_reg[1] && copy1.b_reg[2] && !copy1.b_reg[3] && copy1.busy[0] && copy2.a_reg[0] && !copy2.a_reg[1] && !copy2.a_reg[2] && !copy2.a_reg[3] && !copy2.b_reg[0] && copy2.b_reg[1] && copy2.b_reg[2] && !copy2.b_reg[3] && copy2.busy[0] && shortcut.eq_a_reg_copy2[0] && shortcut.eq_b_reg_copy2[0] && shortcut.eq_busy_copy2[0])
+(!a1[0] && !a1[1] && !a1[2] && a1[3] && !a2[0] && !a2[1] && !a2[2] && a2[3] && b[0] && !b[1] && !b[2] && !b[3] && !assume_1_violate[0] && !copy1.a_reg[0] && !copy1.a_reg[1] && !copy1.a_reg[2] && !copy1.a_reg[3] && copy1.busy[0] && copy2.a_reg[0] && copy2.b_reg[1] && shortcut.eq_a_reg_copy2[0] && shortcut.eq_b_reg_copy2[0])
+Cube:
+1 3 26 36
+Adding cube (!assume_1_violate[0] && !copy1.a_reg[0] && copy2.a_reg[0] && copy2.b_reg[1]) to frame 1.
+Cube:
+1 3 18 26 36
+Adding cube (!assume_1_violate[0] && !copy1.a_reg[0] && copy1.busy[0] && copy2.a_reg[0] && copy2.b_reg[1]) to frame 2.
+Trying to justify cube (!assume_1_violate[0] && !copy2.finish[0] && copy1.finish[0] && shortcut.eq_finish_copy2[0]) in frame 1.
+(a1[0] && !a1[1] && !a1[2] && !a1[3] && a2[0] && !a2[1] && !a2[2] && !a2[3] && !b[0] && b[1] && !b[2] && !b[3] && !assume_1_violate[0] && !copy1.a_reg[0] && !copy1.a_reg[1] && !copy1.a_reg[2] && !copy1.a_reg[3] && !copy1.b_reg[0] && !copy1.b_reg[1] && copy1.b_reg[2] && !copy1.b_reg[3] && copy1.busy[0] && copy2.a_reg[0] && !copy2.a_reg[1] && !copy2.a_reg[2] && !copy2.a_reg[3] && !copy2.b_reg[0] && !copy2.b_reg[1] && copy2.b_reg[2] && !copy2.b_reg[3] && copy2.busy[0] && shortcut.eq_a_reg_copy2[0] && shortcut.eq_b_reg_copy2[0] && shortcut.eq_busy_copy2[0])
+(a1[0] && !a1[1] && !a1[2] && !a1[3] && a2[0] && !a2[1] && !a2[2] && !a2[3] && !b[0] && b[1] && !b[2] && !b[3] && !assume_1_violate[0] && !copy1.a_reg[0] && !copy1.a_reg[1] && !copy1.a_reg[2] && !copy1.a_reg[3] && copy1.busy[0] && copy2.a_reg[0] && copy2.b_reg[2] && shortcut.eq_a_reg_copy2[0] && shortcut.eq_b_reg_copy2[0])
+Cube:
+1 3 26 38
+Adding cube (!assume_1_violate[0] && !copy1.a_reg[0] && copy2.a_reg[0] && copy2.b_reg[2]) to frame 1.
+Cube:
+1 3 18 26 38
+Adding cube (!assume_1_violate[0] && !copy1.a_reg[0] && copy1.busy[0] && copy2.a_reg[0] && copy2.b_reg[2]) to frame 2.
+Trying to justify cube (!assume_1_violate[0] && !copy2.finish[0] && copy1.finish[0] && shortcut.eq_finish_copy2[0]) in frame 1.
+(a1[0] && !a1[1] && !a1[2] && !a1[3] && a2[0] && !a2[1] && !a2[2] && !a2[3] && !b[0] && !b[1] && b[2] && !b[3] && !assume_1_violate[0] && !copy1.a_reg[0] && !copy1.a_reg[1] && !copy1.a_reg[2] && !copy1.a_reg[3] && !copy1.b_reg[0] && !copy1.b_reg[1] && !copy1.b_reg[2] && !copy1.b_reg[3] && copy1.busy[0] && copy2.a_reg[0] && !copy2.a_reg[1] && !copy2.a_reg[2] && !copy2.a_reg[3] && !copy2.b_reg[0] && !copy2.b_reg[1] && !copy2.b_reg[2] && copy2.b_reg[3] && copy2.busy[0] && shortcut.eq_a_reg_copy2[0] && shortcut.eq_b_reg_copy2[0] && shortcut.eq_busy_copy2[0])
+(a1[0] && !a1[1] && !a1[2] && !a1[3] && a2[0] && !a2[1] && !a2[2] && !a2[3] && !b[0] && !b[1] && b[2] && !b[3] && !assume_1_violate[0] && !copy1.a_reg[0] && !copy1.a_reg[1] && !copy1.a_reg[2] && !copy1.a_reg[3] && copy1.busy[0] && copy2.a_reg[0] && copy2.b_reg[3] && shortcut.eq_a_reg_copy2[0] && shortcut.eq_b_reg_copy2[0])
+Cube:
+1 3 26 40
+Adding cube (!assume_1_violate[0] && !copy1.a_reg[0] && copy2.a_reg[0] && copy2.b_reg[3]) to frame 2.
+Trying to justify cube (!assume_1_violate[0] && !copy2.finish[0] && copy1.finish[0] && shortcut.eq_finish_copy2[0]) in frame 1.
+(a1[0] && !a1[1] && !a1[2] && !a1[3] && a2[0] && !a2[1] && !a2[2] && !a2[3] && !b[0] && !b[1] && b[2] && !b[3] && !assume_1_violate[0] && !copy1.a_reg[0] && !copy1.a_reg[1] && !copy1.a_reg[2] && !copy1.a_reg[3] && !copy1.b_reg[0] && !copy1.b_reg[1] && !copy1.b_reg[2] && !copy1.b_reg[3] && copy1.busy[0] && !copy2.a_reg[0] && !copy2.a_reg[1] && !copy2.a_reg[2] && copy2.a_reg[3] && !copy2.b_reg[0] && !copy2.b_reg[1] && !copy2.b_reg[2] && copy2.b_reg[3] && copy2.busy[0] && shortcut.eq_a_reg_copy2[0] && shortcut.eq_b_reg_copy2[0] && shortcut.eq_busy_copy2[0])
+(a1[0] && !a1[1] && !a1[2] && !a1[3] && a2[0] && !a2[1] && !a2[2] && !a2[3] && !b[0] && !b[1] && b[2] && !b[3] && !assume_1_violate[0] && !copy1.a_reg[0] && !copy1.a_reg[1] && !copy1.a_reg[2] && !copy1.a_reg[3] && copy1.busy[0] && copy2.a_reg[3] && copy2.b_reg[3] && shortcut.eq_a_reg_copy2[0] && shortcut.eq_b_reg_copy2[0])
+Cube:
+1 9 32 40
+Adding cube (!assume_1_violate[0] && !copy1.a_reg[3] && copy2.a_reg[3] && copy2.b_reg[3]) to frame 2.
+Trying to justify cube (!assume_1_violate[0] && !copy2.finish[0] && copy1.finish[0] && shortcut.eq_finish_copy2[0]) in frame 1.
+(a1[0] && !a1[1] && !a1[2] && !a1[3] && a2[0] && !a2[1] && !a2[2] && !a2[3] && !b[0] && !b[1] && b[2] && !b[3] && !assume_1_violate[0] && !copy1.a_reg[0] && !copy1.a_reg[1] && !copy1.a_reg[2] && !copy1.a_reg[3] && !copy1.b_reg[0] && !copy1.b_reg[1] && !copy1.b_reg[2] && !copy1.b_reg[3] && copy1.busy[0] && !copy2.a_reg[0] && !copy2.a_reg[1] && !copy2.a_reg[2] && copy2.a_reg[3] && !copy2.b_reg[0] && !copy2.b_reg[1] && copy2.b_reg[2] && !copy2.b_reg[3] && copy2.busy[0] && shortcut.eq_a_reg_copy2[0] && shortcut.eq_b_reg_copy2[0] && shortcut.eq_busy_copy2[0])
+(a1[0] && !a1[1] && !a1[2] && !a1[3] && a2[0] && !a2[1] && !a2[2] && !a2[3] && !b[0] && !b[1] && b[2] && !b[3] && !assume_1_violate[0] && !copy1.a_reg[0] && !copy1.a_reg[1] && !copy1.a_reg[2] && !copy1.a_reg[3] && copy1.busy[0] && copy2.a_reg[3] && copy2.b_reg[2] && shortcut.eq_a_reg_copy2[0] && shortcut.eq_b_reg_copy2[0])
+Cube:
+1 9 32 38
+Adding cube (!assume_1_violate[0] && !copy1.a_reg[3] && copy2.a_reg[3] && copy2.b_reg[2]) to frame 2.
+Trying to justify cube (!assume_1_violate[0] && !copy2.finish[0] && copy1.finish[0] && shortcut.eq_finish_copy2[0]) in frame 1.
+(a1[0] && !a1[1] && !a1[2] && !a1[3] && a2[0] && !a2[1] && !a2[2] && !a2[3] && !b[0] && !b[1] && b[2] && !b[3] && !assume_1_violate[0] && !copy1.a_reg[0] && !copy1.a_reg[1] && !copy1.a_reg[2] && !copy1.a_reg[3] && !copy1.b_reg[0] && !copy1.b_reg[1] && !copy1.b_reg[2] && !copy1.b_reg[3] && copy1.busy[0] && !copy2.a_reg[0] && !copy2.a_reg[1] && !copy2.a_reg[2] && copy2.a_reg[3] && !copy2.b_reg[0] && copy2.b_reg[1] && !copy2.b_reg[2] && !copy2.b_reg[3] && copy2.busy[0] && shortcut.eq_a_reg_copy2[0] && shortcut.eq_b_reg_copy2[0] && shortcut.eq_busy_copy2[0])
+(a1[0] && !a1[1] && !a1[2] && !a1[3] && a2[0] && !a2[1] && !a2[2] && !a2[3] && !b[0] && !b[1] && b[2] && !b[3] && !assume_1_violate[0] && !copy1.a_reg[0] && !copy1.a_reg[1] && !copy1.a_reg[2] && !copy1.a_reg[3] && copy1.busy[0] && copy2.a_reg[3] && copy2.b_reg[1] && shortcut.eq_a_reg_copy2[0] && shortcut.eq_b_reg_copy2[0])
+Cube:
+1 9 32 36
+Adding cube (!assume_1_violate[0] && !copy1.a_reg[3] && copy2.a_reg[3] && copy2.b_reg[1]) to frame 2.
+Trying to justify cube (!assume_1_violate[0] && !copy2.finish[0] && copy1.finish[0] && shortcut.eq_finish_copy2[0]) in frame 1.
+(a1[0] && !a1[1] && !a1[2] && !a1[3] && a2[0] && !a2[1] && !a2[2] && !a2[3] && !b[0] && !b[1] && b[2] && !b[3] && !assume_1_violate[0] && !copy1.a_reg[0] && !copy1.a_reg[1] && !copy1.a_reg[2] && !copy1.a_reg[3] && !copy1.b_reg[0] && !copy1.b_reg[1] && !copy1.b_reg[2] && !copy1.b_reg[3] && copy1.busy[0] && !copy2.a_reg[0] && !copy2.a_reg[1] && copy2.a_reg[2] && !copy2.a_reg[3] && !copy2.b_reg[0] && copy2.b_reg[1] && !copy2.b_reg[2] && !copy2.b_reg[3] && copy2.busy[0] && shortcut.eq_a_reg_copy2[0] && shortcut.eq_b_reg_copy2[0] && shortcut.eq_busy_copy2[0])
+(a1[0] && !a1[1] && !a1[2] && !a1[3] && a2[0] && !a2[1] && !a2[2] && !a2[3] && !b[0] && !b[1] && b[2] && !b[3] && !assume_1_violate[0] && !copy1.a_reg[0] && !copy1.a_reg[1] && !copy1.a_reg[2] && !copy1.a_reg[3] && copy1.busy[0] && copy2.a_reg[2] && copy2.b_reg[1] && shortcut.eq_a_reg_copy2[0] && shortcut.eq_b_reg_copy2[0])
+Cube:
+1 7 30 36
+Adding cube (!assume_1_violate[0] && !copy1.a_reg[2] && copy2.a_reg[2] && copy2.b_reg[1]) to frame 1.
+Cube:
+1 7 18 30 36
+Adding cube (!assume_1_violate[0] && !copy1.a_reg[2] && copy1.busy[0] && copy2.a_reg[2] && copy2.b_reg[1]) to frame 2.
+Trying to justify cube (!assume_1_violate[0] && !copy2.finish[0] && copy1.finish[0] && shortcut.eq_finish_copy2[0]) in frame 1.
+(!a1[0] && !a1[1] && a1[2] && !a1[3] && !a2[0] && !a2[1] && a2[2] && !a2[3] && !b[0] && b[1] && !b[2] && !b[3] && !assume_1_violate[0] && !copy1.a_reg[0] && !copy1.a_reg[1] && !copy1.a_reg[2] && !copy1.a_reg[3] && !copy1.b_reg[0] && !copy1.b_reg[1] && !copy1.b_reg[2] && !copy1.b_reg[3] && copy1.busy[0] && !copy2.a_reg[0] && !copy2.a_reg[1] && copy2.a_reg[2] && !copy2.a_reg[3] && !copy2.b_reg[0] && !copy2.b_reg[1] && copy2.b_reg[2] && !copy2.b_reg[3] && copy2.busy[0] && shortcut.eq_a_reg_copy2[0] && shortcut.eq_b_reg_copy2[0] && shortcut.eq_busy_copy2[0])
+(!a1[0] && !a1[1] && a1[2] && !a1[3] && !a2[0] && !a2[1] && a2[2] && !a2[3] && !b[0] && b[1] && !b[2] && !b[3] && !assume_1_violate[0] && !copy1.a_reg[0] && !copy1.a_reg[1] && !copy1.a_reg[2] && !copy1.a_reg[3] && copy1.busy[0] && copy2.a_reg[2] && copy2.b_reg[2] && shortcut.eq_a_reg_copy2[0] && shortcut.eq_b_reg_copy2[0])
+Cube:
+1 7 30 38
+Adding cube (!assume_1_violate[0] && !copy1.a_reg[2] && copy2.a_reg[2] && copy2.b_reg[2]) to frame 1.
+Cube:
+1 7 18 30 38
+Adding cube (!assume_1_violate[0] && !copy1.a_reg[2] && copy1.busy[0] && copy2.a_reg[2] && copy2.b_reg[2]) to frame 2.
+Trying to justify cube (!assume_1_violate[0] && !copy2.finish[0] && copy1.finish[0] && shortcut.eq_finish_copy2[0]) in frame 1.
+(!a1[0] && !a1[1] && a1[2] && !a1[3] && !a2[0] && !a2[1] && a2[2] && !a2[3] && !b[0] && !b[1] && b[2] && !b[3] && !assume_1_violate[0] && !copy1.a_reg[0] && !copy1.a_reg[1] && !copy1.a_reg[2] && !copy1.a_reg[3] && !copy1.b_reg[0] && !copy1.b_reg[1] && !copy1.b_reg[2] && !copy1.b_reg[3] && copy1.busy[0] && !copy2.a_reg[0] && !copy2.a_reg[1] && copy2.a_reg[2] && !copy2.a_reg[3] && !copy2.b_reg[0] && !copy2.b_reg[1] && !copy2.b_reg[2] && copy2.b_reg[3] && copy2.busy[0] && shortcut.eq_a_reg_copy2[0] && shortcut.eq_b_reg_copy2[0] && shortcut.eq_busy_copy2[0])
+(!a1[0] && !a1[1] && a1[2] && !a1[3] && !a2[0] && !a2[1] && a2[2] && !a2[3] && !b[0] && !b[1] && b[2] && !b[3] && !assume_1_violate[0] && !copy1.a_reg[0] && !copy1.a_reg[1] && !copy1.a_reg[2] && !copy1.a_reg[3] && copy1.busy[0] && copy2.a_reg[2] && copy2.b_reg[3] && shortcut.eq_a_reg_copy2[0] && shortcut.eq_b_reg_copy2[0])
+Cube:
+1 7 30 40
+Adding cube (!assume_1_violate[0] && !copy1.a_reg[2] && copy2.a_reg[2] && copy2.b_reg[3]) to frame 2.
+Trying to justify cube (!assume_1_violate[0] && !copy2.finish[0] && copy1.finish[0] && shortcut.eq_finish_copy2[0]) in frame 1.
+(!a1[0] && !a1[1] && a1[2] && !a1[3] && !a2[0] && !a2[1] && a2[2] && !a2[3] && !b[0] && !b[1] && b[2] && !b[3] && !assume_1_violate[0] && !copy1.a_reg[0] && !copy1.a_reg[1] && !copy1.a_reg[2] && !copy1.a_reg[3] && !copy1.b_reg[0] && !copy1.b_reg[1] && !copy1.b_reg[2] && !copy1.b_reg[3] && copy1.busy[0] && !copy2.a_reg[0] && !copy2.a_reg[1] && copy2.a_reg[2] && !copy2.a_reg[3] && copy2.b_reg[0] && !copy2.b_reg[1] && !copy2.b_reg[2] && !copy2.b_reg[3] && copy2.busy[0] && shortcut.eq_a_reg_copy2[0] && shortcut.eq_b_reg_copy2[0] && shortcut.eq_busy_copy2[0])
+(!a1[0] && !a1[1] && a1[2] && !a1[3] && !a2[0] && !a2[1] && a2[2] && !a2[3] && !b[0] && !b[1] && b[2] && !b[3] && !assume_1_violate[0] && !copy1.a_reg[0] && !copy1.a_reg[1] && !copy1.a_reg[2] && !copy1.a_reg[3] && copy1.busy[0] && copy2.a_reg[2] && copy2.b_reg[0] && shortcut.eq_a_reg_copy2[0] && shortcut.eq_b_reg_copy2[0])
+Cube:
+1 7 30 34
+Adding cube (!assume_1_violate[0] && !copy1.a_reg[2] && copy2.a_reg[2] && copy2.b_reg[0]) to frame 2.
+Trying to justify cube (!assume_1_violate[0] && !copy2.finish[0] && copy1.finish[0] && shortcut.eq_finish_copy2[0]) in frame 1.
+(!a1[0] && !a1[1] && a1[2] && !a1[3] && !a2[0] && !a2[1] && a2[2] && !a2[3] && !b[0] && !b[1] && b[2] && !b[3] && !assume_1_violate[0] && !copy1.a_reg[0] && !copy1.a_reg[1] && copy1.a_reg[2] && !copy1.a_reg[3] && !copy1.b_reg[0] && !copy1.b_reg[1] && !copy1.b_reg[2] && !copy1.b_reg[3] && copy1.busy[0] && !copy2.a_reg[0] && !copy2.a_reg[1] && copy2.a_reg[2] && !copy2.a_reg[3] && copy2.b_reg[0] && !copy2.b_reg[1] && !copy2.b_reg[2] && !copy2.b_reg[3] && copy2.busy[0] && shortcut.eq_a_reg_copy2[0] && shortcut.eq_b_reg_copy2[0] && shortcut.eq_busy_copy2[0])
+(!a1[0] && !a1[1] && a1[2] && !a1[3] && !a2[0] && !a2[1] && a2[2] && !a2[3] && !b[0] && !b[1] && b[2] && !b[3] && !assume_1_violate[0] && !copy1.b_reg[0] && !copy1.b_reg[1] && !copy1.b_reg[2] && !copy1.b_reg[3] && copy1.busy[0] && copy2.a_reg[2] && copy2.b_reg[0] && shortcut.eq_a_reg_copy2[0] && shortcut.eq_b_reg_copy2[0])
+Cube:
+11 34
+Adding cube (!copy1.b_reg[0] && copy2.b_reg[0]) to frame 1.
+Cube:
+11 18 34
+Adding cube (!copy1.b_reg[0] && copy1.busy[0] && copy2.b_reg[0]) to frame 2.
+Trying to justify cube (!assume_1_violate[0] && !copy2.finish[0] && copy1.finish[0] && shortcut.eq_finish_copy2[0]) in frame 1.
+(!a1[0] && !a1[1] && a1[2] && !a1[3] && !a2[0] && !a2[1] && a2[2] && !a2[3] && b[0] && !b[1] && !b[2] && !b[3] && !assume_1_violate[0] && !copy1.a_reg[0] && !copy1.a_reg[1] && copy1.a_reg[2] && !copy1.a_reg[3] && !copy1.b_reg[0] && !copy1.b_reg[1] && !copy1.b_reg[2] && !copy1.b_reg[3] && copy1.busy[0] && !copy2.a_reg[0] && !copy2.a_reg[1] && copy2.a_reg[2] && !copy2.a_reg[3] && !copy2.b_reg[0] && copy2.b_reg[1] && !copy2.b_reg[2] && !copy2.b_reg[3] && copy2.busy[0] && shortcut.eq_a_reg_copy2[0] && shortcut.eq_b_reg_copy2[0] && shortcut.eq_busy_copy2[0])
+(!a1[0] && !a1[1] && a1[2] && !a1[3] && !a2[0] && !a2[1] && a2[2] && !a2[3] && b[0] && !b[1] && !b[2] && !b[3] && !assume_1_violate[0] && !copy1.b_reg[0] && !copy1.b_reg[1] && !copy1.b_reg[2] && !copy1.b_reg[3] && copy1.busy[0] && copy2.a_reg[2] && copy2.b_reg[1] && shortcut.eq_a_reg_copy2[0] && shortcut.eq_b_reg_copy2[0])
+Cube:
+13 36
+Adding cube (!copy1.b_reg[1] && copy2.b_reg[1]) to frame 1.
+Cube:
+13 18 36
+Adding cube (!copy1.b_reg[1] && copy1.busy[0] && copy2.b_reg[1]) to frame 2.
+Trying to justify cube (!assume_1_violate[0] && !copy2.finish[0] && copy1.finish[0] && shortcut.eq_finish_copy2[0]) in frame 1.
+(!a1[0] && !a1[1] && a1[2] && !a1[3] && !a2[0] && !a2[1] && a2[2] && !a2[3] && b[0] && b[1] && !b[2] && !b[3] && !assume_1_violate[0] && !copy1.a_reg[0] && !copy1.a_reg[1] && copy1.a_reg[2] && !copy1.a_reg[3] && !copy1.b_reg[0] && !copy1.b_reg[1] && !copy1.b_reg[2] && !copy1.b_reg[3] && copy1.busy[0] && !copy2.a_reg[0] && !copy2.a_reg[1] && copy2.a_reg[2] && !copy2.a_reg[3] && !copy2.b_reg[0] && !copy2.b_reg[1] && copy2.b_reg[2] && !copy2.b_reg[3] && copy2.busy[0] && shortcut.eq_a_reg_copy2[0] && shortcut.eq_b_reg_copy2[0] && shortcut.eq_busy_copy2[0])
+(!a1[0] && !a1[1] && a1[2] && !a1[3] && !a2[0] && !a2[1] && a2[2] && !a2[3] && b[0] && b[1] && !b[2] && !b[3] && !assume_1_violate[0] && !copy1.b_reg[0] && !copy1.b_reg[1] && !copy1.b_reg[2] && !copy1.b_reg[3] && copy1.busy[0] && copy2.a_reg[2] && copy2.b_reg[2] && shortcut.eq_a_reg_copy2[0] && shortcut.eq_b_reg_copy2[0])
+Cube:
+15 38
+Adding cube (!copy1.b_reg[2] && copy2.b_reg[2]) to frame 1.
+Cube:
+15 18 38
+Adding cube (!copy1.b_reg[2] && copy1.busy[0] && copy2.b_reg[2]) to frame 2.
+Trying to justify cube (!assume_1_violate[0] && !copy2.finish[0] && copy1.finish[0] && shortcut.eq_finish_copy2[0]) in frame 1.
+(!a1[0] && !a1[1] && a1[2] && !a1[3] && !a2[0] && !a2[1] && a2[2] && !a2[3] && !b[0] && !b[1] && b[2] && !b[3] && !assume_1_violate[0] && !copy1.a_reg[0] && !copy1.a_reg[1] && copy1.a_reg[2] && !copy1.a_reg[3] && !copy1.b_reg[0] && !copy1.b_reg[1] && !copy1.b_reg[2] && !copy1.b_reg[3] && copy1.busy[0] && !copy2.a_reg[0] && !copy2.a_reg[1] && copy2.a_reg[2] && !copy2.a_reg[3] && !copy2.b_reg[0] && !copy2.b_reg[1] && !copy2.b_reg[2] && copy2.b_reg[3] && copy2.busy[0] && shortcut.eq_a_reg_copy2[0] && shortcut.eq_b_reg_copy2[0] && shortcut.eq_busy_copy2[0])
+(!a1[0] && !a1[1] && a1[2] && !a1[3] && !a2[0] && !a2[1] && a2[2] && !a2[3] && !b[0] && !b[1] && b[2] && !b[3] && !assume_1_violate[0] && !copy1.b_reg[0] && !copy1.b_reg[1] && !copy1.b_reg[2] && !copy1.b_reg[3] && copy1.busy[0] && copy2.a_reg[2] && copy2.b_reg[3] && shortcut.eq_a_reg_copy2[0] && shortcut.eq_b_reg_copy2[0])
+Cube:
+17 40
+Adding cube (!copy1.b_reg[3] && copy2.b_reg[3]) to frame 2.
+Trying to justify cube (!assume_1_violate[0] && !copy2.finish[0] && copy1.finish[0] && shortcut.eq_finish_copy2[0]) in frame 1.
+(!a1[0] && !a1[1] && a1[2] && !a1[3] && !a2[0] && !a2[1] && a2[2] && !a2[3] && !b[0] && !b[1] && b[2] && !b[3] && !assume_1_violate[0] && !copy1.a_reg[0] && !copy1.a_reg[1] && !copy1.a_reg[2] && !copy1.a_reg[3] && copy1.b_reg[0] && !copy1.b_reg[1] && !copy1.b_reg[2] && !copy1.b_reg[3] && copy1.busy[0] && !copy2.a_reg[0] && copy2.a_reg[1] && !copy2.a_reg[2] && !copy2.a_reg[3] && copy2.b_reg[0] && !copy2.b_reg[1] && !copy2.b_reg[2] && !copy2.b_reg[3] && copy2.busy[0] && shortcut.eq_a_reg_copy2[0] && shortcut.eq_b_reg_copy2[0] && shortcut.eq_busy_copy2[0])
+(!a1[0] && !a1[1] && a1[2] && !a1[3] && !a2[0] && !a2[1] && a2[2] && !a2[3] && !b[0] && !b[1] && b[2] && !b[3] && !assume_1_violate[0] && !copy1.a_reg[0] && !copy1.a_reg[1] && !copy1.a_reg[2] && !copy1.a_reg[3] && copy1.busy[0] && copy2.a_reg[1] && copy2.b_reg[0] && shortcut.eq_a_reg_copy2[0] && shortcut.eq_b_reg_copy2[0])
+Cube:
+1 5 28 34
+Adding cube (!assume_1_violate[0] && !copy1.a_reg[1] && copy2.a_reg[1] && copy2.b_reg[0]) to frame 1.
+Cube:
+1 5 18 28 34
+Adding cube (!assume_1_violate[0] && !copy1.a_reg[1] && copy1.busy[0] && copy2.a_reg[1] && copy2.b_reg[0]) to frame 2.
+Trying to justify cube (!assume_1_violate[0] && !copy2.finish[0] && copy1.finish[0] && shortcut.eq_finish_copy2[0]) in frame 1.
+(!a1[0] && a1[1] && !a1[2] && !a1[3] && !a2[0] && a2[1] && !a2[2] && !a2[3] && b[0] && !b[1] && !b[2] && !b[3] && !assume_1_violate[0] && !copy1.a_reg[0] && !copy1.a_reg[1] && !copy1.a_reg[2] && !copy1.a_reg[3] && !copy1.b_reg[0] && copy1.b_reg[1] && !copy1.b_reg[2] && !copy1.b_reg[3] && copy1.busy[0] && !copy2.a_reg[0] && copy2.a_reg[1] && !copy2.a_reg[2] && !copy2.a_reg[3] && !copy2.b_reg[0] && copy2.b_reg[1] && !copy2.b_reg[2] && !copy2.b_reg[3] && copy2.busy[0] && shortcut.eq_a_reg_copy2[0] && shortcut.eq_b_reg_copy2[0] && shortcut.eq_busy_copy2[0])
+(!a1[0] && a1[1] && !a1[2] && !a1[3] && !a2[0] && a2[1] && !a2[2] && !a2[3] && b[0] && !b[1] && !b[2] && !b[3] && !assume_1_violate[0] && !copy1.a_reg[0] && !copy1.a_reg[1] && !copy1.a_reg[2] && !copy1.a_reg[3] && copy1.busy[0] && copy2.a_reg[1] && copy2.b_reg[1] && shortcut.eq_a_reg_copy2[0] && shortcut.eq_b_reg_copy2[0])
+Cube:
+1 5 28 36
+Adding cube (!assume_1_violate[0] && !copy1.a_reg[1] && copy2.a_reg[1] && copy2.b_reg[1]) to frame 1.
+Cube:
+1 5 18 28 36
+Adding cube (!assume_1_violate[0] && !copy1.a_reg[1] && copy1.busy[0] && copy2.a_reg[1] && copy2.b_reg[1]) to frame 2.
+Trying to justify cube (!assume_1_violate[0] && !copy2.finish[0] && copy1.finish[0] && shortcut.eq_finish_copy2[0]) in frame 1.
+(!a1[0] && a1[1] && !a1[2] && !a1[3] && !a2[0] && a2[1] && !a2[2] && !a2[3] && !b[0] && b[1] && !b[2] && !b[3] && !assume_1_violate[0] && !copy1.a_reg[0] && !copy1.a_reg[1] && !copy1.a_reg[2] && !copy1.a_reg[3] && !copy1.b_reg[0] && !copy1.b_reg[1] && !copy1.b_reg[2] && copy1.b_reg[3] && copy1.busy[0] && !copy2.a_reg[0] && copy2.a_reg[1] && !copy2.a_reg[2] && !copy2.a_reg[3] && !copy2.b_reg[0] && !copy2.b_reg[1] && !copy2.b_reg[2] && copy2.b_reg[3] && copy2.busy[0] && shortcut.eq_a_reg_copy2[0] && shortcut.eq_b_reg_copy2[0] && shortcut.eq_busy_copy2[0])
+(!a1[0] && a1[1] && !a1[2] && !a1[3] && !a2[0] && a2[1] && !a2[2] && !a2[3] && !b[0] && b[1] && !b[2] && !b[3] && !assume_1_violate[0] && !copy1.a_reg[0] && !copy1.a_reg[1] && !copy1.a_reg[2] && !copy1.a_reg[3] && copy1.busy[0] && copy2.a_reg[1] && copy2.b_reg[3] && shortcut.eq_a_reg_copy2[0] && shortcut.eq_b_reg_copy2[0])
+Cube:
+1 5 28 40
+Adding cube (!assume_1_violate[0] && !copy1.a_reg[1] && copy2.a_reg[1] && copy2.b_reg[3]) to frame 2.
+Trying to justify cube (!assume_1_violate[0] && !copy2.finish[0] && copy1.finish[0] && shortcut.eq_finish_copy2[0]) in frame 1.
+(!a1[0] && a1[1] && !a1[2] && !a1[3] && !a2[0] && a2[1] && !a2[2] && !a2[3] && !b[0] && b[1] && !b[2] && !b[3] && !assume_1_violate[0] && !copy1.a_reg[0] && !copy1.a_reg[1] && !copy1.a_reg[2] && !copy1.a_reg[3] && !copy1.b_reg[0] && !copy1.b_reg[1] && copy1.b_reg[2] && !copy1.b_reg[3] && copy1.busy[0] && !copy2.a_reg[0] && copy2.a_reg[1] && !copy2.a_reg[2] && !copy2.a_reg[3] && !copy2.b_reg[0] && !copy2.b_reg[1] && copy2.b_reg[2] && !copy2.b_reg[3] && copy2.busy[0] && shortcut.eq_a_reg_copy2[0] && shortcut.eq_b_reg_copy2[0] && shortcut.eq_busy_copy2[0])
+(!a1[0] && a1[1] && !a1[2] && !a1[3] && !a2[0] && a2[1] && !a2[2] && !a2[3] && !b[0] && b[1] && !b[2] && !b[3] && !assume_1_violate[0] && !copy1.a_reg[0] && !copy1.a_reg[1] && !copy1.a_reg[2] && !copy1.a_reg[3] && copy1.busy[0] && copy2.a_reg[1] && copy2.b_reg[2] && shortcut.eq_a_reg_copy2[0] && shortcut.eq_b_reg_copy2[0])
+Cube:
+1 5 28 38
+Adding cube (!assume_1_violate[0] && !copy1.a_reg[1] && copy2.a_reg[1] && copy2.b_reg[2]) to frame 2.
+Cube:
+1 51 84
+Adding cube (!assume_1_violate[0] && !copy2.finish[0] && copy1.finish[0]) to frame 2.
+2 : 0 24 45                                                             3    21      0.01 sec
+3 : 0 3 0 45                                                            0    21      0.01 sec
+Invariant F[2] : 45 clauses with 21 flops (out of 49) (cex = 0, ave = 9.26)
+Verification of invariant with 45 clauses was successful.  Time =     0.00 sec
+Inductive invariant was written into file "output/multiplier_sc/shortcut.pla".
+Dumped inductive invariant in file "output/multiplier_sc/shortcut.pla".
+Block =    4  Oblig =   112  Clause =    69  Call =   497 (sat=62.8%)  Cex =   0  Start =   0
+SAT solving =  0.00610 sec (28.78159 %)
+unsat     =  0.00062 sec (2.93286 %)
+sat       =  0.00548 sec (25.84874 %)
+Generalize  =  0.00649 sec (30.61581 %)
+Push clause =  0.00060 sec (2.81969 %)
+Ternary sim =  0.00045 sec (2.12184 %)
+Containment =  0.00006 sec (0.25934 %)
+CNF compute =  0.00066 sec (3.11675 %)
+Refinement  =  0.00000 sec (0.00000 %)
+TOTAL       =  0.02121 sec (100.00000 %)
+Property proved.  Time =     0.02 sec
+Counter-example is not available.

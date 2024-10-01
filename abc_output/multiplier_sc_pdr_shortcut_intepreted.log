@@ -1,0 +1,48 @@
+---------------Invariant Clauses-------------------- 
+!(copy2.finish[0])
+
+
+
+---------------PDR Log--------------------
+ABC command line: "read yosys_output/self_composition_multiplier_shortcut.aig; fold; pdr -v -w -d -I abc_output/self_composition_multiplier_shortcut.pla; write_cex -n -m -f abc_output/multiplier_sc_shortcut.cex;".
+
+Warning: The network has no constraints.
+VarMax = 300. FrameMax = 10000. QueMax = 0. TimeMax = 0. MonoCNF = no. SkipGen = no. SolveAll = no.
+Frame Clauses                                                     Max Queue Flops Cex      Time
+Trying to justify cube <prop=fail> in frame 1.
+(!a1[0] && !a1[1] && !a1[2] && !a1[3] && !a2[0] && !a2[1] && !a2[2] && !a2[3] && !b[0] && !b[1] && !b[2] && !b[3] && !assume_1_violate[0] && copy1.finish[0] && !copy2.finish[0])
+(!a1[0] && !a1[1] && !a1[2] && !a1[3] && !a2[0] && !a2[1] && !a2[2] && !a2[3] && !b[0] && !b[1] && !b[2] && !b[3] && !assume_1_violate[0] && copy1.finish[0] && !copy2.finish[0])
+Cube:
+76
+Adding cube (copy1.finish[0]) to frame 1.
+Trying to justify cube <prop=fail> in frame 1.
+(!a1[0] && !a1[1] && !a1[2] && !a1[3] && !a2[0] && !a2[1] && !a2[2] && !a2[3] && !b[0] && !b[1] && b[2] && !b[3] && !assume_1_violate[0] && !copy1.finish[0] && copy2.finish[0])
+(!a1[0] && !a1[1] && !a1[2] && !a1[3] && !a2[0] && !a2[1] && !a2[2] && !a2[3] && !b[0] && !b[1] && b[2] && !b[3] && !assume_1_violate[0] && !copy1.finish[0] && copy2.finish[0])
+Cube:
+78
+Adding cube (copy2.finish[0]) to frame 1.
+1 : 0 2                                                                 1     2      0.00 sec
+Trying to justify cube <prop=fail> in frame 2.
+(!a1[0] && !a1[1] && !a1[2] && !a1[3] && !a2[0] && !a2[1] && !a2[2] && !a2[3] && !b[0] && !b[1] && !b[2] && !b[3] && !assume_1_violate[0] && copy1.finish[0] && !copy2.finish[0])
+(!a1[0] && !a1[1] && !a1[2] && !a1[3] && !a2[0] && !a2[1] && !a2[2] && !a2[3] && !b[0] && !b[1] && !b[2] && !b[3] && !assume_1_violate[0] && copy1.finish[0] && !copy2.finish[0])
+Trying to justify cube (!assume_1_violate[0] && copy1.finish[0] && !copy2.finish[0]) in frame 1.
+(!a1[0] && !a1[1] && a1[2] && !a1[3] && !a2[0] && !a2[1] && !a2[2] && !a2[3] && !b[0] && !b[1] && !b[2] && !b[3] && !assume_1_violate[0] && copy1.counter[2])
+(!a1[0] && !a1[1] && a1[2] && !a1[3] && !a2[0] && !a2[1] && !a2[2] && !a2[3] && !b[0] && !b[1] && !b[2] && !b[3] && !assume_1_violate[0] && copy1.counter[2])
+Trying to justify cube (!assume_1_violate[0] && copy1.counter[2]) in frame 0.
+(!a1[0] && !a1[1] && !a1[2] && !a1[3] && !a2[0] && !a2[1] && !a2[2] && !a2[3] && !b[0] && !b[1] && !b[2] && !b[3] && in_valid[0] && !assume_1_violate[0] && !copy1.counter[2])
+(!a1[0] && !a1[1] && !a1[2] && !a1[3] && !a2[0] && !a2[1] && !a2[2] && !a2[3] && !b[0] && !b[1] && !b[2] && !b[3] && in_valid[0] && !assume_1_violate[0] && !copy1.counter[2])
+2 : 0 1 1                                                               3     2      0.00 sec
+Clauses of the last timeframe were written into file "abc_output/self_composition_multiplier_shortcut.pla".
+Dumped inductive invariant in file "abc_output/self_composition_multiplier_shortcut.pla".
+Block =    3  Oblig =     7  Clause =     2  Call =    11 (sat=54.5%)  Cex =   0  Start =   0
+SAT solving =  0.00011 sec (1.07246 %)
+unsat     =  0.00001 sec (0.04831 %)
+sat       =  0.00011 sec (1.02415 %)
+Generalize  =  0.00008 sec (0.73430 %)
+Push clause =  0.00003 sec (0.26087 %)
+Ternary sim =  0.00006 sec (0.56039 %)
+Containment =  0.00000 sec (0.02899 %)
+CNF compute =  0.00001 sec (0.09662 %)
+Refinement  =  0.00003 sec (0.30918 %)
+TOTAL       =  0.01035 sec (100.00000 %)
+Output 0 of miter "yosys_output/self_composition_multiplier_shortcut" was asserted in frame 2.  Time =     0.01 sec

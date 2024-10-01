@@ -3,7 +3,7 @@ import re
 import textwrap
 from collections import defaultdict
 from collections.abc import Callable
-from dataclasses import dataclass, KW_ONLY
+from dataclasses import dataclass
 
 
 RegId = str
@@ -13,7 +13,6 @@ CopyId = str
 @dataclass
 class RegCopy:
     id: RegId
-    _: KW_ONLY
     copy_id: CopyId
     full_name: str
     width: str = ""
@@ -21,12 +20,11 @@ class RegCopy:
 
 @dataclass
 class ShortcutSignalsConfig:
-    """ Settings for shortcut signals. """
-    _: KW_ONLY
-    parse_reg : Callable[[str], RegCopy | None]
-    original : CopyId
-    shortcut_prefix : str
+    """Settings for shortcut signals."""
 
+    parse_reg: Callable  # [[str], RegCopy | None]
+    original: CopyId
+    shortcut_prefix: str
 
 
 def add_shortcut_signals(filein, fileout, *, cfg: ShortcutSignalsConfig):
@@ -41,11 +39,12 @@ def add_shortcut_signals(filein, fileout, *, cfg: ShortcutSignalsConfig):
     decl_reg = re.compile(r"\s*reg .*")
 
     assign = re.compile(
-        r"(?P<lhs>\s*(assign )?(?P<var>[\w\.\\]+)\s*(=|<=))"
-        rf"\s*(?P<rhs>.+);(?P<comments>{skip.pattern})")
+        r"(?P<lhs>\s*(assign )?(?P<var>[\w\.\\]+)\s*(\[[0-9:\s]*\])?\s*(=|<=))"
+        rf"\s*(?P<rhs>.+);(?P<comments>{skip.pattern})"
+    )
     endmodule = re.compile(r"\s*endmodule")
 
-    with open(filein, 'r') as fin, open(fileout, 'w') as fout:
+    with open(filein, "r") as fin, open(fileout, "w") as fout:
         fout.write("/* Added shortcut signals via shortcut_signals.py */\n")
         lines = iter(fin)
 
@@ -77,7 +76,7 @@ def add_shortcut_signals(filein, fileout, *, cfg: ShortcutSignalsConfig):
 
         for id, r in orig_regs.items():
             for rc in copy_regs[id]:
-                copy_id = re.sub(r'(\\|\.)', '', rc.copy_id)
+                copy_id = re.sub(r"(\\|\.)", "", rc.copy_id)
                 signal = f"{cfg.shortcut_prefix}eq_{id}_{copy_id}"
                 shortcut = f"{cfg.shortcut_prefix}{copy_id}.{id}"
                 eq_signals[rc.full_name] = signal
@@ -86,44 +85,56 @@ def add_shortcut_signals(filein, fileout, *, cfg: ShortcutSignalsConfig):
                 width = f" {rc.width}" if rc.width else ""
                 fout.write(f"  wire{width} {shortcut} ;\n")
                 shortcut_assigns.append(
-                    f"  assign {shortcut} = {signal} ? {r.full_name} : {rc.full_name} ;\n")
+                    f"  assign {shortcut} = {signal} ? {r.full_name} : {rc.full_name} ;\n"
+                )
 
-        fout.write(''.join(shortcut_assigns))
+        fout.write("".join(shortcut_assigns))
 
         # track assignments for setting equality signals
-        assignments: dict[str, str] = {}
+        reg_assigns: dict[str, str] = {}
         for l in lines:
             if endmodule.match(l):
                 lines = itertools.chain([l], lines)
                 break
             if match := assign.match(l):
-                lhs = match.group('lhs')
-                var = match.group('var')
-                rhs = match.group('rhs')
-                comments = match.group('comments')
+                lhs = match.group("lhs")
+                var = match.group("var")
+                rhs = " " + match.group("rhs") + " "
+                comments = match.group("comments")
                 for copy, shortcut in shortcuts.items():
-                    rhs = re.sub(rf' {re.escape(copy)} ', f' {re.escape(shortcut)} ', rhs)
-                assert var not in assignments, "not implemented: handle repeated assignment"
-                assignments[var] = rhs
+                    updated = rhs.replace(f" {copy} ", f" {shortcut} ")
+                    if rhs != updated:
+                        rhs = updated
+                        print(f"replaced {copy} => {shortcut} in {rhs}")
+                if "<=" in lhs:  # var is a register
+                    assert (
+                        var not in reg_assigns
+                    ), f"not implemented: handle repeated register assignment (of {var})"
+                    reg_assigns[var] = rhs
                 l = f"{lhs} {rhs} ;{comments}"
             fout.write(l)
 
         # set equality signals
         for id, r in orig_regs.items():
             for rc in copy_regs[id]:
-                orig_assign = assignments[r.full_name]
-                copy_assign = assignments[rc.full_name]
+                orig_assign = reg_assigns[r.full_name]
+                copy_assign = reg_assigns[rc.full_name]
                 eq_signal = eq_signals[rc.full_name]
                 # FIXME, track each copy's clock
-                fout.write(textwrap.indent(textwrap.dedent(f"""
+                fout.write(
+                    textwrap.indent(
+                        textwrap.dedent(
+                            f"""
                   always @(posedge clk)
                     {eq_signal} <= {orig_assign} == {copy_assign} ;
-                """).removeprefix('\n'), "  "))
+                """
+                        ).removeprefix("\n"),
+                        "  ",
+                    )
+                )
 
         for l in lines:
             fout.write(l)
-
-
 
 
 if __name__ == "__main__":
@@ -143,15 +154,24 @@ if __name__ == "__main__":
     parse.add_argument("--top", dest="top", required=True, help="top module")
 
     parse.add_argument(
-        "--copy1_prefix", dest="prefix1", default="\\copy1.", help="prefix used to identify copy1"
+        "--copy1_prefix",
+        dest="prefix1",
+        default="\\copy1.",
+        help="prefix used to identify copy1",
     )
 
     parse.add_argument(
-        "--copy2_prefix", dest="prefix2", default="\\copy2.", help="prefix used to identify copy2"
+        "--copy2_prefix",
+        dest="prefix2",
+        default="\\copy2.",
+        help="prefix used to identify copy2",
     )
 
     parse.add_argument(
-        "--shortcut_prefix", dest="prefix_sc", default="\\shortcut.", help="prefix used for new shortcut signals"
+        "--shortcut_prefix",
+        dest="prefix_sc",
+        default="\\shortcut.",
+        help="prefix used for new shortcut signals",
     )
 
     args = parse.parse_args()
@@ -168,27 +188,25 @@ if __name__ == "__main__":
     copy_re = f"(?P<copy>({prefix1}|{prefix2}))"
     width_re = r"\s*(?P<width>(\[\d+:\d+\]|))\s*"
     name_re = r"(?P<name>[\w\.\\]+)"
-    fullname_re = fr"(?P<fullname>{copy_re}{name_re})"
-    reg_re = re.compile(fr"\s*reg{width_re} {fullname_re}")
+    fullname_re = rf"(?P<fullname>{copy_re}{name_re})"
+    reg_re = re.compile(rf"\s*reg{width_re} {fullname_re}")
 
-    def parse_reg(reg: str) -> RegCopy | None:
+    def parse_reg(reg: str):  # -> RegCopy | None:
         match = reg_re.match(reg)
         if match is None:
             return None
         try:
             return RegCopy(
-                match.group('name'),
-                copy_id=match.group('copy'),
-                width=match.group('width'),
-                full_name=match.group('fullname')
+                match.group("name"),
+                copy_id=match.group("copy"),
+                width=match.group("width"),
+                full_name=match.group("fullname"),
             )
         except KeyError:
             return None
 
     cfg = ShortcutSignalsConfig(
-        parse_reg=parse_reg,
-        original=args.prefix1,
-        shortcut_prefix=str(args.prefix_sc)
+        parse_reg=parse_reg, original=args.prefix1, shortcut_prefix=str(args.prefix_sc)
     )
 
     add_shortcut_signals(args.input_path, args.output_path, cfg=cfg)

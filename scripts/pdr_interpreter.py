@@ -3,9 +3,8 @@ import argparse
 
 
 def pdr_interpret(log_path, map_path, inv_path, output_path, cex_path):
-    file = open(map_path, "r")
-    mapping = [line.strip() for line in file.readlines()]
-    file.close()
+    with open(map_path, "r") as file:
+        mapping = [line.strip() for line in file.readlines()]
     latch_map = dict()
     input_map = dict()
     for line in mapping:
@@ -26,9 +25,8 @@ def pdr_interpret(log_path, map_path, inv_path, output_path, cex_path):
             if input_num not in input_map.keys():
                 input_map[input_num] = signal_name + "[" + bit + "]"
 
-    file = open(inv_path, "r")
-    content = file.read()
-    file.close()
+    with open(inv_path, "r") as file:
+        content = file.read()
     latch_list = [
         latch_map[str(int(e[2:]))]
         for e in content[content.find(".ilb") + 4 : content.find(".ob")]
@@ -53,9 +51,8 @@ def pdr_interpret(log_path, map_path, inv_path, output_path, cex_path):
     log_output += "\n\n\n"
 
     log_output += "---------------PDR Log--------------------\n"
-    file = open(log_path, "r")
-    log = [line.strip() for line in file.readlines()]
-    file.close()
+    with open(log_path, "r") as file:
+        log = [line.strip() for line in file.readlines()]
     for line in log:
         if line.find("cube") >= 0:
             if line.find("<prop=fail>") >= 0:
@@ -88,16 +85,14 @@ def pdr_interpret(log_path, map_path, inv_path, output_path, cex_path):
         else:
             log_output += line + "\n"
 
-    file = open(output_path, "w")
-    file.write(log_output)
-    file.close()
+    with open(output_path, "w") as file:
+        file.write(log_output)
 
     if cex_path == None:
         return
     cex_output = "---------------Counterexample-------------------- \n"
-    file = open(cex_path, "r")
-    cex = file.read().strip().split(" ")
-    file.close()
+    with open(cex_path, "r") as file:
+        cex = file.read().strip().split(" ")
     for line in cex:
         if line.find("pi") >= 0:
             input_num = line[line.find("pi") + 2 : line.find("@")].strip()
@@ -112,9 +107,8 @@ def pdr_interpret(log_path, map_path, inv_path, output_path, cex_path):
             )
             cex_output += line + "\n"
     cex_file = cex_path.replace(".cex", "_interpreted.cex")
-    file = open(cex_file, "w")
-    file.write(cex_output)
-    file.close()
+    with open(cex_file, "w") as file:
+        file.write(cex_output)
 
 
 if __name__ == "__main__":

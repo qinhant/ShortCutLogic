@@ -73,7 +73,7 @@ module MUL(
     end
 
     wire busy_next = in_valid && !busy;
-    wire finish_next = (a_reg_ == 0 || b_reg == 0) && busy;
+    wire finish_next = (a_reg == 0 || b_reg == 0) && busy;
     wire [`WIDTH-1:0] a_reg_next = in_valid && !busy ? a : a_reg;
     wire [`WIDTH-1:0] b_reg_next = in_valid && !busy ? b : b_reg >> 1;
     wire [`WIDTH_LOG:0] counter_next = !busy ? 0 : counter + 1;

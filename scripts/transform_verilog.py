@@ -51,7 +51,10 @@ if __name__ == "__main__":
     )
     parse.add_argument("--top", dest="top", required=True, help="top module")
     parse.add_argument(
-        "--option", dest="option", required=True, help="available options: flatten"
+        "--option",
+        dest="option",
+        required=True,
+        help="available options: flatten verilog_to_aig",
     )
     args = parse.parse_args()
     if not args.input_path.endswith(".v") and not args.input_path.endswith(".sv"):
