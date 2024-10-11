@@ -91,8 +91,12 @@ def pdr_interpret(log_path, map_path, inv_path, output_path, cex_path):
     if cex_path == None:
         return
     cex_output = "---------------Counterexample-------------------- \n"
-    with open(cex_path, "r") as file:
-        cex = file.read().strip().split(" ")
+    try:
+        with open(cex_path, "r") as file:
+            cex = file.read().strip().split(" ")
+    except FileNotFoundError:
+        print("Counterexample file not found!")
+        return
     for line in cex:
         if line.find("pi") >= 0:
             input_num = line[line.find("pi") + 2 : line.find("@")].strip()

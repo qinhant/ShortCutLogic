@@ -70,27 +70,27 @@ def add_shortcut_signals(filein, fileout, *, cfg: ShortcutSignalsConfig):
             fout.write(l)
 
         # create shortcuts
-        eq_signals: dict[str, str] = {}  # copy name -> eq signal
+        neq_signals: dict[str, str] = {}  # copy name -> neq signal
         shortcuts: dict[str, str] = {}  # copy name -> shortcut
         shortcut_assigns = []
 
         for id, r in orig_regs.items():
             for rc in copy_regs[id]:
                 copy_id = re.sub(r"(\\|\.)", "", rc.copy_id)
-                signal = f"{cfg.shortcut_prefix}eq_{id}_{copy_id}"
+                signal = f"{cfg.shortcut_prefix}neq_{id}_{copy_id}"
                 shortcut = f"{cfg.shortcut_prefix}{copy_id}.{id}"
-                eq_signals[rc.full_name] = signal
+                neq_signals[rc.full_name] = signal
                 shortcuts[rc.full_name] = shortcut
-                fout.write(f"  reg {signal} = 1 ;\n")
+                fout.write(f"  reg {signal} = 0 ;\n")
                 width = f" {rc.width}" if rc.width else ""
                 fout.write(f"  wire{width} {shortcut} ;\n")
                 shortcut_assigns.append(
-                    f"  assign {shortcut} = {signal} ? {r.full_name} : {rc.full_name} ;\n"
+                    f"  assign {shortcut} = {signal} ? {rc.full_name} : {r.full_name} ;\n"
                 )
 
         fout.write("".join(shortcut_assigns))
 
-        # track assignments for setting equality signals
+        # track assignments for setting inequality signals
         reg_assigns: dict[str, str] = {}
         for l in lines:
             if endmodule.match(l):
@@ -114,19 +114,19 @@ def add_shortcut_signals(filein, fileout, *, cfg: ShortcutSignalsConfig):
                 l = f"{lhs} {rhs} ;{comments}"
             fout.write(l)
 
-        # set equality signals
+        # set inequality signals
         for id, r in orig_regs.items():
             for rc in copy_regs[id]:
                 orig_assign = reg_assigns[r.full_name]
                 copy_assign = reg_assigns[rc.full_name]
-                eq_signal = eq_signals[rc.full_name]
+                neq_signal = neq_signals[rc.full_name]
                 # FIXME, track each copy's clock
                 fout.write(
                     textwrap.indent(
                         textwrap.dedent(
                             f"""
                   always @(posedge clk)
-                    {eq_signal} <= {orig_assign} == {copy_assign} ;
+                    {neq_signal} <= {orig_assign} != {copy_assign} ;
                 """
                         ).removeprefix("\n"),
                         "  ",

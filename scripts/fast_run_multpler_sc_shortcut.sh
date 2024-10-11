@@ -1,21 +1,21 @@
 #!/usr/bin/bash
 
 # STEP: Create the output directory
-mkdir -p output/multiplier_sc
-rm output/multiplier_sc/*
+# mkdir -p output/multiplier_sc
+# rm output/multiplier_sc/*
 
-# STEP: Flatten the Verilog, get rid of the modular hierarchy
-python3 scripts/transform_verilog.py \
-    --input verilog/multiplier_sc.sv \
-    --output output/multiplier_sc/flatten.sv \
-    --top top \
-    --option flatten
+# # STEP: Flatten the Verilog, get rid of the modular hierarchy
+# python3 scripts/transform_verilog.py \
+#     --input verilog/multiplier_sc.sv \
+#     --output output/multiplier_sc/flatten.sv \
+#     --top top \
+#     --option flatten
 
-# STEP: Add shortcut logic to the flattened Verilog
-python3 scripts/shortcut_signals.py \
-    --input output/multiplier_sc/flatten.sv \
-    --output output/multiplier_sc/shortcut.sv \
-    --top top
+# # STEP: Add shortcut logic to the flattened Verilog
+# python3 scripts/shortcut_signals.py \
+#     --input output/multiplier_sc/flatten.sv \
+#     --output output/multiplier_sc/shortcut.sv \
+#     --top top
 
 # STEP: Transform the Verilog to AIGER format
 python3 scripts/transform_verilog.py \

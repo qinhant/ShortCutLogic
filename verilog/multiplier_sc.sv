@@ -1,4 +1,4 @@
-`define WIDTH_LOG 2
+`define WIDTH_LOG 5
 `define WIDTH (1 << `WIDTH_LOG)
 `define OUT_WIDTH (`WIDTH << 1)
 
@@ -72,7 +72,7 @@ module MUL(
         coutner = 0;
     end
 
-    wire busy_next = in_valid && !busy;
+    wire busy_next = in_valid && !busy || busy && !finish;
     wire finish_next = (a_reg == 0 || b_reg == 0) && busy;
     wire [`WIDTH-1:0] a_reg_next = in_valid && !busy ? a : a_reg;
     wire [`WIDTH-1:0] b_reg_next = in_valid && !busy ? b : b_reg >> 1;

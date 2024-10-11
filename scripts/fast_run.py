@@ -21,7 +21,7 @@ if __name__ == "__main__":
     abc_command = """
         read output/multiplier_sc/shortcut.aig;
         fold;
-        pdr -v -w -d -I output/multiplier_sc/shortcut.pla;
+        pdr -v -w -d -I -r output/multiplier_sc/shortcut.pla;
         write_cex -n -m -f output/multiplier_sc/shortcut.cex
     """
     abc_command = abc_command.replace("\n", " ")
