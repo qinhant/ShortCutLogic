@@ -51,10 +51,17 @@ def add_shortcut_signals(filein, fileout, *, cfg: ShortcutSignalsConfig):
         orig_regs: dict[RegId, RegCopy] = {}
         copy_regs: dict[RegId, list[RegCopy]] = defaultdict(list)
 
+        for l in lines:
+            fout.write(l)
+            if match := decl.match(l):
+                assert match.group(1) == "module", "module declaration must be first"
+                break
+
         # track registers
+        decls = []
         for l in lines:
             if skipline.match(l):
-                fout.write(l)
+                decls.append(l)
                 continue
 
             if not decl.match(l):
@@ -67,7 +74,8 @@ def add_shortcut_signals(filein, fileout, *, cfg: ShortcutSignalsConfig):
                 else:
                     copy_regs[reg.id].append(reg)
 
-            fout.write(l)
+            # fout.write(l)
+            decls.append(l)
 
         # create shortcuts
         neq_signals: dict[str, str] = {}  # copy name -> neq signal
@@ -88,7 +96,7 @@ def add_shortcut_signals(filein, fileout, *, cfg: ShortcutSignalsConfig):
                     f"  assign {shortcut} = {signal} ? {rc.full_name} : {r.full_name} ;\n"
                 )
 
-        fout.write("".join(shortcut_assigns))
+        fout.write("".join(shortcut_assigns + decls))
 
         # track assignments for setting inequality signals
         reg_assigns: dict[str, str] = {}

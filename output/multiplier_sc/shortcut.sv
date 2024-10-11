@@ -17,7 +17,12 @@ module top(clk, a1, a2, b, in_valid, o1, o2, out_valid1, out_valid2);
   wire \shortcut.copy2.finish ;
   reg \shortcut.neq_o_reg_copy2 = 0 ;
   wire [63:0] \shortcut.copy2.o_reg ;
-  
+  assign \shortcut.copy2.a_reg = \shortcut.neq_a_reg_copy2 ? \copy2.a_reg : \copy1.a_reg ;
+  assign \shortcut.copy2.b_reg = \shortcut.neq_b_reg_copy2 ? \copy2.b_reg : \copy1.b_reg ;
+  assign \shortcut.copy2.busy = \shortcut.neq_busy_copy2 ? \copy2.busy : \copy1.busy ;
+  assign \shortcut.copy2.counter = \shortcut.neq_counter_copy2 ? \copy2.counter : \copy1.counter ;
+  assign \shortcut.copy2.finish = \shortcut.neq_finish_copy2 ? \copy2.finish : \copy1.finish ;
+  assign \shortcut.copy2.o_reg = \shortcut.neq_o_reg_copy2 ? \copy2.o_reg : \copy1.o_reg ;
   (* src = "verilog/multiplier_sc.sv:41.30-41.38" *)
   wire _00_;
   (* src = "verilog/multiplier_sc.sv:41.42-41.48" *)
@@ -217,13 +222,6 @@ module top(clk, a1, a2, b, in_valid, o1, o2, out_valid1, out_valid2);
   (* src = "verilog/multiplier_sc.sv:14.12-14.22" *)
   output out_valid2;
   wire out_valid2;
-  
-  assign \shortcut.copy2.a_reg = \shortcut.neq_a_reg_copy2 ? \copy2.a_reg : \copy1.a_reg ;
-  assign \shortcut.copy2.b_reg = \shortcut.neq_b_reg_copy2 ? \copy2.b_reg : \copy1.b_reg ;
-  assign \shortcut.copy2.busy = \shortcut.neq_busy_copy2 ? \copy2.busy : \copy1.busy ;
-  assign \shortcut.copy2.counter = \shortcut.neq_counter_copy2 ? \copy2.counter : \copy1.counter ;
-  assign \shortcut.copy2.finish = \shortcut.neq_finish_copy2 ? \copy2.finish : \copy1.finish ;
-  assign \shortcut.copy2.o_reg = \shortcut.neq_o_reg_copy2 ? \copy2.o_reg : \copy1.o_reg ;
   always @* if (1'h1) assert(_27_);
   assign _00_ =  a1 == (* src = "verilog/multiplier_sc.sv:41.30-41.38" *) a2  ;
   assign _01_ =  ! (* src = "verilog/multiplier_sc.sv:41.42-41.48" *) b  ;
@@ -323,20 +321,16 @@ module top(clk, a1, a2, b, in_valid, o1, o2, out_valid1, out_valid2);
   assign \copy1.in_valid  =  in_valid  ;
   assign o1 =  \copy1.o   ;
   assign out_valid1 =  \copy1.out_valid   ;
-
-  
-
   always @(posedge clk)
-    \shortcut.neq_a_reg_copy2 <= _26_ && \copy1.a_reg_next   !=  \copy2.a_reg_next   ;
+    \shortcut.neq_a_reg_copy2 <=  \copy1.a_reg_next   !=  \copy2.a_reg_next   ;
   always @(posedge clk)
-    \shortcut.neq_b_reg_copy2 <= _26_ &&  \copy1.b_reg_next   !=  \copy2.b_reg_next   ;
+    \shortcut.neq_b_reg_copy2 <=  \copy1.b_reg_next   !=  \copy2.b_reg_next   ;
   always @(posedge clk)
-    \shortcut.neq_busy_copy2 <= _26_ && \copy1.busy_next   !=  \copy2.busy_next   ;
+    \shortcut.neq_busy_copy2 <=  \copy1.busy_next   !=  \copy2.busy_next   ;
   always @(posedge clk)
-    \shortcut.neq_counter_copy2 <= _26_ && \copy1.counter_next   !=  \copy2.counter_next   ;
+    \shortcut.neq_counter_copy2 <=  \copy1.counter_next   !=  \copy2.counter_next   ;
   always @(posedge clk)
-    \shortcut.neq_finish_copy2 <= _26_ && \copy1.finish_next   !=  \copy2.finish_next   ;
+    \shortcut.neq_finish_copy2 <=  \copy1.finish_next   !=  \copy2.finish_next   ;
   always @(posedge clk)
-    \shortcut.neq_o_reg_copy2 <= _26_ && \copy1.o_reg_next   !=  \copy2.o_reg_next   ;
-
-  endmodule
+    \shortcut.neq_o_reg_copy2 <=  \copy1.o_reg_next   !=  \copy2.o_reg_next   ;
+endmodule
