@@ -25,6 +25,7 @@ class ShortcutSignalsConfig:
     parse_reg: Callable  # [[str], RegCopy | None]
     original: CopyId
     shortcut_prefix: str
+    assume_violate_reg: str = "assume_violate"
 
 
 def add_shortcut_signals(filein, fileout, *, cfg: ShortcutSignalsConfig):
@@ -134,7 +135,7 @@ def add_shortcut_signals(filein, fileout, *, cfg: ShortcutSignalsConfig):
                         textwrap.dedent(
                             f"""
                   always @(posedge clk)
-                    {neq_signal} <= {orig_assign} != {copy_assign} ;
+                    {neq_signal} <= !{cfg.assume_violate_reg} && {orig_assign} != {copy_assign} ;
                 """
                         ).removeprefix("\n"),
                         "  ",
@@ -182,6 +183,13 @@ if __name__ == "__main__":
         help="prefix used for new shortcut signals",
     )
 
+    parse.add_argument(
+        "--assume_violate_reg",
+        dest="assume_violate_reg",
+        default="assume_violate",
+        help="name of the register used to denote assume violation",
+    )
+
     args = parse.parse_args()
     if not args.input_path.endswith(".v") and not args.input_path.endswith(".sv"):
         print("Invalid input file, must be a .v or .sv file")
@@ -214,7 +222,10 @@ if __name__ == "__main__":
             return None
 
     cfg = ShortcutSignalsConfig(
-        parse_reg=parse_reg, original=args.prefix1, shortcut_prefix=str(args.prefix_sc)
+        parse_reg=parse_reg,
+        original=args.prefix1,
+        shortcut_prefix=str(args.prefix_sc),
+        assume_violate_reg=args.assume_violate_reg,
     )
 
     add_shortcut_signals(args.input_path, args.output_path, cfg=cfg)

@@ -322,15 +322,15 @@ module top(clk, a1, a2, b, in_valid, o1, o2, out_valid1, out_valid2);
   assign o1 =  \copy1.o   ;
   assign out_valid1 =  \copy1.out_valid   ;
   always @(posedge clk)
-    \shortcut.neq_a_reg_copy2 <=  \copy1.a_reg_next   !=  \copy2.a_reg_next   ;
+    \shortcut.neq_a_reg_copy2 <= !assume_1_violate_in && \copy1.a_reg_next   !=  \copy2.a_reg_next   ;
   always @(posedge clk)
-    \shortcut.neq_b_reg_copy2 <=  \copy1.b_reg_next   !=  \copy2.b_reg_next   ;
+    \shortcut.neq_b_reg_copy2 <= !assume_1_violate_in && \copy1.b_reg_next   !=  \copy2.b_reg_next   ;
   always @(posedge clk)
-    \shortcut.neq_busy_copy2 <=  \copy1.busy_next   !=  \copy2.busy_next   ;
+    \shortcut.neq_busy_copy2 <=  !assume_1_violate_in && \copy1.busy_next   !=  \copy2.busy_next   ;
   always @(posedge clk)
-    \shortcut.neq_counter_copy2 <=  \copy1.counter_next   !=  \copy2.counter_next   ;
+    \shortcut.neq_counter_copy2 <= !assume_1_violate_in && \copy1.counter_next   !=  \copy2.counter_next   ;
   always @(posedge clk)
-    \shortcut.neq_finish_copy2 <=  \copy1.finish_next   !=  \copy2.finish_next   ;
+    \shortcut.neq_finish_copy2 <= !assume_1_violate_in && \copy1.finish_next   !=  \copy2.finish_next   ;
   always @(posedge clk)
-    \shortcut.neq_o_reg_copy2 <=  \copy1.o_reg_next   !=  \copy2.o_reg_next   ;
+    \shortcut.neq_o_reg_copy2 <= !assume_1_violate_in && \copy1.o_reg_next   !=  \copy2.o_reg_next   ;
 endmodule
