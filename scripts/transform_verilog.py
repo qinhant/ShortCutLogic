@@ -5,9 +5,9 @@ import os
 
 def flatten_verilog(input_path, output_path, top):
     # create a temporary yosys script using the input arguments
-    file = open("scripts/flatten_verilog.ys", "r")
-    content = file.read()
-    file.close()
+    with open("scripts/flatten_verilog.ys", "r") as file:
+        content = file.read()
+        file.close()
     content = content.replace("input_path", input_path)
     content = content.replace("output_path", output_path)
     content = content.replace("top_module", top)
@@ -22,9 +22,9 @@ def flatten_verilog(input_path, output_path, top):
 
 def verilog_to_aig(input_path, output_path, top):
     # create a temporary yosys script using the input arguments
-    file = open("scripts/verilog_to_aig.ys", "r")
-    content = file.read()
-    file.close()
+    with open("scripts/verilog_to_aig.ys", "r") as file:
+        content = file.read()
+        file.close()
     content = content.replace("input_path", input_path)
     content = content.replace("output_path", output_path)
     content = content.replace("top_module", top)
@@ -38,11 +38,30 @@ def verilog_to_aig(input_path, output_path, top):
     os.system("rm scripts/verilog_to_aig_temp.ys")
 
 
+def create_miter(input_path, output_path, top):
+    # create a miter circuit, i.e. creating two copies for equivalence checking
+    with open("scripts/create_miter.ys", "r") as file:
+        content = file.read()
+        file.close()
+    content = content.replace("input_path", input_path)
+    content = content.replace("output_path", output_path)
+    content = content.replace("top_module", top)
+    content = content.replace("miter_top", f"{top}_miter")
+
+    file = open("scripts/create_miter_temp.ys", "w")
+    file.write(content)
+    file.close()
+
+    # run yosys with the temporary script and remove the temporary script
+    os.system("yosys -s scripts/create_miter_temp.ys")
+    os.system("rm scripts/create_miter_temp.ys")
+
+
 if __name__ == "__main__":
-    
+
     parse = argparse.ArgumentParser()
     parse.add_argument(
-        "--input", dest="input_path", required=True, help="input_log_path"
+        "--input", dest="input_path", required=True, help="input file path"
     )
     parse.add_argument(
         "--output",
@@ -55,7 +74,7 @@ if __name__ == "__main__":
         "--option",
         dest="option",
         required=True,
-        help="available options: flatten verilog_to_aig",
+        help="available options: flatten verilog_to_aig create_miter",
     )
     args = parse.parse_args()
     if not args.input_path.endswith(".v") and not args.input_path.endswith(".sv"):
@@ -69,3 +88,5 @@ if __name__ == "__main__":
             print("Invalid output file, must be a .aig file")
             sys.exit(1)
         verilog_to_aig(args.input_path, args.output_path, args.top)
+    elif args.option == "create_miter":
+        create_miter(args.input_path, args.output_path, args.top)
