@@ -181,7 +181,7 @@ def extract_operands(rhs_expression):
     matches = re.findall(operand_pattern, rhs_expression)
 
     # Return a list of unique operands and remove spaces
-    matches = [re.sub(r"\s+", "", match) for match in list(sorted(set(matches)))]
+    matches = [match.strip() for match in list(sorted(set(matches)))]
     return matches
 
 
@@ -272,17 +272,20 @@ def add_implication_signals(filein, fileout, *, cfg: ImplicationSignalsConfig):
                 while stack:  # post order traversal
                     wc_name, w_name = stack[-1], stack[-2]
 
-                    if w_name in eq_signals.keys():  # visited
+                    if w_name in eq_signals.keys():  # visited or redundant
                         stack = stack[:-2]
                         continue
 
                     if w_name not in supports.keys():  # leaf case
                         assert w_name not in eq_signals.keys()
-                        eq_signals[w_name] = f"__E{eq_id}__"
-                        fout.write(f"  wire {eq_signals[w_name]} ;\n")
-                        fout.write(
-                            f"  assign {eq_signals[w_name]} = {w_name} == {wc_name} ;\n"
-                        )
+                        if w_name == wc_name:
+                            eq_signals[w_name] = "1"
+                        else:
+                            eq_signals[w_name] = f"__E{eq_id}__"
+                            fout.write(f"  wire {eq_signals[w_name]} ;\n")
+                            fout.write(
+                                f"  assign {eq_signals[w_name]} = {w_name} == {wc_name} ;\n"
+                            )
                         stack = stack[:-2]  # pop out
                         eq_id += 1
 
@@ -319,6 +322,7 @@ def add_implication_signals(filein, fileout, *, cfg: ImplicationSignalsConfig):
         # FIXME considering general assumption name
         # For now, assume it to be assume_1_violate_in
         assump_name = "assume_1_violate_in"
+        # fout.write(f"  always @* if (1'h1) assume(__IMPL{impl_id-1}__) ;\n")
         for l in lines:
             assign_assump = re.compile(
                 rf"(?P<lhs>\s*assign\s+{assump_name}\s*(=))"
