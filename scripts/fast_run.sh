@@ -1,7 +1,7 @@
 #!/usr/bin/bash
 
 # Exit when any command fails
-set -e 
+# set -e 
 
 # Function to display usage message
 usage() {

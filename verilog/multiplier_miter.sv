@@ -105,7 +105,7 @@ module MUL(clk, in_valid, a, b, o, out_valid);
   assign out_valid = finish;
 endmodule
 
-module MUL_miter(in_a, in_in_valid, in_b, in_clk, trigger, cmp_out_valid, cmp_o);
+module top(in_a, in_in_valid, in_b_1, in_b_2, in_clk, trigger, cmp_out_valid, cmp_o);
   wire _0_;
   wire _1_;
   wire _2_;
@@ -113,40 +113,55 @@ module MUL_miter(in_a, in_in_valid, in_b, in_clk, trigger, cmp_out_valid, cmp_o)
   wire cmp_o;
   output cmp_out_valid;
   wire cmp_out_valid;
-  wire [63:0] gate_o;
-  wire gate_out_valid;
-  wire [63:0] gold_o;
-  wire gold_out_valid;
+  wire [63:0] copy2_o;
+  wire copy2_out_valid;
+  wire [63:0] copy1_o;
+  wire copy1_out_valid;
   input [31:0] in_a;
   wire [31:0] in_a;
-  input [31:0] in_b;
-  wire [31:0] in_b;
+  input [31:0] in_b_1;
+  input [31:0] in_b_2;
+  wire [31:0] in_b_1;
+  wire [31:0] in_b_2;
   input in_clk;
   wire in_clk;
   input in_in_valid;
   wire in_in_valid;
   output trigger;
   wire trigger;
-  assign _0_ = gold_o === gate_o;
-  assign _1_ = gold_out_valid === gate_out_valid;
+  assign _0_ = copy1_o === copy2_o;
+  assign _1_ = copy1_out_valid === copy2_out_valid;
   assign _2_ = & { _1_, _0_ };
   assign trigger = ~ _2_;
-  MUL gate (
+  MUL copy1 (
     .a(in_a),
-    .b(in_b),
+    .b(in_b_1),
     .clk(in_clk),
     .in_valid(in_in_valid),
-    .o(gate_o),
-    .out_valid(gate_out_valid)
+    .o(copy2_o),
+    .out_valid(copy2_out_valid)
   );
-  MUL gold (
+  MUL copy2 (
     .a(in_a),
-    .b(in_b),
+    .b(in_b_2),
     .clk(in_clk),
     .in_valid(in_in_valid),
-    .o(gold_o),
-    .out_valid(gold_out_valid)
+    .o(copy1_o),
+    .out_valid(copy1_out_valid)
   );
   assign cmp_o = _0_;
   assign cmp_out_valid = _1_;
+
+  
+  reg assume_1_violate;
+  wire assume_1_violate_in;
+  assign assume_1_violate_in = assume_1_violate || (in_a != 0 && in_b_1 != in_b_2);
+  always @(posedge in_clk) begin
+    assume_1_violate <= assume_1_violate_in;
+  end
+
+  wire assume_violate;
+  assign assume_violate = 0;//assume_1_violate_in;
+
+  assert property (copy1_out_valid === copy2_out_valid || assume_violate);
 endmodule
