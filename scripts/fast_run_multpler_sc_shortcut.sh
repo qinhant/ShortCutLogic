@@ -25,7 +25,7 @@ python3 scripts/transform_verilog.py \
     --top top \
     --option verilog_to_aig
 
-STEP: Run ABC with PDR, output the log
+#STEP: Run ABC with PDR, output the log
 abc -c "
     read output/multiplier_sc/shortcut.aig;
     fold;

@@ -39,6 +39,7 @@ def verilog_to_aig(input_path, output_path, top):
 
 
 if __name__ == "__main__":
+    
     parse = argparse.ArgumentParser()
     parse.add_argument(
         "--input", dest="input_path", required=True, help="input_log_path"

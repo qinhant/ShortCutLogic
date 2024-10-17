@@ -69,7 +69,7 @@ module MUL(
         o_reg = 0;
         busy = 0;
         finish = 0;
-        coutner = 0;
+        counter = 0;
     end
 
     wire busy_next = in_valid && !busy || busy && !finish;
