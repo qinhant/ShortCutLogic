@@ -29,7 +29,7 @@ python3 scripts/transform_verilog.py \
 abc -c "
     read output/multiplier_sc/shortcut.aig;
     fold;
-    pdr -v -w -d -I output/multiplier_sc/shortcut.pla;
+    pdr -v -w -d -f -I output/multiplier_sc/shortcut.pla;
     write_cex -n -m -f output/multiplier_sc/shortcut.cex
 " > ./output/multiplier_sc/pdr_shortcut.log
 
