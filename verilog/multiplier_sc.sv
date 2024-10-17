@@ -45,6 +45,9 @@ end
 
 assert property (out_valid1 == out_valid2 || assume_1_violate_in);
 
+wire assume_violate;
+assign assume_violate = assume_1_violate_in;
+
 endmodule
 
 

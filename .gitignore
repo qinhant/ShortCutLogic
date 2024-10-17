@@ -1,4 +1,4 @@
 *abc.history
-# abc_output/*
-# yosys_output/*
+abc_output/
+yosys_output/
 output/

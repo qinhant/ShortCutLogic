@@ -18,12 +18,14 @@ class RegCopy:
     full_name: str
     width: str = ""
 
+
 @dataclass
 class WireCopy:
     id: WireId
     copy_id: CopyId
     full_name: str
     width: str = ""
+
 
 @dataclass
 class ShortcutSignalsConfig:
@@ -32,14 +34,15 @@ class ShortcutSignalsConfig:
     parse_reg: Callable  # [[str], RegCopy | None]
     original: CopyId
     shortcut_prefix: str
-    assume_violate_reg: str = "assume_violate"
+    assume_violate_sig: str = "assume_violate"
+
 
 @dataclass
 class ImplicationSignalsConfig:
     """Settings for implication signals."""
+
     parse_wire: Callable  # [[str], RegCopy | None]
     original: CopyId
-
 
 
 def add_shortcut_signals(filein, fileout, *, cfg: ShortcutSignalsConfig):
@@ -88,7 +91,7 @@ def add_shortcut_signals(filein, fileout, *, cfg: ShortcutSignalsConfig):
                     orig_regs[reg.id] = reg
                 else:
                     copy_regs[reg.id].append(reg)
-    
+
             # fout.write(l)
             decls.append(l)
 
@@ -149,7 +152,7 @@ def add_shortcut_signals(filein, fileout, *, cfg: ShortcutSignalsConfig):
                         textwrap.dedent(
                             f"""
                   always @(posedge clk)
-                    {neq_signal} <= !{cfg.assume_violate_reg} && {orig_assign} != {copy_assign} ;
+                    {neq_signal} <= !{cfg.assume_violate_sig} && {orig_assign} != {copy_assign} ;
                 """
                         ).removeprefix("\n"),
                         "  ",
@@ -158,7 +161,7 @@ def add_shortcut_signals(filein, fileout, *, cfg: ShortcutSignalsConfig):
 
         for l in lines:
             fout.write(l)
-            
+
 
 def extract_operands(rhs_expression):
     """
@@ -168,18 +171,19 @@ def extract_operands(rhs_expression):
     variable_re = r"\\?[a-zA-Z_]\w*(?:\.\w+)?"
     bitselect_re = r"(?:\[\d+:\d+\]|\[\d+\])?"
     operand_pattern = rf"{variable_re}\s*{bitselect_re}"
-    
+
     # Define a regex pattern for matching constants
-    constant_pattern = r'\d+\'[b|h][0-9a-fA-F]+'
-    
+    constant_pattern = r"\d+\'[b|h][0-9a-fA-F]+"
+
     rhs_expression = re.sub(constant_pattern, "", rhs_expression)
-    
+
     # Find all matches
     matches = re.findall(operand_pattern, rhs_expression)
 
     # Return a list of unique operands and remove spaces
-    matches = [ re.sub(r"\s+", "", match) for match in list(sorted(set(matches))) ]
+    matches = [re.sub(r"\s+", "", match) for match in list(sorted(set(matches)))]
     return matches
+
 
 def add_implication_signals(filein, fileout, *, cfg: ImplicationSignalsConfig):
 
@@ -200,7 +204,7 @@ def add_implication_signals(filein, fileout, *, cfg: ImplicationSignalsConfig):
     with open(filein, "r") as fin, open(fileout, "w") as fout:
         fout.write("/* Added Implication signals via shortcut_signals.py */\n")
         lines = iter(fin)
-        
+
         orig_wires: dict[WireId, WireCopy] = {}
         copy_wires: dict[WireId, list[WireCopy]] = defaultdict(list)
 
@@ -226,15 +230,19 @@ def add_implication_signals(filein, fileout, *, cfg: ImplicationSignalsConfig):
                     orig_wires[wire.id] = wire
                 else:
                     copy_wires[wire.id].append(wire)
-    
+
             decls.append(l)
         fout.write("".join(decls))
 
         # create equality signals
         eq_signals: dict[str, str] = {}  # wire name (orig) -> eq signal
-        supports: dict[str, list[str]] = defaultdict(list) # wire name -> support signals
+        supports: dict[str, list[str]] = defaultdict(
+            list
+        )  # wire name -> support signals
 
-        src_comment = re.compile(r'\(\*\s*src\s*=\s*"(?P<path>[^"]+:\d+\.\d+-\d+\.\d+)"\s*\*\)')
+        src_comment = re.compile(
+            r'\(\*\s*src\s*=\s*"(?P<path>[^"]+:\d+\.\d+-\d+\.\d+)"\s*\*\)'
+        )
         lines = list(lines)
         for l in lines:
             if match := assign.match(l):
@@ -242,14 +250,15 @@ def add_implication_signals(filein, fileout, *, cfg: ImplicationSignalsConfig):
                 rhs = " " + match.group("rhs") + " "
                 # considering only wire in lhs
                 if "<=" not in lhs:
-                    operands = extract_operands( re.sub(src_comment.pattern, '', rhs)  )
+                    operands = extract_operands(re.sub(src_comment.pattern, "", rhs))
                     lhs = re.sub(r"(assign\s+|\s*|=|<=)", "", lhs)
-                    assert(lhs not in supports), f"not implemented: handle repeated assignment (of {lhs})"
+                    assert (
+                        lhs not in supports
+                    ), f"not implemented: handle repeated assignment (of {lhs})"
                     supports[lhs] = operands
-        
-        
+
         eq_id = 1
-        impl_id = 0 
+        impl_id = 0
         fout.write(f"\n  /* Equality Implication Instrumentation Starts */\n\n")
         fout.write(f"  wire __IMPL{impl_id}__ ;\n")
         fout.write(f"  assign __IMPL{impl_id}__ = 1 ;\n")
@@ -259,43 +268,49 @@ def add_implication_signals(filein, fileout, *, cfg: ImplicationSignalsConfig):
                 stack = []
                 stack.append(w.full_name)
                 stack.append(wc.full_name)
-                
-                while stack: # post order traversal
+
+                while stack:  # post order traversal
                     wc_name, w_name = stack[-1], stack[-2]
-                    
-                    if w_name in eq_signals.keys(): # visited
+
+                    if w_name in eq_signals.keys():  # visited
                         stack = stack[:-2]
                         continue
-                    
-                    if w_name not in supports.keys(): # leaf case
-                        assert(w_name not in eq_signals.keys())
+
+                    if w_name not in supports.keys():  # leaf case
+                        assert w_name not in eq_signals.keys()
                         eq_signals[w_name] = f"__E{eq_id}__"
                         fout.write(f"  wire {eq_signals[w_name]} ;\n")
-                        fout.write(f"  assign {eq_signals[w_name]} = {w_name} == {wc_name} ;\n")
-                        stack = stack[:-2] # pop out
+                        fout.write(
+                            f"  assign {eq_signals[w_name]} = {w_name} == {wc_name} ;\n"
+                        )
+                        stack = stack[:-2]  # pop out
                         eq_id += 1
-                        
-                    else: # non-leaf case
+
+                    else:  # non-leaf case
                         ready = True
                         # check if all the supports are processed
-                        for i in range( len(supports[w_name]) ):
+                        for i in range(len(supports[w_name])):
                             s, sc = supports[w_name][i], supports[wc_name][i]
                             if s not in eq_signals.keys():
                                 stack.append(s)
                                 stack.append(sc)
                                 ready = False
-                                
+
                         if ready:
-                            assert(w_name not in eq_signals.keys())
+                            assert w_name not in eq_signals.keys()
                             eq_signals[w_name] = f"__E{eq_id}__"
                             fout.write(f"  wire {eq_signals[w_name]} ;\n")
-                            fout.write(f"  assign {eq_signals[w_name]} = {w_name} == {wc_name} ;\n")
-                            rhs = eq_signals[ supports[w_name][0] ]
+                            fout.write(
+                                f"  assign {eq_signals[w_name]} = {w_name} == {wc_name} ;\n"
+                            )
+                            rhs = eq_signals[supports[w_name][0]]
                             for s in supports[w_name][1:]:
                                 rhs += f" && {eq_signals[s]}"
                             fout.write(f"  wire __IMPL{impl_id}__ ;\n")
-                            fout.write(f"  assign __IMPL{impl_id}__ = (!({rhs}) || {eq_signals[w_name]}) && __IMPL{impl_id-1}__ ;\n")
-                            stack = stack[:-2] # pop out
+                            fout.write(
+                                f"  assign __IMPL{impl_id}__ = (!({rhs}) || {eq_signals[w_name]}) && __IMPL{impl_id-1}__ ;\n"
+                            )
+                            stack = stack[:-2]  # pop out
                             eq_id += 1
                             impl_id += 1
 
@@ -313,7 +328,6 @@ def add_implication_signals(filein, fileout, *, cfg: ImplicationSignalsConfig):
                 rhs = match.group("rhs")
                 l = f"  assign {assump_name} = !__IMPL{impl_id-1}__ || {rhs} ;\n"
             fout.write(l)
-
 
 
 if __name__ == "__main__":
@@ -352,30 +366,31 @@ if __name__ == "__main__":
         default="\\shortcut.",
         help="prefix used for new shortcut signals",
     )
-    
+
     # Add short options: -s (shortcut only) and -se (shortcut and implication)
     parse.add_argument(
-        "-s", "--shortcut",
+        "-s",
+        "--shortcut",
         dest="enable_shortcut",
         action="store_true",
         default=False,
-        help=f"Toggle adding shortcut signals [default=False]"
+        help=f"Toggle adding shortcut signals [default=False]",
     )
 
     parse.add_argument(
-        "-i", "--implication",
+        "-i",
+        "--implication",
         dest="enable_implication",
         action="store_true",
         default=False,
-        help="Toggle adding implication signals [default=False]"
+        help="Toggle adding implication signals [default=False]",
     )
-    
 
     parse.add_argument(
-        "--assume_violate_reg",
-        dest="assume_violate_reg",
+        "--assume_violate_sig",
+        dest="assume_violate_sig",
         default="assume_violate",
-        help="name of the register used to denote assume violation",
+        help="name of the signal used to denote assume violation",
     )
 
     args = parse.parse_args()
@@ -409,7 +424,7 @@ if __name__ == "__main__":
             )
         except KeyError:
             return None
-        
+
     def parse_wire(wire: str):  # -> WireCopy | None:
         match = wire_re.match(wire)
         if match is None:
@@ -424,34 +439,29 @@ if __name__ == "__main__":
         except KeyError:
             return None
 
-    assert(args.enable_shortcut or args.enable_implication)
-    
+    assert args.enable_shortcut or args.enable_implication
+
     # FIXME ugly fix for handling multiple modification of one file
     if args.enable_implication:
-        cfg = ImplicationSignalsConfig(
-            parse_wire=parse_wire, 
-            original=args.prefix1
-        )
+        cfg = ImplicationSignalsConfig(parse_wire=parse_wire, original=args.prefix1)
         temp_path = args.output_path
         if args.enable_shortcut:
             temp_path = "temp.sv"
         add_implication_signals(args.input_path, temp_path, cfg=cfg)
-    
+
     if args.enable_shortcut:
         cfg = ShortcutSignalsConfig(
             parse_reg=parse_reg,
             original=args.prefix1,
             shortcut_prefix=str(args.prefix_sc),
-            assume_violate_reg=args.assume_violate_reg,
+            assume_violate_sig=args.assume_violate_sig,
         )
         temp_path = args.input_path
         if args.enable_implication:
             temp_path = "temp.sv"
         add_shortcut_signals(temp_path, args.output_path, cfg=cfg)
-    
-    
-    
+
     if temp_path == "temp.sv":
         import os
-        os.system(f"rm {temp_path}")
 
+        os.system(f"rm {temp_path}")
