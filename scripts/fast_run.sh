@@ -2,7 +2,7 @@
 
 # Exit when any command fails
 # set -e 
-
+OPTIND=1
 # Function to display usage message
 usage() {
   echo "Usage: $0 [-faseri] [-O suffix] <design>"

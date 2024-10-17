@@ -161,7 +161,7 @@ module top(in_a, in_in_valid, in_b_1, in_b_2, in_clk, trigger, cmp_out_valid, cm
   end
 
   wire assume_violate;
-  assign assume_violate = 0;//assume_1_violate_in;
+  assign assume_violate = assume_1_violate_in;
 
   assert property (copy1_out_valid === copy2_out_valid || assume_violate);
 endmodule
