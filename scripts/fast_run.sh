@@ -110,7 +110,7 @@ fi
 # Step 4: Run ABC with PDR
 if $pdr; then
   echo "Running ABC with PDR for ${design}..."
-  abc -c "
+  abc_exp -c "
     read ${output_dir}/${file}.aig;
     fold;
     pdr -v -w -d -I ${output_dir}/${file}.pla;

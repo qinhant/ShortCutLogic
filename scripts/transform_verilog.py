@@ -29,13 +29,29 @@ def verilog_to_aig(input_path, output_path, top):
     content = content.replace("output_path", output_path)
     content = content.replace("top_module", top)
     content = content.replace("map_path", output_path.replace(".aig", ".map"))
-    file = open("scripts/verilog_to_aig_temp.ys", "w")
-    file.write(content)
-    file.close()
+    with open("scripts/verilog_to_aig_temp.ys", "w") as file:
+        file.write(content)
+        file.close()
 
     # run yosys with the temporary script and remove the temporary script
     os.system("yosys -s scripts/verilog_to_aig_temp.ys")
     os.system("rm scripts/verilog_to_aig_temp.ys")
+
+    # Collect all the predicate variables and write to a file
+    map_path = output_path.replace(".aig", ".map")
+    with open(map_path, "r") as file:
+        content = file.read()
+        file.close()
+        content = content.split("\n")
+        predicates = set()
+        for line in content:
+            if line.startswith("latch") and line.find("shortcut.neq_") >= 0:
+                predicates.add(line.split(" ")[1])
+        predicates = list(predicates)
+        predicates.sort()
+        with open(map_path.replace(".map", ".priority"), "w") as file:
+            for pred in predicates:
+                file.write(pred + "\n")
 
 
 def create_miter(input_path, output_path, top):
