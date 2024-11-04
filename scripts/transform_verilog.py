@@ -68,7 +68,6 @@ def verilog_to_aig(input_path, output_path, top):
             if line.startswith("latch"):
                 latch_num = line.split(" ")[1]
                 var_name = line.split(" ")[3] + "[" + line.split(" ")[2] + "]"
-                print(line, latch_num, var_name)
                 var_to_latch[var_name] = latch_num
                 latch_to_var[latch_num] = var_name
                 all_latch.add(latch_num)
@@ -109,11 +108,14 @@ def verilog_to_aig(input_path, output_path, top):
                 latch_symmetry[latch_num] = var_to_latch[var_symmetry]
                 latch_to_predicate[latch_num] = predicate_latch
         with open(map_path.replace(".map", ".relation"), "w") as file:
-            file.write("latch symmetry predicate name\n")
+            file.write("latch symmetry predicate var_name symmetry_name\n")
             for latch in all_latch:
-                file.write(
-                    f"{latch} {latch_symmetry[latch]} {latch_to_predicate[latch]} {latch_to_var[latch]} \n"
-                )
+                try:
+                    file.write(
+                        f"{latch} {latch_symmetry[latch]} {latch_to_predicate[latch]} {latch_to_var[latch]} {latch_to_var[latch_symmetry[latch]]} \n"
+                    )
+                except KeyError:
+                    print(latch, latch_symmetry[latch], latch_to_predicate[latch])
 
 
 def create_miter(input_path, output_path, top):
