@@ -1,6 +1,7 @@
 import sys
 import argparse
 import os
+import re
 
 
 def flatten_verilog(input_path, output_path, top):
@@ -52,6 +53,67 @@ def verilog_to_aig(input_path, output_path, top):
         with open(map_path.replace(".map", ".priority"), "w") as file:
             for pred in predicates:
                 file.write(pred + "\n")
+
+    # Collect the relation between variables and write to a file
+    with open(map_path, "r") as file:
+        content = file.read()
+        file.close()
+        content = content.split("\n")
+        var_to_latch = dict()
+        latch_symmetry = dict()
+        latch_to_predicate = dict()
+        latch_to_var = dict()
+        all_latch = set()
+        for line in content:
+            if line.startswith("latch"):
+                latch_num = line.split(" ")[1]
+                var_name = line.split(" ")[3] + "[" + line.split(" ")[2] + "]"
+                print(line, latch_num, var_name)
+                var_to_latch[var_name] = latch_num
+                latch_to_var[latch_num] = var_name
+                all_latch.add(latch_num)
+
+        for line in content:
+            if line.startswith("latch"):
+                latch_num = line.split(" ")[1]
+                var_name = line.split(" ")[3] + "[" + line.split(" ")[2] + "]"
+                var_name_word = line.split(" ")[3]
+                if var_name.startswith("copy1."):
+                    var_symmetry = "copy2." + var_name[6:]
+                    predicate_var = "shortcut.neq_" + var_name_word[6:] + "_copy2[0]"
+                    if (
+                        predicate_var not in var_to_latch.keys()
+                        or var_symmetry not in var_to_latch.keys()
+                    ):
+                        continue
+                    predicate_latch = var_to_latch[predicate_var]
+                elif var_name.startswith("copy2."):
+                    var_symmetry = "copy1." + var_name[6:]
+                    predicate_var = "shortcut.neq_" + var_name_word[6:] + "_copy2[0]"
+                    if (
+                        predicate_var not in var_to_latch.keys()
+                        or var_symmetry not in var_to_latch.keys()
+                    ):
+                        continue
+                    predicate_latch = var_to_latch[predicate_var]
+                # special case for predicate variables
+                elif var_name.find("shortcut.neq_") >= 0:
+                    predicate_latch = -1
+                    var_symmetry = var_name
+                # special case for assume variables
+                elif re.match(r"assume_.+_violate", var_name):
+                    predicate_latch = -2
+                    var_symmetry = var_name
+                else:
+                    continue
+                latch_symmetry[latch_num] = var_to_latch[var_symmetry]
+                latch_to_predicate[latch_num] = predicate_latch
+        with open(map_path.replace(".map", ".relation"), "w") as file:
+            file.write("latch symmetry predicate name\n")
+            for latch in all_latch:
+                file.write(
+                    f"{latch} {latch_symmetry[latch]} {latch_to_predicate[latch]} {latch_to_var[latch]} \n"
+                )
 
 
 def create_miter(input_path, output_path, top):
