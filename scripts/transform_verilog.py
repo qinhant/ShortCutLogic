@@ -66,7 +66,7 @@ def verilog_to_aig(input_path, output_path, top):
         all_latch = set()
         for line in content:
             if line.startswith("latch"):
-                latch_num = line.split(" ")[1]
+                latch_num = int(line.split(" ")[1])
                 var_name = line.split(" ")[3] + "[" + line.split(" ")[2] + "]"
                 var_to_latch[var_name] = latch_num
                 latch_to_var[latch_num] = var_name
@@ -74,7 +74,7 @@ def verilog_to_aig(input_path, output_path, top):
 
         for line in content:
             if line.startswith("latch"):
-                latch_num = line.split(" ")[1]
+                latch_num = int(line.split(" ")[1])
                 var_name = line.split(" ")[3] + "[" + line.split(" ")[2] + "]"
                 var_name_word = line.split(" ")[3]
                 if var_name.startswith("copy1."):
@@ -109,7 +109,7 @@ def verilog_to_aig(input_path, output_path, top):
                 latch_to_predicate[latch_num] = predicate_latch
         with open(map_path.replace(".map", ".relation"), "w") as file:
             file.write("latch symmetry predicate var_name symmetry_name\n")
-            for latch in all_latch:
+            for latch in sorted(list(all_latch)):
                 try:
                     file.write(
                         f"{latch} {latch_symmetry[latch]} {latch_to_predicate[latch]} {latch_to_var[latch]} {latch_to_var[latch_symmetry[latch]]} \n"
