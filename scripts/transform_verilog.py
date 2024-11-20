@@ -115,7 +115,8 @@ def verilog_to_aig(input_path, output_path, top):
                         f"{latch} {latch_symmetry[latch]} {latch_to_predicate[latch]} {latch_to_var[latch]} {latch_to_var[latch_symmetry[latch]]} \n"
                     )
                 except KeyError:
-                    print(latch, latch_symmetry[latch], latch_to_predicate[latch])
+                    # print(latch, latch_symmetry[latch], latch_to_predicate[latch])
+                    print(latch)
 
 
 def create_miter(input_path, output_path, top):

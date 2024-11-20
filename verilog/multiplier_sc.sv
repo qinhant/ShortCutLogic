@@ -3,7 +3,7 @@
 `define OUT_WIDTH (`WIDTH << 1)
 
 module top(
-    input clk,
+    input in_clk,
     input [`WIDTH-1:0] a1,
     input [`WIDTH-1:0] a2,
     input [`WIDTH-1:0] b,
@@ -18,7 +18,7 @@ wire [`OUT_WIDTH-1:0] o1, o2;
 wire out_valid1, out_valid2;
 
 MUL copy1(
-    .clk(clk),
+    .in_clk(in_clk),
     .in_valid(in_valid),
     .a(a1),
     .b(b),
@@ -27,7 +27,7 @@ MUL copy1(
 );
 
 MUL copy2(
-    .clk(clk),
+    .in_clk(in_clk),
     .in_valid(in_valid),
     .a(a2),
     .b(b),
@@ -39,7 +39,7 @@ MUL copy2(
 // Do not use assume property because it will mess up with the mapping, do the following instead
 reg assume_1_violate = 0;
 wire assume_1_violate_in = !(a1 == a2 || b == 0) || assume_1_violate;
-always @(posedge clk) begin
+always @(posedge in_clk) begin
     assume_1_violate <= assume_1_violate_in;
 end
 
@@ -53,7 +53,7 @@ endmodule
 
 // Shift-and-Add multiplier
 module MUL(
-    input clk,
+    input in_clk,
     input in_valid,
     input [`WIDTH-1:0] a,
     input [`WIDTH-1:0] b,
@@ -82,7 +82,7 @@ module MUL(
     wire [`WIDTH_LOG:0] counter_next = !busy ? 0 : counter + 1;
     wire [`OUT_WIDTH-1:0] o_reg_next = !busy ? 0 : o_reg + (b_reg[0] ? a_reg << counter : 0);
 
-    always @(posedge clk) begin
+    always @(posedge in_clk) begin
         finish <= finish_next;
         busy <= busy_next;
         a_reg <= a_reg_next;

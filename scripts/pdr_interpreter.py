@@ -24,31 +24,31 @@ def pdr_interpret(log_path, map_path, inv_path, output_path, cex_path):
             signal_name = split[3]
             if input_num not in input_map.keys():
                 input_map[input_num] = signal_name + "[" + bit + "]"
-
-    with open(inv_path, "r") as file:
-        content = file.read()
-    latch_list = [
-        latch_map[str(int(e[2:]))]
-        for e in content[content.find(".ilb") + 4 : content.find(".ob")]
-        .strip()
-        .split(" ")
-        if len(e) > 0
-    ]
-    # print(latch_list)
-
-    log_output = "---------------Invariant Clauses-------------------- \n"
-    invariant = content[content.find(".ob inv") + 7 : content.find(".e")].strip()
-    for line in invariant.split("\n"):
-        line = line[: line.find(" ")]
-        literals = []
-        for i in range(len(line)):
-            if line[i] == "0":
-                literals.append("!" + latch_list[i])
-            elif line[i] == "1":
-                literals.append(latch_list[i])
-        clause = " && ".join(literals)
-        log_output += "!(" + clause + ")\n"
-    log_output += "\n\n\n"
+    try:
+        with open(inv_path, "r") as file:
+            content = file.read()
+        latch_list = [
+            latch_map[str(int(e[2:]))]
+            for e in content[content.find(".ilb") + 4 : content.find(".ob")]
+            .strip()
+            .split(" ")
+            if len(e) > 0
+        ]
+        log_output = "---------------Invariant Clauses-------------------- \n"
+        invariant = content[content.find(".ob inv") + 7 : content.find(".e")].strip()
+        for line in invariant.split("\n"):
+            line = line[: line.find(" ")]
+            literals = []
+            for i in range(len(line)):
+                if line[i] == "0":
+                    literals.append("!" + latch_list[i])
+                elif line[i] == "1":
+                    literals.append(latch_list[i])
+            clause = " && ".join(literals)
+            log_output += "!(" + clause + ")\n"
+        log_output += "\n\n\n"
+    except FileNotFoundError:
+        log_output = "---------------No Invariant File-------------------- \n"
 
     log_output += "---------------PDR Log--------------------\n"
     with open(log_path, "r") as file:
