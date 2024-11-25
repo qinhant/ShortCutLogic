@@ -125,7 +125,7 @@ if $interpret; then
     --log "${output_dir}/pdr_${file}.log" \
     --map "${output_dir}/${file}.map" \
     --inv "${output_dir}/${file}.pla" \
-    --output "${output_dir}/pdr_${file}_intepreted.log" \
+    --output "${output_dir}/pdr_${file}_interpreted.log" \
     --cex "${output_dir}/${file}.cex"
 fi
 
