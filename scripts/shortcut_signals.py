@@ -31,10 +31,11 @@ class WireCopy:
 class ShortcutSignalsConfig:
     """Settings for shortcut signals."""
 
-    parse_reg: Callable  # [[str], RegCopy | None]
+    parse_sct_reg: Callable  # [[str], RegCopy | None]
     original: CopyId
     shortcut_prefix: str
     assume_violate_sig: str = "assume_violate"
+    prepend_shortcut_regs: bool = False
 
 
 @dataclass
@@ -86,7 +87,7 @@ def add_shortcut_signals(filein, fileout, *, cfg: ShortcutSignalsConfig):
                 lines = itertools.chain([l], lines)
                 break
 
-            if decl_reg.match(l) and (reg := cfg.parse_reg(l)):
+            if decl_reg.match(l) and (reg := cfg.parse_sct_reg(l)):
                 if reg.copy_id == cfg.original:
                     orig_regs[reg.id] = reg
                 else:
@@ -98,6 +99,7 @@ def add_shortcut_signals(filein, fileout, *, cfg: ShortcutSignalsConfig):
         # create shortcuts
         neq_signals: dict[str, str] = {}  # copy name -> neq signal
         shortcuts: dict[str, str] = {}  # copy name -> shortcut
+        shortcut_decls = []
         shortcut_assigns = []
 
         for id, r in orig_regs.items():
@@ -107,14 +109,18 @@ def add_shortcut_signals(filein, fileout, *, cfg: ShortcutSignalsConfig):
                 shortcut = f"{cfg.shortcut_prefix}{copy_id}.{id}"
                 neq_signals[rc.full_name] = signal
                 shortcuts[rc.full_name] = shortcut
-                fout.write(f"  reg {signal} = 0 ;\n")
+                shortcut_decls.append(f"  reg {signal} = 0 ;\n")
                 width = f" {rc.width}" if rc.width else ""
-                fout.write(f"  wire{width} {shortcut} ;\n")
+                shortcut_decls.append(f"  wire{width} {shortcut} ;\n")
                 shortcut_assigns.append(
                     f"  assign {shortcut} = {signal} ? {rc.full_name} : {r.full_name} ;\n"
                 )
 
-        fout.write("".join(shortcut_assigns + decls))
+        if cfg.prepend_shortcut_regs:
+            decls = shortcut_decls + decls + shortcut_assigns
+        else:
+            decls = decls + shortcut_decls + shortcut_assigns
+        fout.write("".join(decls))
 
         # track assignments for setting inequality signals
         reg_assigns: dict[str, str] = {}
@@ -397,6 +403,13 @@ if __name__ == "__main__":
         help="name of the signal used to denote assume violation",
     )
 
+    parse.add_argument(
+        "--shortcut_regs",
+        dest="sct_regs_file",
+        default=None,
+        help="a file of regular expressions specifying which registers are shortcut registers"
+    )
+
     args = parse.parse_args()
     if not args.input_path.endswith(".v") and not args.input_path.endswith(".sv"):
         print("Invalid input file, must be a .v or .sv file")
@@ -407,6 +420,11 @@ if __name__ == "__main__":
 
     prefix1 = re.escape(str(args.prefix1))
     prefix2 = re.escape(str(args.prefix2))
+    if args.sct_regs_file is not None:
+        with open(args.sct_regs_file, 'r') as f:
+            sct_regs = re.compile("|".join(s.strip() for s in f.readlines()))
+    else:
+        sct_regs = re.compile(r".*")
 
     copy_re = f"(?P<copy>({prefix1}|{prefix2}))"
     width_re = r"\s*(?P<width>(\[\d+:\d+\]|))\s*"
@@ -415,13 +433,16 @@ if __name__ == "__main__":
     reg_re = re.compile(rf"\s*reg{width_re} {fullname_re}")
     wire_re = re.compile(rf"\s*(wire|input|output|inout){width_re} {fullname_re}")
 
-    def parse_reg(reg: str):  # -> RegCopy | None:
+    def parse_sct_reg(reg: str):  # -> RegCopy | None:
         match = reg_re.match(reg)
         if match is None:
             return None
         try:
+            name = match.group("name")
+            if not sct_regs.fullmatch(name):
+                return None
             return RegCopy(
-                match.group("name"),
+                name,
                 copy_id=match.group("copy"),
                 width=match.group("width"),
                 full_name=match.group("fullname"),
@@ -455,7 +476,7 @@ if __name__ == "__main__":
 
     if args.enable_shortcut:
         cfg = ShortcutSignalsConfig(
-            parse_reg=parse_reg,
+            parse_sct_reg=parse_sct_reg,
             original=args.prefix1,
             shortcut_prefix=str(args.prefix_sc),
             assume_violate_sig=args.assume_violate_sig,

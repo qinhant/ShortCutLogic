@@ -4,3 +4,5 @@ yosys_output/
 output/
 *.out
 *.vcd
+
+.DS_Store
