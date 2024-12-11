@@ -13,6 +13,8 @@ usage() {
   echo "  -e   Add implication signals"
   echo "  -r   Run ABC with PDR"
   echo "  -i   Interpret the log"
+  echo "  -m   Use Symmetry"
+  echo "  -p   Use predicate replacement"
   echo "  -O suffix  Specify a suffix for the output directory"
   echo "If no options are provided, all steps will run."
   exit 1
@@ -25,10 +27,12 @@ shortcut=false
 pdr=false
 interpret=false
 implication=false
+symmetry=false
+predicate=false
 suffix=""
 
 # Parse command-line options
-while getopts "faseriO:" opt; do
+while getopts "faserimpO:" opt; do
   case $opt in
     f) flatten=true ;;
     a) aig=true ;;
@@ -36,6 +40,8 @@ while getopts "faseriO:" opt; do
     e) implication=true ;;
     r) pdr=true ;;
     i) interpret=true ;;
+    m) symmetry=true ;;
+    p) predicate=true ;;
     O) suffix="_$OPTARG" ;;
     *) usage ;;
   esac
@@ -107,16 +113,32 @@ file="${design}"
 #     --option verilog_to_aig
 # fi
 
+pdr_commands="read ${output_dir}/${file}.aig;
+    fold;
+    pdr -v -w -d -I ${output_dir}/${file}.pla -R ${output_dir}/${file}.relation"
+if $symmetry; then
+  pdr_commands="${pdr_commands} -s"
+fi
+if $predicate; then
+  pdr_commands="${pdr_commands} -l"
+fi
+pdr_commands="${pdr_commands}; write_cex -n -m -f ${output_dir}/${file}.cex;"
+
 # Step 4: Run ABC with PDR
 if $pdr; then
   echo "Running ABC with PDR for ${design}..."
-  abc_exp -c "
-    read ${output_dir}/${file}.aig;
-    fold;
-    pdr -v -w -d -I ${output_dir}/${file}.pla -R ${output_dir}/${file}.relation;
-    write_cex -n -m -f ${output_dir}/${file}.cex
-  " > "${output_dir}/pdr_${file}.log"
+  echo "PDR commands are: ${pdr_commands}"
+  abc_exp -c "${pdr_commands}" > "${output_dir}/pdr_${file}.log"
 fi
+# if $pdr; then
+#   echo "Running ABC with PDR for ${design}..."
+#   abc_exp -c "
+#     read ${output_dir}/${file}.aig;
+#     fold;
+#     pdr -v -w -d -I ${output_dir}/${file}.pla -R ${output_dir}/${file}.relation;
+#     write_cex -n -m -f ${output_dir}/${file}.cex
+#   " > "${output_dir}/pdr_${file}.log"
+# fi
 
 # Step 5: Interpret the PDR log
 if $interpret; then
