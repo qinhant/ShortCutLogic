@@ -1,5 +1,5 @@
 #!/usr/bin/bash
-# set -e # Exit when any command fails
+set -e # Exit when any command fails
 
 # STEP: Create the output directory
 mkdir -p output/multiplier_sc
@@ -40,4 +40,4 @@ python3 scripts/pdr_interpreter.py \
     --map output/multiplier_sc/shortcut.map \
     --inv output/multiplier_sc/shortcut.pla \
     --output output/multiplier_sc/pdr_shortcut_intepreted.log \
-    --cex output/multiplier_sc/shortcut.cex
+    # --cex output/multiplier_sc/shortcut.cex

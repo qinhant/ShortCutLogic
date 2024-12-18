@@ -1,0 +1,6 @@
+[submodule "solvers/abc_exp"]
+	path = solvers/abc_exp
+	url = https://github.com/qinhant/abc_exp.git
+[submodule "solvers/rIC3"]
+	path = solvers/rIC3
+	url = https://github.com/gipsyh/rIC3.git
