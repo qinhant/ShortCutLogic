@@ -77,8 +77,8 @@ def verilog_to_aig(input_path, output_path, top):
                 latch_num = int(line.split(" ")[1])
                 var_name = line.split(" ")[3] + "[" + line.split(" ")[2] + "]"
                 var_name_word = line.split(" ")[3]
-                if var_name.startswith("copy1."):
-                    var_symmetry = "copy2." + var_name[6:]
+                if var_name.startswith("copy1"):
+                    var_symmetry = "copy2" + var_name[5:]
                     predicate_var = "shortcut.neq_" + var_name_word[6:] + "_copy2[0]"
                     if (
                         predicate_var not in var_to_latch.keys()
@@ -86,8 +86,8 @@ def verilog_to_aig(input_path, output_path, top):
                     ):
                         continue
                     predicate_latch = var_to_latch[predicate_var]
-                elif var_name.startswith("copy2."):
-                    var_symmetry = "copy1." + var_name[6:]
+                elif var_name.startswith("copy2"):
+                    var_symmetry = "copy1" + var_name[5:]
                     predicate_var = "shortcut.neq_" + var_name_word[6:] + "_copy2[0]"
                     if (
                         predicate_var not in var_to_latch.keys()
@@ -95,16 +95,10 @@ def verilog_to_aig(input_path, output_path, top):
                     ):
                         continue
                     predicate_latch = var_to_latch[predicate_var]
-                # special case for predicate variables
-                elif var_name.find("shortcut.neq_") >= 0:
+                # special case for other variables
+                else:
                     predicate_latch = -1
                     var_symmetry = var_name
-                # special case for assume variables
-                elif re.match(r"assume_.+_violate", var_name):
-                    predicate_latch = -2
-                    var_symmetry = var_name
-                else:
-                    continue
                 latch_symmetry[latch_num] = var_to_latch[var_symmetry]
                 latch_to_predicate[latch_num] = predicate_latch
         with open(map_path.replace(".map", ".relation"), "w") as file:

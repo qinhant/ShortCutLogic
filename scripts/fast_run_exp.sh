@@ -71,7 +71,7 @@ fi
 
 # Create the output directory
 mkdir -p "${output_dir}"
-rm -f "${output_dir}"/*
+# rm -f "${output_dir}"/*
 
 file="${design}"
 # Step 1: Flatten the Verilog netlist
@@ -130,15 +130,6 @@ if $pdr; then
   echo "PDR commands are: ${pdr_commands}"
   abc_exp -c "${pdr_commands}" > "${output_dir}/pdr_${file}.log"
 fi
-# if $pdr; then
-#   echo "Running ABC with PDR for ${design}..."
-#   abc_exp -c "
-#     read ${output_dir}/${file}.aig;
-#     fold;
-#     pdr -v -w -d -I ${output_dir}/${file}.pla -R ${output_dir}/${file}.relation;
-#     write_cex -n -m -f ${output_dir}/${file}.cex
-#   " > "${output_dir}/pdr_${file}.log"
-# fi
 
 # Step 5: Interpret the PDR log
 if $interpret; then

@@ -61,6 +61,8 @@ def pdr_interpret(log_path, map_path, inv_path, output_path, cex_path):
             cube = line[line.find("cube ") + 5 :].strip()
             cube = cube[: cube.find(" ")].strip()
             literals = []
+            if len(cube) > len(latch_map.keys()):
+                print("invalid cube: ", cube)
             for i in range(len(cube)):
                 if cube[i] == "0":
                     literals.append("!" + latch_map[str(i)])
@@ -81,6 +83,17 @@ def pdr_interpret(log_path, map_path, inv_path, output_path, cex_path):
                 elif line[i] == "1":
                     literals.append(latch_map[str(i - len(input_map))])
             line = line.replace(line, "(" + " && ".join(literals) + ")")
+            log_output += line + "\n"
+        elif line.find("C=") >= 0 and line.find("F=") >= 0:
+            cube = line[line.find("F=") + 5: ].strip()
+            cube = cube[cube.find(" ") + 1: ].strip()
+            literals = []
+            for i in range(len(cube)):
+                if cube[i] == "0":
+                    literals.append("!" + latch_map[str(i)])
+                elif cube[i] == "1":
+                    literals.append(latch_map[str(i)])
+            line = line.replace(cube, "(" + " && ".join(literals) + ")")
             log_output += line + "\n"
         else:
             log_output += line + "\n"
