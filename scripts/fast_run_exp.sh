@@ -15,6 +15,7 @@ usage() {
   echo "  -i   Interpret the log"
   echo "  -m   Use Symmetry"
   echo "  -p   Use predicate replacement"
+  echo "  -n   Use existing shortcut.sv and flatten.sv"
   echo "  -O suffix  Specify a suffix for the output directory"
   echo "If no options are provided, all steps will run."
   exit 1
@@ -29,10 +30,11 @@ interpret=false
 implication=false
 symmetry=false
 predicate=false
+old=false
 suffix=""
 
 # Parse command-line options
-while getopts "faserimpO:" opt; do
+while getopts "faserimpnO:" opt; do
   case $opt in
     f) flatten=true ;;
     a) aig=true ;;
@@ -42,6 +44,7 @@ while getopts "faserimpO:" opt; do
     i) interpret=true ;;
     m) symmetry=true ;;
     p) predicate=true ;;
+    n) old=true ;;
     O) suffix="_$OPTARG" ;;
     *) usage ;;
   esac
@@ -77,11 +80,13 @@ file="${design}"
 # Step 1: Flatten the Verilog netlist
 if $flatten; then
   echo "Flattening the netlist for ${design}..."
-  python3 scripts/transform_verilog.py \
-    --input "verilog/${file}.sv" \
-    --output "${output_dir}/flatten.sv" \
-    --top "${top}" \
-    --option flatten
+  if  ! $old; then
+    python3 scripts/transform_verilog.py \
+      --input "verilog/${file}.sv" \
+      --output "${output_dir}/flatten.sv" \
+      --top "${top}" \
+      --option flatten
+  fi
   file="flatten"
 fi
 
@@ -95,11 +100,13 @@ if $shortcut || $implication; then
   if $implication; then
     option="${option}i"
   fi
-  python3 scripts/shortcut_signals.py \
-    --input "${output_dir}/${file}.sv" \
-    --output "${output_dir}/shortcut.sv" \
-    --top "${top}" \
-    "${option}"
+  if  ! $old; then
+    python3 scripts/shortcut_signals.py \
+      --input "${output_dir}/${file}.sv" \
+      --output "${output_dir}/shortcut.sv" \
+      --top "${top}" \
+      "${option}"
+  fi
   file="shortcut"
 fi
 

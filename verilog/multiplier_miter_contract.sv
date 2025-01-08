@@ -9,8 +9,14 @@ module MUL(
     input stall,
     input [`WIDTH-1:0] a,
     input [`WIDTH-1:0] b,
+    output [`WIDTH-1:0] a_reg,
+    output [`WIDTH-1:0] b_reg,
     output [`OUT_WIDTH-1:0] o,
-    output out_valid
+    output out_valid,
+    output [`WIDTH-1:0] a_reg_next,
+    output [`WIDTH-1:0] b_reg_next,
+    output [`OUT_WIDTH-1:0] o_reg_next,
+    output finish_next
 );
     reg [`WIDTH-1:0] a_reg, b_reg;
     reg [`OUT_WIDTH-1:0] o_reg;
@@ -90,12 +96,49 @@ module top(in_a_1, in_a_2, in_in_valid, in_b, in_clk, trigger, cmp_out_valid, cm
       uarch_deviated <= 1;
   end
 
-  
+  // Additional predicate
+  reg shortcut_nonzero_a1 = 0;
+  reg shortcut_nonzero_b1 = 0;
+  reg shortcut_nonzero_o1 = 0;
+  reg shortcut_nonzero_a2 = 0;
+  reg shortcut_nonzero_b2 = 0;
+  reg shortcut_nonzero_o2 = 0;
+  reg shortcut_finish_imply1 = 0;
 
-  assign _0_ = copy1_o === copy2_o;
-  assign _1_ = copy1_out_valid === copy2_out_valid;
-  assign _2_ = & { _1_, _0_ };
-  assign trigger = ~ _2_;
+  always @(posedge in_clk) begin
+    shortcut_nonzero_a1 <= a_reg1_next != 0;
+    shortcut_nonzero_b1 <= b_reg1_next != 0;
+    shortcut_nonzero_o1 <= o_reg1_next != 0;
+    shortcut_nonzero_a2 <= a_reg2_next != 0;
+    shortcut_nonzero_b2 <= b_reg2_next != 0;
+    shortcut_nonzero_o2 <= o_reg2_next != 0;
+    shortcut_finish_imply1 <= finish_1_next && (a_reg1_next != 0 || b_reg1_next != 0);
+    shortcut_finish_imply2 <= finish_2_next && (a_reg2_next != 0 || b_reg2_next != 0);
+  end
+
+  reg nonzero_predicate_violate;
+  wire assume_nonzero_violate;
+
+  assign assume_nonzero_violate = (!shortcut_nonzero_a1 && (a_reg1 != 0)) || (!shortcut_nonzero_b1 && (b_reg1 != 0))
+                         || (!shortcut_nonzero_o1 && (o_reg1 != 0)) || (!shortcut_nonzero_a2 && (a_reg2 != 0))
+                         || (!shortcut_nonzero_b2 && (b_reg2 != 0)) || (!shortcut_nonzero_o2 && (o_reg2 != 0))
+                         || (!shortcut_finish_imply1 && (finish_1 && (a_reg1 != 0 || b_reg1 != 0))) 
+                         || (!shortcut_finish_imply2 && (finish_2 && (a_reg2 != 0 || b_reg2 != 0))) 
+                         || nonzero_predicate_violate;
+
+  always @(posedge in_clk) begin
+    nonzero_predicate_violate <= assume_nonzero_violate;
+  end
+
+  wire [`WIDTH-1: 0] a_reg1, a_reg2, b_reg1, b_reg2, a_reg1_next, a_reg2_next, b_reg1_next, b_reg2_next;
+  wire [`OUT_WIDTH-1: 0] o_reg1, o_reg2, o_reg1_next, o_reg2_next;
+  wire finish_1, finish_2, finish_1_next, finish_2_next;
+
+  assign o_reg1 = copy1_o;
+  assign o_reg2 = copy2_o;
+  assign finish_1 = copy1_out_valid;
+  assign finish_2 = copy2_out_valid;
+
   MUL copy1 (
     .a(in_a_1),
     .b(in_b),
@@ -103,7 +146,13 @@ module top(in_a_1, in_a_2, in_in_valid, in_b, in_clk, trigger, cmp_out_valid, cm
     .clk(in_clk),
     .in_valid(in_in_valid),
     .o(copy1_o),
-    .out_valid(copy1_out_valid)
+    .out_valid(copy1_out_valid),
+    .a_reg(a_reg1),
+    .b_reg(b_reg1),
+    .a_reg_next(a_reg1_next),
+    .b_reg_next(b_reg1_next),
+    .o_reg_next(o_reg1_next),
+    .finish_next(finish_1_next)
   );
   MUL copy2 (
     .a(in_a_2),
@@ -112,7 +161,13 @@ module top(in_a_1, in_a_2, in_in_valid, in_b, in_clk, trigger, cmp_out_valid, cm
     .clk(in_clk),
     .in_valid(in_in_valid),
     .o(copy2_o),
-    .out_valid(copy2_out_valid)
+    .out_valid(copy2_out_valid),
+    .a_reg(a_reg2),
+    .b_reg(b_reg2),
+    .a_reg_next(a_reg2_next),
+    .b_reg_next(b_reg2_next),
+    .o_reg_next(o_reg2_next),
+    .finish_next(finish_2_next)
   );
   assign cmp_o = _0_;
   assign cmp_out_valid = _1_;

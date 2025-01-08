@@ -65,7 +65,7 @@ fi
 
 # Create the output directory
 mkdir -p "${output_dir}"
-rm -f "${output_dir}"/*
+# rm -f "${output_dir}"/*
 
 file="${design}"
 # Step 1: Flatten the Verilog netlist

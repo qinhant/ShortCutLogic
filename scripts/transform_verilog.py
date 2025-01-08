@@ -82,19 +82,21 @@ def verilog_to_aig(input_path, output_path, top):
                     predicate_var = "shortcut.neq_" + var_name_word[6:] + "_copy2[0]"
                     if (
                         predicate_var not in var_to_latch.keys()
-                        or var_symmetry not in var_to_latch.keys()
+                        # or var_symmetry not in var_to_latch.keys()
                     ):
-                        continue
-                    predicate_latch = var_to_latch[predicate_var]
+                        predicate_latch = -1
+                    else:
+                        predicate_latch = var_to_latch[predicate_var]
                 elif var_name.startswith("copy2"):
                     var_symmetry = "copy1" + var_name[5:]
                     predicate_var = "shortcut.neq_" + var_name_word[6:] + "_copy2[0]"
                     if (
                         predicate_var not in var_to_latch.keys()
-                        or var_symmetry not in var_to_latch.keys()
+                        # or var_symmetry not in var_to_latch.keys()
                     ):
-                        continue
-                    predicate_latch = var_to_latch[predicate_var]
+                        predicate_latch = -1
+                    else:
+                        predicate_latch = var_to_latch[predicate_var]
                 # special case for other variables
                 else:
                     predicate_latch = -1

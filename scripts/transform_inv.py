@@ -4,7 +4,7 @@ import os
 import re
 
 
-def inv_to_verilog(input_path, map_path, output_path):
+def inv_to_pla(input_path, map_path, output_path):
     with open(map_path, "r") as file:
         mapping = [line.strip() for line in file.readlines()]
         latch_map = dict()
@@ -58,7 +58,6 @@ def inv_to_verilog(input_path, map_path, output_path):
         write_content += "\n.e"
         file.write(write_content)
 
-
 if __name__ == "__main__":
     parse = argparse.ArgumentParser()
     parse.add_argument(
@@ -73,4 +72,4 @@ if __name__ == "__main__":
     )
     args = parse.parse_args()
 
-    inv_to_verilog(args.input_path, args.map_path, args.output_path)
+    inv_to_pla(args.input_path, args.map_path, args.output_path)

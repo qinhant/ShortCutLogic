@@ -106,14 +106,18 @@ def add_shortcut_signals(filein, fileout, *, cfg: ShortcutSignalsConfig):
             for rc in copy_regs[id]:
                 copy_id = re.sub(r"(\\|\.)", "", rc.copy_id)
                 signal = f"{cfg.shortcut_prefix}neq_{id}_{copy_id}"
-                shortcut = f"{cfg.shortcut_prefix}{copy_id}.{id}"
+                shortcut = f"{cfg.shortcut_prefix}{id}.{copy_id}"
+                shortcutc = f"{cfg.shortcut_prefix}{copy_id}.{id}"
                 neq_signals[rc.full_name] = signal
-                shortcuts[rc.full_name] = shortcut
+                shortcuts[r.full_name] = shortcut
+                shortcuts[rc.full_name] = shortcutc
                 shortcut_decls.append(f"  reg {signal} = 0 ;\n")
                 width = f" {rc.width}" if rc.width else ""
                 shortcut_decls.append(f"  wire{width} {shortcut} ;\n")
+                shortcut_decls.append(f"  wire{width} {shortcutc} ;\n")
                 shortcut_assigns.append(
-                    f"  assign {shortcut} = {signal} ? {rc.full_name} : {r.full_name} ;\n"
+                    f"  assign {shortcut} = {signal} ? {r.full_name} : ( {r.full_name} & {rc.full_name} ) ;\n"
+                    f"  assign {shortcutc} = {signal} ? {rc.full_name} : ( {r.full_name} & {rc.full_name} ) ;\n"
                 )
 
         if cfg.prepend_shortcut_regs:
