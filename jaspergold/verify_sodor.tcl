@@ -1,3 +1,5 @@
+set_elaborate_single_run_mode off
+
 analyze -sva verilog/sodor2_miter.sv
 
 elaborate -top top
