@@ -1,4 +1,4 @@
-`define WIDTH_LOG 2
+`define WIDTH_LOG 1
 `define WIDTH (1 << `WIDTH_LOG)
 `define OUT_WIDTH (`WIDTH << 1)
 
@@ -53,7 +53,7 @@ module MUL(
     assign out_valid = finish;
 endmodule
 
-module top(in_a_1, in_a_2, in_in_valid, in_b, in_clk, trigger, cmp_out_valid, cmp_o);
+module top(in_a, in_in_valid, in_b_1, in_b_2, in_clk, trigger, cmp_out_valid, cmp_o);
   wire _0_;
   wire _1_;
   wire _2_;
@@ -65,12 +65,12 @@ module top(in_a_1, in_a_2, in_in_valid, in_b, in_clk, trigger, cmp_out_valid, cm
   wire copy2_out_valid;
   wire [`OUT_WIDTH-1:0] copy1_o;
   wire copy1_out_valid;
-  input [`WIDTH-1:0] in_b;
-  wire [`WIDTH-1:0] in_b;
-  input [`WIDTH-1:0] in_a_1;
-  input [`WIDTH-1:0] in_a_2;
-  wire [`WIDTH-1:0] in_a_1;
-  wire [`WIDTH-1:0] in_a_2;
+  input [`WIDTH-1:0] in_b_1;
+  wire [`WIDTH-1:0] in_b_1;
+  input [`WIDTH-1:0] in_b_2;
+  wire [`WIDTH-1:0] in_b_2;
+  input [`WIDTH-1:0] in_a;
+  wire [`WIDTH-1:0] in_a;
   input in_clk;
   wire in_clk;
   input in_in_valid;
@@ -140,8 +140,8 @@ module top(in_a_1, in_a_2, in_in_valid, in_b, in_clk, trigger, cmp_out_valid, cm
   assign finish_2 = copy2_out_valid;
 
   MUL copy1 (
-    .a(in_a_1),
-    .b(in_b),
+    .a(in_a),
+    .b(in_b_1),
     .stall(stall_1),
     .clk(in_clk),
     .in_valid(in_in_valid),
@@ -155,8 +155,8 @@ module top(in_a_1, in_a_2, in_in_valid, in_b, in_clk, trigger, cmp_out_valid, cm
     .finish_next(finish_1_next)
   );
   MUL copy2 (
-    .a(in_a_2),
-    .b(in_b),
+    .a(in_a),
+    .b(in_b_2),
     .stall(stall_2),
     .clk(in_clk),
     .in_valid(in_in_valid),
