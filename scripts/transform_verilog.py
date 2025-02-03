@@ -133,6 +133,33 @@ def create_miter(input_path, output_path, top):
     os.system("yosys -s scripts/create_miter_temp.ys")
     os.system("rm scripts/create_miter_temp.ys")
 
+import re
+
+def remove_f_blocks(input_path, output_path):
+    """
+    Removes all $fatal and $fwrite blocks (including multi-line ones) from a Verilog file.
+
+    Parameters:
+        input_file (str): Path to the input Verilog file.
+        output_file (str): Path to save the modified Verilog file.
+    """
+    # Read the content of the input file
+    with open(input_path, "r") as file:
+        content = file.read()
+
+    # Regex patterns to match $fatal and $fwrite blocks (including multiline)
+    fatal_pattern = re.compile(r"\$fatal.*?; //", re.DOTALL)
+    fwrite_pattern = re.compile(r"\$fwrite.*?; //", re.DOTALL)
+
+    # Remove all matches of $fatal and $fwrite blocks
+    content = fatal_pattern.sub("//", content)
+    content = fwrite_pattern.sub("//", content)
+
+    # Write the modified content to the output file
+    with open(output_path, "w") as file:
+        file.write(content)
+
+    print(f"Processed file saved to: {output_path}")
 
 if __name__ == "__main__":
 
@@ -167,3 +194,5 @@ if __name__ == "__main__":
         verilog_to_aig(args.input_path, args.output_path, args.top)
     elif args.option == "create_miter":
         create_miter(args.input_path, args.output_path, args.top)
+    elif args.option == "remove_f_blocks":
+        remove_f_blocks(args.input_path, args.output_path)
