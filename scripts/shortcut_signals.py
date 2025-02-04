@@ -70,10 +70,15 @@ def add_shortcut_signals(filein, fileout, *, cfg: ShortcutSignalsConfig):
         orig_regs: dict[RegId, RegCopy] = {}
         copy_regs: dict[RegId, list[RegCopy]] = defaultdict(list)
 
+        module_started = False
         for l in lines:
             fout.write(l)
+
             if match := decl.match(l):
                 assert match.group(1) == "module", "module declaration must be first"
+                module_started = True
+
+            if module_started and ";" in l:
                 break
 
         # track registers and wires when options on
@@ -218,10 +223,15 @@ def add_implication_signals(filein, fileout, *, cfg: ImplicationSignalsConfig):
         orig_wires: dict[WireId, WireCopy] = {}
         copy_wires: dict[WireId, list[WireCopy]] = defaultdict(list)
 
+        module_started = False
         for l in lines:
             fout.write(l)
+
             if match := decl.match(l):
                 assert match.group(1) == "module", "module declaration must be first"
+                module_started = True
+
+            if module_started and ";" in l:
                 break
 
         # track wires
