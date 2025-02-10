@@ -15,6 +15,7 @@ usage() {
   echo "  -i   Interpret the log"
   echo "  -m   Use Symmetry"
   echo "  -p   Use predicate replacement"
+  echo "  -d   Use iterative predicate replacement"
   echo "  -b   Stop processing on first error"
   echo "  -n   Use existing shortcut.sv and flatten.sv"
   echo "  -O suffix  Specify a suffix for the output directory"
@@ -31,12 +32,13 @@ interpret=false
 implication=false
 symmetry=false
 predicate=false
+iterative=false
 breakonerr=false
 old=false
 suffix=""
 
 # Parse command-line options
-while getopts "faserimpbnO:" opt; do
+while getopts "faserimpdbnO:" opt; do
   case $opt in
     f) flatten=true ;;
     a) aig=true ;;
@@ -46,6 +48,7 @@ while getopts "faserimpbnO:" opt; do
     i) interpret=true ;;
     m) symmetry=true ;;
     p) predicate=true ;;
+    d) iterative=true ;;
     b) set -e ;;
     n) old=true ;;
     O) suffix="_$OPTARG" ;;
@@ -131,6 +134,9 @@ if $symmetry; then
 fi
 if $predicate; then
   pdr_commands="${pdr_commands} -l"
+fi
+if $iterative; then
+  pdr_commands="${pdr_commands} -b"
 fi
 pdr_commands="${pdr_commands}; write_cex -n -m -f ${output_dir}/${file}.cex;"
 
