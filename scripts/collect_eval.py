@@ -47,22 +47,6 @@ with open(log_filename, "w") as log_file:
     log(f"Performing evaluations with TIMEOUT {TIMEOUT}s\n\n")
 
     log("#### Ensuring `abc_exp` is available ####\n")
-    solver_dir = os.path.join(cwd, 'solvers/abc_exp')
-    solver = os.path.join(solver_dir, 'abc')
-    cmd = f"realpath {solver}"
-    log(f">> {cmd}   ===>   ")
-    try:
-        subprocess.run(cmd, shell=True, check=True, capture_output=True)
-        log("ok\n")
-    except subprocess.CalledProcessError:
-        log("ERROR: abc_exp is not built \n")
-        if input(f"Rebuild {solver} (via make)? [y/N] ").lower() in ['y', 'yes']:
-            subprocess.run('make', shell=True, cwd='{solver_dir}', check=True)
-            log("Built!\n\n")
-        else:
-            log("Quitting.\n")
-            sys.exit(1)
-
     cmd = "which abc_exp"
     log(f">> {cmd}   ===>   ")
     try:
@@ -70,6 +54,23 @@ with open(log_filename, "w") as log_file:
         log("ok\n")
     except subprocess.CalledProcessError:
         log("  ERROR: abc_exp is not in the path\n")
+        
+        solver_dir = os.path.join(cwd, 'solvers/abc_exp')
+        solver = os.path.join(solver_dir, 'abc')
+        cmd = f"realpath {solver}"
+        log(f">> {cmd}   ===>   ")
+        try:
+            subprocess.run(cmd, shell=True, check=True, capture_output=True)
+            log("ok\n")
+        except subprocess.CalledProcessError:
+            log("ERROR: abc_exp is not built \n")
+            if input(f"Rebuild {solver} (via make)? [y/N] ").lower() in ['y', 'yes']:
+                subprocess.run('make', shell=True, cwd='{solver_dir}', check=True)
+                log("Built!\n\n")
+            else:
+                log("Quitting.\n")
+                sys.exit(1)
+        
         cmd = f"ln -s $(realpath {solver}) /bin/abc_exp"
         log("Can add `abc_exp` to $PATH via a symlink:\n")
         log(f">> {cmd}  # (proposed)\n")
