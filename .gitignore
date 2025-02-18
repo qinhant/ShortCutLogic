@@ -4,6 +4,7 @@ yosys_output/
 output/
 *.out
 *.vcd
+*.sim
 jgproject/
 
 .DS_Store
