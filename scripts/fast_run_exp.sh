@@ -95,7 +95,7 @@ if $flatten; then
       --output "${output_dir}/flatten.sv" \
       --top "${top}" \
       --option flatten \
-      "${unconstrained}"
+      $unconstrained
   fi
   file="flatten"
 fi
