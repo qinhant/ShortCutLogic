@@ -10,16 +10,17 @@ def sim_parse(input_path, output_path):
         signal = vcd[key]
         if signal.var_type != "reg":
             continue
+        print(key, signal.tv)
         if key.find('copy1') >= 0:
             all_regs.append(key)
             values = signal.tv
             sym_values = vcd[key.replace('copy1', 'copy2')].tv
             if values != sym_values:
                 inequiv_regs.append(key)
-    print(len(inequiv_regs))
-    print(inequiv_regs)
-    print(len(all_regs))
-    print(all_regs)
+    # print(len(inequiv_regs))
+    # print(inequiv_regs)
+    # print(len(all_regs))
+    # print(all_regs)
 
 if __name__ == "__main__":
     parse = argparse.ArgumentParser()

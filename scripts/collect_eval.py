@@ -9,10 +9,10 @@ TIMEOUT = 3600 # seconds
 
 
 examples = {
-    "multiplier": "multiplier_miter",
-    "secenclave": "SE_leakymul_miter",
-    "sodor": "sodor5_miter_clean",
-    "rocket": "rocket_clean"
+    # "multiplier": "multiplier_miter",
+    "secenclave": "SE_leakymul_miter"
+    # "sodor": "sodor5_miter_clean",
+    # "rocket": "rocket_clean"
 }
 
 base_flags = "farib"
@@ -26,7 +26,7 @@ technique_flags = {
     "sc_epi": "mspd"
 }
 
-eval_order = ["sc", "ept", "epi", "sc_ept", "sc_epi", "orig"]
+eval_order = ["sc_ept"]
 
 
 scripts_folder = os.path.relpath(os.path.dirname(__file__))

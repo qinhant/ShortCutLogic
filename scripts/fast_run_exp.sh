@@ -18,6 +18,7 @@ usage() {
   echo "  -d   Use iterative predicate replacement"
   echo "  -b   Stop processing on first error"
   echo "  -n   Use existing shortcut.sv and flatten.sv"
+  echo "  -u   Disable all input assumptions and let the input be unconstrained"
   echo "  -O suffix  Specify a suffix for the output directory"
   echo "If no options are provided, all steps will run."
   exit 1
@@ -36,9 +37,10 @@ iterative=false
 breakonerr=false
 old=false
 suffix=""
+unconstrained=""
 
 # Parse command-line options
-while getopts "faserimpdbnO:" opt; do
+while getopts "faserimpdbnuO:" opt; do
   case $opt in
     f) flatten=true ;;
     a) aig=true ;;
@@ -51,6 +53,7 @@ while getopts "faserimpdbnO:" opt; do
     d) iterative=true ;;
     b) set -e ;;
     n) old=true ;;
+    u) unconstrained="--no_assumption" ;;
     O) suffix="_$OPTARG" ;;
     *) usage ;;
   esac
@@ -91,7 +94,8 @@ if $flatten; then
       --input "verilog/${file}.sv" \
       --output "${output_dir}/flatten.sv" \
       --top "${top}" \
-      --option flatten
+      --option flatten \
+      "${unconstrained}"
   fi
   file="flatten"
 fi

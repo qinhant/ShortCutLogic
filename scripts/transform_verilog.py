@@ -4,7 +4,7 @@ import os
 import re
 
 
-def flatten_verilog(input_path, output_path, top):
+def flatten_verilog(input_path, output_path, top, no_assumption):
     # create a temporary yosys script using the input arguments
     with open("scripts/flatten_verilog.ys", "r") as file:
         content = file.read()
@@ -17,9 +17,13 @@ def flatten_verilog(input_path, output_path, top):
     file.close()
 
     # run yosys with the temporary script and remove the temporary script
-    os.system("yosys -s scripts/flatten_verilog_temp.ys")
+    if no_assumption:
+        flatten_command = f"yosys -D ASSUME_ON=0 -s scripts/flatten_verilog_temp.ys"
+    else:
+        flatten_command = f"yosys -D ASSUME_ON=1 -s scripts/flatten_verilog_temp.ys"
+    os.system(flatten_command)
     os.system("rm scripts/flatten_verilog_temp.ys")
-
+    print(flatten_command)
 
 def verilog_to_aig(input_path, output_path, top):
     # create a temporary yosys script using the input arguments
@@ -180,13 +184,20 @@ if __name__ == "__main__":
         required=True,
         help="available options: flatten verilog_to_aig create_miter",
     )
+    parse.add_argument(
+        "--no_assumption",
+        dest="no_assumption",
+        action="store_true",
+        default=False,
+        help="Disable to assumption macro in verilog"
+    )
     args = parse.parse_args()
     if not args.input_path.endswith(".v") and not args.input_path.endswith(".sv"):
         print("Invalid input file, must be a .v or .sv file")
         sys.exit(1)
 
     if args.option == "flatten":
-        flatten_verilog(args.input_path, args.output_path, args.top)
+        flatten_verilog(args.input_path, args.output_path, args.top, args.no_assumption)
     elif args.option == "verilog_to_aig":
         if not args.output_path.endswith(".aig"):
             print("Invalid output file, must be a .aig file")
