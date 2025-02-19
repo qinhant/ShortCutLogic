@@ -13,7 +13,7 @@ parse.add_argument(
 )
 args = parse.parse_args()
 
-USER_TIMEOUT = datetime.timedelta(minutes=int(args.timeout)).seconds
+USER_TIMEOUT = datetime.timedelta(minutes=float(args.timeout)).seconds
 # add a small delay at boundary
 TIMEOUT = USER_TIMEOUT + min(60, round(USER_TIMEOUT * 0.05))
 
@@ -31,10 +31,10 @@ def log_eval(
         *,
         example: str,
         flags: str,
-        outprefix: str,
+        output_label: str,
         timeout: str,
         log: Callable[[str], None]):
-    eval_args = f"-{flags} -O {outprefix} {example}"
+    eval_args = f"-{flags} -O {output_label} {example}"
     cmd = f"{eval_script} {eval_args}"
     log(f">> {cmd}   ===> ")
     try:
@@ -44,12 +44,12 @@ def log_eval(
         log("ok\n")
         result_file = os.path.join(
             output_folder, f'{ex}_{tech}_exp', '*_interpreted.log')
-        cmd = f"grep -A20 'Verification .* successful' {result_file}"
+        cmd = f"grep  -E -A 20 -m 1 '(Verification .* successful)|(Block =))' {result_file}"
         log(f">> {cmd}   ===> ")
         results = subprocess.run(cmd, shell=True, cwd=cwd, capture_output=True)
         log("ok\n")
         log(results.stdout.decode('utf-8'))
-    except TimeoutError:
+    except subprocess.TimeoutExpired:
         log(f"TIMEOUT ({USER_TIMEOUT}s)\n")
     except subprocess.CalledProcessError as err:
         log(f"ERROR!!!\n")
@@ -87,7 +87,7 @@ with open(log_filename, "w") as log_file:
         log_file.flush()
         print(msg, end='', flush=True)
 
-    log(f"Performing evaluations with TIMEOUT {TIMEOUT}s\n\n")
+    log(f"Performing evaluations with TIMEOUT {USER_TIMEOUT}s\n\n")
 
     log("#### Ensuring `abc_exp` is available ####\n")
     cmd = "which abc_exp"
@@ -133,7 +133,7 @@ with open(log_filename, "w") as log_file:
             log_eval(
                 example=ex,
                 flags=base_flags + technique_flags[tech],
-                outprefix=tech,
+                output_label=tech,
                 timeout=TIMEOUT,
                 log=log)
             time.sleep(1)
@@ -144,7 +144,7 @@ with open(log_filename, "w") as log_file:
             log_eval(
                 example=ex,
                 flags=base_flags + sanity_check_flags + technique_flags[tech],
-                outprefix=tech,
+                output_label=f"{tech}_cex",
                 timeout=TIMEOUT,
                 log=log)
             time.sleep(1)
