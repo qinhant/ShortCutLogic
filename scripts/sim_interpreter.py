@@ -4,23 +4,28 @@ import sys
 
 def sim_parse(input_path, output_path):
     vcd = VCDVCD(input_path)
-    inequiv_regs = []
-    all_regs = []
+    inequiv_signals = []
+    all_signals = []
+    output = ""
     for key in vcd.references_to_ids.keys():
         signal = vcd[key]
-        if signal.var_type != "reg":
-            continue
-        print(key, signal.tv)
+        output += f"{key} {signal.tv}\n"
+        # print(key, signal.tv)
+        # if signal.var_type != "reg":
+        #     continue
         if key.find('copy1') >= 0:
-            all_regs.append(key)
+            all_signals.append(key)
             values = signal.tv
             sym_values = vcd[key.replace('copy1', 'copy2')].tv
             if values != sym_values:
-                inequiv_regs.append(key)
-    # print(len(inequiv_regs))
-    # print(inequiv_regs)
-    # print(len(all_regs))
-    # print(all_regs)
+                inequiv_signals.append((key.replace('copy1.', ''), signal.var_type))
+    output += f"\nNumer of inequivalent signals: {len(inequiv_signals)}\n"
+    # print(f"\nNumer of inequivalent signals: {len(inequiv_signals)}\n")
+    for signal in inequiv_signals:
+        output += f"{signal[0]} {signal[1]}\n"  
+    
+    with open(output_path, "w") as f:
+        f.write(output)
 
 if __name__ == "__main__":
     parse = argparse.ArgumentParser()

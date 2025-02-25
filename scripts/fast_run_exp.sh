@@ -5,7 +5,7 @@
 OPTIND=1
 # Function to display usage message
 usage() {
-  echo "Usage: $0 [-faseri] [-O suffix] <design>"
+  echo "Usage: $0 [-faserimpdbnu] [-O suffix] <design>"
   echo "Options:"
   echo "  -f   Flatten the netlist"
   echo "  -a   Transform the netlist into AIGER format"
@@ -82,8 +82,9 @@ fi
 
 
 # Create the output directory
+rm -f "${output_dir}"/*
 mkdir -p "${output_dir}"
-# rm -f "${output_dir}"/*
+
 
 file="${design}"
 # Step 1: Flatten the Verilog netlist

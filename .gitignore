@@ -5,6 +5,8 @@ output/
 *.out
 *.vcd
 *.sim
+*log
 jgproject/
+obj_dir/
 
 .DS_Store
