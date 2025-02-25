@@ -165,9 +165,9 @@ def add_shortcut_signals(filein, fileout, *, cfg: ShortcutSignalsConfig):
                 fout.write(
                     textwrap.indent(
                         textwrap.dedent(f"""
-                            always @(posedge in_clk) {
+                            always @(posedge in_clk) begin
                                 {neq_signal} <= !{cfg.assume_violate_sig} && {orig_assign} != {copy_assign} ;
-                            }
+                            end
                             assert property ( {cfg.assume_violate_sig} || !{neq_signal} ) ;
                         """).removeprefix("\n"),
                         "  ",
