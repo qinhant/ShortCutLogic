@@ -10,7 +10,6 @@ RegId = str
 WireId = str
 CopyId = str
 
-
 @dataclass
 class RegCopy:
     id: RegId

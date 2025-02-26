@@ -59,64 +59,103 @@ def verilog_to_aig(input_path, output_path, top):
                 file.write(pred + "\n")
 
     # Collect the relation between variables and write to a file
+    class Latch:
+        id: int
+        bit_index: int
+        signal_name: str
+        
+        def __init__(self, id : int, bit_index : int, signal_name : str):
+            self.id = id
+            self.bit_index = bit_index
+            self.signal_name = signal_name
+        
+        def var_name(self):
+            return f"{self.signal_name}[{self.bit_index}]"
+        
+        def parse_line(line):
+            sig_type, sig_id, bit_index, sig_name = line.split(" ")
+            return Latch(int(sig_id), int(bit_index), sig_name)
+    
     with open(map_path, "r") as file:
-        content = file.read()
-        file.close()
-        content = content.split("\n")
-        var_to_latch = dict()
-        latch_symmetry = dict()
-        latch_to_predicate = dict()
-        latch_to_var = dict()
-        all_latch = set()
-        for line in content:
-            if line.startswith("latch"):
-                latch_num = int(line.split(" ")[1])
-                var_name = line.split(" ")[3] + "[" + line.split(" ")[2] + "]"
-                var_to_latch[var_name] = latch_num
-                latch_to_var[latch_num] = var_name
-                all_latch.add(latch_num)
+        latches = [Latch.parse_line(l.strip()) for l in file.readlines() if l.startswith("latch")]
 
-        for line in content:
-            if line.startswith("latch"):
-                latch_num = int(line.split(" ")[1])
-                var_name = line.split(" ")[3] + "[" + line.split(" ")[2] + "]"
-                var_name_word = line.split(" ")[3]
-                if var_name.startswith("copy1"):
-                    var_symmetry = "copy2" + var_name[5:]
-                    predicate_var = "shortcut.neq_" + var_name_word[6:] + "_copy2[0]"
-                    if (
-                        predicate_var not in var_to_latch.keys()
-                        # or var_symmetry not in var_to_latch.keys()
-                    ):
-                        predicate_latch = -1
-                    else:
-                        predicate_latch = var_to_latch[predicate_var]
-                elif var_name.startswith("copy2"):
-                    var_symmetry = "copy1" + var_name[5:]
-                    predicate_var = "shortcut.neq_" + var_name_word[6:] + "_copy2[0]"
-                    if (
-                        predicate_var not in var_to_latch.keys()
-                        # or var_symmetry not in var_to_latch.keys()
-                    ):
-                        predicate_latch = -1
-                    else:
-                        predicate_latch = var_to_latch[predicate_var]
-                # special case for other variables
-                else:
-                    predicate_latch = -1
-                    var_symmetry = var_name
-                latch_symmetry[latch_num] = var_to_latch[var_symmetry]
-                latch_to_predicate[latch_num] = predicate_latch
-        with open(map_path.replace(".map", ".relation"), "w") as file:
-            file.write("latch symmetry predicate var_name symmetry_name\n")
-            for latch in sorted(list(all_latch)):
-                try:
-                    file.write(
-                        f"{latch} {latch_symmetry[latch]} {latch_to_predicate[latch]} {latch_to_var[latch]} {latch_to_var[latch_symmetry[latch]]} \n"
-                    )
-                except KeyError:
-                    # print(latch, latch_symmetry[latch], latch_to_predicate[latch])
-                    print(latch)
+    # print(latches)
+    latch_to_var : dict[int, Latch] = dict()
+    var_to_latch : dict[(str, int), Latch] = dict()
+    latch_symmetry : dict[int, int] = dict()
+    latch_to_predicate : dict[int, int] = dict()
+    all_latch : set[int] = set()
+    
+    for l in latches:
+        var_to_latch[(l.signal_name, l.bit_index)] = l
+        print(l.signal_name, l.bit_index)
+        latch_to_var[l.id] = l
+        all_latch.add(l.id)
+    
+    copy_prefix1 = r"copy1."
+    copy_prefix2 = r"copy2."
+    copy_pre = re.compile(rf"({re.escape(copy_prefix1)}|{re.escape(copy_prefix2)})")
+    is_copy = re.compile(rf"{copy_pre.pattern}(?P<name>.+)")
+    
+    for l in latches:
+        match = is_copy.match(l.signal_name)
+        if match:
+            symmetric_prefix = (
+                copy_prefix1 if l.signal_name.startswith(copy_prefix2) 
+                else copy_prefix2
+            )
+            symmetric_name = symmetric_prefix + match.group("name")
+            latch_symmetry[l.id] = var_to_latch[(symmetric_name, l.bit_index)].id
+            
+            predicate_name = f"shortcut.neq_{match.group('name')}_copy2"
+            try:
+                latch_to_predicate[l.id] = var_to_latch[(predicate_name, 0)].id
+            except KeyError:
+                latch_to_predicate[l.id] = -1
+
+
+    # for line in content:
+    #     if line.startswith("latch"):
+    #         latch_num = int(line.split(" ")[1])
+    #         var_name = line.split(" ")[3] + "[" + line.split(" ")[2] + "]"
+    #         var_name_word = line.split(" ")[3]
+    #         if var_name.startswith("copy1"):
+    #             var_symmetry = "copy2" + var_name[5:]
+    #             predicate_var = "shortcut.neq_" + var_name_word[6:] + "_copy2[0]"
+    #             if (
+    #                 predicate_var not in var_to_latch.keys()
+    #                 # or var_symmetry not in var_to_latch.keys()
+    #             ):
+    #                 predicate_latch = -1
+    #             else:
+    #                 predicate_latch = var_to_latch[predicate_var]
+    #         elif var_name.startswith("copy2"):
+    #             var_symmetry = "copy1" + var_name[5:]
+    #             predicate_var = "shortcut.neq_" + var_name_word[6:] + "_copy2[0]"
+    #             if (
+    #                 predicate_var not in var_to_latch.keys()
+    #                 # or var_symmetry not in var_to_latch.keys()
+    #             ):
+    #                 predicate_latch = -1
+    #             else:
+    #                 predicate_latch = var_to_latch[predicate_var]
+    #         # special case for other variables
+    #         else:
+    #             predicate_latch = -1
+    #             var_symmetry = var_name
+    #         latch_symmetry[latch_num] = var_to_latch[var_symmetry]
+    #         latch_to_predicate[latch_num] = predicate_latch
+
+    with open(map_path.replace(".map", ".relation"), "w") as file:
+        file.write("latch symmetry predicate var_name symmetry_name\n")
+        for latch in sorted(list(all_latch)):
+            sym_latch = latch_symmetry.get(latch, latch)
+            neq_pred = latch_to_predicate.get(latch, -1)
+            name = latch_to_var[latch].var_name()
+            sym_name = latch_to_var[sym_latch].var_name()
+            file.write(
+                f"{latch} {sym_latch} {neq_pred} {name} {sym_name} \n"
+            )
 
 
 def create_miter(input_path, output_path, top):
