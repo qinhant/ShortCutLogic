@@ -163,15 +163,16 @@ def add_shortcut_signals(filein, fileout, *, cfg: ShortcutSignalsConfig):
                 # FIXME, track each copy's clock
                 fout.write(
                     textwrap.indent(
-                        textwrap.dedent(
-                            f"""
-                  always @(posedge in_clk)
-                    {neq_signal} <= !{cfg.assume_violate_sig} && {orig_assign} != {copy_assign} ;
-                """
-                        ).removeprefix("\n"),
+                        textwrap.dedent(f"""
+                            always @(posedge in_clk) begin
+                                {neq_signal} <= !{cfg.assume_violate_sig} && {orig_assign} != {copy_assign} ;
+                            end
+                            assert property ( {cfg.assume_violate_sig} || !{neq_signal} ) ;
+                        """).removeprefix("\n"),
                         "  ",
                     )
                 )
+
 
         for l in lines:
             fout.write(l)
