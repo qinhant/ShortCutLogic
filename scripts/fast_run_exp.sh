@@ -16,7 +16,7 @@ usage() {
   echo "  -m   Use Symmetry"
   echo "  -p   Use predicate replacement"
   echo "  -d   Use iterative predicate replacement"
-  echo "  -b   Stop processing on first error"
+  echo "  -q   Keep processing past first error"
   echo "  -n   Use existing shortcut.sv and flatten.sv"
   echo "  -u   Disable all input assumptions and let the input be unconstrained"
   echo "  -O suffix  Specify a suffix for the output directory"
@@ -34,13 +34,13 @@ implication=false
 symmetry=false
 predicate=false
 iterative=false
-breakonerr=false
+breakonerr=true
 old=false
 suffix=""
 unconstrained=""
 
 # Parse command-line options
-while getopts "faserimpdbnuO:" opt; do
+while getopts "faserimpdqnuO:" opt; do
   case $opt in
     f) flatten=true ;;
     a) aig=true ;;
@@ -51,7 +51,7 @@ while getopts "faserimpdbnuO:" opt; do
     m) symmetry=true ;;
     p) predicate=true ;;
     d) iterative=true ;;
-    b) set -e ;;
+    b) breakonerr=false ;;
     n) old=true ;;
     u) unconstrained="--no_assumption" ;;
     O) suffix="_$OPTARG" ;;
@@ -63,6 +63,10 @@ shift $((OPTIND - 1))
 # Ensure a design is provided
 if [ $# -ne 1 ]; then
   usage
+fi
+
+if $breakonerr; then
+  set -e
 fi
 
 design=$1

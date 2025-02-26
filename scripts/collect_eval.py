@@ -66,7 +66,7 @@ examples = {
     "rocket": "rocket_clean"
 }
 
-base_flags = "farib"
+base_flags = "fariq"
 sanity_check_flags = "u"
 
 technique_flags = {
