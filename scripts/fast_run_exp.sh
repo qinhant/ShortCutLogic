@@ -40,7 +40,7 @@ suffix=""
 unconstrained=""
 
 # Parse command-line options
-while getopts "faserimpdqnuO:" opt; do
+while getopts "faserimpdqnubO:" opt; do
   case $opt in
     f) flatten=true ;;
     a) aig=true ;;
