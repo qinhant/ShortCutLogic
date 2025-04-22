@@ -1,4 +1,4 @@
-`define WIDTH_LOG 6
+`define WIDTH_LOG 4
 `define WIDTH (1 << `WIDTH_LOG)
 `define OUT_WIDTH (`WIDTH << 1)
 

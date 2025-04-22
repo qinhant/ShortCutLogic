@@ -16,6 +16,7 @@ usage() {
   echo "  -m   Use Symmetry"
   echo "  -p   Use predicate replacement"
   echo "  -d   Use iterative predicate replacement"
+  echo "  -c   Silence all predicates at the beginning and incrementally release them"
   echo "  -q   Keep processing past first error"
   echo "  -n   Use existing shortcut.sv and flatten.sv"
   echo "  -u   Disable all input assumptions and let the input be unconstrained"
@@ -38,9 +39,10 @@ breakonerr=true
 old=false
 suffix=""
 unconstrained=""
+incremental=false
 
 # Parse command-line options
-while getopts "faserimpdqnubO:" opt; do
+while getopts "faserimpdcqnubO:" opt; do
   case $opt in
     f) flatten=true ;;
     a) aig=true ;;
@@ -51,6 +53,7 @@ while getopts "faserimpdqnubO:" opt; do
     m) symmetry=true ;;
     p) predicate=true ;;
     d) iterative=true ;;
+    c) incremental=true ;;
     b) breakonerr=false ;;
     n) old=true ;;
     u) unconstrained="--no_assumption" ;;
@@ -146,6 +149,9 @@ if $predicate; then
 fi
 if $iterative; then
   pdr_commands="${pdr_commands} -b"
+fi
+if $incremental; then
+  pdr_commands="${pdr_commands} -E"
 fi
 pdr_commands="${pdr_commands}; write_cex -n -m -f ${output_dir}/${file}.cex;"
 
