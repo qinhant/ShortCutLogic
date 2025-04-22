@@ -10,6 +10,7 @@ usage() {
   echo "  -f   Flatten the netlist"
   echo "  -a   Transform the netlist into AIGER format"
   echo "  -s   Add shortcut signals"
+  echo "  -w   Use wires as shortcut signals rather than registers"
   echo "  -e   Add implication signals"
   echo "  -r   Run ABC with PDR"
   echo "  -i   Interpret the log"
@@ -29,24 +30,27 @@ usage() {
 flatten=false
 aig=false
 shortcut=false
+wireonly=false
 pdr=false
 interpret=false
 implication=false
 symmetry=false
 predicate=false
 iterative=false
-breakonerr=true
 old=false
 suffix=""
 unconstrained=""
 incremental=false
 
+set -e
+
 # Parse command-line options
-while getopts "faserimpdcqnubO:" opt; do
+while getopts "faswerimpdcqnubO:" opt; do
   case $opt in
     f) flatten=true ;;
     a) aig=true ;;
     s) shortcut=true ;;
+    w) wireonly=true ;;
     e) implication=true ;;
     r) pdr=true ;;
     i) interpret=true ;;
@@ -54,7 +58,6 @@ while getopts "faserimpdcqnubO:" opt; do
     p) predicate=true ;;
     d) iterative=true ;;
     c) incremental=true ;;
-    b) breakonerr=false ;;
     n) old=true ;;
     u) unconstrained="--no_assumption" ;;
     O) suffix="_$OPTARG" ;;
@@ -66,10 +69,6 @@ shift $((OPTIND - 1))
 # Ensure a design is provided
 if [ $# -ne 1 ]; then
   usage
-fi
-
-if $breakonerr; then
-  set -e
 fi
 
 design=$1
@@ -114,6 +113,9 @@ if $shortcut || $implication; then
   option="-"
   if $shortcut; then
     option="${option}s"
+  fi
+  if $wireonly; then
+    option="${option}w"
   fi
   if $implication; then
     option="${option}i"

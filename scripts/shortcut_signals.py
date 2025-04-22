@@ -35,12 +35,12 @@ class ShortcutSignalsConfig:
     shortcut_prefix: str
     assume_violate_sig: str = "assume_violate"
     prepend_shortcut_regs: bool = False
+    wire_only: bool = False
 
 
 @dataclass
 class ImplicationSignalsConfig:
     """Settings for implication signals."""
-
     parse_wire: Callable  # [[str], RegCopy | None]
     original: CopyId
 
@@ -101,7 +101,7 @@ def add_shortcut_signals(filein, fileout, *, cfg: ShortcutSignalsConfig):
             decls.append(l)
 
         # create shortcuts
-        neq_signals: dict[str, str] = {}  # copy name -> neq signal
+        neq_registers: dict[str, str] = {}  # copy name -> neq register
         shortcuts: dict[str, str] = {}  # copy name -> shortcut
         shortcut_decls = []
         shortcut_assigns = []
@@ -110,18 +110,26 @@ def add_shortcut_signals(filein, fileout, *, cfg: ShortcutSignalsConfig):
             for rc in copy_regs[id]:
                 copy_id = re.sub(r"(\\|\.)", "", rc.copy_id)
                 signal = f"{cfg.shortcut_prefix}neq_{id}_{copy_id}"
+                if cfg.wire_only:
+                    signal_wire = f"{signal}_wire"
+                    shortcut_decls.append(f"  wire {signal_wire} ;\n")
+                    shortcut_assigns.append(
+                        f"  assign {signal_wire} = !{cfg.assume_violate_sig} && {r.full_name} != {rc.full_name} ;\n"
+                    )
+                else:
+                    signal_wire = signal
+                    neq_registers[rc.full_name] = signal
+                    shortcut_decls.append(f"  reg {signal} = 0 ;\n")
                 shortcut = f"{cfg.shortcut_prefix}{id}.{copy_id}"
                 shortcutc = f"{cfg.shortcut_prefix}{copy_id}.{id}"
-                neq_signals[rc.full_name] = signal
                 shortcuts[r.full_name] = shortcut
                 shortcuts[rc.full_name] = shortcutc
-                shortcut_decls.append(f"  reg {signal} = 0 ;\n")
                 width = f" {rc.width}" if rc.width else ""
                 shortcut_decls.append(f"  wire{width} {shortcut} ;\n")
                 shortcut_decls.append(f"  wire{width} {shortcutc} ;\n")
                 shortcut_assigns.append(
-                    f"  assign {shortcut} = {signal} ? {r.full_name} : ( {r.full_name} & {rc.full_name} ) ;\n"
-                    f"  assign {shortcutc} = {signal} ? {rc.full_name} : ( {r.full_name} & {rc.full_name} ) ;\n"
+                    f"  assign {shortcut} = {signal_wire} ? {r.full_name} : ( {r.full_name} & {rc.full_name} ) ;\n"
+                    f"  assign {shortcutc} = {signal_wire} ? {rc.full_name} : ( {r.full_name} & {rc.full_name} ) ;\n"
                 )
 
         if cfg.prepend_shortcut_regs:
@@ -154,24 +162,25 @@ def add_shortcut_signals(filein, fileout, *, cfg: ShortcutSignalsConfig):
                 l = f"{lhs} {rhs} ;{comments}"
             fout.write(l)
 
-        # set inequality signals
-        for id, r in orig_regs.items():
-            for rc in copy_regs[id]:
-                orig_assign = reg_assigns[r.full_name]
-                copy_assign = reg_assigns[rc.full_name]
-                neq_signal = neq_signals[rc.full_name]
-                # FIXME, track each copy's clock
-                fout.write(
-                    textwrap.indent(
-                        textwrap.dedent(f"""
-                            always @(posedge in_clk) begin
-                                {neq_signal} <= !{cfg.assume_violate_sig} && {orig_assign} != {copy_assign} ;
-                            end
-                            // assert property ( {cfg.assume_violate_sig} || !{neq_signal} ) ;
-                        """).removeprefix("\n"),
-                        "  ",
+        # set inequality registers
+        if not cfg.wire_only:
+            for id, r in orig_regs.items():
+                for rc in copy_regs[id]:
+                    orig_assign = reg_assigns[r.full_name]
+                    copy_assign = reg_assigns[rc.full_name]
+                    neq_signal = neq_registers[rc.full_name]
+                    # FIXME, track each copy's clock
+                    fout.write(
+                        textwrap.indent(
+                            textwrap.dedent(f"""
+                                always @(posedge in_clk) begin
+                                    {neq_signal} <= !{cfg.assume_violate_sig} && {orig_assign} != {copy_assign} ;
+                                end
+                                // assert property ( {cfg.assume_violate_sig} || !{neq_signal} ) ;
+                            """).removeprefix("\n"),
+                            "  ",
+                        )
                     )
-                )
 
 
         for l in lines:
@@ -402,6 +411,15 @@ if __name__ == "__main__":
     )
 
     parse.add_argument(
+        "-w",
+        "--wireonly",
+        dest="wire_only",
+        action="store_true",
+        default=False,
+        help=f"Use only shortcut wires, not registers [default=False]",
+    )
+
+    parse.add_argument(
         "-i",
         "--implication",
         dest="enable_implication",
@@ -494,6 +512,7 @@ if __name__ == "__main__":
             original=args.prefix1,
             shortcut_prefix=str(args.prefix_sc),
             assume_violate_sig=args.assume_violate_sig,
+            wire_only=args.wire_only
         )
         temp_path = args.input_path
         if args.enable_implication:
