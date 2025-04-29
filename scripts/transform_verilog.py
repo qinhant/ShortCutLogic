@@ -88,7 +88,7 @@ def verilog_to_aig(input_path, output_path, top):
     
     for l in latches:
         var_to_latch[(l.signal_name, l.bit_index)] = l
-        print(l.signal_name, l.bit_index)
+        # print(l.signal_name, l.bit_index)
         latch_to_var[l.id] = l
         all_latch.add(l.id)
     

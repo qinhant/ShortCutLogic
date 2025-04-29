@@ -316,7 +316,7 @@ Dumping module `\top'.
 Warnings: 2 unique messages, 2 total
 End of script. Logfile hash: 9f70622357, CPU: user 0.23s system 0.01s, MEM: 26.53 MB peak
 Yosys 0.48+5 (git sha1 7a362f1f7, clang++ 18.1.8 -fPIC -O3)
-Time spent: 23% 2x read_verilog (0 sec), 13% 6x opt_expr (0 sec), ...
+Time spent: 24% 2x read_verilog (0 sec), 13% 6x opt_expr (0 sec), ...
 yosys -D ASSUME_ON=1 -s scripts/flatten_verilog_temp.ys
 Adding shortcut signals to multiplier_miter...
 Transforming Verilog to AIGER format for multiplier_miter...
@@ -330,8 +330,8 @@ Transforming Verilog to AIGER format for multiplier_miter...
 
 -- Executing script file `scripts/verilog_to_aig_temp.ys' --
 
-1. Executing Verilog-2005 frontend: output/multiplier_miter_exp/shortcut.sv
-Parsing formal SystemVerilog input from `output/multiplier_miter_exp/shortcut.sv' to AST representation.
+1. Executing Verilog-2005 frontend: output/multiplier_miter_abc_shortcut_exp/shortcut.sv
+Parsing formal SystemVerilog input from `output/multiplier_miter_abc_shortcut_exp/shortcut.sv' to AST representation.
 Generating RTLIL representation for module `\top'.
 Successfully finished Verilog frontend.
 
@@ -350,7 +350,7 @@ Module top directly or indirectly contains formal properties -> setting "keep" a
 2.2. Executing PROC pass (convert processes to netlists).
 
 2.2.1. Executing PROC_CLEAN pass (remove empty switches from decision trees).
-Found and cleaned up 1 empty switch in `\top.$proc$output/multiplier_miter_exp/shortcut.sv:246$25'.
+Found and cleaned up 1 empty switch in `\top.$proc$output/multiplier_miter_abc_shortcut_exp/shortcut.sv:246$25'.
 Cleaned up 1 empty switch.
 
 2.2.2. Executing PROC_RMDEAD pass (remove dead branches from decision trees).
@@ -361,41 +361,41 @@ Removed 1 redundant assignment.
 Promoted 38 assignments to connections.
 
 2.2.4. Executing PROC_INIT pass (extract init attributes).
-Found init rule in `\top.$proc$output/multiplier_miter_exp/shortcut.sv:231$125'.
+Found init rule in `\top.$proc$output/multiplier_miter_abc_shortcut_exp/shortcut.sv:231$125'.
   Set init value: \shortcut.neq_o_reg_copy2 = 1'0
-Found init rule in `\top.$proc$output/multiplier_miter_exp/shortcut.sv:228$124'.
+Found init rule in `\top.$proc$output/multiplier_miter_abc_shortcut_exp/shortcut.sv:228$124'.
   Set init value: \shortcut.neq_finish_copy2 = 1'0
-Found init rule in `\top.$proc$output/multiplier_miter_exp/shortcut.sv:225$123'.
+Found init rule in `\top.$proc$output/multiplier_miter_abc_shortcut_exp/shortcut.sv:225$123'.
   Set init value: \shortcut.neq_counter_copy2 = 1'0
-Found init rule in `\top.$proc$output/multiplier_miter_exp/shortcut.sv:222$122'.
+Found init rule in `\top.$proc$output/multiplier_miter_abc_shortcut_exp/shortcut.sv:222$122'.
   Set init value: \shortcut.neq_busy_copy2 = 1'0
-Found init rule in `\top.$proc$output/multiplier_miter_exp/shortcut.sv:219$121'.
+Found init rule in `\top.$proc$output/multiplier_miter_abc_shortcut_exp/shortcut.sv:219$121'.
   Set init value: \shortcut.neq_b_reg_copy2 = 1'0
-Found init rule in `\top.$proc$output/multiplier_miter_exp/shortcut.sv:216$120'.
+Found init rule in `\top.$proc$output/multiplier_miter_abc_shortcut_exp/shortcut.sv:216$120'.
   Set init value: \shortcut.neq_a_reg_copy2 = 1'0
-Found init rule in `\top.$proc$output/multiplier_miter_exp/shortcut.sv:187$119'.
+Found init rule in `\top.$proc$output/multiplier_miter_abc_shortcut_exp/shortcut.sv:187$119'.
   Set init value: \copy2.o_reg = 0
-Found init rule in `\top.$proc$output/multiplier_miter_exp/shortcut.sv:175$118'.
+Found init rule in `\top.$proc$output/multiplier_miter_abc_shortcut_exp/shortcut.sv:175$118'.
   Set init value: \copy2.finish = 1'0
-Found init rule in `\top.$proc$output/multiplier_miter_exp/shortcut.sv:169$117'.
+Found init rule in `\top.$proc$output/multiplier_miter_abc_shortcut_exp/shortcut.sv:169$117'.
   Set init value: \copy2.counter = 5'00000
-Found init rule in `\top.$proc$output/multiplier_miter_exp/shortcut.sv:160$116'.
+Found init rule in `\top.$proc$output/multiplier_miter_abc_shortcut_exp/shortcut.sv:160$116'.
   Set init value: \copy2.busy = 1'0
-Found init rule in `\top.$proc$output/multiplier_miter_exp/shortcut.sv:154$115'.
+Found init rule in `\top.$proc$output/multiplier_miter_abc_shortcut_exp/shortcut.sv:154$115'.
   Set init value: \copy2.b_reg = 16'0000000000000000
-Found init rule in `\top.$proc$output/multiplier_miter_exp/shortcut.sv:145$114'.
+Found init rule in `\top.$proc$output/multiplier_miter_abc_shortcut_exp/shortcut.sv:145$114'.
   Set init value: \copy2.a_reg = 16'0000000000000000
-Found init rule in `\top.$proc$output/multiplier_miter_exp/shortcut.sv:129$113'.
+Found init rule in `\top.$proc$output/multiplier_miter_abc_shortcut_exp/shortcut.sv:129$113'.
   Set init value: \copy1.o_reg = 0
-Found init rule in `\top.$proc$output/multiplier_miter_exp/shortcut.sv:117$112'.
+Found init rule in `\top.$proc$output/multiplier_miter_abc_shortcut_exp/shortcut.sv:117$112'.
   Set init value: \copy1.finish = 1'0
-Found init rule in `\top.$proc$output/multiplier_miter_exp/shortcut.sv:111$111'.
+Found init rule in `\top.$proc$output/multiplier_miter_abc_shortcut_exp/shortcut.sv:111$111'.
   Set init value: \copy1.counter = 5'00000
-Found init rule in `\top.$proc$output/multiplier_miter_exp/shortcut.sv:102$110'.
+Found init rule in `\top.$proc$output/multiplier_miter_abc_shortcut_exp/shortcut.sv:102$110'.
   Set init value: \copy1.busy = 1'0
-Found init rule in `\top.$proc$output/multiplier_miter_exp/shortcut.sv:96$109'.
+Found init rule in `\top.$proc$output/multiplier_miter_abc_shortcut_exp/shortcut.sv:96$109'.
   Set init value: \copy1.b_reg = 16'0000000000000000
-Found init rule in `\top.$proc$output/multiplier_miter_exp/shortcut.sv:87$108'.
+Found init rule in `\top.$proc$output/multiplier_miter_abc_shortcut_exp/shortcut.sv:87$108'.
   Set init value: \copy1.a_reg = 16'0000000000000000
 
 2.2.5. Executing PROC_ARST pass (detect async resets in processes).
@@ -404,128 +404,128 @@ Found init rule in `\top.$proc$output/multiplier_miter_exp/shortcut.sv:87$108'.
 Converted 0 switches.
 
 2.2.7. Executing PROC_MUX pass (convert decision trees to multiplexers).
-Creating decoders for process `\top.$proc$output/multiplier_miter_exp/shortcut.sv:231$125'.
-Creating decoders for process `\top.$proc$output/multiplier_miter_exp/shortcut.sv:228$124'.
-Creating decoders for process `\top.$proc$output/multiplier_miter_exp/shortcut.sv:225$123'.
-Creating decoders for process `\top.$proc$output/multiplier_miter_exp/shortcut.sv:222$122'.
-Creating decoders for process `\top.$proc$output/multiplier_miter_exp/shortcut.sv:219$121'.
-Creating decoders for process `\top.$proc$output/multiplier_miter_exp/shortcut.sv:216$120'.
-Creating decoders for process `\top.$proc$output/multiplier_miter_exp/shortcut.sv:187$119'.
-Creating decoders for process `\top.$proc$output/multiplier_miter_exp/shortcut.sv:175$118'.
-Creating decoders for process `\top.$proc$output/multiplier_miter_exp/shortcut.sv:169$117'.
-Creating decoders for process `\top.$proc$output/multiplier_miter_exp/shortcut.sv:160$116'.
-Creating decoders for process `\top.$proc$output/multiplier_miter_exp/shortcut.sv:154$115'.
-Creating decoders for process `\top.$proc$output/multiplier_miter_exp/shortcut.sv:145$114'.
-Creating decoders for process `\top.$proc$output/multiplier_miter_exp/shortcut.sv:129$113'.
-Creating decoders for process `\top.$proc$output/multiplier_miter_exp/shortcut.sv:117$112'.
-Creating decoders for process `\top.$proc$output/multiplier_miter_exp/shortcut.sv:111$111'.
-Creating decoders for process `\top.$proc$output/multiplier_miter_exp/shortcut.sv:102$110'.
-Creating decoders for process `\top.$proc$output/multiplier_miter_exp/shortcut.sv:96$109'.
-Creating decoders for process `\top.$proc$output/multiplier_miter_exp/shortcut.sv:87$108'.
-Creating decoders for process `\top.$proc$output/multiplier_miter_exp/shortcut.sv:369$104'.
-Creating decoders for process `\top.$proc$output/multiplier_miter_exp/shortcut.sv:365$100'.
-Creating decoders for process `\top.$proc$output/multiplier_miter_exp/shortcut.sv:361$96'.
-Creating decoders for process `\top.$proc$output/multiplier_miter_exp/shortcut.sv:357$92'.
-Creating decoders for process `\top.$proc$output/multiplier_miter_exp/shortcut.sv:353$88'.
-Creating decoders for process `\top.$proc$output/multiplier_miter_exp/shortcut.sv:349$84'.
-Creating decoders for process `\top.$proc$output/multiplier_miter_exp/shortcut.sv:327$82'.
-Creating decoders for process `\top.$proc$output/multiplier_miter_exp/shortcut.sv:312$69'.
-Creating decoders for process `\top.$proc$output/multiplier_miter_exp/shortcut.sv:309$68'.
-Creating decoders for process `\top.$proc$output/multiplier_miter_exp/shortcut.sv:306$67'.
-Creating decoders for process `\top.$proc$output/multiplier_miter_exp/shortcut.sv:303$66'.
-Creating decoders for process `\top.$proc$output/multiplier_miter_exp/shortcut.sv:300$65'.
-Creating decoders for process `\top.$proc$output/multiplier_miter_exp/shortcut.sv:297$64'.
-Creating decoders for process `\top.$proc$output/multiplier_miter_exp/shortcut.sv:277$46'.
-Creating decoders for process `\top.$proc$output/multiplier_miter_exp/shortcut.sv:274$45'.
-Creating decoders for process `\top.$proc$output/multiplier_miter_exp/shortcut.sv:271$44'.
-Creating decoders for process `\top.$proc$output/multiplier_miter_exp/shortcut.sv:268$43'.
-Creating decoders for process `\top.$proc$output/multiplier_miter_exp/shortcut.sv:265$42'.
-Creating decoders for process `\top.$proc$output/multiplier_miter_exp/shortcut.sv:262$41'.
-Creating decoders for process `\top.$proc$output/multiplier_miter_exp/shortcut.sv:246$25'.
+Creating decoders for process `\top.$proc$output/multiplier_miter_abc_shortcut_exp/shortcut.sv:231$125'.
+Creating decoders for process `\top.$proc$output/multiplier_miter_abc_shortcut_exp/shortcut.sv:228$124'.
+Creating decoders for process `\top.$proc$output/multiplier_miter_abc_shortcut_exp/shortcut.sv:225$123'.
+Creating decoders for process `\top.$proc$output/multiplier_miter_abc_shortcut_exp/shortcut.sv:222$122'.
+Creating decoders for process `\top.$proc$output/multiplier_miter_abc_shortcut_exp/shortcut.sv:219$121'.
+Creating decoders for process `\top.$proc$output/multiplier_miter_abc_shortcut_exp/shortcut.sv:216$120'.
+Creating decoders for process `\top.$proc$output/multiplier_miter_abc_shortcut_exp/shortcut.sv:187$119'.
+Creating decoders for process `\top.$proc$output/multiplier_miter_abc_shortcut_exp/shortcut.sv:175$118'.
+Creating decoders for process `\top.$proc$output/multiplier_miter_abc_shortcut_exp/shortcut.sv:169$117'.
+Creating decoders for process `\top.$proc$output/multiplier_miter_abc_shortcut_exp/shortcut.sv:160$116'.
+Creating decoders for process `\top.$proc$output/multiplier_miter_abc_shortcut_exp/shortcut.sv:154$115'.
+Creating decoders for process `\top.$proc$output/multiplier_miter_abc_shortcut_exp/shortcut.sv:145$114'.
+Creating decoders for process `\top.$proc$output/multiplier_miter_abc_shortcut_exp/shortcut.sv:129$113'.
+Creating decoders for process `\top.$proc$output/multiplier_miter_abc_shortcut_exp/shortcut.sv:117$112'.
+Creating decoders for process `\top.$proc$output/multiplier_miter_abc_shortcut_exp/shortcut.sv:111$111'.
+Creating decoders for process `\top.$proc$output/multiplier_miter_abc_shortcut_exp/shortcut.sv:102$110'.
+Creating decoders for process `\top.$proc$output/multiplier_miter_abc_shortcut_exp/shortcut.sv:96$109'.
+Creating decoders for process `\top.$proc$output/multiplier_miter_abc_shortcut_exp/shortcut.sv:87$108'.
+Creating decoders for process `\top.$proc$output/multiplier_miter_abc_shortcut_exp/shortcut.sv:369$104'.
+Creating decoders for process `\top.$proc$output/multiplier_miter_abc_shortcut_exp/shortcut.sv:365$100'.
+Creating decoders for process `\top.$proc$output/multiplier_miter_abc_shortcut_exp/shortcut.sv:361$96'.
+Creating decoders for process `\top.$proc$output/multiplier_miter_abc_shortcut_exp/shortcut.sv:357$92'.
+Creating decoders for process `\top.$proc$output/multiplier_miter_abc_shortcut_exp/shortcut.sv:353$88'.
+Creating decoders for process `\top.$proc$output/multiplier_miter_abc_shortcut_exp/shortcut.sv:349$84'.
+Creating decoders for process `\top.$proc$output/multiplier_miter_abc_shortcut_exp/shortcut.sv:327$82'.
+Creating decoders for process `\top.$proc$output/multiplier_miter_abc_shortcut_exp/shortcut.sv:312$69'.
+Creating decoders for process `\top.$proc$output/multiplier_miter_abc_shortcut_exp/shortcut.sv:309$68'.
+Creating decoders for process `\top.$proc$output/multiplier_miter_abc_shortcut_exp/shortcut.sv:306$67'.
+Creating decoders for process `\top.$proc$output/multiplier_miter_abc_shortcut_exp/shortcut.sv:303$66'.
+Creating decoders for process `\top.$proc$output/multiplier_miter_abc_shortcut_exp/shortcut.sv:300$65'.
+Creating decoders for process `\top.$proc$output/multiplier_miter_abc_shortcut_exp/shortcut.sv:297$64'.
+Creating decoders for process `\top.$proc$output/multiplier_miter_abc_shortcut_exp/shortcut.sv:277$46'.
+Creating decoders for process `\top.$proc$output/multiplier_miter_abc_shortcut_exp/shortcut.sv:274$45'.
+Creating decoders for process `\top.$proc$output/multiplier_miter_abc_shortcut_exp/shortcut.sv:271$44'.
+Creating decoders for process `\top.$proc$output/multiplier_miter_abc_shortcut_exp/shortcut.sv:268$43'.
+Creating decoders for process `\top.$proc$output/multiplier_miter_abc_shortcut_exp/shortcut.sv:265$42'.
+Creating decoders for process `\top.$proc$output/multiplier_miter_abc_shortcut_exp/shortcut.sv:262$41'.
+Creating decoders for process `\top.$proc$output/multiplier_miter_abc_shortcut_exp/shortcut.sv:246$25'.
 
 2.2.8. Executing PROC_DLATCH pass (convert process syncs to latches).
 
 2.2.9. Executing PROC_DFF pass (convert process syncs to FFs).
-Creating register for signal `\top.\shortcut.neq_o_reg_copy2' using process `\top.$proc$output/multiplier_miter_exp/shortcut.sv:369$104'.
+Creating register for signal `\top.\shortcut.neq_o_reg_copy2' using process `\top.$proc$output/multiplier_miter_abc_shortcut_exp/shortcut.sv:369$104'.
   created $dff cell `$procdff$131' with positive edge clock.
-Creating register for signal `\top.\shortcut.neq_finish_copy2' using process `\top.$proc$output/multiplier_miter_exp/shortcut.sv:365$100'.
+Creating register for signal `\top.\shortcut.neq_finish_copy2' using process `\top.$proc$output/multiplier_miter_abc_shortcut_exp/shortcut.sv:365$100'.
   created $dff cell `$procdff$132' with positive edge clock.
-Creating register for signal `\top.\shortcut.neq_counter_copy2' using process `\top.$proc$output/multiplier_miter_exp/shortcut.sv:361$96'.
+Creating register for signal `\top.\shortcut.neq_counter_copy2' using process `\top.$proc$output/multiplier_miter_abc_shortcut_exp/shortcut.sv:361$96'.
   created $dff cell `$procdff$133' with positive edge clock.
-Creating register for signal `\top.\shortcut.neq_busy_copy2' using process `\top.$proc$output/multiplier_miter_exp/shortcut.sv:357$92'.
+Creating register for signal `\top.\shortcut.neq_busy_copy2' using process `\top.$proc$output/multiplier_miter_abc_shortcut_exp/shortcut.sv:357$92'.
   created $dff cell `$procdff$134' with positive edge clock.
-Creating register for signal `\top.\shortcut.neq_b_reg_copy2' using process `\top.$proc$output/multiplier_miter_exp/shortcut.sv:353$88'.
+Creating register for signal `\top.\shortcut.neq_b_reg_copy2' using process `\top.$proc$output/multiplier_miter_abc_shortcut_exp/shortcut.sv:353$88'.
   created $dff cell `$procdff$135' with positive edge clock.
-Creating register for signal `\top.\shortcut.neq_a_reg_copy2' using process `\top.$proc$output/multiplier_miter_exp/shortcut.sv:349$84'.
+Creating register for signal `\top.\shortcut.neq_a_reg_copy2' using process `\top.$proc$output/multiplier_miter_abc_shortcut_exp/shortcut.sv:349$84'.
   created $dff cell `$procdff$136' with positive edge clock.
-Creating register for signal `\top.\assume_1_violate' using process `\top.$proc$output/multiplier_miter_exp/shortcut.sv:327$82'.
+Creating register for signal `\top.\assume_1_violate' using process `\top.$proc$output/multiplier_miter_abc_shortcut_exp/shortcut.sv:327$82'.
   created $dff cell `$procdff$137' with positive edge clock.
-Creating register for signal `\top.\copy2.counter' using process `\top.$proc$output/multiplier_miter_exp/shortcut.sv:312$69'.
+Creating register for signal `\top.\copy2.counter' using process `\top.$proc$output/multiplier_miter_abc_shortcut_exp/shortcut.sv:312$69'.
   created $dff cell `$procdff$138' with positive edge clock.
-Creating register for signal `\top.\copy2.finish' using process `\top.$proc$output/multiplier_miter_exp/shortcut.sv:309$68'.
+Creating register for signal `\top.\copy2.finish' using process `\top.$proc$output/multiplier_miter_abc_shortcut_exp/shortcut.sv:309$68'.
   created $dff cell `$procdff$139' with positive edge clock.
-Creating register for signal `\top.\copy2.busy' using process `\top.$proc$output/multiplier_miter_exp/shortcut.sv:306$67'.
+Creating register for signal `\top.\copy2.busy' using process `\top.$proc$output/multiplier_miter_abc_shortcut_exp/shortcut.sv:306$67'.
   created $dff cell `$procdff$140' with positive edge clock.
-Creating register for signal `\top.\copy2.o_reg' using process `\top.$proc$output/multiplier_miter_exp/shortcut.sv:303$66'.
+Creating register for signal `\top.\copy2.o_reg' using process `\top.$proc$output/multiplier_miter_abc_shortcut_exp/shortcut.sv:303$66'.
   created $dff cell `$procdff$141' with positive edge clock.
-Creating register for signal `\top.\copy2.b_reg' using process `\top.$proc$output/multiplier_miter_exp/shortcut.sv:300$65'.
+Creating register for signal `\top.\copy2.b_reg' using process `\top.$proc$output/multiplier_miter_abc_shortcut_exp/shortcut.sv:300$65'.
   created $dff cell `$procdff$142' with positive edge clock.
-Creating register for signal `\top.\copy2.a_reg' using process `\top.$proc$output/multiplier_miter_exp/shortcut.sv:297$64'.
+Creating register for signal `\top.\copy2.a_reg' using process `\top.$proc$output/multiplier_miter_abc_shortcut_exp/shortcut.sv:297$64'.
   created $dff cell `$procdff$143' with positive edge clock.
-Creating register for signal `\top.\copy1.counter' using process `\top.$proc$output/multiplier_miter_exp/shortcut.sv:277$46'.
+Creating register for signal `\top.\copy1.counter' using process `\top.$proc$output/multiplier_miter_abc_shortcut_exp/shortcut.sv:277$46'.
   created $dff cell `$procdff$144' with positive edge clock.
-Creating register for signal `\top.\copy1.finish' using process `\top.$proc$output/multiplier_miter_exp/shortcut.sv:274$45'.
+Creating register for signal `\top.\copy1.finish' using process `\top.$proc$output/multiplier_miter_abc_shortcut_exp/shortcut.sv:274$45'.
   created $dff cell `$procdff$145' with positive edge clock.
-Creating register for signal `\top.\copy1.busy' using process `\top.$proc$output/multiplier_miter_exp/shortcut.sv:271$44'.
+Creating register for signal `\top.\copy1.busy' using process `\top.$proc$output/multiplier_miter_abc_shortcut_exp/shortcut.sv:271$44'.
   created $dff cell `$procdff$146' with positive edge clock.
-Creating register for signal `\top.\copy1.o_reg' using process `\top.$proc$output/multiplier_miter_exp/shortcut.sv:268$43'.
+Creating register for signal `\top.\copy1.o_reg' using process `\top.$proc$output/multiplier_miter_abc_shortcut_exp/shortcut.sv:268$43'.
   created $dff cell `$procdff$147' with positive edge clock.
-Creating register for signal `\top.\copy1.b_reg' using process `\top.$proc$output/multiplier_miter_exp/shortcut.sv:265$42'.
+Creating register for signal `\top.\copy1.b_reg' using process `\top.$proc$output/multiplier_miter_abc_shortcut_exp/shortcut.sv:265$42'.
   created $dff cell `$procdff$148' with positive edge clock.
-Creating register for signal `\top.\copy1.a_reg' using process `\top.$proc$output/multiplier_miter_exp/shortcut.sv:262$41'.
+Creating register for signal `\top.\copy1.a_reg' using process `\top.$proc$output/multiplier_miter_abc_shortcut_exp/shortcut.sv:262$41'.
   created $dff cell `$procdff$149' with positive edge clock.
 
 2.2.10. Executing PROC_MEMWR pass (convert process memory writes to cells).
 
 2.2.11. Executing PROC_CLEAN pass (remove empty switches from decision trees).
-Removing empty process `top.$proc$output/multiplier_miter_exp/shortcut.sv:231$125'.
-Removing empty process `top.$proc$output/multiplier_miter_exp/shortcut.sv:228$124'.
-Removing empty process `top.$proc$output/multiplier_miter_exp/shortcut.sv:225$123'.
-Removing empty process `top.$proc$output/multiplier_miter_exp/shortcut.sv:222$122'.
-Removing empty process `top.$proc$output/multiplier_miter_exp/shortcut.sv:219$121'.
-Removing empty process `top.$proc$output/multiplier_miter_exp/shortcut.sv:216$120'.
-Removing empty process `top.$proc$output/multiplier_miter_exp/shortcut.sv:187$119'.
-Removing empty process `top.$proc$output/multiplier_miter_exp/shortcut.sv:175$118'.
-Removing empty process `top.$proc$output/multiplier_miter_exp/shortcut.sv:169$117'.
-Removing empty process `top.$proc$output/multiplier_miter_exp/shortcut.sv:160$116'.
-Removing empty process `top.$proc$output/multiplier_miter_exp/shortcut.sv:154$115'.
-Removing empty process `top.$proc$output/multiplier_miter_exp/shortcut.sv:145$114'.
-Removing empty process `top.$proc$output/multiplier_miter_exp/shortcut.sv:129$113'.
-Removing empty process `top.$proc$output/multiplier_miter_exp/shortcut.sv:117$112'.
-Removing empty process `top.$proc$output/multiplier_miter_exp/shortcut.sv:111$111'.
-Removing empty process `top.$proc$output/multiplier_miter_exp/shortcut.sv:102$110'.
-Removing empty process `top.$proc$output/multiplier_miter_exp/shortcut.sv:96$109'.
-Removing empty process `top.$proc$output/multiplier_miter_exp/shortcut.sv:87$108'.
-Removing empty process `top.$proc$output/multiplier_miter_exp/shortcut.sv:369$104'.
-Removing empty process `top.$proc$output/multiplier_miter_exp/shortcut.sv:365$100'.
-Removing empty process `top.$proc$output/multiplier_miter_exp/shortcut.sv:361$96'.
-Removing empty process `top.$proc$output/multiplier_miter_exp/shortcut.sv:357$92'.
-Removing empty process `top.$proc$output/multiplier_miter_exp/shortcut.sv:353$88'.
-Removing empty process `top.$proc$output/multiplier_miter_exp/shortcut.sv:349$84'.
-Removing empty process `top.$proc$output/multiplier_miter_exp/shortcut.sv:327$82'.
-Removing empty process `top.$proc$output/multiplier_miter_exp/shortcut.sv:312$69'.
-Removing empty process `top.$proc$output/multiplier_miter_exp/shortcut.sv:309$68'.
-Removing empty process `top.$proc$output/multiplier_miter_exp/shortcut.sv:306$67'.
-Removing empty process `top.$proc$output/multiplier_miter_exp/shortcut.sv:303$66'.
-Removing empty process `top.$proc$output/multiplier_miter_exp/shortcut.sv:300$65'.
-Removing empty process `top.$proc$output/multiplier_miter_exp/shortcut.sv:297$64'.
-Removing empty process `top.$proc$output/multiplier_miter_exp/shortcut.sv:277$46'.
-Removing empty process `top.$proc$output/multiplier_miter_exp/shortcut.sv:274$45'.
-Removing empty process `top.$proc$output/multiplier_miter_exp/shortcut.sv:271$44'.
-Removing empty process `top.$proc$output/multiplier_miter_exp/shortcut.sv:268$43'.
-Removing empty process `top.$proc$output/multiplier_miter_exp/shortcut.sv:265$42'.
-Removing empty process `top.$proc$output/multiplier_miter_exp/shortcut.sv:262$41'.
-Removing empty process `top.$proc$output/multiplier_miter_exp/shortcut.sv:246$25'.
+Removing empty process `top.$proc$output/multiplier_miter_abc_shortcut_exp/shortcut.sv:231$125'.
+Removing empty process `top.$proc$output/multiplier_miter_abc_shortcut_exp/shortcut.sv:228$124'.
+Removing empty process `top.$proc$output/multiplier_miter_abc_shortcut_exp/shortcut.sv:225$123'.
+Removing empty process `top.$proc$output/multiplier_miter_abc_shortcut_exp/shortcut.sv:222$122'.
+Removing empty process `top.$proc$output/multiplier_miter_abc_shortcut_exp/shortcut.sv:219$121'.
+Removing empty process `top.$proc$output/multiplier_miter_abc_shortcut_exp/shortcut.sv:216$120'.
+Removing empty process `top.$proc$output/multiplier_miter_abc_shortcut_exp/shortcut.sv:187$119'.
+Removing empty process `top.$proc$output/multiplier_miter_abc_shortcut_exp/shortcut.sv:175$118'.
+Removing empty process `top.$proc$output/multiplier_miter_abc_shortcut_exp/shortcut.sv:169$117'.
+Removing empty process `top.$proc$output/multiplier_miter_abc_shortcut_exp/shortcut.sv:160$116'.
+Removing empty process `top.$proc$output/multiplier_miter_abc_shortcut_exp/shortcut.sv:154$115'.
+Removing empty process `top.$proc$output/multiplier_miter_abc_shortcut_exp/shortcut.sv:145$114'.
+Removing empty process `top.$proc$output/multiplier_miter_abc_shortcut_exp/shortcut.sv:129$113'.
+Removing empty process `top.$proc$output/multiplier_miter_abc_shortcut_exp/shortcut.sv:117$112'.
+Removing empty process `top.$proc$output/multiplier_miter_abc_shortcut_exp/shortcut.sv:111$111'.
+Removing empty process `top.$proc$output/multiplier_miter_abc_shortcut_exp/shortcut.sv:102$110'.
+Removing empty process `top.$proc$output/multiplier_miter_abc_shortcut_exp/shortcut.sv:96$109'.
+Removing empty process `top.$proc$output/multiplier_miter_abc_shortcut_exp/shortcut.sv:87$108'.
+Removing empty process `top.$proc$output/multiplier_miter_abc_shortcut_exp/shortcut.sv:369$104'.
+Removing empty process `top.$proc$output/multiplier_miter_abc_shortcut_exp/shortcut.sv:365$100'.
+Removing empty process `top.$proc$output/multiplier_miter_abc_shortcut_exp/shortcut.sv:361$96'.
+Removing empty process `top.$proc$output/multiplier_miter_abc_shortcut_exp/shortcut.sv:357$92'.
+Removing empty process `top.$proc$output/multiplier_miter_abc_shortcut_exp/shortcut.sv:353$88'.
+Removing empty process `top.$proc$output/multiplier_miter_abc_shortcut_exp/shortcut.sv:349$84'.
+Removing empty process `top.$proc$output/multiplier_miter_abc_shortcut_exp/shortcut.sv:327$82'.
+Removing empty process `top.$proc$output/multiplier_miter_abc_shortcut_exp/shortcut.sv:312$69'.
+Removing empty process `top.$proc$output/multiplier_miter_abc_shortcut_exp/shortcut.sv:309$68'.
+Removing empty process `top.$proc$output/multiplier_miter_abc_shortcut_exp/shortcut.sv:306$67'.
+Removing empty process `top.$proc$output/multiplier_miter_abc_shortcut_exp/shortcut.sv:303$66'.
+Removing empty process `top.$proc$output/multiplier_miter_abc_shortcut_exp/shortcut.sv:300$65'.
+Removing empty process `top.$proc$output/multiplier_miter_abc_shortcut_exp/shortcut.sv:297$64'.
+Removing empty process `top.$proc$output/multiplier_miter_abc_shortcut_exp/shortcut.sv:277$46'.
+Removing empty process `top.$proc$output/multiplier_miter_abc_shortcut_exp/shortcut.sv:274$45'.
+Removing empty process `top.$proc$output/multiplier_miter_abc_shortcut_exp/shortcut.sv:271$44'.
+Removing empty process `top.$proc$output/multiplier_miter_abc_shortcut_exp/shortcut.sv:268$43'.
+Removing empty process `top.$proc$output/multiplier_miter_abc_shortcut_exp/shortcut.sv:265$42'.
+Removing empty process `top.$proc$output/multiplier_miter_abc_shortcut_exp/shortcut.sv:262$41'.
+Removing empty process `top.$proc$output/multiplier_miter_abc_shortcut_exp/shortcut.sv:246$25'.
 Cleaned up 0 empty switches.
 
 2.2.12. Executing OPT_EXPR pass (perform const folding).
@@ -777,9 +777,9 @@ Removing temp directory.
 
 8. Executing AIGER backend.
 
-End of script. Logfile hash: 36c5f951ef, CPU: user 0.44s system 0.01s, MEM: 42.96 MB peak
+End of script. Logfile hash: b2b29fd2ff, CPU: user 0.43s system 0.02s, MEM: 42.49 MB peak
 Yosys 0.48+5 (git sha1 7a362f1f7, clang++ 18.1.8 -fPIC -O3)
-Time spent: 45% 1x abc (0 sec), 11% 1x techmap (0 sec), ...
+Time spent: 45% 1x abc (0 sec), 11% 3x read_verilog (0 sec), ...
 assume_1_violate 0
 copy1.a_reg 0
 copy1.a_reg 1
@@ -930,9 +930,9 @@ shortcut.neq_counter_copy2 0
 shortcut.neq_finish_copy2 0
 shortcut.neq_o_reg_copy2 0
 Running ABC with PDR for multiplier_miter...
-PDR commands are: read output/multiplier_miter_exp/shortcut.aig;
+PDR commands are: read output/multiplier_miter_abc_shortcut_exp/shortcut.aig;
     fold;
-    pdr -v -w -d -I output/multiplier_miter_exp/shortcut.pla -R output/multiplier_miter_exp/shortcut.relation -l -E; write_cex -n -m -f output/multiplier_miter_exp/shortcut.cex;
+    pdr -v -w -d -I output/multiplier_miter_abc_shortcut_exp/shortcut.pla -R output/multiplier_miter_abc_shortcut_exp/shortcut.relation; write_cex -n -m -f output/multiplier_miter_abc_shortcut_exp/shortcut.cex;
 Interpreting the PDR log for multiplier_miter...
 Counterexample file not found!
 -s

@@ -21,6 +21,8 @@ usage() {
   echo "  -q   Keep processing past first error"
   echo "  -n   Use existing shortcut.sv and flatten.sv"
   echo "  -u   Disable all input assumptions and let the input be unconstrained"
+  echo "  -g   Run rIC3"
+  echo "  -l   Run rIC3 with ic3-inn"
   echo "  -O suffix  Specify a suffix for the output directory"
   echo "If no options are provided, all steps will run."
   exit 1
@@ -41,11 +43,13 @@ old=false
 suffix=""
 unconstrained=""
 incremental=false
+rIC3=false
+rIC3inn=false
 
 set -e
 
 # Parse command-line options
-while getopts "faswerimpdcqnubO:" opt; do
+while getopts "faswerimpdcqnubglO:" opt; do
   case $opt in
     f) flatten=true ;;
     a) aig=true ;;
@@ -60,6 +64,8 @@ while getopts "faswerimpdcqnubO:" opt; do
     c) incremental=true ;;
     n) old=true ;;
     u) unconstrained="--no_assumption" ;;
+    g) rIC3=true ;;
+    l) rIC3inn=true ;;
     O) suffix="_$OPTARG" ;;
     *) usage ;;
   esac
@@ -162,6 +168,16 @@ if $pdr; then
   echo "Running ABC with PDR for ${design}..."
   echo "PDR commands are: ${pdr_commands}"
   abc_exp -c "${pdr_commands}" > "${output_dir}/pdr_${file}.log"
+fi
+
+# Step 4: Run rIC3 or rIC3-inn
+if $rIC3; then
+  echo "Running rIC3 for ${design}..."
+  rIC3 "${output_dir}/${file}.aig" --engine ic3 -v 10  > "${output_dir}/ric3_${file}.log"
+fi
+if $rIC3inn; then
+  echo "Running rIC3 for ${design}..."
+  rIC3 "${output_dir}/${file}.aig" --engine ic3 --ic3-inn -v 10  > "${output_dir}/ric3_${file}.log"
 fi
 
 # Step 5: Interpret the PDR log

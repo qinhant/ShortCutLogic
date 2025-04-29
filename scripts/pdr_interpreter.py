@@ -24,7 +24,7 @@ def pdr_interpret(log_path, map_path, inv_path, output_path, cex_path):
             signal_name = split[3]
             if input_num not in input_map.keys():
                 input_map[input_num] = signal_name + "[" + bit + "]"
-    try:
+    if inv_path != None:
         with open(inv_path, "r") as file:
             content = file.read()
         latch_list = [
@@ -47,7 +47,7 @@ def pdr_interpret(log_path, map_path, inv_path, output_path, cex_path):
             clause = " && ".join(literals)
             log_output += "!(" + clause + ")\n"
         log_output += "\n\n\n"
-    except FileNotFoundError:
+    else:
         log_output = "---------------No Invariant File-------------------- \n"
 
     log_output += "---------------PDR Log--------------------\n"
@@ -133,7 +133,7 @@ if __name__ == "__main__":
     parse.add_argument("--log", dest="log_path", required=True, help="input .log path")
     parse.add_argument("--map", dest="map_path", required=True, help="input .map path")
     parse.add_argument(
-        "--inv", dest="inv_path", required=True, help="input invariant (.pla) path"
+        "--inv", dest="inv_path", default=None, help="input invariant (.pla) path"
     )
     parse.add_argument(
         "--output",
@@ -155,7 +155,7 @@ if __name__ == "__main__":
     if not args.map_path.endswith(".map"):
         print("Invalid map file, must be a .map file")
         sys.exit(1)
-    if not args.inv_path.endswith(".pla"):
+    if args.inv_path != None and not args.inv_path.endswith(".pla"):
         print("Invalid invariant file, must be a .pla file")
         sys.exit(1)
     if not args.output_path.endswith(".log"):
