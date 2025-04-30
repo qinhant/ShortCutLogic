@@ -30,9 +30,11 @@ output_folder, datetime.datetime.now().strftime("eval_%Y%m%d_%H%M.log"))
 def log_eval(
         *,
         example: str,
+        result_file: str,
         flags: str,
         output_label: str,
         timeout: str,
+        valid_retcodes: dict[int, str] = {0: 'ok'},
         log: Callable[[str], None]):
     eval_args = f"-{flags} -O {output_label} {example}"
     cmd = f"{eval_script} {eval_args}"
@@ -41,18 +43,29 @@ def log_eval(
         subprocess.run(cmd,
                         shell=True, cwd=cwd, capture_output=True,
                         check=True, timeout=timeout)
-        log("ok\n")
-        result_file = os.path.join(
-            output_folder, f'{ex}_{tech}_exp', '*_interpreted.log')
-        cmd = f"grep  -E -A 20 -m 1 '(Verification .* successful)|(Block =))' {result_file}"
-        log(f">> {cmd}   ===> ")
+        # log(f"{valid_retcodes[0]}\n")
+    except subprocess.TimeoutExpired:
+        log(f"TIMEOUT ({USER_TIMEOUT}s)\n")
+        return
+    except subprocess.CalledProcessError as err:
+        if err.returncode in valid_retcodes:
+            log(f"{valid_retcodes[err.returncode]}\n")
+        else:
+            log(f"ERROR!!! (code {err.returncode})\n")
+            log(repr(valid_retcodes))
+            log(err.stderr.decode('utf-8'))
+            return
+    
+    cmd = f"grep  -E -A 200 -m 1 '(Verification .* successful)|(Block =)|(SolverStatistic.*)' {result_file}"
+    log(f">> {cmd}   ===> ")
+    try:
         results = subprocess.run(cmd, shell=True, cwd=cwd, capture_output=True)
         log("ok\n")
         log(results.stdout.decode('utf-8'))
     except subprocess.TimeoutExpired:
         log(f"TIMEOUT ({USER_TIMEOUT}s)\n")
     except subprocess.CalledProcessError as err:
-        log(f"ERROR!!!\n")
+        log(f"ERROR!!! (code {err.returncode})\n")
         log(err.stderr.decode('utf-8'))
     finally:
         log("\n\n")
@@ -84,7 +97,8 @@ technique_flags = {
     "ric3-inn": "sglw"
 }
 
-eval_order = ["abc_shortcut", "sc", "ept", "epi", "ps", "sc_ept", "sc_epi", "sc_ps", "ric3_shortcut", "ric3-inn", "abc_orig", "ric3_orig"]
+# eval_order = ["abc_shortcut", "sc", "ept", "epi", "ps", "sc_ept", "sc_epi", "sc_ps", "ric3_shortcut", "ric3-inn", "abc_orig", "ric3_orig"]
+eval_order = [ "ric3_shortcut", "ric3-inn", "abc_orig", "ric3_orig"]
 
 with open(log_filename, "w") as log_file:
 
@@ -133,24 +147,57 @@ with open(log_filename, "w") as log_file:
 
     log("\n\n")
 
+
+    log("#### Ensuring `rIC3` is available ####\n")
+    cmd = "which rIC3"
+    log(f">> {cmd}   ===>   ")
+    try:
+        subprocess.run(cmd, shell=True, check=True, capture_output=True)
+        log("ok\n")
+    except subprocess.CalledProcessError:
+        log("  ERROR: rIC3 is not in the path\n")
+
+    log("\n\n")
+
+
     for tech in eval_order:
         for name, ex in examples.items():
             log(f"#### Evaluating technique {tech} on example {name} #### \n")
+            if "ric3" in tech:
+                result_file = os.path.join(
+                        output_folder, f'{ex}_{tech}_exp', '*.log')
+                valid_retcodes = {0: 'unknown', 10: 'unsafe', 20: 'safe'}
+            else:
+                result_file = os.path.join(
+                        output_folder, f'{ex}_{tech}_exp', '*_interpreted.log')
+                valid_retcodes = {0: 'ok'}
             log_eval(
                 example=ex,
+                result_file=result_file,
                 flags=base_flags + technique_flags[tech],
                 output_label=tech,
                 timeout=TIMEOUT,
+                valid_retcodes=valid_retcodes,
                 log=log)
             time.sleep(1)
 
     for tech in eval_order:
         for name, ex in examples.items():
             log(f"#### Sanity checking technique {tech} on example {name} #### \n")
+            if "ric3" in tech:
+                result_file = os.path.join(
+                        output_folder, f'{ex}_sc_{tech}_exp', '*.log')
+                valid_retcodes = {0: 'unknown', 10: 'unsafe', 20: 'safe'}
+            else:
+                result_file = os.path.join(
+                        output_folder, f'{ex}_sc_{tech}_exp', '*_interpreted.log')
+                valid_retcodes = {0: 'ok'}
             log_eval(
                 example=ex,
+                result_file=result_file,
                 flags=base_flags + sanity_check_flags + technique_flags[tech],
                 output_label=f"{tech}_cex",
                 timeout=TIMEOUT,
+                valid_retcodes=valid_retcodes,
                 log=log)
             time.sleep(1)
