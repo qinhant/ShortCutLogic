@@ -1,6 +1,6 @@
 set_elaborate_single_run_mode off
 
-analyze -sva verilog/rocket_miter.sv
+analyze -sva verilog/rocket_clean.sv
 
 elaborate -top top
 

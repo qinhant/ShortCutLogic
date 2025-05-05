@@ -82,7 +82,7 @@ output_dir="output/${design}${suffix}_exp"
 top="top"
 
 # If no specific options are provided, run all steps
-if ! $flatten && ! $aig && ! $shortcut && ! $pdr && ! $interpret && ! $implication; then
+if ! $flatten && ! $aig && ! $shortcut && ! $pdr && ! $interpret && ! $implication && ! $rIC3 && ! $rIC3inn; then
   flatten=true
   aig=true
   shortcut=true
@@ -97,8 +97,11 @@ fi
 rm -f "${output_dir}"/*
 mkdir -p "${output_dir}"
 
-
 file="${design}"
+
+
+
+
 # Step 1: Flatten the Verilog netlist
 if $flatten; then
   echo "Flattening the netlist for ${design}..."
@@ -162,6 +165,25 @@ if $incremental; then
   pdr_commands="${pdr_commands} -E"
 fi
 pdr_commands="${pdr_commands}; write_cex -n -m -f ${output_dir}/${file}.cex;"
+
+
+# If it is SE_leakymul_miter, then directly copy existing files to save time
+version="original"
+if $shortcut; then
+  version="shortcut"
+fi
+if $rIC3inn; then
+  version="shortcut_inn"
+fi  
+
+if [[ "${design}" == "SE_leakymul_miter" ]]; then
+  echo "Copying existing files for ${design}..."
+
+  cp -f "output/file_reused/${design}/${version}.aig" "${output_dir}/${file}.aig"
+  cp -f "output/file_reused/${design}/${version}.relation" "${output_dir}/${file}.relation"
+  cp -f "output/file_reused/${design}/${version}.map" "${output_dir}/${file}.map"
+
+fi
 
 # Step 4: Run ABC with PDR
 if $pdr; then

@@ -73,8 +73,8 @@ def log_eval(
 
 
 examples = {
-    "multiplier": "multiplier_miter"
-    # "secenclave": "SE_leakymul_miter",
+    # "multiplier": "multiplier_miter",
+    "secenclave": "SE_leakymul_miter"
     # "sodor": "sodor5_miter_clean",
     # "rocket": "rocket_clean"
 }
@@ -88,17 +88,17 @@ technique_flags = {
     "sc": "rim",
     "ept": "risp",
     "epi": "rispd",
-    "ps": "rispc",
+    # "ps": "rispc",
     "sc_ept": "rimsp",
     "sc_epi": "rimspd",
-    "sc_ps": "rimspc",
+    # "sc_ps": "rimspc",
     "ric3_orig": "g",
     "ric3_shortcut": "sg",
-    "ric3-inn": "sglw"
+    "ric3-inn": "slw"
 }
 
-# eval_order = ["abc_shortcut", "sc", "ept", "epi", "ps", "sc_ept", "sc_epi", "sc_ps", "ric3_shortcut", "ric3-inn", "abc_orig", "ric3_orig"]
-eval_order = [ "ric3_shortcut", "ric3-inn", "abc_orig", "ric3_orig"]
+# eval_order = ["abc_shortcut", "sc", "ept", "epi", "sc_ept", "sc_epi", "ric3_shortcut", "ric3-inn", "abc_orig", "ric3_orig"]
+eval_order = ["ric3_shortcut", "ric3_orig"]
 
 with open(log_filename, "w") as log_file:
 
@@ -174,30 +174,30 @@ with open(log_filename, "w") as log_file:
             log_eval(
                 example=ex,
                 result_file=result_file,
-                flags=base_flags + technique_flags[tech],
+                flags=("n" if ex=="SE_leakymul_miter" else base_flags) + technique_flags[tech],
                 output_label=tech,
                 timeout=TIMEOUT,
                 valid_retcodes=valid_retcodes,
                 log=log)
             time.sleep(1)
 
-    for tech in eval_order:
-        for name, ex in examples.items():
-            log(f"#### Sanity checking technique {tech} on example {name} #### \n")
-            if "ric3" in tech:
-                result_file = os.path.join(
-                        output_folder, f'{ex}_sc_{tech}_exp', '*.log')
-                valid_retcodes = {0: 'unknown', 10: 'unsafe', 20: 'safe'}
-            else:
-                result_file = os.path.join(
-                        output_folder, f'{ex}_sc_{tech}_exp', '*_interpreted.log')
-                valid_retcodes = {0: 'ok'}
-            log_eval(
-                example=ex,
-                result_file=result_file,
-                flags=base_flags + sanity_check_flags + technique_flags[tech],
-                output_label=f"{tech}_cex",
-                timeout=TIMEOUT,
-                valid_retcodes=valid_retcodes,
-                log=log)
-            time.sleep(1)
+    # for tech in eval_order:
+    #     for name, ex in examples.items():
+    #         log(f"#### Sanity checking technique {tech} on example {name} #### \n")
+    #         if "ric3" in tech:
+    #             result_file = os.path.join(
+    #                     output_folder, f'{ex}_sc_{tech}_exp', '*.log')
+    #             valid_retcodes = {0: 'unknown', 10: 'unsafe', 20: 'safe'}
+    #         else:
+    #             result_file = os.path.join(
+    #                     output_folder, f'{ex}_sc_{tech}_exp', '*_interpreted.log')
+    #             valid_retcodes = {0: 'ok'}
+    #         log_eval(
+    #             example=ex,
+    #             result_file=result_file,
+    #             flags=base_flags + sanity_check_flags + technique_flags[tech],
+    #             output_label=f"{tech}_cex",
+    #             timeout=TIMEOUT,
+    #             valid_retcodes=valid_retcodes,
+    #             log=log)
+    #         time.sleep(1)
