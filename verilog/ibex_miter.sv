@@ -12652,8 +12652,8 @@ module prim_secded_inv_39_32_dec (
 endmodule
 
 module top(
-    input clk_i,
-	input rst_ni,
+    input clock,
+	input reset,
 	input [31:0] hart_id_i,
 	input [31:0] boot_addr_i,
 	input instr_gnt_i,
@@ -12683,8 +12683,8 @@ module top(
 wire instr_done_wb_o_1, instr_done_wb_o_2;
 
 ibex_core copy1(
-    .clk_i(clk_i),
-	.rst_ni(rst_ni),
+    .clk_i(clock),
+	.rst_ni(~reset),
 	.hart_id_i(hart_id_i),
 	.boot_addr_i(boot_addr_i),
 	.instr_gnt_i(instr_gnt_i),
@@ -12711,8 +12711,8 @@ ibex_core copy1(
 );
 
 ibex_core copy2(
-    .clk_i(clk_i),
-	.rst_ni(rst_ni),
+    .clk_i(clock),
+	.rst_ni(~reset),
 	.hart_id_i(hart_id_i),
 	.boot_addr_i(boot_addr_i),
 	.instr_gnt_i(instr_gnt_i),
