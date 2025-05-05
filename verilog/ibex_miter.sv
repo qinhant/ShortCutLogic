@@ -12651,92 +12651,107 @@ module prim_secded_inv_39_32_dec (
   end
 endmodule
 
-// module top(
-//     input clk_i,
-// 	input rst_ni,
-// 	input [31:0] hart_id_i,
-// 	input [31:0] boot_addr_i,
-// 	input instr_gnt_i,
-// 	input instr_rvalid_i,
-// 	input [31:0] instr_rdata_i,
-// 	input instr_err_i,
-// 	input data_gnt_i,
-// 	input data_rvalid_i,
-// 	input [31:0] data_rdata_i,
-// 	input data_err_i,
-// 	input [31:0] rf_rdata_a_ecc_i,
-// 	input [31:0] rf_rdata_b_ecc_i,
-// 	// input [(ibex_pkg_IC_NUM_WAYS * TagSizeECC) - 1:0] ic_tag_rdata_i,
-// 	// input [(ibex_pkg_IC_NUM_WAYS * LineSizeECC) - 1:0] ic_data_rdata_i,
-// 	input ic_scr_key_valid_i,
-// 	input irq_software_i,
-// 	input irq_timer_i,
-// 	input irq_external_i,
-// 	input [14:0] irq_fast_i,
-// 	input irq_nm_i,
-// 	input debug_req_i,
-// 	input [3:0] fetch_enable_i
-//     output wire instr_done_wb_o
-// );
+module top(
+    input clk_i,
+	input rst_ni,
+	input [31:0] hart_id_i,
+	input [31:0] boot_addr_i,
+	input instr_gnt_i,
+	input instr_rvalid_i,
+	input [31:0] instr_rdata_i,
+	input instr_err_i,
+	input data_gnt_i,
+	input data_rvalid_i,
+	input [31:0] data_rdata_i,
+	input data_err_i,
+	input [31:0] rf_rdata_a_ecc_i_1,
+    input [31:0] rf_rdata_a_ecc_i_2,
+    input [31:0] rf_rdata_b_ecc_i_1,
+	input [31:0] rf_rdata_b_ecc_i_2,
+	input [43:0] ic_tag_rdata_i,
+	input [127:0] ic_data_rdata_i,
+	input ic_scr_key_valid_i,
+	input irq_software_i,
+	input irq_timer_i,
+	input irq_external_i,
+	input [14:0] irq_fast_i,
+	input irq_nm_i,
+	input debug_req_i,
+	input [3:0] fetch_enable_i
+);
 
-// ibex_core copy1(
-//     input wire clk_i;
-// 	input wire rst_ni;
-// 	input wire [31:0] hart_id_i;
-// 	input wire [31:0] boot_addr_i;
-// 	output wire instr_req_o;
-// 	input wire instr_gnt_i;
-// 	input wire instr_rvalid_i;
-// 	output wire [31:0] instr_addr_o;
-// 	input wire [MemDataWidth - 1:0] instr_rdata_i;
-// 	input wire instr_err_i;
-// 	output wire data_req_o;
-// 	input wire data_gnt_i;
-// 	input wire data_rvalid_i;
-// 	output wire data_we_o;
-// 	output wire [3:0] data_be_o;
-// 	output wire [31:0] data_addr_o;
-// 	output wire [MemDataWidth - 1:0] data_wdata_o;
-// 	input wire [MemDataWidth - 1:0] data_rdata_i;
-// 	input wire data_err_i;
-// 	output wire dummy_instr_id_o;
-// 	output wire dummy_instr_wb_o;
-// 	output wire [4:0] rf_raddr_a_o;
-// 	output wire [4:0] rf_raddr_b_o;
-// 	output wire [4:0] rf_waddr_wb_o;
-// 	output wire rf_we_wb_o;
-// 	output wire [RegFileDataWidth - 1:0] rf_wdata_wb_ecc_o;
-// 	input wire [RegFileDataWidth - 1:0] rf_rdata_a_ecc_i;
-// 	input wire [RegFileDataWidth - 1:0] rf_rdata_b_ecc_i;
-// 	output wire [1:0] ic_tag_req_o;
-// 	output wire ic_tag_write_o;
-// 	output wire [ibex_pkg_IC_INDEX_W - 1:0] ic_tag_addr_o;
-// 	output wire [TagSizeECC - 1:0] ic_tag_wdata_o;
-// 	input wire [(ibex_pkg_IC_NUM_WAYS * TagSizeECC) - 1:0] ic_tag_rdata_i;
-// 	output wire [1:0] ic_data_req_o;
-// 	output wire ic_data_write_o;
-// 	output wire [ibex_pkg_IC_INDEX_W - 1:0] ic_data_addr_o;
-// 	output wire [LineSizeECC - 1:0] ic_data_wdata_o;
-// 	input wire [(ibex_pkg_IC_NUM_WAYS * LineSizeECC) - 1:0] ic_data_rdata_i;
-// 	input wire ic_scr_key_valid_i;
-// 	output wire ic_scr_key_req_o;
-// 	input wire irq_software_i;
-// 	input wire irq_timer_i;
-// 	input wire irq_external_i;
-// 	input wire [14:0] irq_fast_i;
-// 	input wire irq_nm_i;
-// 	output wire irq_pending_o;
-// 	input wire debug_req_i;
-// 	output wire [159:0] crash_dump_o;
-// 	output wire double_fault_seen_o;
-// 	localparam signed [31:0] ibex_pkg_IbexMuBiWidth = 4;
-// 	input wire [3:0] fetch_enable_i;
-// 	output wire alert_minor_o;
-// 	output wire alert_major_internal_o;
-// 	output wire alert_major_bus_o;
-// 	output wire [3:0] core_busy_o;
-//     output wire instr_done_wb_o;
-// );
+wire instr_done_wb_o_1, instr_done_wb_o_2;
+
+ibex_core copy1(
+    .clk_i(clk_i),
+	.rst_ni(rst_ni),
+	.hart_id_i(hart_id_i),
+	.boot_addr_i(boot_addr_i),
+	.instr_gnt_i(instr_gnt_i),
+	.instr_rvalid_i(instr_rvalid_i),
+	.instr_rdata_i(instr_rdata_i),
+	.instr_err_i(instr_err_i),
+	.data_gnt_i(data_gnt_i),
+	.data_rvalid_i(data_rvalid_i),
+	.data_rdata_i(data_rdata_i),
+	.data_err_i(data_err_i),
+	.rf_rdata_a_ecc_i(rf_rdata_a_ecc_i_1),
+	.rf_rdata_b_ecc_i(rf_rdata_b_ecc_i_1),
+	.ic_tag_rdata_i(ic_tag_rdata_i),
+	.ic_data_rdata_i(ic_data_rdata_i),
+	.ic_scr_key_valid_i(ic_scr_key_valid_i),
+	.irq_software_i(irq_software_i),
+	.irq_timer_i(irq_timer_i),
+	.irq_external_i(irq_external_i),
+	.irq_fast_i(irq_fast_i),
+	.irq_nm_i(irq_nm_i),
+	.debug_req_i(debug_req_i),
+	.fetch_enable_i(fetch_enable_i),
+    .instr_done_wb_o(instr_done_wb_o_1)
+);
+
+ibex_core copy2(
+    .clk_i(clk_i),
+	.rst_ni(rst_ni),
+	.hart_id_i(hart_id_i),
+	.boot_addr_i(boot_addr_i),
+	.instr_gnt_i(instr_gnt_i),
+	.instr_rvalid_i(instr_rvalid_i),
+	.instr_rdata_i(instr_rdata_i),
+	.instr_err_i(instr_err_i),
+	.data_gnt_i(data_gnt_i),
+	.data_rvalid_i(data_rvalid_i),
+	.data_rdata_i(data_rdata_i),
+	.data_err_i(data_err_i),
+	.rf_rdata_a_ecc_i(rf_rdata_a_ecc_i_2),
+	.rf_rdata_b_ecc_i(rf_rdata_b_ecc_i_2),
+	.ic_tag_rdata_i(ic_tag_rdata_i),
+	.ic_data_rdata_i(ic_data_rdata_i),
+	.ic_scr_key_valid_i(ic_scr_key_valid_i),
+	.irq_software_i(irq_software_i),
+	.irq_timer_i(irq_timer_i),
+	.irq_external_i(irq_external_i),
+	.irq_fast_i(irq_fast_i),
+	.irq_nm_i(irq_nm_i),
+	.debug_req_i(debug_req_i),
+	.fetch_enable_i(fetch_enable_i),
+    .instr_done_wb_o(instr_done_wb_o_2)
+);
+
+reg assume_1_violate;
+wire assume_1_violate_in;
+
+// Assume // Assume the instructions can only be add, sub, sub, sll, slt, sltu, xor, srl, sra, or, and there's no compress instruction
+assign assume_1_violate_in = assume_1_violate || (instr_rdata_i[26:25] != 2'b00) || (instr_rdata_i[6:0] != 7'b0110011) || (instr_rdata_i[1:0] != 2'b00);
+
+always @(posedge clock) begin
+    assume_1_violate <= assume_1_violate_in;
+end
+
+wire assume_violate;
+assign assume_violate = `ASSUME_ON ? assume_1_violate_in : 0;
+
+assert property (instr_done_wb_o_1 == instr_done_wb_o_2 || assume_violate);
 
 
-// endmodule
+endmodule

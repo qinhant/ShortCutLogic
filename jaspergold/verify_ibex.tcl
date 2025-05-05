@@ -1,6 +1,6 @@
 set_elaborate_single_run_mode off
 
-analyze -sva verilog/ibex_miter.sv
+analyze -sva verilog/ibex_miter.sv +define+ASSUME_ON=1
 
 elaborate -top ibex_core
 
