@@ -4,7 +4,7 @@ analyze -sva verilog/ibex_miter.sv +define+ASSUME_ON=1
 
 elaborate -top top
 
-clock clk_i
-reset ~rst_ni -non_resettable_regs 0
+clock clock
+reset reset -non_resettable_regs 0
 
 prove -all
