@@ -6,5 +6,7 @@ memory -nordff
 setundef -undriven -init -zero
 delete -output
 techmap
+async2sync
+dffunmap
 abc -fast -g AND
 write_aiger -zinit -map map_path output_path 
