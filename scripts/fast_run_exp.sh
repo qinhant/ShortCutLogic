@@ -21,6 +21,7 @@ usage() {
   echo "  -q   Keep processing past first error"
   echo "  -n   Use existing shortcut.sv and flatten.sv"
   echo "  -u   Disable all input assumptions and let the input be unconstrained"
+  echo "  -k   Run shortcut_signals.py with semantic enforce option"
   echo "  -g   Run rIC3"
   echo "  -l   Run rIC3 with ic3-inn"
   echo "  -O suffix  Specify a suffix for the output directory"
@@ -43,13 +44,14 @@ old=false
 suffix=""
 unconstrained=""
 incremental=false
+senmantic_enforce=false
 rIC3=false
 rIC3inn=false
 
 set -e
 
 # Parse command-line options
-while getopts "faswerimpdcqnubglO:" opt; do
+while getopts "faswerimpdcqnubgklO:" opt; do
   case $opt in
     f) flatten=true ;;
     a) aig=true ;;
@@ -66,6 +68,7 @@ while getopts "faswerimpdcqnubglO:" opt; do
     u) unconstrained="--no_assumption" ;;
     g) rIC3=true ;;
     l) rIC3inn=true ;;
+    k) senmantic_enforce=true ;;
     O) suffix="_$OPTARG" ;;
     *) usage ;;
   esac
@@ -128,6 +131,9 @@ if $shortcut || $implication; then
   fi
   if $implication; then
     option="${option}i"
+  fi
+  if $senmantic_enforce; then
+    option="${option}k"
   fi
   if  ! $old; then
     python3 scripts/shortcut_signals.py \

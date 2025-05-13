@@ -98,6 +98,8 @@ def pdr_interpret(log_path, map_path, inv_path, output_path, cex_path):
         else:
             log_output += line + "\n"
 
+    if output_path == None:
+        output_path = log_path.replace(".log", "_interpreted.log")
     with open(output_path, "w") as file:
         file.write(log_output)
 
@@ -138,7 +140,7 @@ if __name__ == "__main__":
     parse.add_argument(
         "--output",
         dest="output_path",
-        required=True,
+        default=None,
         help="output log path",
     )
     parse.add_argument(
@@ -158,7 +160,7 @@ if __name__ == "__main__":
     if args.inv_path != None and not args.inv_path.endswith(".pla"):
         print("Invalid invariant file, must be a .pla file")
         sys.exit(1)
-    if not args.output_path.endswith(".log"):
+    if args.output_path != None and not args.output_path.endswith(".log"):
         print("Invalid output file, must be a .log file")
         sys.exit(1)
     if args.cex_path != None and not args.cex_path.endswith(".cex"):
