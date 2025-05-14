@@ -329,12 +329,16 @@ module top(
 );
 
 wire copy1_out_valid, copy2_out_valid;
+wire copy1_input_a_ack, copy1_input_b_ack, copy2_input_a_ack, copy2_input_b_ack;
+
 
 double_divider copy1 (
   .input_a(input_a),
   .input_b(input_b_1),
   .input_a_stb(input_a_stb),
   .input_b_stb(input_b_stb),
+  .input_a_ack(copy1_input_a_ack),
+  .input_b_ack(copy1_input_b_ack),
   .output_z_ack(output_z_ack),
   .clk(clock),
   .rst(reset),
@@ -346,6 +350,8 @@ double_divider copy2 (
   .input_b(input_b_2),
   .input_a_stb(input_a_stb),
   .input_b_stb(input_b_stb),
+  .input_a_ack(copy2_input_a_ack),
+  .input_b_ack(copy2_input_b_ack),
   .output_z_ack(output_z_ack),
   .clk(clock),
   .rst(reset),
@@ -357,17 +363,17 @@ double_divider copy2 (
   reg input_a_nonzero_flag = 0;
 
   always @(posedge clock) begin
-      if (input_a_stb && input_a != 0) begin
+      if (copy1_input_a_ack && copy2_input_a_ack && input_a != 0) begin
         input_a_nonzero_flag <= 1;
       end
-      else begin
+      else if (copy1_input_b_ack && copy2_input_b_ack) begin
         input_a_nonzero_flag <= 0;
   end
   end
 
   reg assume_1_violate;
   wire assume_1_violate_in;
-  assign assume_1_violate_in = assume_1_violate || (input_a_nonzero_flag && !input_b_stb && input_b_1 != input_b_2);  
+  assign assume_1_violate_in = assume_1_violate || (input_a_nonzero_flag && input_b_1 != input_b_2);  
   always @(posedge in_clk) begin
     assume_1_violate <= assume_1_violate_in;
   end
