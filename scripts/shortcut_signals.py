@@ -120,6 +120,7 @@ def add_shortcut_signals(filein, fileout, *, cfg: ShortcutSignalsConfig):
                     shortcut_assigns.append(
                         f"  assign {signal_wire} = !{cfg.assume_violate_sig} && {r.full_name} != {rc.full_name} ;\n"
                     )
+                    neq_registers[rc.full_name] = signal_wire
                 else:
                     signal_wire = signal
                     neq_registers[rc.full_name] = signal
@@ -185,15 +186,15 @@ def add_shortcut_signals(filein, fileout, *, cfg: ShortcutSignalsConfig):
 
         # set inequality registers and collect semantic information
         sematics = []
-        if not cfg.wire_only:
-            for id, r in orig_regs.items():
-                # print(id, r)
-                for rc in copy_regs[id]:
-                    orig_assign = reg_assigns[r.full_name]
-                    copy_assign = reg_assigns[rc.full_name]
-                    neq_signal = neq_registers[rc.full_name]
-                    # FIXME, track each copy's clock
-                    # if not cfg.predicate_only:
+        for id, r in orig_regs.items():
+            # print(id, r)
+            for rc in copy_regs[id]:
+                orig_assign = reg_assigns[r.full_name]
+                copy_assign = reg_assigns[rc.full_name]
+                neq_signal = neq_registers[rc.full_name]
+                # FIXME, track each copy's clock
+                # if not cfg.predicate_only:
+                if not cfg.wire_only:
                     fout.write(
                         textwrap.indent(
                             textwrap.dedent(f"""
@@ -205,18 +206,7 @@ def add_shortcut_signals(filein, fileout, *, cfg: ShortcutSignalsConfig):
                             "  ",
                         )
                     )
-                    # else:
-                    #     fout.write(
-                    #         textwrap.indent(
-                    #             textwrap.dedent(f"""
-                    #                 always @(posedge in_clk) begin
-                    #                     {neq_signal} <= !( {neq_signal} || {r.full_name} == {rc.full_name} ) ? {neq_signal} : !{cfg.assume_violate_sig} && {orig_assign} != {copy_assign} ;
-                    #                 end
-                    #             """).removeprefix("\n"),
-                    #             "  ",
-                    #         )
-                    #     )
-                    sematics.append(f"( {neq_signal} || {r.full_name} == {rc.full_name} )")
+                sematics.append(f"( {neq_signal} || {r.full_name} == {rc.full_name} )")
 
         if cfg.predicate_only:
             fout.write("wire semantics_enforce;\n")

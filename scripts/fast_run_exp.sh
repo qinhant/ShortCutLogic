@@ -173,7 +173,7 @@ fi
 pdr_commands="${pdr_commands}; write_cex -n -m -f ${output_dir}/${file}.cex;"
 
 
-# If it is SE_leakymul_miter, then directly copy existing files to save time
+# If it is SE_leakymul_miter or smallboom_miter_clean, then directly copy existing files to save time
 version="original"
 if $shortcut; then
   version="shortcut"
@@ -182,7 +182,7 @@ if $rIC3inn; then
   version="shortcut_inn"
 fi  
 
-if [[ "${design}" == "SE_leakymul_miter" ]]; then
+if [[ "${design}" == "SE_leakymul_miter" || "${design}" == "smallboom_miter_clean" ]]; then
   echo "Copying existing files for ${design}..."
 
   cp -f "output/file_reused/${design}/${version}.aig" "${output_dir}/${file}.aig"

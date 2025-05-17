@@ -373,8 +373,8 @@ double_divider copy2 (
 
   reg assume_1_violate;
   wire assume_1_violate_in;
-  assign assume_1_violate_in = assume_1_violate || (input_a_nonzero_flag && input_b_1 != input_b_2);  
-  always @(posedge in_clk) begin
+  assign assume_1_violate_in = assume_1_violate || (input_a_nonzero_flag && input_b_1 != input_b_2) || (input_a_nonzero_flag && !input_b_stb);  
+  always @(posedge clock) begin
     assume_1_violate <= assume_1_violate_in;
   end
 

@@ -1,4 +1,4 @@
-`define WIDTH_LOG 1
+`define WIDTH_LOG 4
 `define WIDTH (1 << `WIDTH_LOG)
 `define OUT_WIDTH (`WIDTH << 1)
 
@@ -181,7 +181,7 @@ module top(in_a, in_in_valid, in_b_1, in_b_2, in_clk, trigger, cmp_out_valid, cm
   end
 
   wire assume_violate;
-  assign assume_violate = assume_1_violate_in;
+  assign assume_violate =  `ASSUME_ON ? assume_1_violate_in : 0;
 
   assert property (!(uarch_deviated && drained) || assume_violate);
 endmodule
