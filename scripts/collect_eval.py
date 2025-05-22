@@ -73,10 +73,12 @@ def log_eval(
 
 
 examples = {
-    # "multiplier": "multiplier_miter",
+    "multiplier": "multiplier_miter",
+    "sodor": "sodor5_miter_clean",
+    "rocket": "rocket_clean",
+    "divider" : "divider_miter",
+    "modexp" : "rsa_modexp_miter",
     "secenclave": "SE_leakymul_miter"
-    # "sodor": "sodor5_miter_clean",
-    # "rocket": "rocket_clean"
 }
 
 base_flags = "fa"
@@ -98,7 +100,8 @@ technique_flags = {
 }
 
 # eval_order = ["abc_shortcut", "sc", "ept", "epi", "sc_ept", "sc_epi", "ric3_shortcut", "ric3-inn", "abc_orig", "ric3_orig"]
-eval_order = ["ric3_shortcut", "ric3_orig"]
+# eval_order = ["abc_shortcut", "epi", "sc_ept", "sc_epi"]
+eval_order = ["ric3_orig", "ric3_shortcut", "ric3-inn"]
 
 with open(log_filename, "w") as log_file:
 
