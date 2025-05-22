@@ -6,8 +6,6 @@
 // Replacement policy is LRU (8bit)        //
 
 
-`default_nettype none
-
   module cache(clk,
                rst,
                i_p_addr,
