@@ -1,6 +1,6 @@
 set_elaborate_single_run_mode off
 
-analyze -sva verilog/rocket_clean.sv
+analyze -sva verilog/rocket_clean.sv +define+ASSUME_ON=1
 
 elaborate -top top
 
