@@ -34,7 +34,7 @@
                cnt_wb_w,
                hit);
 
-    parameter cache_entry = 14;
+    parameter cache_entry = 1;
     input wire         clk, rst;
     input wire [24:0]  i_p_addr;
     input wire [3:0]   i_p_byte_en;

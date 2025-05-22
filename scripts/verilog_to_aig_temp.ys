@@ -1,0 +1,12 @@
+read_verilog -sv -formal output/sodor5_miter_clean_abc_shortcut_exp/shortcut.sv
+chformal -lower
+prep -top top
+flatten
+memory -nordff
+setundef -undriven -init -zero
+delete -output
+techmap
+async2sync
+dffunmap
+abc -fast -g AND
+write_aiger -zinit -map output/sodor5_miter_clean_abc_shortcut_exp/shortcut.map output/sodor5_miter_clean_abc_shortcut_exp/shortcut.aig 
