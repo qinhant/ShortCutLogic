@@ -19,7 +19,7 @@ usage() {
   echo "  -d   Use iterative predicate replacement"
   echo "  -c   Silence all predicates at the beginning and incrementally release them"
   echo "  -q   Keep processing past first error"
-  echo "  -n   Use existing shortcut.sv and flatten.sv"
+  echo "  -n   Use existing aig, relation and map files"
   echo "  -u   Disable all input assumptions and let the input be unconstrained"
   echo "  -k   Run shortcut_signals.py with semantic enforce option"
   echo "  -g   Run rIC3"
@@ -40,7 +40,7 @@ implication=false
 symmetry=false
 predicate=false
 iterative=false
-old=false
+reuse=false
 suffix=""
 unconstrained=""
 incremental=false
@@ -64,7 +64,7 @@ while getopts "faswerimpdcqnubgklO:" opt; do
     p) predicate=true ;;
     d) iterative=true ;;
     c) incremental=true ;;
-    n) old=true ;;
+    n) reuse=true ;;
     u) unconstrained="--no_assumption" ;;
     g) rIC3=true ;;
     l) rIC3inn=true ;;
@@ -108,7 +108,7 @@ file="${design}"
 # Step 1: Flatten the Verilog netlist
 if $flatten; then
   echo "Flattening the netlist for ${design}..."
-  if  ! $old; then
+  if  ! $reuse; then
     python3 scripts/transform_verilog.py \
       --input "verilog/${file}.sv" \
       --output "${output_dir}/flatten.sv" \
@@ -135,7 +135,7 @@ if $shortcut || $implication; then
   if $senmantic_enforce; then
     option="${option}k"
   fi
-  if  ! $old; then
+  if  ! $reuse; then
     python3 scripts/shortcut_signals.py \
       --input "${output_dir}/${file}.sv" \
       --output "${output_dir}/shortcut.sv" \
@@ -182,7 +182,7 @@ if $rIC3inn; then
   version="shortcut_inn"
 fi  
 
-if [[ "${design}" == "SE_leakymul_miter" || "${design}" == "smallboom_miter_clean" ]]; then
+if $reuse; then
   echo "Copying existing files for ${design}..."
 
   cp -f "output/file_reused/${design}/${version}.aig" "${output_dir}/${file}.aig"

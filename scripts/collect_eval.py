@@ -73,12 +73,12 @@ def log_eval(
 
 
 examples = {
-    "multiplier": "multiplier_miter",
-    "sodor": "sodor5_miter_clean",
-    "rocket": "rocket_clean",
-    "divider" : "divider_miter",
-    "modexp" : "rsa_modexp_miter",
-    "secenclave": "SE_leakymul_miter",
+    # "multiplier": "multiplier_miter",
+    # "sodor": "sodor5_miter_clean",
+    # "rocket": "rocket_clean",
+    # "divider" : "divider_miter",
+    # "modexp" : "rsa_modexp_miter",
+    # "secenclave": "SE_leakymul_miter",
     "cache": "cache_miter"
 }
 
@@ -87,17 +87,17 @@ sanity_check_flags = "u"
 
 technique_flags = {
     "abc_orig": "ri",
-    "abc_shortcut": "ris",
+    "abc_shortcut": "risk",
     "sc": "rim",
-    "ept": "risp",
-    "epi": "rispd",
+    "ept": "rispk",
+    "epi": "rispdk",
     # "ps": "rispc",
-    "sc_ept": "rimsp",
-    "sc_epi": "rimspd",
+    "sc_ept": "rimspk",
+    "sc_epi": "rimspdk",
     # "sc_ps": "rimspc",
     "ric3_orig": "g",
-    "ric3_shortcut": "sg",
-    "ric3-inn": "slw"
+    "ric3_shortcut": "sgk",
+    "ric3-inn": "slwk"
 }
 
 eval_order = ["abc_shortcut", "sc", "ept", "epi", "sc_ept", "sc_epi", "abc_orig", "ric3-inn",  "ric3_orig"]
