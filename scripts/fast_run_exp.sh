@@ -22,6 +22,7 @@ usage() {
   echo "  -n   Use existing aig, relation and map files"
   echo "  -u   Disable all input assumptions and let the input be unconstrained"
   echo "  -k   Run shortcut_signals.py with semantic enforce option"
+  echo "  -v   Verbose output"
   echo "  -g   Run rIC3"
   echo "  -l   Run rIC3 with ic3-inn"
   echo "  -O suffix  Specify a suffix for the output directory"
@@ -47,11 +48,12 @@ incremental=false
 senmantic_enforce=false
 rIC3=false
 rIC3inn=false
+verbose=false
 
 set -e
 
 # Parse command-line options
-while getopts "faswerimpdcqnubgklO:" opt; do
+while getopts "faswerimpdcqnubgklvO:" opt; do
   case $opt in
     f) flatten=true ;;
     a) aig=true ;;
@@ -66,6 +68,7 @@ while getopts "faswerimpdcqnubgklO:" opt; do
     c) incremental=true ;;
     n) reuse=true ;;
     u) unconstrained="--no_assumption" ;;
+    v) verbose=true ;;
     g) rIC3=true ;;
     l) rIC3inn=true ;;
     k) senmantic_enforce=true ;;
@@ -146,7 +149,7 @@ if $shortcut || $implication; then
 fi
 
 # Step 3: Transform the Verilog to AIGER format
-if $aig; then
+if $aig && ! $reuse; then
   echo "Transforming Verilog to AIGER format for ${design}..."
   python3 scripts/transform_verilog.py \
     --input "${output_dir}/${file}.sv" \
@@ -157,7 +160,10 @@ fi
 
 pdr_commands="read ${output_dir}/${file}.aig;
     fold;
-    pdr -v -w -d -I ${output_dir}/${file}.pla -R ${output_dir}/${file}.relation"
+    pdr -v -d -T 3600 -I ${output_dir}/${file}.pla -R ${output_dir}/${file}.relation"
+if $verbose; then
+  pdr_commands="${pdr_commands} -w"
+fi
 if $symmetry; then
   pdr_commands="${pdr_commands} -s"
 fi
@@ -198,14 +204,18 @@ if $pdr; then
   abc_exp -c "${pdr_commands}" > "${output_dir}/pdr_${file}.log"
 fi
 
+verbose_level=1
+if $verbose; then
+verbose_level=10
+fi
 # Step 4: Run rIC3 or rIC3-inn
 if $rIC3; then
   echo "Running rIC3 for ${design}..."
-  rIC3 "${output_dir}/${file}.aig" --engine ic3 -v 10  > "${output_dir}/ric3_${file}.log"
+  rIC3 "${output_dir}/${file}.aig" --engine ic3 -v $verbose_level  > "${output_dir}/ric3_${file}.log"
 fi
 if $rIC3inn; then
   echo "Running rIC3 for ${design}..."
-  rIC3 "${output_dir}/${file}.aig" --engine ic3 --ic3-inn -v 10  > "${output_dir}/ric3_${file}.log"
+  rIC3 "${output_dir}/${file}.aig" --engine ic3 --ic3-inn -v $verbose_level  > "${output_dir}/ric3_${file}.log"
 fi
 
 # Step 5: Interpret the PDR log

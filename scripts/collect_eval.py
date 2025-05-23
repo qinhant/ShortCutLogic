@@ -100,8 +100,8 @@ technique_flags = {
     "ric3-inn": "slwk"
 }
 
-eval_order = ["abc_shortcut", "sc", "ept", "epi", "sc_ept", "sc_epi", "abc_orig", "ric3-inn",  "ric3_orig"]
-# eval_order = ["abc_shortcut", "epi", "sc_ept", "sc_epi"]
+# eval_order = ["abc_shortcut", "sc", "ept", "epi", "sc_ept", "sc_epi", "abc_orig", "ric3-inn",  "ric3_orig"]
+eval_order = [ "ept", "epi", "sc_ept", "sc_epi", "ric3-inn"]
 # eval_order = ["ric3_orig", "ric3_shortcut", "ric3-inn"]
 
 with open(log_filename, "w") as log_file:
