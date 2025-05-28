@@ -186,6 +186,7 @@ def add_shortcut_signals(filein, fileout, *, cfg: ShortcutSignalsConfig):
 
         # set inequality registers and collect semantic information
         sematics = []
+        print(reg_assigns.keys())
         for id, r in orig_regs.items():
             # print(id, r)
             for rc in copy_regs[id]:
