@@ -10,6 +10,7 @@ RegId = str
 WireId = str
 CopyId = str
 
+
 @dataclass
 class RegCopy:
     id: RegId
@@ -37,6 +38,7 @@ class ShortcutSignalsConfig:
     prepend_shortcut_regs: bool = False
     wire_only: bool = False
     predicate_only: bool = False
+    enable_eqinit: bool = False
 
 
 @dataclass
@@ -46,7 +48,144 @@ class ImplicationSignalsConfig:
     original: CopyId
 
 
-def add_shortcut_signals(filein, fileout, *, cfg: ShortcutSignalsConfig):
+def add_eqinit_predicate(filein, fileout, *, cfg: ShortcutSignalsConfig):
+
+    commentp = re.compile(r"\(\*.*\*\)")
+    comments = re.compile(r"/\*.*\*/")
+    comment = re.compile(rf"({commentp.pattern}|{comments.pattern})")
+    skip = re.compile(rf"(\s|{comment.pattern})*")
+    skipline = re.compile(rf"^{skip.pattern}$")
+
+    decl = re.compile(r"\s*(module|wire|reg|input|output|inout).*")
+    decl_reg = re.compile(r"\s*reg .*")
+
+    assign = re.compile(
+        r"(?P<lhs>\s*(assign )?(?P<var>[\w\.\\]+)\s*(\[[0-9:\s]*\])?\s*(=|<=))"
+        rf"\s*(?P<rhs>.+);(?P<comments>{skip.pattern})"
+    )
+    endmodule = re.compile(r"\s*endmodule")
+
+    with open(filein, "r") as fin, open(fileout, "w") as fout:
+        fout.write("/* Added shortcut signals via shortcut_signals.py */\n")
+        lines = iter(fin)
+
+        neqinit_regs: dict[RegId, RegCopy] = {}
+        # copy_regs: dict[RegId, list[RegCopy]] = defaultdict(list)
+
+        module_started = False
+        for l in lines:
+
+            if match := decl.match(l):
+                assert match.group(1) == "module", "module declaration must be first"
+                module_started = True
+                if cfg.predicate_only:
+                    l = l.replace("(", "(dummy_z, ")
+
+            fout.write(l)
+
+            if module_started and ";" in l:
+                break
+
+        # track registers and wires when options on
+        decls = []
+        for l in lines:
+            if skipline.match(l):
+                decls.append(l)
+                continue
+
+            if not decl.match(l):
+                lines = itertools.chain([l], lines)
+                break
+
+            if decl_reg.match(l) and (reg := cfg.parse_sct_reg(l)):
+                if len(reg.width) > 0:
+                    temp_name = reg.full_name.replace('\\', '')
+                    neqinit_regs[reg.full_name] = f"{cfg.shortcut_prefix}neqinit.{temp_name}"
+
+            # fout.write(l)
+            decls.append(l)
+
+        # create shortcuts
+        neq_registers: dict[str, str] = {}  # copy name -> neq register
+        shortcuts: dict[str, str] = {}  # copy name -> shortcut
+        shortcut_decls = []
+        shortcut_assigns = []
+        sematics = []
+        for id, signal in neqinit_regs.items():
+            if cfg.wire_only:
+                signal_wire = f"{signal}_wire"
+                shortcut_decls.append(f"  wire {signal_wire} ;\n")
+                shortcut_assigns.append(
+                        f"  assign {signal_wire} = !{cfg.assume_violate_sig} && {id} != 0 ;\n"
+                    )
+                neq_registers[id] = signal_wire
+            else:
+                signal_wire = signal
+                neq_registers[id] = signal
+                shortcut_decls.append(f"  reg {signal} = 0 ;\n")
+                
+        if cfg.prepend_shortcut_regs:
+            decls = shortcut_decls + decls + shortcut_assigns
+        else:
+            decls = decls + shortcut_decls + shortcut_assigns
+        fout.write("".join(decls))
+
+        # track assignments for setting inequality signals
+        reg_assigns: dict[str, str] = {}
+        for l in lines:
+            # if cfg.predicate_only and l.find("assert(") >= 0:
+            #     l = re.sub(r"assert\s*\(", "assert (semantics_enforce&&", l)
+            if endmodule.match(l):
+                lines = itertools.chain([l], lines)
+                break
+            if match := assign.match(l):
+                lhs = match.group("lhs")
+                var = match.group("var")
+                rhs = " " + match.group("rhs") + " "
+                comments = match.group("comments")
+                for copy, shortcut in shortcuts.items():
+                    updated = rhs.replace(f" {copy} ", f" {shortcut} ")
+                    if rhs != updated:
+                        rhs = updated
+                        # print(f"replaced {copy} => {shortcut} in {rhs}")
+                if "<=" in lhs:  # var is a register
+                    assert (
+                        var not in reg_assigns
+                    ), f"not implemented: handle repeated register assignment (of {var})"
+                    reg_assigns[var] = rhs
+                    l = f"{lhs} {rhs} ;{comments}"
+            fout.write(l)
+
+        # set inequality registers and collect semantic information
+        sematics = []
+        for id, r in neqinit_regs.items():
+            # print(id, r)
+            orig_assign = reg_assigns[id]
+            neq_signal = neq_registers[id]
+            # FIXME, track each copy's clock
+            # if not cfg.predicate_only:
+            if not cfg.wire_only:
+                fout.write(
+                    textwrap.indent(
+                        textwrap.dedent(f"""
+                            always @(posedge in_clk) begin
+                                {neq_signal} <= !{cfg.assume_violate_sig} && {orig_assign} != 0 ;
+                            end
+                        """).removeprefix("\n"),
+                        "  ",
+                    )
+                )
+            sematics.append(f"( {neq_signal} || {id} == 0 )")
+
+        if cfg.predicate_only:
+            fout.write("wire semantics_enforce_z;\n")
+            fout.write(f"assign semantics_enforce_z = {' && '.join(sematics)} ;\n")
+            fout.write("output dummy_z;\n")
+            fout.write("assign dummy_z = semantics_enforce_z ;\n")
+        for l in lines:
+            fout.write(l)
+
+def add_equiv_predicate(filein, fileout, *, cfg: ShortcutSignalsConfig):
 
     commentp = re.compile(r"\(\*.*\*\)")
     comments = re.compile(r"/\*.*\*/")
@@ -166,27 +305,16 @@ def add_shortcut_signals(filein, fileout, *, cfg: ShortcutSignalsConfig):
                     updated = rhs.replace(f" {copy} ", f" {shortcut} ")
                     if rhs != updated:
                         rhs = updated
-                        # print(f"replaced {copy} => {shortcut} in {rhs}")
                 if "<=" in lhs:  # var is a register
                     assert (
                         var not in reg_assigns
                     ), f"not implemented: handle repeated register assignment (of {var})"
                     reg_assigns[var] = rhs
-                    # if cfg.predicate_only:
-                    #     # print(var)
-                    #     id = var[var.find('.')+1: ]
-                    #     if id in orig_regs.keys():
-                    #         r = orig_regs[id]
-                    #         rc = copy_regs[id]
-                    #         # print(r.full_name, rc[0].full_name)
-                    #         neq_signal = neq_registers[rc[0].full_name]
-                    #     rhs = f"!( {neq_signal} || {r.full_name} == {rc[0].full_name} ) ? {var} : {rhs}"
-                l = f"{lhs} {rhs} ;{comments}"
+                    l = f"{lhs} {rhs} ;{comments}"
             fout.write(l)
 
         # set inequality registers and collect semantic information
         sematics = []
-        print(reg_assigns.keys())
         for id, r in orig_regs.items():
             # print(id, r)
             for rc in copy_regs[id]:
@@ -214,20 +342,6 @@ def add_shortcut_signals(filein, fileout, *, cfg: ShortcutSignalsConfig):
             fout.write(f"assign semantics_enforce = {' && '.join(sematics)} ;\n")
             fout.write("output dummy_o;\n")
             fout.write("assign dummy_o = semantics_enforce ;\n")
-            # fout.write("wire semantics_enforce_violate_in;\n")
-            # fout.write(f"assign semantics_enforce_violate_in = semantics_enforce_violate || {' && '.join(sematics)} ;\n")
-            # fout.write("reg semantics_enforce_violate;\n")
-            # fout.write(
-            #             textwrap.indent(
-            #                 textwrap.dedent(f"""
-            #                     always @(posedge in_clk) begin
-            #                         semantics_enforce_violate <= semantics_enforce_violate_in ;
-            #                     end
-            #                 """).removeprefix("\n"),
-            #                 "  ",
-            #             )
-            #         )
-            # fout.write(f"assign semantics_enforce = {' && '.join(sematics)} ;\n")
         for l in lines:
             fout.write(l)
 
@@ -496,6 +610,15 @@ if __name__ == "__main__":
         help="add expressions to the property to enforce the semantics of predicate variables, do not use shortcut logic"
     )
 
+    parse.add_argument(
+        "-z",
+        "--enable_eqinit",
+        dest="enable_eqinit",
+        action="store_true",
+        default=False,
+        help="enable eqinit predicate for every register that has more than 1 bit"
+    )
+
     args = parse.parse_args()
     if not args.input_path.endswith(".v") and not args.input_path.endswith(".sv"):
         print("Invalid input file, must be a .v or .sv file")
@@ -550,13 +673,13 @@ if __name__ == "__main__":
         except KeyError:
             return None
 
-    assert args.enable_shortcut or args.enable_implication
+    assert args.enable_shortcut or args.enable_implication or args.enable_eqinit
 
     # FIXME ugly fix for handling multiple modification of one file
     if args.enable_implication:
         cfg = ImplicationSignalsConfig(parse_wire=parse_wire, original=args.prefix1)
         temp_path = args.output_path
-        if args.enable_shortcut:
+        if args.enable_shortcut or args.enable_eqinit:
             temp_path = "temp.sv"
         add_implication_signals(args.input_path, temp_path, cfg=cfg)
 
@@ -567,12 +690,31 @@ if __name__ == "__main__":
             shortcut_prefix=str(args.prefix_sc),
             assume_violate_sig=args.assume_violate_sig,
             wire_only=args.wire_only,
-            predicate_only=args.predicate_only
+            predicate_only=args.predicate_only,
+            enable_eqinit=args.enable_eqinit
         )
         temp_path = args.input_path
         if args.enable_implication:
             temp_path = "temp.sv"
-        add_shortcut_signals(temp_path, args.output_path, cfg=cfg)
+        if args.enable_eqinit:
+            add_equiv_predicate(temp_path, "temp.sv", cfg=cfg)
+        else:
+            add_equiv_predicate(temp_path, args.output_path, cfg=cfg)
+    
+    if args.enable_eqinit:
+        cfg = ShortcutSignalsConfig(
+            parse_sct_reg=parse_sct_reg,
+            original=args.prefix1,
+            shortcut_prefix=str(args.prefix_sc),
+            assume_violate_sig=args.assume_violate_sig,
+            wire_only=args.wire_only,
+            predicate_only=args.predicate_only,
+            enable_eqinit=args.enable_eqinit
+        )
+        temp_path = args.input_path
+        if args.enable_implication or args.enable_shortcut:
+            temp_path = "temp.sv"
+        add_eqinit_predicate(temp_path, args.output_path, cfg=cfg)
 
     if temp_path == "temp.sv":
         import os

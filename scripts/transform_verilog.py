@@ -83,7 +83,8 @@ def verilog_to_aig(input_path, output_path, top):
     latch_to_var : dict[int, Latch] = dict()
     var_to_latch : dict[(str, int), Latch] = dict()
     latch_symmetry : dict[int, int] = dict()
-    latch_to_predicate : dict[int, int] = dict()
+    latch_to_equiv_predicate : dict[int, int] = dict()
+    latch_to_eqinit_predicate : dict[int, int] = dict()
     all_latch : set[int] = set()
     
     for l in latches:
@@ -107,54 +108,36 @@ def verilog_to_aig(input_path, output_path, top):
             symmetric_name = symmetric_prefix + match.group("name")
             latch_symmetry[l.id] = var_to_latch[(symmetric_name, l.bit_index)].id
             
-            predicate_name = f"shortcut.neq_{match.group('name')}_copy2"
+            equiv_predicate_name = f"shortcut.neq_{match.group('name')}_copy2"
             try:
-                latch_to_predicate[l.id] = var_to_latch[(predicate_name, 0)].id
+                latch_to_equiv_predicate[l.id] = var_to_latch[(equiv_predicate_name, 0)].id
             except KeyError:
-                latch_to_predicate[l.id] = -1
+                latch_to_equiv_predicate[l.id] = -1
+            
+            eqinit_predicate_name = f"shortcut.neqinit.{l.signal_name}"
+            try:
+                latch_to_eqinit_predicate[l.id] = var_to_latch[(eqinit_predicate_name, 0)].id
+            except KeyError:
+                latch_to_eqinit_predicate[l.id] = -1
+        elif l.signal_name.startswith("shortcut.neqinit"):
+            symmetric_name = (
+                l.signal_name.replace("copy1.", "copy2.") if l.signal_name.find("copy1.") >= 0
+                else l.signal_name.replace("copy2.", "copy1.")
+            )
+            latch_symmetry[l.id] = var_to_latch[(symmetric_name, l.bit_index)].id
 
 
-    # for line in content:
-    #     if line.startswith("latch"):
-    #         latch_num = int(line.split(" ")[1])
-    #         var_name = line.split(" ")[3] + "[" + line.split(" ")[2] + "]"
-    #         var_name_word = line.split(" ")[3]
-    #         if var_name.startswith("copy1"):
-    #             var_symmetry = "copy2" + var_name[5:]
-    #             predicate_var = "shortcut.neq_" + var_name_word[6:] + "_copy2[0]"
-    #             if (
-    #                 predicate_var not in var_to_latch.keys()
-    #                 # or var_symmetry not in var_to_latch.keys()
-    #             ):
-    #                 predicate_latch = -1
-    #             else:
-    #                 predicate_latch = var_to_latch[predicate_var]
-    #         elif var_name.startswith("copy2"):
-    #             var_symmetry = "copy1" + var_name[5:]
-    #             predicate_var = "shortcut.neq_" + var_name_word[6:] + "_copy2[0]"
-    #             if (
-    #                 predicate_var not in var_to_latch.keys()
-    #                 # or var_symmetry not in var_to_latch.keys()
-    #             ):
-    #                 predicate_latch = -1
-    #             else:
-    #                 predicate_latch = var_to_latch[predicate_var]
-    #         # special case for other variables
-    #         else:
-    #             predicate_latch = -1
-    #             var_symmetry = var_name
-    #         latch_symmetry[latch_num] = var_to_latch[var_symmetry]
-    #         latch_to_predicate[latch_num] = predicate_latch
 
     with open(map_path.replace(".map", ".relation"), "w") as file:
         file.write("latch symmetry predicate var_name symmetry_name\n")
         for latch in sorted(list(all_latch)):
             sym_latch = latch_symmetry.get(latch, latch)
-            neq_pred = latch_to_predicate.get(latch, -1)
+            neq_pred = latch_to_equiv_predicate.get(latch, -1)
+            neqinit_pred = latch_to_eqinit_predicate.get(latch, -1)
             name = latch_to_var[latch].var_name()
             sym_name = latch_to_var[sym_latch].var_name()
             file.write(
-                f"{latch} {sym_latch} {neq_pred} {name} {sym_name} \n"
+                f"{latch} {sym_latch} {neq_pred} {neqinit_pred} {name} {sym_name} \n"
             )
 
 
