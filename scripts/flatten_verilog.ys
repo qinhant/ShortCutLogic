@@ -2,4 +2,5 @@ read_verilog -sv -formal input_path
 chformal -lower
 prep -top top_module
 flatten
+delete -output
 write_verilog output_path

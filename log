@@ -1,4 +1,4 @@
-Flattening the netlist for huffman_miter...
+Flattening the netlist for multiplier_miter...
 
  /----------------------------------------------------------------------------\
  |  yosys -- Yosys Open SYnthesis Suite                                       |
@@ -7,15 +7,13 @@ Flattening the netlist for huffman_miter...
  \----------------------------------------------------------------------------/
  Yosys 0.48+5 (git sha1 7a362f1f7, clang++ 18.1.8 -fPIC -O3)
 
--- Running command `read -define ASSUME_ON=0' --
+-- Running command `read -define ASSUME_ON=1' --
 
 -- Executing script file `scripts/flatten_verilog_temp.ys' --
 
-1. Executing Verilog-2005 frontend: verilog/huffman_miter.sv
-Parsing formal SystemVerilog input from `verilog/huffman_miter.sv' to AST representation.
-Warning: Yosys has only limited support for tri-state logic at the moment. (verilog/huffman_miter.sv:585)
-Generating RTLIL representation for module `\HuffmanDecoder'.
-Generating RTLIL representation for module `\lookUpTable'.
+1. Executing Verilog-2005 frontend: verilog/multiplier_miter.sv
+Parsing formal SystemVerilog input from `verilog/multiplier_miter.sv' to AST representation.
+Generating RTLIL representation for module `\MUL'.
 Generating RTLIL representation for module `\top'.
 Successfully finished Verilog frontend.
 
@@ -25,17 +23,15 @@ Successfully finished Verilog frontend.
 
 2.1.1. Analyzing design hierarchy..
 Top module:  \top
-Used module:     \HuffmanDecoder
-Used module:         \lookUpTable
+Used module:     \MUL
 
 2.1.2. Analyzing design hierarchy..
 Top module:  \top
-Used module:     \HuffmanDecoder
-Used module:         \lookUpTable
+Used module:     \MUL
 Removed 0 unused modules.
 Module top directly or indirectly contains formal properties -> setting "keep" attribute.
-Warning: Resizing cell port top.copy2.ready from 1 bits to 4 bits.
-Warning: Resizing cell port top.copy1.ready from 1 bits to 4 bits.
+Warning: Resizing cell port top.copy2.o from 17 bits to 32 bits.
+Warning: Resizing cell port top.copy1.o from 17 bits to 32 bits.
 
 2.2. Executing PROC pass (convert processes to netlists).
 
@@ -43,158 +39,94 @@ Warning: Resizing cell port top.copy1.ready from 1 bits to 4 bits.
 Cleaned up 0 empty switches.
 
 2.2.2. Executing PROC_RMDEAD pass (remove dead branches from decision trees).
-Removed 1 dead cases from process $proc$verilog/huffman_miter.sv:481$28 in module lookUpTable.
-Marked 2 switch rules as full_case in process $proc$verilog/huffman_miter.sv:481$28 in module lookUpTable.
-Removed 12 dead cases from process $proc$verilog/huffman_miter.sv:72$1 in module HuffmanDecoder.
-Marked 4 switch rules as full_case in process $proc$verilog/huffman_miter.sv:72$1 in module HuffmanDecoder.
-Removed a total of 13 dead cases.
+Removed a total of 0 dead cases.
 
 2.2.3. Executing PROC_PRUNE pass (remove redundant assignments in processes).
-Removed 2 redundant assignments.
-Promoted 2 assignments to connections.
+Removed 0 redundant assignments.
+Promoted 13 assignments to connections.
 
 2.2.4. Executing PROC_INIT pass (extract init attributes).
+Found init rule in `\MUL.$proc$verilog/multiplier_miter.sv:0$26'.
+  Set init value: \a_reg = 16'0000000000000000
+  Set init value: \b_reg = 16'0000000000000000
+  Set init value: \o_reg = 0
+  Set init value: \busy = 1'0
+  Set init value: \finish = 1'0
+  Set init value: \counter = 5'00000
 
 2.2.5. Executing PROC_ARST pass (detect async resets in processes).
 
 2.2.6. Executing PROC_ROM pass (convert switches to ROMs).
-Converted 1 switch.
-<suppressed ~5 debug messages>
+Converted 0 switches.
 
 2.2.7. Executing PROC_MUX pass (convert decision trees to multiplexers).
-Creating decoders for process `\top.$proc$verilog/huffman_miter.sv:620$32'.
-Creating decoders for process `\lookUpTable.$proc$verilog/huffman_miter.sv:481$28'.
-     1/2: $2\decodedData[4:0]
-     2/2: $1\decodedData[4:0]
-Creating decoders for process `\HuffmanDecoder.$proc$verilog/huffman_miter.sv:72$1'.
-     1/7: $0\ready[3:0]
-     2/7: $0\state[0:0]
-     3/7: $0\lower_reg[9:0]
-     4/7: $0\upper_reg[9:0]
-     5/7: $0\symbol[4:0]
-     6/7: $0\enable[0:0]
-     7/7: $0\symbolLength[3:0]
+Creating decoders for process `\top.$proc$verilog/multiplier_miter.sv:100$35'.
+Creating decoders for process `\MUL.$proc$verilog/multiplier_miter.sv:0$26'.
+Creating decoders for process `\MUL.$proc$verilog/multiplier_miter.sv:36$25'.
 
 2.2.8. Executing PROC_DLATCH pass (convert process syncs to latches).
-No latch inferred for signal `\lookUpTable.\decodedData' from process `\lookUpTable.$proc$verilog/huffman_miter.sv:481$28'.
 
 2.2.9. Executing PROC_DFF pass (convert process syncs to FFs).
-Creating register for signal `\top.\assume_1_violate' using process `\top.$proc$verilog/huffman_miter.sv:620$32'.
-  created $dff cell `$procdff$101' with positive edge clock.
-Creating register for signal `\HuffmanDecoder.\symbolLength' using process `\HuffmanDecoder.$proc$verilog/huffman_miter.sv:72$1'.
-  created $dff cell `$procdff$102' with positive edge clock.
-Creating register for signal `\HuffmanDecoder.\ready' using process `\HuffmanDecoder.$proc$verilog/huffman_miter.sv:72$1'.
-  created $dff cell `$procdff$103' with positive edge clock.
-Creating register for signal `\HuffmanDecoder.\state' using process `\HuffmanDecoder.$proc$verilog/huffman_miter.sv:72$1'.
-  created $dff cell `$procdff$104' with positive edge clock.
-Creating register for signal `\HuffmanDecoder.\enable' using process `\HuffmanDecoder.$proc$verilog/huffman_miter.sv:72$1'.
-  created $dff cell `$procdff$105' with positive edge clock.
-Creating register for signal `\HuffmanDecoder.\symbol' using process `\HuffmanDecoder.$proc$verilog/huffman_miter.sv:72$1'.
-  created $dff cell `$procdff$106' with positive edge clock.
-Creating register for signal `\HuffmanDecoder.\upper_reg' using process `\HuffmanDecoder.$proc$verilog/huffman_miter.sv:72$1'.
-  created $dff cell `$procdff$107' with positive edge clock.
-Creating register for signal `\HuffmanDecoder.\lower_reg' using process `\HuffmanDecoder.$proc$verilog/huffman_miter.sv:72$1'.
-  created $dff cell `$procdff$108' with positive edge clock.
+Creating register for signal `\top.\assume_1_violate' using process `\top.$proc$verilog/multiplier_miter.sv:100$35'.
+  created $dff cell `$procdff$46' with positive edge clock.
+Creating register for signal `\MUL.\a_reg' using process `\MUL.$proc$verilog/multiplier_miter.sv:36$25'.
+  created $dff cell `$procdff$47' with positive edge clock.
+Creating register for signal `\MUL.\b_reg' using process `\MUL.$proc$verilog/multiplier_miter.sv:36$25'.
+  created $dff cell `$procdff$48' with positive edge clock.
+Creating register for signal `\MUL.\o_reg' using process `\MUL.$proc$verilog/multiplier_miter.sv:36$25'.
+  created $dff cell `$procdff$49' with positive edge clock.
+Creating register for signal `\MUL.\busy' using process `\MUL.$proc$verilog/multiplier_miter.sv:36$25'.
+  created $dff cell `$procdff$50' with positive edge clock.
+Creating register for signal `\MUL.\finish' using process `\MUL.$proc$verilog/multiplier_miter.sv:36$25'.
+  created $dff cell `$procdff$51' with positive edge clock.
+Creating register for signal `\MUL.\counter' using process `\MUL.$proc$verilog/multiplier_miter.sv:36$25'.
+  created $dff cell `$procdff$52' with positive edge clock.
 
 2.2.10. Executing PROC_MEMWR pass (convert process memory writes to cells).
 
 2.2.11. Executing PROC_CLEAN pass (remove empty switches from decision trees).
-Removing empty process `top.$proc$verilog/huffman_miter.sv:620$32'.
-Found and cleaned up 2 empty switches in `\lookUpTable.$proc$verilog/huffman_miter.sv:481$28'.
-Removing empty process `lookUpTable.$proc$verilog/huffman_miter.sv:481$28'.
-Found and cleaned up 4 empty switches in `\HuffmanDecoder.$proc$verilog/huffman_miter.sv:72$1'.
-Removing empty process `HuffmanDecoder.$proc$verilog/huffman_miter.sv:72$1'.
-Cleaned up 6 empty switches.
+Removing empty process `top.$proc$verilog/multiplier_miter.sv:100$35'.
+Removing empty process `MUL.$proc$verilog/multiplier_miter.sv:0$26'.
+Removing empty process `MUL.$proc$verilog/multiplier_miter.sv:36$25'.
+Cleaned up 0 empty switches.
 
 2.2.12. Executing OPT_EXPR pass (perform const folding).
 Optimizing module top.
 <suppressed ~2 debug messages>
-Optimizing module lookUpTable.
-Optimizing module HuffmanDecoder.
-<suppressed ~15 debug messages>
+Optimizing module MUL.
+<suppressed ~5 debug messages>
 
 2.3. Executing FUTURE pass.
 
 2.4. Executing OPT_EXPR pass (perform const folding).
 Optimizing module top.
-Optimizing module lookUpTable.
-Optimizing module HuffmanDecoder.
+Optimizing module MUL.
 
 2.5. Executing OPT_CLEAN pass (remove unused cells and wires).
 Finding unused cells or wires in module \top..
-Finding unused cells or wires in module \lookUpTable..
-Finding unused cells or wires in module \HuffmanDecoder..
-Removed 38 unused cells and 74 unused wires.
-<suppressed ~45 debug messages>
+Finding unused cells or wires in module \MUL..
+Removed 3 unused cells and 28 unused wires.
+<suppressed ~5 debug messages>
 
 2.6. Executing CHECK pass (checking for obvious problems).
-Checking module HuffmanDecoder...
-Checking module lookUpTable...
+Checking module MUL...
 Checking module top...
 Found and reported 0 problems.
 
 2.7. Executing OPT pass (performing simple optimizations).
 
 2.7.1. Executing OPT_EXPR pass (perform const folding).
-Optimizing module HuffmanDecoder.
-Optimizing module lookUpTable.
+Optimizing module MUL.
 Optimizing module top.
 
 2.7.2. Executing OPT_MERGE pass (detect identical cells).
-Finding identical cells in module `\HuffmanDecoder'.
-<suppressed ~3 debug messages>
-Finding identical cells in module `\lookUpTable'.
+Finding identical cells in module `\MUL'.
+<suppressed ~12 debug messages>
 Finding identical cells in module `\top'.
-Removed a total of 1 cells.
+Removed a total of 4 cells.
 
 2.7.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
-Running muxtree optimizer on module \HuffmanDecoder..
-  Creating internal representation of mux trees.
-  Evaluating internal representation of mux trees.
-  Analyzing evaluation results.
-Running muxtree optimizer on module \lookUpTable..
-  Creating internal representation of mux trees.
-  Evaluating internal representation of mux trees.
-  Analyzing evaluation results.
-    dead port 2/2 on $mux $procmux$49.
-Running muxtree optimizer on module \top..
-  Creating internal representation of mux trees.
-  No muxes found in this module.
-Removed 1 multiplexer ports.
-<suppressed ~6 debug messages>
-
-2.7.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
-  Optimizing cells in module \HuffmanDecoder.
-  Optimizing cells in module \lookUpTable.
-  Optimizing cells in module \top.
-Performed a total of 0 changes.
-
-2.7.5. Executing OPT_MERGE pass (detect identical cells).
-Finding identical cells in module `\HuffmanDecoder'.
-Finding identical cells in module `\lookUpTable'.
-Finding identical cells in module `\top'.
-Removed a total of 0 cells.
-
-2.7.6. Executing OPT_CLEAN pass (remove unused cells and wires).
-Finding unused cells or wires in module \HuffmanDecoder..
-Finding unused cells or wires in module \lookUpTable..
-Finding unused cells or wires in module \top..
-Removed 0 unused cells and 2 unused wires.
-<suppressed ~2 debug messages>
-
-2.7.7. Executing OPT_EXPR pass (perform const folding).
-Optimizing module HuffmanDecoder.
-Optimizing module lookUpTable.
-Optimizing module top.
-
-2.7.8. Rerunning OPT passes. (Maybe there is more to do..)
-
-2.7.9. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
-Running muxtree optimizer on module \HuffmanDecoder..
-  Creating internal representation of mux trees.
-  Evaluating internal representation of mux trees.
-  Analyzing evaluation results.
-Running muxtree optimizer on module \lookUpTable..
+Running muxtree optimizer on module \MUL..
   Creating internal representation of mux trees.
   Evaluating internal representation of mux trees.
   Analyzing evaluation results.
@@ -202,147 +134,177 @@ Running muxtree optimizer on module \top..
   Creating internal representation of mux trees.
   No muxes found in this module.
 Removed 0 multiplexer ports.
-<suppressed ~6 debug messages>
+<suppressed ~5 debug messages>
+
+2.7.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \MUL.
+  Optimizing cells in module \top.
+Performed a total of 0 changes.
+
+2.7.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\MUL'.
+Finding identical cells in module `\top'.
+Removed a total of 0 cells.
+
+2.7.6. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \MUL..
+Finding unused cells or wires in module \top..
+Removed 0 unused cells and 4 unused wires.
+<suppressed ~1 debug messages>
+
+2.7.7. Executing OPT_EXPR pass (perform const folding).
+Optimizing module MUL.
+Optimizing module top.
+
+2.7.8. Rerunning OPT passes. (Maybe there is more to do..)
+
+2.7.9. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \MUL..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module \top..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Removed 0 multiplexer ports.
+<suppressed ~5 debug messages>
 
 2.7.10. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
-  Optimizing cells in module \HuffmanDecoder.
-  Optimizing cells in module \lookUpTable.
+  Optimizing cells in module \MUL.
   Optimizing cells in module \top.
 Performed a total of 0 changes.
 
 2.7.11. Executing OPT_MERGE pass (detect identical cells).
-Finding identical cells in module `\HuffmanDecoder'.
-Finding identical cells in module `\lookUpTable'.
+Finding identical cells in module `\MUL'.
 Finding identical cells in module `\top'.
 Removed a total of 0 cells.
 
 2.7.12. Executing OPT_CLEAN pass (remove unused cells and wires).
-Finding unused cells or wires in module \HuffmanDecoder..
-Finding unused cells or wires in module \lookUpTable..
+Finding unused cells or wires in module \MUL..
 Finding unused cells or wires in module \top..
 
 2.7.13. Executing OPT_EXPR pass (perform const folding).
-Optimizing module HuffmanDecoder.
-Optimizing module lookUpTable.
+Optimizing module MUL.
 Optimizing module top.
 
 2.7.14. Finished OPT passes. (There is nothing left to do.)
 
 2.8. Executing WREDUCE pass (reducing word size of cells).
-Removed top 27 address bits (of 32) from memory init port lookUpTable.$auto$mem.cc:328:emit$46 ($auto$proc_rom.cc:155:do_switch$44).
+Removed top 31 bits (of 32) from port B of cell MUL.$add$verilog/multiplier_miter.sv:33$18 ($add).
+Removed top 26 bits (of 32) from port Y of cell MUL.$add$verilog/multiplier_miter.sv:33$18 ($add).
+Removed top 27 bits (of 32) from mux cell MUL.$ternary$verilog/multiplier_miter.sv:33$19 ($mux).
+Removed top 1 bits (of 6) from port Y of cell MUL.$add$verilog/multiplier_miter.sv:33$18 ($add).
+Removed top 27 bits (of 32) from wire MUL.$add$verilog/multiplier_miter.sv:33$18_Y.
 
 2.9. Executing OPT_CLEAN pass (remove unused cells and wires).
-Finding unused cells or wires in module \HuffmanDecoder..
-Finding unused cells or wires in module \lookUpTable..
+Finding unused cells or wires in module \MUL..
 Finding unused cells or wires in module \top..
+Removed 0 unused cells and 2 unused wires.
+<suppressed ~1 debug messages>
 
 2.10. Executing MEMORY_COLLECT pass (generating $mem cells).
 
 2.11. Executing OPT pass (performing simple optimizations).
 
 2.11.1. Executing OPT_EXPR pass (perform const folding).
-Optimizing module HuffmanDecoder.
-Optimizing module lookUpTable.
+Optimizing module MUL.
 Optimizing module top.
 
 2.11.2. Executing OPT_MERGE pass (detect identical cells).
-Finding identical cells in module `\HuffmanDecoder'.
-Finding identical cells in module `\lookUpTable'.
+Finding identical cells in module `\MUL'.
 Finding identical cells in module `\top'.
 Removed a total of 0 cells.
 
 2.11.3. Executing OPT_CLEAN pass (remove unused cells and wires).
-Finding unused cells or wires in module \HuffmanDecoder..
-Finding unused cells or wires in module \lookUpTable..
+Finding unused cells or wires in module \MUL..
 Finding unused cells or wires in module \top..
 
 2.11.4. Finished fast OPT passes.
 
 2.12. Printing statistics.
 
-=== HuffmanDecoder ===
+=== MUL ===
 
-   Number of wires:                 20
-   Number of wire bits:             56
-   Number of public wires:          10
-   Number of public wire bits:      33
-   Number of ports:                  7
-   Number of port bits:             26
+   Number of wires:                 29
+   Number of wire bits:            317
+   Number of public wires:          18
+   Number of public wire bits:     209
+   Number of ports:                  6
+   Number of port bits:             67
    Number of memories:               0
    Number of memory bits:            0
    Number of processes:              0
-   Number of cells:                 16
-     $dff                            5
-     $mux                            7
-     $not                            1
-     $pmux                           2
-     lookUpTable                     1
-
-=== lookUpTable ===
-
-   Number of wires:                  4
-   Number of wire bits:             16
-   Number of public wires:           3
-   Number of public wire bits:      11
-   Number of ports:                  3
-   Number of port bits:             11
-   Number of memories:               0
-   Number of memory bits:            0
-   Number of processes:              0
-   Number of cells:                  2
-     $mem_v2                         1
-     $mux                            1
+   Number of cells:                 23
+     $add                            2
+     $dff                            6
+     $logic_and                      3
+     $logic_not                      4
+     $logic_or                       2
+     $mux                            5
+     $shl                            1
 
 === top ===
 
-   Number of wires:                 11
-   Number of wire bits:             33
-   Number of public wires:           8
-   Number of public wire bits:      26
-   Number of ports:                  5
-   Number of port bits:             23
+   Number of wires:                 25
+   Number of wire bits:            130
+   Number of public wires:          18
+   Number of public wire bits:      95
+   Number of ports:                  8
+   Number of port bits:             53
    Number of memories:               0
    Number of memory bits:            0
    Number of processes:              0
-   Number of cells:                  4
+   Number of cells:                 14
      $assert                         1
+     $dff                            1
      $eq                             1
-     HuffmanDecoder                  2
+     $eqx                            2
+     $logic_and                      1
+     $logic_or                       2
+     $ne                             1
+     $not                            1
+     $reduce_and                     1
+     $reduce_bool                    1
+     MUL                             2
 
 === design hierarchy ===
 
    top                               1
-     HuffmanDecoder                  2
-       lookUpTable                   1
+     MUL                             2
 
-   Number of wires:                 59
-   Number of wire bits:            177
-   Number of public wires:          34
-   Number of public wire bits:     114
-   Number of ports:                 25
-   Number of port bits:             97
+   Number of wires:                 83
+   Number of wire bits:            764
+   Number of public wires:          54
+   Number of public wire bits:     513
+   Number of ports:                 20
+   Number of port bits:            187
    Number of memories:               0
    Number of memory bits:            0
    Number of processes:              0
-   Number of cells:                 36
+   Number of cells:                 58
+     $add                            4
      $assert                         1
-     $dff                           10
+     $dff                           13
      $eq                             1
-     $mem_v2                         2
-     $mux                           16
-     $not                            2
-     $pmux                           4
+     $eqx                            2
+     $logic_and                      7
+     $logic_not                      8
+     $logic_or                       6
+     $mux                           10
+     $ne                             1
+     $not                            1
+     $reduce_and                     1
+     $reduce_bool                    1
+     $shl                            2
 
 2.13. Executing CHECK pass (checking for obvious problems).
-Checking module HuffmanDecoder...
-Checking module lookUpTable...
+Checking module MUL...
 Checking module top...
 Found and reported 0 problems.
 
 3. Executing FLATTEN pass (flatten design).
-Deleting now unused module HuffmanDecoder.
-Deleting now unused module lookUpTable.
-<suppressed ~3 debug messages>
+Deleting now unused module MUL.
+<suppressed ~2 debug messages>
 
 4. Executing Verilog backend.
 
@@ -351,12 +313,13 @@ Deleting now unused module lookUpTable.
 4.2. Executing DEMUXMAP pass.
 Dumping module `\top'.
 
-Warnings: 3 unique messages, 3 total
-End of script. Logfile hash: 82d0ce3a4a, CPU: user 0.25s system 0.02s, MEM: 28.12 MB peak
+Warnings: 2 unique messages, 2 total
+End of script. Logfile hash: 9f70622357, CPU: user 0.33s system 0.05s, MEM: 26.55 MB peak
 Yosys 0.48+5 (git sha1 7a362f1f7, clang++ 18.1.8 -fPIC -O3)
-Time spent: 26% 2x read_verilog (0 sec), 13% 5x opt_clean (0 sec), ...
-yosys -D ASSUME_ON=0 -s scripts/flatten_verilog_temp.ys
-Transforming Verilog to AIGER format for huffman_miter...
+Time spent: 36% 2x read_verilog (0 sec), 10% 5x opt_clean (0 sec), ...
+yosys -D ASSUME_ON=1 -s scripts/flatten_verilog_temp.ys
+Adding shortcut signals to multiplier_miter...
+Transforming Verilog to AIGER format for multiplier_miter...
 
  /----------------------------------------------------------------------------\
  |  yosys -- Yosys Open SYnthesis Suite                                       |
@@ -367,445 +330,13 @@ Transforming Verilog to AIGER format for huffman_miter...
 
 -- Executing script file `scripts/verilog_to_aig_temp.ys' --
 
-1. Executing Verilog-2005 frontend: output/huffman_miter_noshort_exp/flatten.sv
-Parsing formal SystemVerilog input from `output/huffman_miter_noshort_exp/flatten.sv' to AST representation.
-Warning: Yosys has only limited support for tri-state logic at the moment. (output/huffman_miter_noshort_exp/flatten.sv:281)
-Warning: Yosys has only limited support for tri-state logic at the moment. (output/huffman_miter_noshort_exp/flatten.sv:339)
-Generating RTLIL representation for module `\top'.
-Successfully finished Verilog frontend.
-
-2. Executing PREP pass.
-
-2.1. Executing HIERARCHY pass (managing design hierarchy).
-
-2.1.1. Analyzing design hierarchy..
-Top module:  \top
-
-2.1.2. Analyzing design hierarchy..
-Top module:  \top
-Removed 0 unused modules.
-Module top directly or indirectly contains formal properties -> setting "keep" attribute.
-
-2.2. Executing PROC pass (convert processes to netlists).
-
-2.2.1. Executing PROC_CLEAN pass (remove empty switches from decision trees).
-Found and cleaned up 1 empty switch in `\top.$proc$output/huffman_miter_noshort_exp/flatten.sv:222$75'.
-Cleaned up 1 empty switch.
-
-2.2.2. Executing PROC_RMDEAD pass (remove dead branches from decision trees).
-Removed a total of 0 dead cases.
-
-2.2.3. Executing PROC_PRUNE pass (remove redundant assignments in processes).
-Removed 1 redundant assignment.
-Promoted 89 assignments to connections.
-
-2.2.4. Executing PROC_INIT pass (extract init attributes).
-
-2.2.5. Executing PROC_ARST pass (detect async resets in processes).
-
-2.2.6. Executing PROC_ROM pass (convert switches to ROMs).
-Converted 0 switches.
-<suppressed ~4 debug messages>
-
-2.2.7. Executing PROC_MUX pass (convert decision trees to multiplexers).
-Creating decoders for process `\top.$proc$output/huffman_miter_noshort_exp/flatten.sv:0$225'.
-Creating decoders for process `\top.$proc$output/huffman_miter_noshort_exp/flatten.sv:0$192'.
-Creating decoders for process `\top.$proc$output/huffman_miter_noshort_exp/flatten.sv:0$122'.
-     1/1: $1\_53_$func$output/huffman_miter_noshort_exp/flatten.sv:333$8.$result[0:0]$127
-Creating decoders for process `\top.$proc$output/huffman_miter_noshort_exp/flatten.sv:0$117'.
-     1/1: $1\_49_$func$output/huffman_miter_noshort_exp/flatten.sv:313$7.$result[3:0]$121
-Creating decoders for process `\top.$proc$output/huffman_miter_noshort_exp/flatten.sv:0$111'.
-     1/1: $1\_36_$func$output/huffman_miter_noshort_exp/flatten.sv:275$6.$result[0:0]$116
-Creating decoders for process `\top.$proc$output/huffman_miter_noshort_exp/flatten.sv:0$106'.
-     1/1: $1\_32_$func$output/huffman_miter_noshort_exp/flatten.sv:255$5.$result[3:0]$110
-Creating decoders for process `\top.$proc$output/huffman_miter_noshort_exp/flatten.sv:295$96'.
-Creating decoders for process `\top.$proc$output/huffman_miter_noshort_exp/flatten.sv:292$95'.
-Creating decoders for process `\top.$proc$output/huffman_miter_noshort_exp/flatten.sv:289$94'.
-Creating decoders for process `\top.$proc$output/huffman_miter_noshort_exp/flatten.sv:286$93'.
-Creating decoders for process `\top.$proc$output/huffman_miter_noshort_exp/flatten.sv:283$92'.
-Creating decoders for process `\top.$proc$output/huffman_miter_noshort_exp/flatten.sv:237$82'.
-Creating decoders for process `\top.$proc$output/huffman_miter_noshort_exp/flatten.sv:234$81'.
-Creating decoders for process `\top.$proc$output/huffman_miter_noshort_exp/flatten.sv:231$80'.
-Creating decoders for process `\top.$proc$output/huffman_miter_noshort_exp/flatten.sv:228$79'.
-Creating decoders for process `\top.$proc$output/huffman_miter_noshort_exp/flatten.sv:225$78'.
-Creating decoders for process `\top.$proc$output/huffman_miter_noshort_exp/flatten.sv:222$75'.
-
-2.2.8. Executing PROC_DLATCH pass (convert process syncs to latches).
-No latch inferred for signal `\top.$memwr$\_59_$output/huffman_miter_noshort_exp/flatten.sv:188$41_EN' from process `\top.$proc$output/huffman_miter_noshort_exp/flatten.sv:0$225'.
-No latch inferred for signal `\top.$memwr$\_59_$output/huffman_miter_noshort_exp/flatten.sv:189$42_EN' from process `\top.$proc$output/huffman_miter_noshort_exp/flatten.sv:0$225'.
-No latch inferred for signal `\top.$memwr$\_59_$output/huffman_miter_noshort_exp/flatten.sv:190$43_EN' from process `\top.$proc$output/huffman_miter_noshort_exp/flatten.sv:0$225'.
-No latch inferred for signal `\top.$memwr$\_59_$output/huffman_miter_noshort_exp/flatten.sv:191$44_EN' from process `\top.$proc$output/huffman_miter_noshort_exp/flatten.sv:0$225'.
-No latch inferred for signal `\top.$memwr$\_59_$output/huffman_miter_noshort_exp/flatten.sv:192$45_EN' from process `\top.$proc$output/huffman_miter_noshort_exp/flatten.sv:0$225'.
-No latch inferred for signal `\top.$memwr$\_59_$output/huffman_miter_noshort_exp/flatten.sv:193$46_EN' from process `\top.$proc$output/huffman_miter_noshort_exp/flatten.sv:0$225'.
-No latch inferred for signal `\top.$memwr$\_59_$output/huffman_miter_noshort_exp/flatten.sv:194$47_EN' from process `\top.$proc$output/huffman_miter_noshort_exp/flatten.sv:0$225'.
-No latch inferred for signal `\top.$memwr$\_59_$output/huffman_miter_noshort_exp/flatten.sv:195$48_EN' from process `\top.$proc$output/huffman_miter_noshort_exp/flatten.sv:0$225'.
-No latch inferred for signal `\top.$memwr$\_59_$output/huffman_miter_noshort_exp/flatten.sv:196$49_EN' from process `\top.$proc$output/huffman_miter_noshort_exp/flatten.sv:0$225'.
-No latch inferred for signal `\top.$memwr$\_59_$output/huffman_miter_noshort_exp/flatten.sv:197$50_EN' from process `\top.$proc$output/huffman_miter_noshort_exp/flatten.sv:0$225'.
-No latch inferred for signal `\top.$memwr$\_59_$output/huffman_miter_noshort_exp/flatten.sv:198$51_EN' from process `\top.$proc$output/huffman_miter_noshort_exp/flatten.sv:0$225'.
-No latch inferred for signal `\top.$memwr$\_59_$output/huffman_miter_noshort_exp/flatten.sv:199$52_EN' from process `\top.$proc$output/huffman_miter_noshort_exp/flatten.sv:0$225'.
-No latch inferred for signal `\top.$memwr$\_59_$output/huffman_miter_noshort_exp/flatten.sv:200$53_EN' from process `\top.$proc$output/huffman_miter_noshort_exp/flatten.sv:0$225'.
-No latch inferred for signal `\top.$memwr$\_59_$output/huffman_miter_noshort_exp/flatten.sv:201$54_EN' from process `\top.$proc$output/huffman_miter_noshort_exp/flatten.sv:0$225'.
-No latch inferred for signal `\top.$memwr$\_59_$output/huffman_miter_noshort_exp/flatten.sv:202$55_EN' from process `\top.$proc$output/huffman_miter_noshort_exp/flatten.sv:0$225'.
-No latch inferred for signal `\top.$memwr$\_59_$output/huffman_miter_noshort_exp/flatten.sv:203$56_EN' from process `\top.$proc$output/huffman_miter_noshort_exp/flatten.sv:0$225'.
-No latch inferred for signal `\top.$memwr$\_59_$output/huffman_miter_noshort_exp/flatten.sv:204$57_EN' from process `\top.$proc$output/huffman_miter_noshort_exp/flatten.sv:0$225'.
-No latch inferred for signal `\top.$memwr$\_59_$output/huffman_miter_noshort_exp/flatten.sv:205$58_EN' from process `\top.$proc$output/huffman_miter_noshort_exp/flatten.sv:0$225'.
-No latch inferred for signal `\top.$memwr$\_59_$output/huffman_miter_noshort_exp/flatten.sv:206$59_EN' from process `\top.$proc$output/huffman_miter_noshort_exp/flatten.sv:0$225'.
-No latch inferred for signal `\top.$memwr$\_59_$output/huffman_miter_noshort_exp/flatten.sv:207$60_EN' from process `\top.$proc$output/huffman_miter_noshort_exp/flatten.sv:0$225'.
-No latch inferred for signal `\top.$memwr$\_59_$output/huffman_miter_noshort_exp/flatten.sv:208$61_EN' from process `\top.$proc$output/huffman_miter_noshort_exp/flatten.sv:0$225'.
-No latch inferred for signal `\top.$memwr$\_59_$output/huffman_miter_noshort_exp/flatten.sv:209$62_EN' from process `\top.$proc$output/huffman_miter_noshort_exp/flatten.sv:0$225'.
-No latch inferred for signal `\top.$memwr$\_59_$output/huffman_miter_noshort_exp/flatten.sv:210$63_EN' from process `\top.$proc$output/huffman_miter_noshort_exp/flatten.sv:0$225'.
-No latch inferred for signal `\top.$memwr$\_59_$output/huffman_miter_noshort_exp/flatten.sv:211$64_EN' from process `\top.$proc$output/huffman_miter_noshort_exp/flatten.sv:0$225'.
-No latch inferred for signal `\top.$memwr$\_59_$output/huffman_miter_noshort_exp/flatten.sv:212$65_EN' from process `\top.$proc$output/huffman_miter_noshort_exp/flatten.sv:0$225'.
-No latch inferred for signal `\top.$memwr$\_59_$output/huffman_miter_noshort_exp/flatten.sv:213$66_EN' from process `\top.$proc$output/huffman_miter_noshort_exp/flatten.sv:0$225'.
-No latch inferred for signal `\top.$memwr$\_59_$output/huffman_miter_noshort_exp/flatten.sv:214$67_EN' from process `\top.$proc$output/huffman_miter_noshort_exp/flatten.sv:0$225'.
-No latch inferred for signal `\top.$memwr$\_59_$output/huffman_miter_noshort_exp/flatten.sv:215$68_EN' from process `\top.$proc$output/huffman_miter_noshort_exp/flatten.sv:0$225'.
-No latch inferred for signal `\top.$memwr$\_59_$output/huffman_miter_noshort_exp/flatten.sv:216$69_EN' from process `\top.$proc$output/huffman_miter_noshort_exp/flatten.sv:0$225'.
-No latch inferred for signal `\top.$memwr$\_59_$output/huffman_miter_noshort_exp/flatten.sv:217$70_EN' from process `\top.$proc$output/huffman_miter_noshort_exp/flatten.sv:0$225'.
-No latch inferred for signal `\top.$memwr$\_59_$output/huffman_miter_noshort_exp/flatten.sv:218$71_EN' from process `\top.$proc$output/huffman_miter_noshort_exp/flatten.sv:0$225'.
-No latch inferred for signal `\top.$memwr$\_59_$output/huffman_miter_noshort_exp/flatten.sv:219$72_EN' from process `\top.$proc$output/huffman_miter_noshort_exp/flatten.sv:0$225'.
-No latch inferred for signal `\top.$memwr$\_42_$output/huffman_miter_noshort_exp/flatten.sv:150$9_EN' from process `\top.$proc$output/huffman_miter_noshort_exp/flatten.sv:0$192'.
-No latch inferred for signal `\top.$memwr$\_42_$output/huffman_miter_noshort_exp/flatten.sv:151$10_EN' from process `\top.$proc$output/huffman_miter_noshort_exp/flatten.sv:0$192'.
-No latch inferred for signal `\top.$memwr$\_42_$output/huffman_miter_noshort_exp/flatten.sv:152$11_EN' from process `\top.$proc$output/huffman_miter_noshort_exp/flatten.sv:0$192'.
-No latch inferred for signal `\top.$memwr$\_42_$output/huffman_miter_noshort_exp/flatten.sv:153$12_EN' from process `\top.$proc$output/huffman_miter_noshort_exp/flatten.sv:0$192'.
-No latch inferred for signal `\top.$memwr$\_42_$output/huffman_miter_noshort_exp/flatten.sv:154$13_EN' from process `\top.$proc$output/huffman_miter_noshort_exp/flatten.sv:0$192'.
-No latch inferred for signal `\top.$memwr$\_42_$output/huffman_miter_noshort_exp/flatten.sv:155$14_EN' from process `\top.$proc$output/huffman_miter_noshort_exp/flatten.sv:0$192'.
-No latch inferred for signal `\top.$memwr$\_42_$output/huffman_miter_noshort_exp/flatten.sv:156$15_EN' from process `\top.$proc$output/huffman_miter_noshort_exp/flatten.sv:0$192'.
-No latch inferred for signal `\top.$memwr$\_42_$output/huffman_miter_noshort_exp/flatten.sv:157$16_EN' from process `\top.$proc$output/huffman_miter_noshort_exp/flatten.sv:0$192'.
-No latch inferred for signal `\top.$memwr$\_42_$output/huffman_miter_noshort_exp/flatten.sv:158$17_EN' from process `\top.$proc$output/huffman_miter_noshort_exp/flatten.sv:0$192'.
-No latch inferred for signal `\top.$memwr$\_42_$output/huffman_miter_noshort_exp/flatten.sv:159$18_EN' from process `\top.$proc$output/huffman_miter_noshort_exp/flatten.sv:0$192'.
-No latch inferred for signal `\top.$memwr$\_42_$output/huffman_miter_noshort_exp/flatten.sv:160$19_EN' from process `\top.$proc$output/huffman_miter_noshort_exp/flatten.sv:0$192'.
-No latch inferred for signal `\top.$memwr$\_42_$output/huffman_miter_noshort_exp/flatten.sv:161$20_EN' from process `\top.$proc$output/huffman_miter_noshort_exp/flatten.sv:0$192'.
-No latch inferred for signal `\top.$memwr$\_42_$output/huffman_miter_noshort_exp/flatten.sv:162$21_EN' from process `\top.$proc$output/huffman_miter_noshort_exp/flatten.sv:0$192'.
-No latch inferred for signal `\top.$memwr$\_42_$output/huffman_miter_noshort_exp/flatten.sv:163$22_EN' from process `\top.$proc$output/huffman_miter_noshort_exp/flatten.sv:0$192'.
-No latch inferred for signal `\top.$memwr$\_42_$output/huffman_miter_noshort_exp/flatten.sv:164$23_EN' from process `\top.$proc$output/huffman_miter_noshort_exp/flatten.sv:0$192'.
-No latch inferred for signal `\top.$memwr$\_42_$output/huffman_miter_noshort_exp/flatten.sv:165$24_EN' from process `\top.$proc$output/huffman_miter_noshort_exp/flatten.sv:0$192'.
-No latch inferred for signal `\top.$memwr$\_42_$output/huffman_miter_noshort_exp/flatten.sv:166$25_EN' from process `\top.$proc$output/huffman_miter_noshort_exp/flatten.sv:0$192'.
-No latch inferred for signal `\top.$memwr$\_42_$output/huffman_miter_noshort_exp/flatten.sv:167$26_EN' from process `\top.$proc$output/huffman_miter_noshort_exp/flatten.sv:0$192'.
-No latch inferred for signal `\top.$memwr$\_42_$output/huffman_miter_noshort_exp/flatten.sv:168$27_EN' from process `\top.$proc$output/huffman_miter_noshort_exp/flatten.sv:0$192'.
-No latch inferred for signal `\top.$memwr$\_42_$output/huffman_miter_noshort_exp/flatten.sv:169$28_EN' from process `\top.$proc$output/huffman_miter_noshort_exp/flatten.sv:0$192'.
-No latch inferred for signal `\top.$memwr$\_42_$output/huffman_miter_noshort_exp/flatten.sv:170$29_EN' from process `\top.$proc$output/huffman_miter_noshort_exp/flatten.sv:0$192'.
-No latch inferred for signal `\top.$memwr$\_42_$output/huffman_miter_noshort_exp/flatten.sv:171$30_EN' from process `\top.$proc$output/huffman_miter_noshort_exp/flatten.sv:0$192'.
-No latch inferred for signal `\top.$memwr$\_42_$output/huffman_miter_noshort_exp/flatten.sv:172$31_EN' from process `\top.$proc$output/huffman_miter_noshort_exp/flatten.sv:0$192'.
-No latch inferred for signal `\top.$memwr$\_42_$output/huffman_miter_noshort_exp/flatten.sv:173$32_EN' from process `\top.$proc$output/huffman_miter_noshort_exp/flatten.sv:0$192'.
-No latch inferred for signal `\top.$memwr$\_42_$output/huffman_miter_noshort_exp/flatten.sv:174$33_EN' from process `\top.$proc$output/huffman_miter_noshort_exp/flatten.sv:0$192'.
-No latch inferred for signal `\top.$memwr$\_42_$output/huffman_miter_noshort_exp/flatten.sv:175$34_EN' from process `\top.$proc$output/huffman_miter_noshort_exp/flatten.sv:0$192'.
-No latch inferred for signal `\top.$memwr$\_42_$output/huffman_miter_noshort_exp/flatten.sv:176$35_EN' from process `\top.$proc$output/huffman_miter_noshort_exp/flatten.sv:0$192'.
-No latch inferred for signal `\top.$memwr$\_42_$output/huffman_miter_noshort_exp/flatten.sv:177$36_EN' from process `\top.$proc$output/huffman_miter_noshort_exp/flatten.sv:0$192'.
-No latch inferred for signal `\top.$memwr$\_42_$output/huffman_miter_noshort_exp/flatten.sv:178$37_EN' from process `\top.$proc$output/huffman_miter_noshort_exp/flatten.sv:0$192'.
-No latch inferred for signal `\top.$memwr$\_42_$output/huffman_miter_noshort_exp/flatten.sv:179$38_EN' from process `\top.$proc$output/huffman_miter_noshort_exp/flatten.sv:0$192'.
-No latch inferred for signal `\top.$memwr$\_42_$output/huffman_miter_noshort_exp/flatten.sv:180$39_EN' from process `\top.$proc$output/huffman_miter_noshort_exp/flatten.sv:0$192'.
-No latch inferred for signal `\top.$memwr$\_42_$output/huffman_miter_noshort_exp/flatten.sv:181$40_EN' from process `\top.$proc$output/huffman_miter_noshort_exp/flatten.sv:0$192'.
-No latch inferred for signal `\top.\_53_$func$output/huffman_miter_noshort_exp/flatten.sv:333$4.$result' from process `\top.$proc$output/huffman_miter_noshort_exp/flatten.sv:0$122'.
-No latch inferred for signal `\top.\_53_$func$output/huffman_miter_noshort_exp/flatten.sv:333$8.$result' from process `\top.$proc$output/huffman_miter_noshort_exp/flatten.sv:0$122'.
-No latch inferred for signal `\top.\_53_$func$output/huffman_miter_noshort_exp/flatten.sv:333$8.b' from process `\top.$proc$output/huffman_miter_noshort_exp/flatten.sv:0$122'.
-No latch inferred for signal `\top.\_53_$func$output/huffman_miter_noshort_exp/flatten.sv:333$8.s' from process `\top.$proc$output/huffman_miter_noshort_exp/flatten.sv:0$122'.
-No latch inferred for signal `\top.\_49_$func$output/huffman_miter_noshort_exp/flatten.sv:313$3.$result' from process `\top.$proc$output/huffman_miter_noshort_exp/flatten.sv:0$117'.
-No latch inferred for signal `\top.\_49_$func$output/huffman_miter_noshort_exp/flatten.sv:313$7.$result' from process `\top.$proc$output/huffman_miter_noshort_exp/flatten.sv:0$117'.
-No latch inferred for signal `\top.\_49_$func$output/huffman_miter_noshort_exp/flatten.sv:313$7.s' from process `\top.$proc$output/huffman_miter_noshort_exp/flatten.sv:0$117'.
-No latch inferred for signal `\top.\_36_$func$output/huffman_miter_noshort_exp/flatten.sv:275$2.$result' from process `\top.$proc$output/huffman_miter_noshort_exp/flatten.sv:0$111'.
-No latch inferred for signal `\top.\_36_$func$output/huffman_miter_noshort_exp/flatten.sv:275$6.$result' from process `\top.$proc$output/huffman_miter_noshort_exp/flatten.sv:0$111'.
-No latch inferred for signal `\top.\_36_$func$output/huffman_miter_noshort_exp/flatten.sv:275$6.b' from process `\top.$proc$output/huffman_miter_noshort_exp/flatten.sv:0$111'.
-No latch inferred for signal `\top.\_36_$func$output/huffman_miter_noshort_exp/flatten.sv:275$6.s' from process `\top.$proc$output/huffman_miter_noshort_exp/flatten.sv:0$111'.
-No latch inferred for signal `\top.\_32_$func$output/huffman_miter_noshort_exp/flatten.sv:255$1.$result' from process `\top.$proc$output/huffman_miter_noshort_exp/flatten.sv:0$106'.
-No latch inferred for signal `\top.\_32_$func$output/huffman_miter_noshort_exp/flatten.sv:255$5.$result' from process `\top.$proc$output/huffman_miter_noshort_exp/flatten.sv:0$106'.
-No latch inferred for signal `\top.\_32_$func$output/huffman_miter_noshort_exp/flatten.sv:255$5.s' from process `\top.$proc$output/huffman_miter_noshort_exp/flatten.sv:0$106'.
-
-2.2.9. Executing PROC_DFF pass (convert process syncs to FFs).
-Creating register for signal `\top.\copy2.symbol' using process `\top.$proc$output/huffman_miter_noshort_exp/flatten.sv:295$96'.
-  created $dff cell `$procdff$279' with positive edge clock.
-Creating register for signal `\top.\copy2.enable' using process `\top.$proc$output/huffman_miter_noshort_exp/flatten.sv:292$95'.
-  created $dff cell `$procdff$280' with positive edge clock.
-Creating register for signal `\top.\copy2.state' using process `\top.$proc$output/huffman_miter_noshort_exp/flatten.sv:289$94'.
-  created $dff cell `$procdff$281' with positive edge clock.
-Creating register for signal `\top.\copy2.ready' using process `\top.$proc$output/huffman_miter_noshort_exp/flatten.sv:286$93'.
-  created $dff cell `$procdff$282' with positive edge clock.
-Creating register for signal `\top.\copy2.symbolLength' using process `\top.$proc$output/huffman_miter_noshort_exp/flatten.sv:283$92'.
-  created $dff cell `$procdff$283' with positive edge clock.
-Creating register for signal `\top.\copy1.symbol' using process `\top.$proc$output/huffman_miter_noshort_exp/flatten.sv:237$82'.
-  created $dff cell `$procdff$284' with positive edge clock.
-Creating register for signal `\top.\copy1.enable' using process `\top.$proc$output/huffman_miter_noshort_exp/flatten.sv:234$81'.
-  created $dff cell `$procdff$285' with positive edge clock.
-Creating register for signal `\top.\copy1.state' using process `\top.$proc$output/huffman_miter_noshort_exp/flatten.sv:231$80'.
-  created $dff cell `$procdff$286' with positive edge clock.
-Creating register for signal `\top.\copy1.ready' using process `\top.$proc$output/huffman_miter_noshort_exp/flatten.sv:228$79'.
-  created $dff cell `$procdff$287' with positive edge clock.
-Creating register for signal `\top.\copy1.symbolLength' using process `\top.$proc$output/huffman_miter_noshort_exp/flatten.sv:225$78'.
-  created $dff cell `$procdff$288' with positive edge clock.
-
-2.2.10. Executing PROC_MEMWR pass (convert process memory writes to cells).
-
-2.2.11. Executing PROC_CLEAN pass (remove empty switches from decision trees).
-Removing empty process `top.$proc$output/huffman_miter_noshort_exp/flatten.sv:0$225'.
-Removing empty process `top.$proc$output/huffman_miter_noshort_exp/flatten.sv:0$192'.
-Found and cleaned up 1 empty switch in `\top.$proc$output/huffman_miter_noshort_exp/flatten.sv:0$122'.
-Removing empty process `top.$proc$output/huffman_miter_noshort_exp/flatten.sv:0$122'.
-Found and cleaned up 1 empty switch in `\top.$proc$output/huffman_miter_noshort_exp/flatten.sv:0$117'.
-Removing empty process `top.$proc$output/huffman_miter_noshort_exp/flatten.sv:0$117'.
-Found and cleaned up 1 empty switch in `\top.$proc$output/huffman_miter_noshort_exp/flatten.sv:0$111'.
-Removing empty process `top.$proc$output/huffman_miter_noshort_exp/flatten.sv:0$111'.
-Found and cleaned up 1 empty switch in `\top.$proc$output/huffman_miter_noshort_exp/flatten.sv:0$106'.
-Removing empty process `top.$proc$output/huffman_miter_noshort_exp/flatten.sv:0$106'.
-Removing empty process `top.$proc$output/huffman_miter_noshort_exp/flatten.sv:295$96'.
-Removing empty process `top.$proc$output/huffman_miter_noshort_exp/flatten.sv:292$95'.
-Removing empty process `top.$proc$output/huffman_miter_noshort_exp/flatten.sv:289$94'.
-Removing empty process `top.$proc$output/huffman_miter_noshort_exp/flatten.sv:286$93'.
-Removing empty process `top.$proc$output/huffman_miter_noshort_exp/flatten.sv:283$92'.
-Removing empty process `top.$proc$output/huffman_miter_noshort_exp/flatten.sv:237$82'.
-Removing empty process `top.$proc$output/huffman_miter_noshort_exp/flatten.sv:234$81'.
-Removing empty process `top.$proc$output/huffman_miter_noshort_exp/flatten.sv:231$80'.
-Removing empty process `top.$proc$output/huffman_miter_noshort_exp/flatten.sv:228$79'.
-Removing empty process `top.$proc$output/huffman_miter_noshort_exp/flatten.sv:225$78'.
-Removing empty process `top.$proc$output/huffman_miter_noshort_exp/flatten.sv:222$75'.
-Cleaned up 4 empty switches.
-
-2.2.12. Executing OPT_EXPR pass (perform const folding).
-Optimizing module top.
-<suppressed ~1 debug messages>
-
-2.3. Executing FUTURE pass.
-
-2.4. Executing OPT_EXPR pass (perform const folding).
-Optimizing module top.
-
-2.5. Executing OPT_CLEAN pass (remove unused cells and wires).
-Finding unused cells or wires in module \top..
-Removed 81 unused cells and 212 unused wires.
-<suppressed ~86 debug messages>
-
-2.6. Executing CHECK pass (checking for obvious problems).
-Checking module top...
-Found and reported 0 problems.
-
-2.7. Executing OPT pass (performing simple optimizations).
-
-2.7.1. Executing OPT_EXPR pass (perform const folding).
-Optimizing module top.
-
-2.7.2. Executing OPT_MERGE pass (detect identical cells).
-Finding identical cells in module `\top'.
-Removed a total of 0 cells.
-
-2.7.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
-Running muxtree optimizer on module \top..
-  Creating internal representation of mux trees.
-  Evaluating internal representation of mux trees.
-  Analyzing evaluation results.
-Removed 0 multiplexer ports.
-<suppressed ~4 debug messages>
-
-2.7.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
-  Optimizing cells in module \top.
-Performed a total of 0 changes.
-
-2.7.5. Executing OPT_MERGE pass (detect identical cells).
-Finding identical cells in module `\top'.
-<suppressed ~6 debug messages>
-Removed a total of 2 cells.
-
-2.7.6. Executing OPT_CLEAN pass (remove unused cells and wires).
-Finding unused cells or wires in module \top..
-Removed 0 unused cells and 14 unused wires.
-<suppressed ~13 debug messages>
-
-2.7.7. Executing OPT_EXPR pass (perform const folding).
-Optimizing module top.
-
-2.7.8. Rerunning OPT passes. (Maybe there is more to do..)
-
-2.7.9. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
-Running muxtree optimizer on module \top..
-  Creating internal representation of mux trees.
-  Evaluating internal representation of mux trees.
-  Analyzing evaluation results.
-Removed 0 multiplexer ports.
-<suppressed ~6 debug messages>
-
-2.7.10. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
-  Optimizing cells in module \top.
-Performed a total of 0 changes.
-
-2.7.11. Executing OPT_MERGE pass (detect identical cells).
-Finding identical cells in module `\top'.
-Removed a total of 0 cells.
-
-2.7.12. Executing OPT_CLEAN pass (remove unused cells and wires).
-Finding unused cells or wires in module \top..
-
-2.7.13. Executing OPT_EXPR pass (perform const folding).
-Optimizing module top.
-
-2.7.14. Finished OPT passes. (There is nothing left to do.)
-
-2.8. Executing WREDUCE pass (reducing word size of cells).
-Removed top 3 bits (of 4) from FF cell top.$procdff$282 ($dff).
-Removed top 3 bits (of 4) from FF cell top.$procdff$287 ($dff).
-Removed top 3 bits (of 4) from mux cell top.$ternary$output/huffman_miter_noshort_exp/flatten.sv:257$84 ($mux).
-Removed top 3 bits (of 4) from mux cell top.$ternary$output/huffman_miter_noshort_exp/flatten.sv:315$98 ($mux).
-Removed top 3 bits (of 4) from mux cell top.$procmux$268 ($pmux).
-Removed top 3 bits (of 4) from mux cell top.$procmux$276 ($pmux).
-Removed top 3 bits (of 4) from wire top._04_.
-Removed top 3 bits (of 4) from wire top._08_.
-Removed top 3 bits (of 4) from wire top._15_.
-Removed top 3 bits (of 4) from wire top._19_.
-
-2.9. Executing OPT_CLEAN pass (remove unused cells and wires).
-Finding unused cells or wires in module \top..
-Removed 0 unused cells and 4 unused wires.
-<suppressed ~1 debug messages>
-
-2.10. Executing MEMORY_COLLECT pass (generating $mem cells).
-
-2.11. Executing OPT pass (performing simple optimizations).
-
-2.11.1. Executing OPT_EXPR pass (perform const folding).
-Optimizing module top.
-
-2.11.2. Executing OPT_MERGE pass (detect identical cells).
-Finding identical cells in module `\top'.
-Removed a total of 0 cells.
-
-2.11.3. Executing OPT_CLEAN pass (remove unused cells and wires).
-Finding unused cells or wires in module \top..
-
-2.11.4. Finished fast OPT passes.
-
-2.12. Printing statistics.
-
-=== top ===
-
-   Number of wires:                 39
-   Number of wire bits:             87
-   Number of public wires:          39
-   Number of public wire bits:      87
-   Number of ports:                  5
-   Number of port bits:             23
-   Number of memories:               0
-   Number of memory bits:            0
-   Number of processes:              0
-   Number of cells:                 18
-     $assert                         1
-     $dff                            4
-     $eq                             1
-     $mux                            6
-     $not                            2
-     $pmux                           4
-
-2.13. Executing CHECK pass (checking for obvious problems).
-Checking module top...
-Found and reported 0 problems.
-
-3. Executing FLATTEN pass (flatten design).
-
-4. Executing MEMORY pass.
-
-4.1. Executing OPT_MEM pass (optimize memories).
-Performed a total of 0 transformations.
-
-4.2. Executing OPT_MEM_PRIORITY pass (removing unnecessary memory write priority relations).
-Performed a total of 0 transformations.
-
-4.3. Executing OPT_MEM_FEEDBACK pass (finding memory read-to-write feedback paths).
-
-4.4. Executing MEMORY_BMUX2ROM pass (converting muxes to ROMs).
-
-4.5. Executing OPT_CLEAN pass (remove unused cells and wires).
-Finding unused cells or wires in module \top..
-
-4.6. Executing MEMORY_SHARE pass (consolidating $memrd/$memwr cells).
-
-4.7. Executing OPT_MEM_WIDEN pass (optimize memories where all ports are wide).
-Performed a total of 0 transformations.
-
-4.8. Executing OPT_CLEAN pass (remove unused cells and wires).
-Finding unused cells or wires in module \top..
-
-4.9. Executing MEMORY_COLLECT pass (generating $mem cells).
-
-4.10. Executing MEMORY_MAP pass (converting memories to logic and flip-flops).
-
-5. Executing SETUNDEF pass (replace undef values with defined constants).
-
-6. Executing TECHMAP pass (map to technology primitives).
-
-6.1. Executing Verilog-2005 frontend: /root/yosys/oss-cad-suite/lib/../share/yosys/techmap.v
-Parsing Verilog input from `/root/yosys/oss-cad-suite/lib/../share/yosys/techmap.v' to AST representation.
-Generating RTLIL representation for module `\_90_simplemap_bool_ops'.
-Generating RTLIL representation for module `\_90_simplemap_reduce_ops'.
-Generating RTLIL representation for module `\_90_simplemap_logic_ops'.
-Generating RTLIL representation for module `\_90_simplemap_compare_ops'.
-Generating RTLIL representation for module `\_90_simplemap_various'.
-Generating RTLIL representation for module `\_90_simplemap_registers'.
-Generating RTLIL representation for module `\_90_shift_ops_shr_shl_sshl_sshr'.
-Generating RTLIL representation for module `\_90_shift_shiftx'.
-Generating RTLIL representation for module `\_90_fa'.
-Generating RTLIL representation for module `\_90_lcu_brent_kung'.
-Generating RTLIL representation for module `\_90_alu'.
-Generating RTLIL representation for module `\_90_macc'.
-Generating RTLIL representation for module `\_90_alumacc'.
-Generating RTLIL representation for module `\$__div_mod_u'.
-Generating RTLIL representation for module `\$__div_mod_trunc'.
-Generating RTLIL representation for module `\_90_div'.
-Generating RTLIL representation for module `\_90_mod'.
-Generating RTLIL representation for module `\$__div_mod_floor'.
-Generating RTLIL representation for module `\_90_divfloor'.
-Generating RTLIL representation for module `\_90_modfloor'.
-Generating RTLIL representation for module `\_90_pow'.
-Generating RTLIL representation for module `\_90_pmux'.
-Generating RTLIL representation for module `\_90_demux'.
-Generating RTLIL representation for module `\_90_lut'.
-Successfully finished Verilog frontend.
-
-6.2. Continuing TECHMAP pass.
-Using extmapper simplemap for cells of type $eq.
-Using extmapper simplemap for cells of type $not.
-Using extmapper simplemap for cells of type $mux.
-Using template $paramod$c5c783b17ab1d780abfad8cfe6563a0a7b47a3b0\_90_pmux for cells of type $pmux.
-Using extmapper simplemap for cells of type $dff.
-Using extmapper simplemap for cells of type $reduce_or.
-Using extmapper simplemap for cells of type $and.
-No more expansions possible.
-<suppressed ~123 debug messages>
-
-7. Executing ASYNC2SYNC pass.
-
-8. Executing DFFUNMAP pass (unmap clock enable and synchronous reset from FFs).
-
-9. Executing ABC pass (technology mapping using ABC).
-
-9.1. Extracting gate netlist of module `\top' to `<abc-temp-dir>/input.blif'..
-Extracted 30 gates and 38 wires to a netlist network with 6 inputs and 5 outputs.
-
-9.1.1. Executing ABC.
-Running ABC command: "<yosys-exe-dir>/yosys-abc" -s -f <abc-temp-dir>/abc.script 2>&1
-ABC: ABC command line: "source <abc-temp-dir>/abc.script".
-ABC: 
-ABC: + read_blif <abc-temp-dir>/input.blif 
-ABC: + read_library <abc-temp-dir>/stdcells.genlib 
-ABC: Entered genlib library with 5 gates from file "<abc-temp-dir>/stdcells.genlib".
-ABC: + strash 
-ABC: + dretime 
-ABC: + map 
-ABC: + write_blif <abc-temp-dir>/output.blif 
-
-9.1.2. Re-integrating ABC results.
-ABC RESULTS:               NOT cells:       16
-ABC RESULTS:               AND cells:       13
-ABC RESULTS:        internal signals:       27
-ABC RESULTS:           input signals:        6
-ABC RESULTS:          output signals:        5
-Removing temp directory.
-
-10. Executing AIGER backend.
-
-Warnings: 2 unique messages, 2 total
-End of script. Logfile hash: a0e5597ea6, CPU: user 0.28s system 0.02s, MEM: 31.16 MB peak
-Yosys 0.48+5 (git sha1 7a362f1f7, clang++ 18.1.8 -fPIC -O3)
-Time spent: 37% 1x abc (0 sec), 21% 3x read_verilog (0 sec), ...
-Running ABC with PDR for huffman_miter...
-PDR commands are: read output/huffman_miter_noshort_exp/flatten.aig;
-    fold;
-    pdr -v -d -T 3600 -I output/huffman_miter_noshort_exp/flatten.pla -R output/huffman_miter_noshort_exp/flatten.relation -w; write_cex -n -m -f output/huffman_miter_noshort_exp/flatten.cex;
-Interpreting the PDR log for huffman_miter...
-Counterexample file not found!
-
-Script completed.
+1. Executing Verilog-2005 frontend: output/multiplier_miter_exp/shortcut.sv
+output/multiplier_miter_exp/shortcut.sv:243: ERROR: Module port `\property_o' is not declared in module header.
+Trace/breakpoint trap
+Traceback (most recent call last):
+  File "/workspaces/ShortCutLogic/scripts/transform_verilog.py", line 227, in <module>
+    verilog_to_aig(args.input_path, args.output_path, args.top)
+  File "/workspaces/ShortCutLogic/scripts/transform_verilog.py", line 47, in verilog_to_aig
+    with open(map_path, "r") as file:
+         ^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'output/multiplier_miter_exp/shortcut.map'

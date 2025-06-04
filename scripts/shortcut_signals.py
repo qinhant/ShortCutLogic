@@ -79,7 +79,8 @@ def add_eqinit_predicate(filein, fileout, *, cfg: ShortcutSignalsConfig):
                 assert match.group(1) == "module", "module declaration must be first"
                 module_started = True
                 if cfg.predicate_only:
-                    l = l.replace("(", "(dummy_z, ")
+                    if l.find("(dummy_o") < 0:
+                        l = l.replace("(", "(dummy_o, ")
 
             fout.write(l)
 
@@ -132,9 +133,11 @@ def add_eqinit_predicate(filein, fileout, *, cfg: ShortcutSignalsConfig):
 
         # track assignments for setting inequality signals
         reg_assigns: dict[str, str] = {}
+        dummy_o_exists = False
         for l in lines:
-            # if cfg.predicate_only and l.find("assert(") >= 0:
-            #     l = re.sub(r"assert\s*\(", "assert (semantics_enforce&&", l)
+            if l.find("assign dummy_o = ") >= 0:
+                dummy_o_exists = True
+                l = l.replace("assign dummy_o = ", f"assign dummy_o = semantics_enforce_z && ")
             if endmodule.match(l):
                 lines = itertools.chain([l], lines)
                 break
@@ -175,13 +178,14 @@ def add_eqinit_predicate(filein, fileout, *, cfg: ShortcutSignalsConfig):
                         "  ",
                     )
                 )
-            sematics.append(f"( {neq_signal} || {id} == 0 )")
+            sematics.append(f"( {neq_signal} == ( {id} != 0 ))")
 
         if cfg.predicate_only:
             fout.write("wire semantics_enforce_z;\n")
             fout.write(f"assign semantics_enforce_z = {' && '.join(sematics)} ;\n")
-            fout.write("output dummy_z;\n")
-            fout.write("assign dummy_z = semantics_enforce_z ;\n")
+            if not dummy_o_exists:
+                fout.write("output dummy_o;\n")
+                fout.write("assign dummy_o = semantics_enforce_z ;\n")
         for l in lines:
             fout.write(l)
 
@@ -216,8 +220,8 @@ def add_equiv_predicate(filein, fileout, *, cfg: ShortcutSignalsConfig):
                 assert match.group(1) == "module", "module declaration must be first"
                 module_started = True
                 if cfg.predicate_only:
-                    l = l.replace("(", "(dummy_o, ")
-
+                    l = l.replace("(", "(dummy_o, property_o, ")
+            
             fout.write(l)
 
             if module_started and ";" in l:
@@ -291,8 +295,12 @@ def add_equiv_predicate(filein, fileout, *, cfg: ShortcutSignalsConfig):
         # track assignments for setting inequality signals
         reg_assigns: dict[str, str] = {}
         for l in lines:
-            # if cfg.predicate_only and l.find("assert(") >= 0:
-            #     l = re.sub(r"assert\s*\(", "assert (semantics_enforce&&", l)
+            if l.find("assert(") >= 0:
+                match = re.search(r'\bassert\s*\(\s*([^)]+?)\s*\)', l)
+                property = match.group(1)
+                fout.write("output property_o;\n")
+                fout.write(f"assign property_o = ~( {property} ) ;\n")
+                l = f"// {l}"
             if endmodule.match(l):
                 lines = itertools.chain([l], lines)
                 break
@@ -330,12 +338,11 @@ def add_equiv_predicate(filein, fileout, *, cfg: ShortcutSignalsConfig):
                                 always @(posedge in_clk) begin
                                     {neq_signal} <= !{cfg.assume_violate_sig} && {orig_assign} != {copy_assign} ;
                                 end
-                                // assert property ( {cfg.assume_violate_sig} || !{neq_signal} ) ;
                             """).removeprefix("\n"),
                             "  ",
                         )
                     )
-                sematics.append(f"( {neq_signal} || {r.full_name} == {rc.full_name} )")
+                sematics.append(f"( {neq_signal} == ( {r.full_name} != {rc.full_name} ) )")
 
         if cfg.predicate_only:
             fout.write("wire semantics_enforce;\n")

@@ -4,7 +4,6 @@ prep -top top_module
 flatten
 memory -nordff
 setundef -undriven -init -zero
-delete -output
 techmap
 async2sync
 dffunmap

@@ -73,13 +73,13 @@ def log_eval(
 
 
 examples = {
-    # "multiplier": "multiplier_miter",
-    # "sodor": "sodor5_miter_clean",
-    # "rocket": "rocket_clean",
-    # "divider" : "divider_miter",
-    # "modexp" : "rsa_modexp_miter",
-    # "secenclave": "SE_leakymul_miter",
-    # "cache": "cache_miter",
+    "multiplier": "multiplier_miter",
+    "sodor": "sodor5_miter_clean",
+    "rocket": "rocket_clean",
+    "divider" : "divider_miter",
+    "modexp" : "rsa_modexp_miter",
+    "secenclave": "SE_leakymul_miter",
+    "cache": "cache_miter",
     "gcd": "gcd_miter"
 }
 
@@ -102,7 +102,7 @@ technique_flags = {
 }
 
 eval_order = technique_flags.keys()
-# eval_order = ["abc_shortcut", "sc", "ept", "epi", "sc_ept", "sc_epi", "abc_orig", "ric3-inn",  "ric3_orig"]
+eval_order = ["abc_shortcut", "sc", "ept", "epi", "sc_ept", "sc_epi"]
 # eval_order = [ "ept", "epi", "sc_ept", "sc_epi", "ric3-inn"]
 # eval_order = ["ric3_orig", "ric3_shortcut", "ric3-inn"]
 

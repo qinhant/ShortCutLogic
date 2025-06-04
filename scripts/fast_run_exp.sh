@@ -22,6 +22,7 @@ usage() {
   echo "  -n   Use existing aig, relation and map files"
   echo "  -u   Disable all input assumptions and let the input be unconstrained"
   echo "  -k   Run shortcut_signals.py with semantic enforce option"
+  echo "  -t   Run shortcut_signals.py with eq_init option"
   echo "  -v   Verbose output"
   echo "  -g   Run rIC3"
   echo "  -l   Run rIC3 with ic3-inn"
@@ -46,6 +47,7 @@ suffix=""
 unconstrained=""
 incremental=false
 senmantic_enforce=false
+eqinit_predicate=false
 rIC3=false
 rIC3inn=false
 verbose=false
@@ -53,7 +55,7 @@ verbose=false
 set -e
 
 # Parse command-line options
-while getopts "faswerimpdcqnubgklvO:" opt; do
+while getopts "faswerimpdcqnubgktlvO:" opt; do
   case $opt in
     f) flatten=true ;;
     a) aig=true ;;
@@ -72,6 +74,7 @@ while getopts "faswerimpdcqnubgklvO:" opt; do
     g) rIC3=true ;;
     l) rIC3inn=true ;;
     k) senmantic_enforce=true ;;
+    t) eqinit_predicate=true ;;
     O) suffix="_$OPTARG" ;;
     *) usage ;;
   esac
@@ -137,6 +140,9 @@ if $shortcut || $implication; then
   fi
   if $senmantic_enforce; then
     option="${option}k"
+  fi
+  if $eqinit_predicate; then
+    option="${option}z"
   fi
   if  ! $reuse; then
     python3 scripts/shortcut_signals.py \
