@@ -4,7 +4,7 @@ WORKDIR /root/
 
 # install yosys
 WORKDIR /root/yosys/
-ADD https://github.com/YosysHQ/oss-cad-suite-build/releases/download/2024-12-17/oss-cad-suite-linux-x64-20241217.tgz \
+ADD https://github.com/YosysHQ/oss-cad-suite-build/releases/download/2025-06-04/oss-cad-suite-linux-x64-20250604.tgz \
     oss-cad-suite.tgz
 RUN tar -xvf oss-cad-suite.tgz
 ENV PATH="/root/yosys/oss-cad-suite/bin:$PATH"

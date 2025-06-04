@@ -9,7 +9,7 @@ from typing import Callable
 
 parse = argparse.ArgumentParser()
 parse.add_argument(
-    "--timeout", dest="timeout", default="60", help="timeout in minutes"
+    "--timeout", dest="timeout", default="65", help="timeout in minutes"
 )
 args = parse.parse_args()
 
@@ -73,14 +73,14 @@ def log_eval(
 
 
 examples = {
-    "multiplier": "multiplier_miter",
-    "sodor": "sodor5_miter_clean",
-    "rocket": "rocket_clean",
-    "divider" : "divider_miter",
-    "modexp" : "rsa_modexp_miter",
+    # "multiplier": "multiplier_miter",
+    # "sodor": "sodor5_miter_clean",
+    # "rocket": "rocket_clean",
+    # "divider" : "divider_miter",
+    # "modexp" : "rsa_modexp_miter",
     "secenclave": "SE_leakymul_miter",
-    "cache": "cache_miter",
-    "gcd": "gcd_miter"
+    # "cache": "cache_miter",
+    # "gcd": "gcd_miter"
 }
 
 base_flags = "fa"
@@ -102,8 +102,8 @@ technique_flags = {
 }
 
 eval_order = technique_flags.keys()
-eval_order = ["abc_shortcut", "sc", "ept", "epi", "sc_ept", "sc_epi"]
-# eval_order = [ "ept", "epi", "sc_ept", "sc_epi", "ric3-inn"]
+# eval_order = ["abc_shortcut", "sc", "ept", "epi", "sc_ept", "sc_epi"]
+eval_order = ["abc_shortcut", "ept", "epi"]
 # eval_order = ["ric3_orig", "ric3_shortcut", "ric3-inn"]
 
 with open(log_filename, "w") as log_file:
@@ -180,7 +180,7 @@ with open(log_filename, "w") as log_file:
             log_eval(
                 example=ex,
                 result_file=result_file,
-                flags=("n" if ex=="SE_leakymul_miter" else base_flags) + technique_flags[tech],
+                flags=base_flags + technique_flags[tech],
                 output_label=tech,
                 timeout=TIMEOUT,
                 valid_retcodes=valid_retcodes,

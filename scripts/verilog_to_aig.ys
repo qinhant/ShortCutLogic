@@ -2,10 +2,17 @@ read_verilog -sv -formal input_path
 chformal -lower
 prep -top top_module
 flatten
+
+# optimization before mapping
+opt; opt; opt_clean
+
 memory -nordff
 setundef -undriven -init -zero
 techmap
 async2sync
 dffunmap
-abc -fast -g AND
-write_aiger -zinit -map map_path output_path 
+
+# reduced-delay mapping
+abc -fast -g AND -D 1000
+
+write_aiger -zinit -map map_path output_path
