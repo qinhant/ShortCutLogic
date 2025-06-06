@@ -56,7 +56,7 @@ def log_eval(
             log(err.stderr.decode('utf-8'))
             return
     
-    cmd = f"grep  -E -A 200 -m 1 '(Verification .* successful)|(Block =)|(SolverStatistic.*)' {result_file}"
+    cmd = f"grep ' : ' {result_file}"
     log(f">> {cmd}   ===> ")
     try:
         results = subprocess.run(cmd, shell=True, cwd=cwd, capture_output=True)
@@ -70,17 +70,33 @@ def log_eval(
     finally:
         log("\n\n")
 
+    cmd = f"grep  -E -A 200 -m 1 '(Verification .* successful)|(Block =)|(SolverStatistic.*)' {result_file}"
+    log(f">> {cmd}   ===> ")
+    try:
+        results = subprocess.run(cmd, shell=True, cwd=cwd, capture_output=True)
+        log("ok\n")
+        log(results.stdout.decode('utf-8'))
+    except subprocess.TimeoutExpired:
+        log(f"TIMEOUT ({USER_TIMEOUT}s)\n")
+    except subprocess.CalledProcessError as err:
+        log(f"ERROR!!! (code {err.returncode})\n")
+        log(err.stderr.decode('utf-8'))
+    finally:
+        log("\n\n")
+    
+    
+
 
 
 examples = {
-    # "multiplier": "multiplier_miter",
-    # "sodor": "sodor5_miter_clean",
-    # "rocket": "rocket_clean",
-    # "divider" : "divider_miter",
-    # "modexp" : "rsa_modexp_miter",
+    "multiplier": "multiplier_miter",
+    "sodor": "sodor5_miter_clean",
+    "rocket": "rocket_clean",
+    "divider" : "divider_miter",
+    "modexp" : "rsa_modexp_miter",
     "secenclave": "SE_leakymul_miter",
-    # "cache": "cache_miter",
-    # "gcd": "gcd_miter"
+    "cache": "cache_miter",
+    "gcd": "gcd_miter"
 }
 
 base_flags = "fa"
@@ -102,8 +118,8 @@ technique_flags = {
 }
 
 eval_order = technique_flags.keys()
-# eval_order = ["abc_shortcut", "sc", "ept", "epi", "sc_ept", "sc_epi"]
-eval_order = ["abc_shortcut", "ept", "epi"]
+# eval_order = ["abc_shortcut", "ept", "epi", "sc_ept", "sc_epi"]
+eval_order = ["abc_orig"]
 # eval_order = ["ric3_orig", "ric3_shortcut", "ric3-inn"]
 
 with open(log_filename, "w") as log_file:

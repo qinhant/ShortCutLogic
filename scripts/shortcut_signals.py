@@ -300,7 +300,7 @@ def add_equiv_predicate(filein, fileout, *, cfg: ShortcutSignalsConfig):
                 property = match.group(1)
                 fout.write("output property_o;\n")
                 fout.write(f"assign property_o = ~( {property} ) ;\n")
-                l = f"// {l}"
+                # l = f"// {l}"
             if endmodule.match(l):
                 lines = itertools.chain([l], lines)
                 break
@@ -342,7 +342,7 @@ def add_equiv_predicate(filein, fileout, *, cfg: ShortcutSignalsConfig):
                             "  ",
                         )
                     )
-                sematics.append(f"( {neq_signal} == ( {r.full_name} != {rc.full_name} ) )")
+                sematics.append(f"( ! {neq_signal} || ( {r.full_name} == {rc.full_name} ) )")
 
         if cfg.predicate_only:
             fout.write("wire semantics_enforce;\n")

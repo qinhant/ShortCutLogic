@@ -1,6 +1,0 @@
-read_verilog -sv -formal verilog/SE_leakymul_miter.sv
-chformal -lower
-prep -top top
-flatten
-delete -output
-write_verilog output/SE_leakymul_miter_abc_shortcut_exp/flatten.sv

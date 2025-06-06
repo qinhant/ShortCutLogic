@@ -16,6 +16,8 @@ def analyze_map_file(map_file_path):
         for line in file:
             if line.find("Invariant Clauses") >= 0:
                 continue
+            if line.find("PDR Log") >= 0:
+                break
             if len(line.strip()) == 0:
                 break
             parts = line.strip().split()
@@ -36,10 +38,7 @@ def analyze_map_file(map_file_path):
                         predicate_map.setdefault(signal_name, set())
                     elif signal_name.startswith(("copy1", "copy2")):
                         # Find corresponding predicate variable
-                        signal_name_split = signal_name.split(".")
-                        if len(signal_name_split) == 1:
-                            continue
-                        word_name = signal_name.split(".")[1]
+                        word_name = signal_name[6: ]
                         predicate_key = f"shortcut.neq_{word_name}_copy2"
                         predicate_map.setdefault(predicate_key, set()).add(signal_name)
 
@@ -54,138 +53,51 @@ def analyze_map_file(map_file_path):
 
     return latch_map, expanded_predicates
 
-
-def expand_expressions(expression_file, latch_map, predicate_map):
-    #   Parameters:
-    #     - expression_file: path to the file containing expressions.
-    #     - latch_map: dict mapping signal name to a list of bit indices, e.g.:
-    #         {
-    #           "copy1.a_reg": [0, 1],
-    #           "copy2.a_reg": [0, 1],
-    #           ...
-    #         }
-    #     - predicate_map: dict mapping a predicate variable name (e.g. "shortcut.neq_a_reg_copy2")
-    #       to the set of signals, e.g. {"copy1.a_reg", "copy2.a_reg"}.
-
-    #     Returns:
-    #     - A list of expanded expressions (possibly many lines if multiple predicates exist).
-    #
-    start_marker = "---------------Invariant Clauses--------------------"
-    end_marker   = "---------------PDR Log--------------------"
-
-    within_section = False
-    all_expanded = []
-
-    with open(expression_file, "r") as f:
-        for line in f:
-            line = line.strip()
-            if not line:
-                continue  # skip empty lines
-
-            if line == start_marker:
-                within_section = True
+def expand_inv(latch_map, predicate_map, log_path, output_path):
+    with open(log_path, "r") as file_r:
+        invariants = []
+        final_invariants = []
+        for line in file_r:
+            if line.find("Invariant Clauses") >= 0:
                 continue
-            if line == end_marker:
-                within_section = False
+            if line.find("PDR Log") >= 0:
                 break
+            line = line.strip()
+            if len(line) == 0:
+                break
+            invariants.append(line)
+        
+        while len(invariants) > 0:
+            # Pop one invariant from the queue
+            inv = invariants[0]
+            invariants = invariants[1: ]
+            if inv.find('!assume_1_violate[0]') < 0:
+                        inv = inv.replace('(', '(!assume_1_violate[0] && ')
 
-            if not within_section:
-                continue
+            error_match = re.search(r'!shortcut\.neq_[^ )]*', inv)
+            if error_match:
+                raise ValueError(f"Invalid usage of predicate variable: {error_match.group()}")
+            
+            # if it does not contain predicate variables, add it to the final invariants
+            match = re.search(r'shortcut\.neq_[^ )]+', inv)
+            if not match:
+                final_invariants.append(inv)
+            else:
+                equiv_pred = match.group(0)
+                # print(equiv_pred, predicate_map[equiv_pred.replace('[0]', '')])
+                for signal in predicate_map[equiv_pred.replace('[0]', '')]:
+                    if not signal.startswith('copy1'):
+                        continue
+                    
+                    temp_inv = inv.replace(equiv_pred, f"{signal} && !{signal.replace('copy1', 'copy2')}")
+                    invariants.append(temp_inv)
+                    temp_inv = inv.replace(equiv_pred, f"!{signal} && {signal.replace('copy1', 'copy2')}")
+                    invariants.append(temp_inv)
+            
+        with open(output_path, 'w') as file_w:
+            file_w.write('\n'.join(final_invariants))
 
-            # We'll expand this expression step by step
-            current_expressions = [line]
 
-            # Find all occurrences of predicate variables in the line
-            # Example match: "shortcut.neq_b_reg_copy2[0]"
-            pattern = r"shortcut\.neq_[A-Za-z0-9_]+_copy2\[\d+\]"
-            predicate_vars = re.findall(pattern, line)
-
-            # Process each predicate variable sequentially
-            for pv in predicate_vars:
-                # e.g. pv = "shortcut.neq_b_reg_copy2[0]"
-                # Extract the base name: "shortcut.neq_b_reg_copy2"
-                # (We don't actually need the [bit_index] part from the string here,
-                #  because the user wants to expand all bits, not just the specified one.)
-                base_name = pv.split("[")[0]  # "shortcut.neq_b_reg_copy2"
-
-                if base_name not in predicate_map:
-                    # Not in our dictionary => no expansions
-                    # We'll just skip it; or you can keep it as is.
-                    continue
-
-                # The signals associated with this predicate (e.g. {"copy1.b_reg", "copy2.b_reg"})
-                signals = predicate_map[base_name]
-                print(f"Expanding {pv} using signals: {signals}")
-
-                # Typically you have exactly one copy1.* and one copy2.* signal in there.
-                # Let's get them explicitly:
-                copy1_signal = None
-                copy2_signal = None
-                for sig in signals:
-                    if sig.startswith("copy1."):
-                        copy1_signal = sig.split('[')[0]
-                    elif sig.startswith("copy2."):
-                        copy2_signal = sig.split("[")[0]
-                print(f"  Copy1: {copy1_signal}, Copy2: {copy2_signal}")
-
-                # If we lack one of them, we can't produce a difference
-                if not copy1_signal or not copy2_signal:
-                    # skip or keep as is
-                    continue
-
-                # Now see how many bits each signal has. They should match
-                # if they are the same register, but let's just fetch them individually.
-                if copy1_signal not in latch_map or copy2_signal not in latch_map:
-                    continue  # can't expand
-
-                copy1_bits = latch_map[copy1_signal]  # e.g. [0,1]
-                copy2_bits = latch_map[copy2_signal]  # e.g. [0,1]
-
-                # For simplicity, assume they have the same number of bits, n.
-                # If not, you can handle it differently. Let's take min just in case:
-                n = min(len(copy1_bits), len(copy2_bits))
-
-                # We'll produce 2n expansions. For bit i in range(n):
-                #   1) copy1_signal[i] && !copy2_signal[i]
-                #   2) !copy1_signal[i] && copy2_signal[i]
-                # We'll then replace the original predicate variable pv in each existing expression.
-
-                new_expressions = []
-                for expr in current_expressions:
-                    # For each expression we currently have, produce 2n expansions
-                    for i in range(n):
-                        b1 = copy1_bits[i]
-                        b2 = copy2_bits[i]
-                        # form A: copy1 is 1, copy2 is 0
-                        diff_a = f"{copy1_signal}[{b1}] && !{copy2_signal}[{b2}]"
-                        # form B: copy1 is 0, copy2 is 1
-                        diff_b = f"!{copy1_signal}[{b1}] && {copy2_signal}[{b2}]"
-
-                        # We combine them with OR, or just pick one? The user said "2n expressions",
-                        # meaning one line for diff_a, one line for diff_b, so let's produce them separately:
-
-                        # Expression #1
-                        expr_a = expr.replace(pv, diff_a, 1)
-                        new_expressions.append(expr_a)
-
-                        # Expression #2
-                        expr_b = expr.replace(pv, diff_b, 1)
-                        new_expressions.append(expr_b)
-
-                # Update our list of expressions with the newly expanded ones
-                current_expressions = new_expressions
-
-            # After handling all predicate variables in the line, append the results
-            all_expanded.extend(current_expressions)
-        # Optional: deduplicate while preserving order
-    seen = set()
-    deduped_expanded = []
-    for e in all_expanded:
-        if e not in seen:
-            seen.add(e)
-            deduped_expanded.append(e)
-
-    return deduped_expanded
 
 if __name__ == "__main__":
     parse = argparse.ArgumentParser()
@@ -201,36 +113,18 @@ if __name__ == "__main__":
 
     latch_map, predicate_map = analyze_map_file(args.map_path)
 
+    expand_inv(latch_map, predicate_map, args.log_path, args.output_path)
+
     # Print latch mappings
-    print("Latch Mappings:")
-    for signal, bits in latch_map.items():
-        print(f"  {signal}: {[f'{bit}' for bit in sorted(bits)]}")
+    # print("Latch Mappings:")
+    # for signal, bits in latch_map.items():
+    #     print(f"  {signal}: {[f'{bit}' for bit in sorted(bits)]}")
 
     # Print expanded predicate relationships
-    print("\nExpanded Predicate Relationships:")
-    for predicate, signals in predicate_map.items():
-        print(f"  {predicate} -> {', '.join(signals)}")
+    # print("\nExpanded Predicate Relationships:")
+    # for predicate, signals in predicate_map.items():
+    #     print(f"  {predicate} -> {', '.join(signals)}")
 
-    # Example Usage
-    # latch_map = {
-    #     "copy1.b_reg": [0, 1],
-    #     "copy2.b_reg": [0, 1],
-    #     "copy2.a_reg": [0, 1],
-    #     "copy1.a_reg": [0, 1],
-    #     "copy1.finish": [0],
-    #     "copy2.finish": [0],
-    # }
-    # predicate_map = {
-    #     "shortcut.neq_b_reg_copy2": {"copy1.b_reg", "copy2.b_reg"},
-    #     "shortcut.neq_a_reg_copy2": {"copy1.a_reg", "copy2.a_reg"},
-    #     "shortcut.neq_finish_copy2": {"copy1.finish", "copy2.finish"},
-    # }
-    expanded = expand_expressions(args.log_path, latch_map, predicate_map)
 
-    # Print expanded expressions
-    for expr in expanded:
-        print(expr)
 
-    with open(args.output_path, "w") as file:
-        for expr in expanded:
-            file.write(expr + "\n")
+

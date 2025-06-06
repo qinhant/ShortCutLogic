@@ -26,6 +26,7 @@ usage() {
   echo "  -v   Verbose output"
   echo "  -g   Run rIC3"
   echo "  -l   Run rIC3 with ic3-inn"
+  echo "  -y"  Verify the generate inductive invariant
   echo "  -O suffix  Specify a suffix for the output directory"
   echo "If no options are provided, all steps will run."
   exit 1
@@ -51,11 +52,12 @@ eqinit_predicate=false
 rIC3=false
 rIC3inn=false
 verbose=false
+verify=false
 
 set -e
 
 # Parse command-line options
-while getopts "faswerimpdcqnubgktlvO:" opt; do
+while getopts "faswerimpdcqnubgktlvyO:" opt; do
   case $opt in
     f) flatten=true ;;
     a) aig=true ;;
@@ -75,6 +77,7 @@ while getopts "faswerimpdcqnubgktlvO:" opt; do
     l) rIC3inn=true ;;
     k) senmantic_enforce=true ;;
     t) eqinit_predicate=true ;;
+    y) verify=true ;;
     O) suffix="_$OPTARG" ;;
     *) usage ;;
   esac
@@ -91,20 +94,22 @@ output_dir="output/${design}${suffix}_exp"
 top="top"
 
 # If no specific options are provided, run all steps
-if ! $flatten && ! $aig && ! $shortcut && ! $pdr && ! $interpret && ! $implication && ! $rIC3 && ! $rIC3inn; then
-  flatten=true
-  aig=true
-  shortcut=true
-  pdr=true
-  interpret=true
-  implication=true
-fi
+# if ! $flatten && ! $aig && ! $shortcut && ! $pdr && ! $interpret && ! $implication && ! $rIC3 && ! $rIC3inn; then
+#   flatten=true
+#   aig=true
+#   shortcut=true
+#   pdr=true
+#   interpret=true
+#   implication=true
+# fi
 
 
 
 # Create the output directory
-rm -f "${output_dir}"/*
-mkdir -p "${output_dir}"
+if ! $reuse; then
+  rm -f "${output_dir}"/*
+  mkdir -p "${output_dir}"
+fi
 
 file="${design}"
 
@@ -194,14 +199,14 @@ if $rIC3inn; then
   version="shortcut_inn"
 fi  
 
-if $reuse; then
-  echo "Copying existing files for ${design}..."
+# if $reuse; then
+#   echo "Copying existing files for ${design}..."
 
-  cp -f "output/file_reused/${design}/${version}.aig" "${output_dir}/${file}.aig"
-  cp -f "output/file_reused/${design}/${version}.relation" "${output_dir}/${file}.relation"
-  cp -f "output/file_reused/${design}/${version}.map" "${output_dir}/${file}.map"
+#   cp -f "output/file_reused/${design}/${version}.aig" "${output_dir}/${file}.aig"
+#   cp -f "output/file_reused/${design}/${version}.relation" "${output_dir}/${file}.relation"
+#   cp -f "output/file_reused/${design}/${version}.map" "${output_dir}/${file}.map"
 
-fi
+# fi
 
 # Step 4: Run ABC with PDR
 if $pdr; then
@@ -235,6 +240,32 @@ if $interpret; then
     --cex "${output_dir}/${file}.cex"
 fi
 
-echo "${option}"
+# echo "${option}"
+grep  " : " "${output_dir}/pdr_${file}_interpreted.log"
+grep  -E -A 200 -m 1 "(Verification .* successful)|(Block =)|(SolverStatistic.*)" "${output_dir}/pdr_${file}_interpreted.log"
+
+
+if $verify; then
+# Verify the inductive invariant
+echo "Verifying the inductive invariant for ${design}..."
+python3 scripts/expand_inv.py \
+    --log "${output_dir}/pdr_${file}_interpreted.log" \
+    --map "${output_dir}/${file}.map" \
+    --output "${output_dir}/expand_inv.log" \
+
+python3 scripts/transform_inv.py \
+    --input "${output_dir}/expand_inv.log" \
+    --map "output/original_circuit/${design}.map" \
+    --output "${output_dir}/expand_inv.pla" \
+
+verify_commands="&read output/original_circuit/${design}.aig;
+                read ${output_dir}/expand_inv.pla;
+                inv_put;
+                inv_check"  
+
+abc_exp -c "${verify_commands}"
+
+fi
+
 
 echo "Script completed."
