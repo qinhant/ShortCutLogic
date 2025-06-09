@@ -171,7 +171,7 @@ fi
 
 pdr_commands="read ${output_dir}/${file}.aig;
     fold;
-    pdr -v -d -T 3600 -I ${output_dir}/${file}.pla -R ${output_dir}/${file}.relation"
+    pdr -v -d -T 5 -I ${output_dir}/${file}.pla -R ${output_dir}/${file}.relation"
 if $verbose; then
   pdr_commands="${pdr_commands} -w"
 fi
@@ -261,7 +261,7 @@ python3 scripts/transform_inv.py \
 verify_commands="&read output/original_circuit/${design}.aig;
                 read ${output_dir}/expand_inv.pla;
                 inv_put;
-                inv_check"  
+                inv_check -v"  
 
 abc_exp -c "${verify_commands}"
 

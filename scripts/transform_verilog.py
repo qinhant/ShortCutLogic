@@ -92,13 +92,14 @@ def verilog_to_aig(input_path, output_path, top):
         # print(l.signal_name, l.bit_index)
         latch_to_var[l.id] = l
         all_latch.add(l.id)
-    
+
     copy_prefix1 = r"copy1."
     copy_prefix2 = r"copy2."
     copy_pre = re.compile(rf"({re.escape(copy_prefix1)}|{re.escape(copy_prefix2)})")
     is_copy = re.compile(rf"{copy_pre.pattern}(?P<name>.+)")
     
     for l in latches:
+        
         match = is_copy.match(l.signal_name)
         if match:
             symmetric_prefix = (
@@ -109,24 +110,34 @@ def verilog_to_aig(input_path, output_path, top):
             latch_symmetry[l.id] = var_to_latch[(symmetric_name, l.bit_index)].id
             
             equiv_predicate_name = f"shortcut.neq_{match.group('name')}_copy2"
+            # if match.group('name') == '_r':
+            #         print(l.signal_name, l.bit_index)
+            #         print(l.id)
+            #         print(var_to_latch[(equiv_predicate_name, 0)].id)
+                   
             try:
                 latch_to_equiv_predicate[l.id] = var_to_latch[(equiv_predicate_name, 0)].id
             except KeyError:
-                latch_to_equiv_predicate[l.id] = -1
+                if l.id not in latch_to_equiv_predicate.keys():
+                    latch_to_equiv_predicate[l.id] = -1
+                    # print(l.signal_name, l.bit_index)
+                    # print(l.id)
+                    # print(equiv_predicate_name)
+                # print(var_to_latch[(equiv_predicate_name, 0)].id)
+
             
             eqinit_predicate_name = f"shortcut.neqinit.{l.signal_name}"
             try:
                 latch_to_eqinit_predicate[l.id] = var_to_latch[(eqinit_predicate_name, 0)].id
             except KeyError:
-                latch_to_eqinit_predicate[l.id] = -1
+                if l.id not in latch_to_eqinit_predicate.keys():
+                    latch_to_eqinit_predicate[l.id] = -1
         elif l.signal_name.startswith("shortcut.neqinit"):
             symmetric_name = (
                 l.signal_name.replace("copy1.", "copy2.") if l.signal_name.find("copy1.") >= 0
                 else l.signal_name.replace("copy2.", "copy1.")
             )
             latch_symmetry[l.id] = var_to_latch[(symmetric_name, l.bit_index)].id
-
-
 
     with open(map_path.replace(".map", ".relation"), "w") as file:
         file.write("latch symmetry predicate var_name symmetry_name\n")
