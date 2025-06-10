@@ -10,7 +10,8 @@ def analyze_map_file(map_file_path):
     Returns a dictionary with latch mappings and predicate relationships.
     """
     latch_map = {}
-    predicate_map = {}
+    equiv_predicate_map = {}
+    eqinit_predicate_map = {}
 
     with open(map_file_path, "r") as file:
         for line in file:
@@ -35,21 +36,33 @@ def analyze_map_file(map_file_path):
 
                     # Check for predicate variables
                     if signal_name.startswith("shortcut.neq"):
-                        predicate_map.setdefault(signal_name, set())
+                        equiv_predicate_map.setdefault(signal_name, set())
+                    elif signal_name.startswith("shortcut.neqinit"):
+                        eqinit_predicate_map.setdefault(signal_name, set())
                     elif signal_name.startswith(("copy1", "copy2")):
                         # Find corresponding predicate variable
                         word_name = signal_name[6: ]
-                        predicate_key = f"shortcut.neq_{word_name}_copy2"
-                        predicate_map.setdefault(predicate_key, set()).add(signal_name)
+                        equiv_predicate_key = f"shortcut.neq_{word_name}_copy2"
+                        equiv_predicate_map.setdefault(equiv_predicate_key, set()).add(signal_name)
+                        eqinit_predicate_key = f"shortcut.neqinit.{signal_name}"
+                        eqinit_predicate_map.setdefault(eqinit_predicate_key, set()).add(signal_name)
 
     # Expand predicate variables to include all associated signals and bits
     expanded_predicates = {}
-    for predicate, signals in predicate_map.items():
+    for predicate, signals in equiv_predicate_map.items():
         expanded_predicates[predicate] = []
         for signal in signals:
             if signal in latch_map:
                 for bit in sorted(latch_map[signal]):
                     expanded_predicates[predicate].append(f"{signal}[{bit}]")
+    for predicate, signals in eqinit_predicate_map.items():
+         expanded_predicates[predicate] = []
+         for signal in signals:
+             if signal in latch_map:
+                 for bit in sorted(latch_map[signal]):
+                     expanded_predicates[predicate].append(f"{signal}[{bit}]")
+
+    # print(expanded_predicates)
 
     return latch_map, expanded_predicates
 
@@ -79,20 +92,25 @@ def expand_inv(latch_map, predicate_map, log_path, output_path):
                 raise ValueError(f"Invalid usage of predicate variable: {error_match.group()}")
             
             # if it does not contain predicate variables, add it to the final invariants
-            match = re.search(r'shortcut\.neq_[^ )]+', inv)
-            if not match:
+            match_equiv = re.search(r'shortcut\.neq_[^ )]+', inv)
+            match_eqinit = re.search(r'shortcut\.neqinit\.[^ )]+', inv)
+            if not match_equiv and not match_eqinit:
                 final_invariants.append(inv)
-            else:
-                equiv_pred = match.group(0)
-                # print(equiv_pred, predicate_map[equiv_pred.replace('[0]', '')])
+            elif match_equiv:
+                equiv_pred = match_equiv.group(0)
                 for signal in predicate_map[equiv_pred.replace('[0]', '')]:
                     if not signal.startswith('copy1'):
                         continue
-                    
                     temp_inv = inv.replace(equiv_pred, f"{signal} && !{signal.replace('copy1', 'copy2')}")
                     invariants.append(temp_inv)
                     temp_inv = inv.replace(equiv_pred, f"!{signal} && {signal.replace('copy1', 'copy2')}")
                     invariants.append(temp_inv)
+            elif match_eqinit:
+                eqinit_pred = match_eqinit.group(0)
+                for signal in predicate_map[eqinit_pred.replace('[0]', '')]:
+                    temp_inv = inv.replace(eqinit_pred, f"{signal}")
+                    invariants.append(temp_inv)
+
             
         with open(output_path, 'w') as file_w:
             file_w.write('\n'.join(final_invariants))
@@ -122,7 +140,7 @@ if __name__ == "__main__":
 
     # Print expanded predicate relationships
     # print("\nExpanded Predicate Relationships:")
-    # for predicate, signals in predicate_map.items():
+    # for predicate, signals in equiv_predicate_map.items():
     #     print(f"  {predicate} -> {', '.join(signals)}")
 
 

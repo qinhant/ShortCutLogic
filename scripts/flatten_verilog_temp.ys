@@ -1,0 +1,5 @@
+read_verilog -sv -formal verilog/rocket_clean.sv
+chformal -lower
+prep -top top
+flatten
+write_verilog output/rocket_clean_epi_init_exp/flatten.sv

@@ -19,7 +19,7 @@ def inv_to_pla(input_path, map_path, output_path):
                     max_latch = latch_num
                 bit = split[2]
                 signal_name = split[3]
-                if signal_name not in latch_map.keys():
+                if f"{signal_name}[{bit}]" not in latch_map.keys():
                     latch_map[f"{signal_name}[{bit}]"] = latch_num
 
     with open(input_path, "r") as file:
@@ -30,6 +30,7 @@ def inv_to_pla(input_path, map_path, output_path):
             cube = cube.strip()
             variables = cube.split("&&")
             cube_latch_map = dict()
+            skip = False
             for var in variables:
                 var = var.strip()
                 var = var.replace("!(", "").replace(")", "")
@@ -38,8 +39,12 @@ def inv_to_pla(input_path, map_path, output_path):
                     var = var[1:]
                 latch_num = latch_map[var]
                 all_latches.add(latch_num)
+                if latch_num in cube_latch_map.keys():
+                    if not cube_latch_map[latch_num] !=  negated:
+                        skip = True
                 cube_latch_map[latch_num] = not negated
-            latch_values.append(cube_latch_map)
+            if not skip:
+                latch_values.append(cube_latch_map)
         all_latches = sorted(list(all_latches))
         inv_translated = []
         for line in latch_values:

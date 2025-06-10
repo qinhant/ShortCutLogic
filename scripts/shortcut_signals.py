@@ -57,7 +57,7 @@ def add_eqinit_predicate(filein, fileout, *, cfg: ShortcutSignalsConfig):
     skipline = re.compile(rf"^{skip.pattern}$")
 
     decl = re.compile(r"\s*(module|wire|reg|input|output|inout).*")
-    decl_reg = re.compile(r"\s*reg .*")
+    decl_reg = re.compile(r"\s*reg(?:\s+\[[^]]+\])?\s[^\[]*;")
 
     assign = re.compile(
         r"(?P<lhs>\s*(assign )?(?P<var>[\w\.\\]+)\s*(\[[0-9:\s]*\])?\s*(=|<=))"
@@ -165,8 +165,7 @@ def add_eqinit_predicate(filein, fileout, *, cfg: ShortcutSignalsConfig):
             # print(id, r)
             orig_assign = reg_assigns[id]
             neq_signal = neq_registers[id]
-            # FIXME, track each copy's clock
-            # if not cfg.predicate_only:
+            
             if not cfg.wire_only:
                 fout.write(
                     textwrap.indent(
@@ -314,6 +313,7 @@ def add_equiv_predicate(filein, fileout, *, cfg: ShortcutSignalsConfig):
                     if rhs != updated:
                         rhs = updated
                 if "<=" in lhs:  # var is a register
+                    print(123456)
                     assert (
                         var not in reg_assigns
                     ), f"not implemented: handle repeated register assignment (of {var})"
@@ -326,7 +326,10 @@ def add_equiv_predicate(filein, fileout, *, cfg: ShortcutSignalsConfig):
         for id, r in orig_regs.items():
             # print(id, r)
             for rc in copy_regs[id]:
-                orig_assign = reg_assigns[r.full_name]
+                try:
+                    orig_assign = reg_assigns[r.full_name]
+                except KeyError:
+                    print(reg_assigns.items())
                 copy_assign = reg_assigns[rc.full_name]
                 neq_signal = neq_registers[rc.full_name]
                 # FIXME, track each copy's clock

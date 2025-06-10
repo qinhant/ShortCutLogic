@@ -171,7 +171,7 @@ fi
 
 pdr_commands="read ${output_dir}/${file}.aig;
     fold;
-    pdr -v -d -T 5 -I ${output_dir}/${file}.pla -R ${output_dir}/${file}.relation"
+    pdr -v -d -T 3600 -I ${output_dir}/${file}.pla -R ${output_dir}/${file}.relation"
 if $verbose; then
   pdr_commands="${pdr_commands} -w"
 fi
@@ -241,8 +241,6 @@ if $interpret; then
 fi
 
 # echo "${option}"
-grep  " : " "${output_dir}/pdr_${file}_interpreted.log"
-grep  -E -A 200 -m 1 "(Verification .* successful)|(Block =)|(SolverStatistic.*)" "${output_dir}/pdr_${file}_interpreted.log"
 
 
 if $verify; then
@@ -253,19 +251,33 @@ python3 scripts/expand_inv.py \
     --map "${output_dir}/${file}.map" \
     --output "${output_dir}/expand_inv.log" \
 
+# python3 scripts/transform_inv.py \
+#     --input "${output_dir}/expand_inv.log" \
+#     --map "output/original_circuit/${design}.map" \
+#     --output "${output_dir}/expand_inv.pla" \
+
+# verify_commands="&read output/original_circuit/${design}.aig;
+#                 read ${output_dir}/expand_inv.pla;
+#                 inv_put;
+#                 inv_check -v"
 python3 scripts/transform_inv.py \
     --input "${output_dir}/expand_inv.log" \
-    --map "output/original_circuit/${design}.map" \
+    --map "${output_dir}/${file}.map" \
     --output "${output_dir}/expand_inv.pla" \
 
-verify_commands="&read output/original_circuit/${design}.aig;
+
+
+verify_commands="&read ${output_dir}/${file}.aig;
                 read ${output_dir}/expand_inv.pla;
                 inv_put;
-                inv_check -v"  
+                inv_check -v" 
 
-abc_exp -c "${verify_commands}"
+abc_exp -c "${verify_commands}" >> "${output_dir}/pdr_${file}_interpreted.log"
 
 fi
+
+grep  " : " "${output_dir}/pdr_${file}_interpreted.log"
+grep  -E -A 200 -m 1 "(Verification .* successful)|(Block =)|(SolverStatistic.*)" "${output_dir}/pdr_${file}_interpreted.log"
 
 
 echo "Script completed."

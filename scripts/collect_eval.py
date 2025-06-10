@@ -108,9 +108,11 @@ technique_flags = {
     "sc": "rim",
     "ept": "rispk",
     "epi": "rispdk",
+    "epi_init": "rispdkt",
     # "ps": "rispc",
     "sc_ept": "rimspk",
     "sc_epi": "rimspdk",
+    "sc_epi_init": "rimstpdk",
     # "sc_ps": "rimspc",
     "ric3_orig": "g",
     "ric3_shortcut": "sgk",
@@ -119,7 +121,7 @@ technique_flags = {
 
 eval_order = technique_flags.keys()
 # eval_order = ["abc_shortcut", "ept", "epi", "sc_ept", "sc_epi"]
-eval_order = ["abc_orig"]
+eval_order = ["epi_init"]
 # eval_order = ["ric3_orig", "ric3_shortcut", "ric3-inn"]
 
 with open(log_filename, "w") as log_file:
