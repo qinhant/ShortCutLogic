@@ -89,17 +89,17 @@ def log_eval(
 
 
 examples = {
-    "multiplier": "multiplier_miter",
-    "sodor": "sodor5_miter_clean",
-    "rocket": "rocket_clean",
-    "divider" : "divider_miter",
-    "modexp" : "rsa_modexp_miter",
-    "secenclave": "SE_leakymul_miter",
-    "cache": "cache_miter",
+    # "multiplier": "multiplier_miter",
+    # "sodor": "sodor5_miter_clean",
+    # "rocket": "rocket_clean",
+    # "divider" : "divider_miter",
+    # "modexp" : "rsa_modexp_miter",
+    # "secenclave": "SE_leakymul_miter",
+    # "cache": "cache_miter",
     "gcd": "gcd_miter"
 }
 
-base_flags = "fa"
+base_flags = "fayv"
 sanity_check_flags = "u"
 
 technique_flags = {
@@ -107,10 +107,12 @@ technique_flags = {
     "abc_shortcut": "risk",
     "sc": "rim",
     "ept": "rispk",
+    "ept_init": "rispkt",
     "epi": "rispdk",
     "epi_init": "rispdkt",
     # "ps": "rispc",
     "sc_ept": "rimspk",
+    "sc_ept_init": "rimspkt",
     "sc_epi": "rimspdk",
     "sc_epi_init": "rimstpdk",
     # "sc_ps": "rimspc",
@@ -121,7 +123,7 @@ technique_flags = {
 
 eval_order = technique_flags.keys()
 # eval_order = ["abc_shortcut", "ept", "epi", "sc_ept", "sc_epi"]
-eval_order = ["epi_init"]
+eval_order = ["sc", "sc_ept", "sc_ept_init", "sc_epi", "sc_epi_init"]
 # eval_order = ["ric3_orig", "ric3_shortcut", "ric3-inn"]
 
 with open(log_filename, "w") as log_file:

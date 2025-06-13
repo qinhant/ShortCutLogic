@@ -66,7 +66,7 @@ def analyze_map_file(map_file_path):
 
     return latch_map, expanded_predicates
 
-def expand_inv(latch_map, predicate_map, log_path, output_path):
+def expand_inv(latch_map, predicate_map, log_path, output_path, symmetry):
     with open(log_path, "r") as file_r:
         invariants = []
         final_invariants = []
@@ -110,8 +110,14 @@ def expand_inv(latch_map, predicate_map, log_path, output_path):
                 for signal in predicate_map[eqinit_pred.replace('[0]', '')]:
                     temp_inv = inv.replace(eqinit_pred, f"{signal}")
                     invariants.append(temp_inv)
-
-            
+        if symmetry:
+            symmetric_invariants = []
+            for inv in final_invariants:
+                sym_inv = inv.replace("copy1", "__TEMPTEMP__")
+                sym_inv = sym_inv.replace("copy2", "copy1")
+                sym_inv = sym_inv.replace("__TEMPTEMP__", "copy2")
+                symmetric_invariants.append(sym_inv)
+            final_invariants += symmetric_invariants
         with open(output_path, 'w') as file_w:
             file_w.write('\n'.join(final_invariants))
 
@@ -127,11 +133,19 @@ if __name__ == "__main__":
         required=True,
         help="output inv path",
     )
-    args = parse.parse_args()
+    parse.add_argument(
+        "--symmetry",
+        dest="symmetry",
+        action="store_true",
+        default=False,
+        help="genearte symmetric clauses in addition to the original clauses"
+    )
 
+
+    args = parse.parse_args()
     latch_map, predicate_map = analyze_map_file(args.map_path)
 
-    expand_inv(latch_map, predicate_map, args.log_path, args.output_path)
+    expand_inv(latch_map, predicate_map, args.log_path, args.output_path, args.symmetry)
 
     # Print latch mappings
     # print("Latch Mappings:")

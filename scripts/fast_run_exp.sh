@@ -246,10 +246,19 @@ fi
 if $verify; then
 # Verify the inductive invariant
 echo "Verifying the inductive invariant for ${design}..."
+
+sym_flag=""
+if $symmetry; then
+sym_flag="--symmetry"
+fi
+
 python3 scripts/expand_inv.py \
     --log "${output_dir}/pdr_${file}_interpreted.log" \
     --map "${output_dir}/${file}.map" \
     --output "${output_dir}/expand_inv.log" \
+    $sym_flag \
+
+
 
 # python3 scripts/transform_inv.py \
 #     --input "${output_dir}/expand_inv.log" \
