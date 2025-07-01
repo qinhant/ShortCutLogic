@@ -17,6 +17,7 @@ class RegCopy:
     copy_id: CopyId
     full_name: str
     width: str = ""
+    n_elements: int | None = None
 
 
 @dataclass
@@ -60,7 +61,7 @@ def add_eqinit_predicate(filein, fileout, *, cfg: ShortcutSignalsConfig):
     decl_reg = re.compile(r"\s*reg(?:\s+\[[^]]+\])?\s[^\[]*;")
 
     assign = re.compile(
-        r"(?P<lhs>\s*(assign )?(?P<var>[\w\.\\]+)\s*(\[[0-9:\s]*\])?\s*(=|<=))"
+        r"(?P<lhs>\s*(assign )?(?P<var>[\[\w\.\\\d\]]+)\s*(\[[0-9:\s]*\])?\s*(=|<=))"
         rf"\s*(?P<rhs>.+);(?P<comments>{skip.pattern})"
     )
     endmodule = re.compile(r"\s*endmodule")
@@ -200,7 +201,7 @@ def add_equiv_predicate(filein, fileout, *, cfg: ShortcutSignalsConfig):
     decl_reg = re.compile(r"\s*reg .*")
 
     assign = re.compile(
-        r"(?P<lhs>\s*(assign )?(?P<var>[\w\.\\]+)\s*(\[[0-9:\s]*\])?\s*(=|<=))"
+        r"(?P<lhs>\s*(assign )?(?P<var>[\[\w\.\\\d\]]+)\s*(\[[0-9:\s]*\])?\s*(=|<=))"
         rf"\s*(?P<rhs>.+);(?P<comments>{skip.pattern})"
     )
     endmodule = re.compile(r"\s*endmodule")
@@ -237,6 +238,8 @@ def add_equiv_predicate(filein, fileout, *, cfg: ShortcutSignalsConfig):
                 lines = itertools.chain([l], lines)
                 break
 
+            if decl_reg.match(l):
+                print(l, cfg.parse_sct_reg(l))
             if decl_reg.match(l) and (reg := cfg.parse_sct_reg(l)):
                 if reg.copy_id == cfg.original:
                     orig_regs[reg.id] = reg
@@ -258,15 +261,27 @@ def add_equiv_predicate(filein, fileout, *, cfg: ShortcutSignalsConfig):
                 signal = f"{cfg.shortcut_prefix}neq_{id}_{copy_id}"
                 if cfg.wire_only:
                     signal_wire = f"{signal}_wire"
-                    shortcut_decls.append(f"  wire {signal_wire} ;\n")
-                    shortcut_assigns.append(
-                        f"  assign {signal_wire} = !{cfg.assume_violate_sig} && {r.full_name} != {rc.full_name} ;\n"
-                    )
-                    neq_registers[rc.full_name] = signal_wire
+                    if False:
+                        shortcut_decls.append(f"  wire [{r.n_elements-1}:0] {signal_wire} ;\n")
+                        for i in range(r.n_elements):
+                            shortcut_assigns.append(
+                                f"  assign {signal_wire}[{i}] = !{cfg.assume_violate_sig} && {r.full_name}[{i}] != {rc.full_name}[{i}] ;\n"
+                            )
+                            neq_registers[f"{r.full_name}[{i}]"] = f"{signal_wire}[{i}]"
+                    else:
+                        shortcut_decls.append(f"  wire {signal_wire} ;\n")
+                        shortcut_assigns.append(
+                            f"  assign {signal_wire} = !{cfg.assume_violate_sig} && {r.full_name} != {rc.full_name} ;\n"
+                        )
+                        neq_registers[rc.full_name] = signal_wire
                 else:
                     signal_wire = signal
                     neq_registers[rc.full_name] = signal
-                    shortcut_decls.append(f"  reg {signal} = 0 ;\n")
+                    if False:
+                        # Can store  [{r.n_elements-1}:0] as a variable
+                        shortcut_decls.append(f"  reg [{r.n_elements-1}:0] {signal} = 0 ;\n")
+                    else:
+                        shortcut_decls.append(f"  reg {signal} = 0 ;\n")
                 shortcut = f"{cfg.shortcut_prefix}{id}.{copy_id}"
                 shortcutc = f"{cfg.shortcut_prefix}{copy_id}.{id}"
                 shortcuts[r.full_name] = shortcut
@@ -313,10 +328,9 @@ def add_equiv_predicate(filein, fileout, *, cfg: ShortcutSignalsConfig):
                     if rhs != updated:
                         rhs = updated
                 if "<=" in lhs:  # var is a register
-                    print(123456)
                     assert (
                         var not in reg_assigns
-                    ), f"not implemented: handle repeated register assignment (of {var})"
+                    ), f"not implemented: handle repeated register assignment (of {var}) in line {l}"
                     reg_assigns[var] = rhs
                     l = f"{lhs} {rhs} ;{comments}"
             fout.write(l)
@@ -647,9 +661,10 @@ if __name__ == "__main__":
 
     copy_re = f"(?P<copy>({prefix1}|{prefix2}))"
     width_re = r"\s*(?P<width>(\[\d+:\d+\]|))\s*"
-    name_re = r"(?P<name>[\w\.\\]+)"
+    name_re = r"(?P<name>[\[\w\.\\\d\]]+)"
     fullname_re = rf"(?P<fullname>{copy_re}{name_re})"
-    reg_re = re.compile(rf"\s*reg{width_re} {fullname_re}")
+    elems_re = r"\s*(?P<elems>(\[(?P<elems_start>\d+):(?P<elems_end>\d+)\]|))\s*"
+    reg_re = re.compile(rf"\s*reg{width_re} {fullname_re}{elems_re}")
     wire_re = re.compile(rf"\s*(wire|input|output|inout){width_re} {fullname_re}")
 
     def parse_sct_reg(reg: str):  # -> RegCopy | None:
@@ -660,11 +675,18 @@ if __name__ == "__main__":
             name = match.group("name")
             if not sct_regs.fullmatch(name):
                 return None
+            if match.group("elems_end") is not None and match.group("elems_start") is not None:
+                n_elems = abs(int(match.group("elems_end")) - int(match.group("elems_start"))) + 1
+            else:
+                n_elems = None
+            print(match.group("fullname"))
+            print(n_elems)
             return RegCopy(
                 name,
                 copy_id=match.group("copy"),
                 width=match.group("width"),
                 full_name=match.group("fullname"),
+                n_elements=n_elems
             )
         except KeyError:
             return None

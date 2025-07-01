@@ -3,7 +3,8 @@ import argparse
 import os
 import re
 
-
+# In the input file, every line of the invariants should look like !(a && !b && c) etc.
+# The map file needs to be the one genereated along with the aig file
 def inv_to_pla(input_path, map_path, output_path):
     with open(map_path, "r") as file:
         mapping = [line.strip() for line in file.readlines()]
@@ -34,6 +35,9 @@ def inv_to_pla(input_path, map_path, output_path):
             for var in variables:
                 var = var.strip()
                 var = var.replace("!(", "").replace(")", "")
+                if len(var) == 0:
+                    print("No invariants found!")
+                    exit(0)
                 negated = var[0] == "!"
                 if negated:
                     var = var[1:]

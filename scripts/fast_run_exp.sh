@@ -279,7 +279,7 @@ python3 scripts/transform_inv.py \
 verify_commands="&read ${output_dir}/${file}.aig;
                 read ${output_dir}/expand_inv.pla;
                 inv_put;
-                inv_check -v" 
+                inv_check" 
 
 abc_exp -c "${verify_commands}" >> "${output_dir}/pdr_${file}_interpreted.log"
 

@@ -1,0 +1,23 @@
+{
+    "files.associations": {
+        "*.sv": "systemverilogheader",
+        "abc.h": "c",
+        "atomic": "c",
+        "bitset": "c",
+        "deque": "c",
+        "list": "c",
+        "string": "c",
+        "unordered_map": "c",
+        "unordered_set": "c",
+        "vector": "c",
+        "string_view": "c",
+        "random": "c",
+        "fstream": "c",
+        "istream": "c",
+        "sstream": "c",
+        "regex": "c",
+        "type_traits": "c",
+        "array": "c",
+        "initializer_list": "c"
+    }
+}

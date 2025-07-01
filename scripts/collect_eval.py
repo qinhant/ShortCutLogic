@@ -95,16 +95,17 @@ examples = {
     # "divider" : "divider_miter",
     # "modexp" : "rsa_modexp_miter",
     # "secenclave": "SE_leakymul_miter",
-    # "cache": "cache_miter",
-    "gcd": "gcd_miter"
+    "cache": "cache_miter"
+    # "gcd": "gcd_miter"
 }
 
-base_flags = "fayv"
+base_flags = "fay"
 sanity_check_flags = "u"
 
 technique_flags = {
     "abc_orig": "ri",
-    "abc_shortcut": "risk",
+    "abc_eq_pred": "risk",
+    "abc_eq_init_pred": "risk",
     "sc": "rim",
     "ept": "rispk",
     "ept_init": "rispkt",
@@ -123,7 +124,7 @@ technique_flags = {
 
 eval_order = technique_flags.keys()
 # eval_order = ["abc_shortcut", "ept", "epi", "sc_ept", "sc_epi"]
-eval_order = ["sc", "sc_ept", "sc_ept_init", "sc_epi", "sc_epi_init"]
+# eval_order = ["sc", "epi", "sc_ept_init", "sc_epi_init"]
 # eval_order = ["ric3_orig", "ric3_shortcut", "ric3-inn"]
 
 with open(log_filename, "w") as log_file:

@@ -4,3 +4,6 @@
 [submodule "solvers/rIC3"]
 	path = solvers/rIC3
 	url = https://github.com/gipsyh/rIC3.git
+[submodule "solvers/rIC3_exp"]
+	path = solvers/rIC3_exp
+	url = git@github.com:qinhant/rIC3_exp.git

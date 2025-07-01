@@ -2,4 +2,6 @@ read_verilog -sv -formal input_path
 chformal -lower
 prep -top top_module
 flatten
+memory -nordff
+setundef -undriven -init -zero
 write_verilog output_path
