@@ -215,18 +215,25 @@ if $pdr; then
   abc_exp -c "${pdr_commands}" > "${output_dir}/pdr_${file}.log"
 fi
 
-verbose_level=1
+map_path=""
 if $verbose; then
-verbose_level=10
+export RUST_LOG=trace
+map_path="--model-map ${output_dir}/${file}.map"
 fi
+
+
 # Step 4: Run rIC3 or rIC3-inn
 if $rIC3; then
+  rIC3_command="rIC3_exp ${output_dir}/${file}.aig --engine ic3 ${map_path} ${output_dir}/${file}.aig"
   echo "Running rIC3 for ${design}..."
-  rIC3 "${output_dir}/${file}.aig" --engine ic3 -v $verbose_level  > "${output_dir}/ric3_${file}.log"
+  echo $rIC3_command
+  rIC3_exp "${output_dir}/${file}.aig" --engine ic3 ${map_path} ${output_dir}/${file}.aig > "${output_dir}/ric3_${file}.log" 2>&1
 fi
 if $rIC3inn; then
+  rIC3_command="rIC3_exp ${output_dir}/${file}.aig --engine ic3 --ic3-inn ${map_path} ${output_dir}/${file}.aig"
   echo "Running rIC3 for ${design}..."
-  rIC3 "${output_dir}/${file}.aig" --engine ic3 --ic3-inn -v $verbose_level  > "${output_dir}/ric3_${file}.log"
+  echo $rIC3_command
+  rIC3_exp "${output_dir}/${file}.aig" --engine ic3 --ic3-inn ${map_path} ${output_dir}/${file}.aig > "${output_dir}/ric3_${file}.log" 2>&1
 fi
 
 # Step 5: Interpret the PDR log

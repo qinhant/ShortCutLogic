@@ -122,10 +122,10 @@ technique_flags = {
     "ric3-inn": "slwk"
 }
 
-eval_order = technique_flags.keys()
+# eval_order = technique_flags.keys()
 # eval_order = ["abc_shortcut", "ept", "epi", "sc_ept", "sc_epi"]
 # eval_order = ["sc", "epi", "sc_ept_init", "sc_epi_init"]
-# eval_order = ["ric3_orig", "ric3_shortcut", "ric3-inn"]
+eval_order = ["ric3_orig"]
 
 with open(log_filename, "w") as log_file:
 
@@ -176,7 +176,10 @@ with open(log_filename, "w") as log_file:
 
 
     log("#### Ensuring `rIC3` is available ####\n")
-    cmd = "which rIC3"
+    solver_dir = os.path.join(cwd, 'target/debug/')
+    solver = os.path.join(solver_dir, 'rIC3')
+    cmd = f"ln -s $(realpath {solver}) /bin/rIC3_exp"
+    cmd = "which rIC3_exp"
     log(f">> {cmd}   ===>   ")
     try:
         subprocess.run(cmd, shell=True, check=True, capture_output=True)

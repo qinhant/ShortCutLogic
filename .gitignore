@@ -8,5 +8,6 @@ output/
 *log
 jgproject/
 obj_dir/
+target/
 
 .DS_Store
