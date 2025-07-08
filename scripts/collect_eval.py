@@ -105,7 +105,7 @@ sanity_check_flags = "u"
 technique_flags = {
     "abc_orig": "ri",
     "abc_eq_pred": "risk",
-    "abc_eq_init_pred": "risk",
+    "abc_eq_init_pred": "riskt",
     "sc": "rim",
     "ept": "rispk",
     "ept_init": "rispkt",
@@ -122,10 +122,10 @@ technique_flags = {
     "ric3-inn": "slwk"
 }
 
-# eval_order = technique_flags.keys()
+eval_order = technique_flags.keys()
 # eval_order = ["abc_shortcut", "ept", "epi", "sc_ept", "sc_epi"]
 # eval_order = ["sc", "epi", "sc_ept_init", "sc_epi_init"]
-eval_order = ["ric3_orig"]
+# eval_order = ["ric3_orig"]
 
 with open(log_filename, "w") as log_file:
 

@@ -6,6 +6,7 @@ output/
 *.vcd
 *.sim
 *log
+*.lock
 jgproject/
 obj_dir/
 target/
