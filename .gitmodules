@@ -7,3 +7,4 @@
 [submodule "solvers/rIC3_exp"]
 	path = solvers/rIC3_exp
 	url = git@github.com:qinhant/rIC3_exp.git
+	branch = predicate_exp
