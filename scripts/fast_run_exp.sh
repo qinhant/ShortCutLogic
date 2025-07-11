@@ -108,8 +108,8 @@ top="top"
 # Create the output directory
 if ! $reuse; then
   rm -f "${output_dir}"/*
-  mkdir -p "${output_dir}"
 fi
+mkdir -p "${output_dir}"
 
 file="${design}"
 
@@ -199,14 +199,14 @@ if $rIC3inn; then
   version="shortcut_inn"
 fi  
 
-# if $reuse; then
-#   echo "Copying existing files for ${design}..."
+if $reuse; then
+  echo "Copying existing files for ${design}..."
 
-#   cp -f "output/file_reused/${design}/${version}.aig" "${output_dir}/${file}.aig"
-#   cp -f "output/file_reused/${design}/${version}.relation" "${output_dir}/${file}.relation"
-#   cp -f "output/file_reused/${design}/${version}.map" "${output_dir}/${file}.map"
+  cp -f "output/file_reused/${design}/${version}.aig" "${output_dir}/${file}.aig"
+  cp -f "output/file_reused/${design}/${version}.relation" "${output_dir}/${file}.relation"
+  cp -f "output/file_reused/${design}/${version}.map" "${output_dir}/${file}.map"
 
-# fi
+fi
 
 # Step 4: Run ABC with PDR
 if $pdr; then
@@ -219,24 +219,39 @@ map_path="--model-map ${output_dir}/${file}.map"
 relation_path="--relation-file ${output_dir}/${file}.relation"
 if $verbose; then
 export RUST_LOG=trace
+export RUST_BACKTRACE=1
 fi
 
-rIC3_options=""
+rIC3_options="--no-abc "
 if $symmetry; then
   rIC3_options="${rIC3_options} --symmetry"
 fi
+if $predicate; then
+  rIC3_options="${rIC3_options} --equiv-predicate"
+fi
+if $eqinit_predicate; then
+  rIC3_options="${rIC3_options} --eqinit-predicate"
+fi
+if $iterative; then
+  rIC3_options="${rIC3_options} --iterative-predicate-replacement"
+fi
 # Step 4: Run rIC3 or rIC3-inn
 if $rIC3; then
-  rIC3_command="rIC3_exp ${output_dir}/${file}.aig --engine ic3 ${map_path} ${relation_path} ${rIC3_options} ${output_dir}/${file}.aig"
+  rIC3_command="rIC3_exp --engine ic3 ${map_path} ${relation_path} ${rIC3_options} ${output_dir}/${file}.aig"
   echo "Running rIC3 for ${design}..."
   echo $rIC3_command
   eval "$rIC3_command" > "${output_dir}/ric3_${file}.log" 2>&1
 fi
 if $rIC3inn; then
-  rIC3_command="rIC3_exp ${output_dir}/${file}.aig --engine ic3 --ic3-inn ${map_path} ${relation_path} ${rIC3_options} ${output_dir}/${file}.aig"
+  rIC3_command="rIC3_exp --engine ic3 --ic3-inn ${map_path} ${relation_path} ${rIC3_options} ${output_dir}/${file}.aig"
   echo "Running rIC3 for ${design}..."
   echo $rIC3_command
   eval "$rIC3_command" > "${output_dir}/ric3_${file}.log" 2>&1
+fi
+
+if ! $pdr; then
+  interpret=false
+  verify=false
 fi
 
 # Step 5: Interpret the PDR log
@@ -249,8 +264,6 @@ if $interpret; then
     --output "${output_dir}/pdr_${file}_interpreted.log" \
     --cex "${output_dir}/${file}.cex"
 fi
-
-# echo "${option}"
 
 
 if $verify; then
@@ -300,3 +313,5 @@ grep  -E -A 200 -m 1 "(Verification .* successful)|(Block =)|(SolverStatistic.*)
 
 
 echo "Script completed."
+
+

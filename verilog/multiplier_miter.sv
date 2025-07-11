@@ -105,4 +105,5 @@ module top(in_a, in_in_valid, in_b_1, in_b_2, in_clk, trigger, cmp_out_valid, cm
   assign assume_violate = `ASSUME_ON ? assume_1_violate_in : 0;
 
   assert property (copy1_out_valid == copy2_out_valid || assume_violate);
+  
 endmodule

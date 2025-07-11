@@ -89,14 +89,14 @@ def log_eval(
 
 
 examples = {
-    # "multiplier": "multiplier_miter",
-    # "sodor": "sodor5_miter_clean",
-    # "rocket": "rocket_clean",
-    # "divider" : "divider_miter",
-    # "modexp" : "rsa_modexp_miter",
-    # "secenclave": "SE_leakymul_miter",
-    "cache": "cache_miter"
-    # "gcd": "gcd_miter"
+    "multiplier": "multiplier_miter",
+    "sodor": "sodor5_miter_clean",
+    "rocket": "rocket_clean",
+    "divider" : "divider_miter",
+    "modexp" : "rsa_modexp_miter",
+    "secenclave": "SE_leakymul_miter",
+    "cache": "cache_miter",
+    "gcd": "gcd_miter"
 }
 
 base_flags = "fay"
@@ -119,13 +119,14 @@ technique_flags = {
     # "sc_ps": "rimspc",
     "ric3_orig": "g",
     "ric3_shortcut": "sgk",
-    "ric3-inn": "slwk"
+    # "ric3-inn": "slwk"
+    "ric3_sc": "gm"
 }
 
-eval_order = technique_flags.keys()
+# eval_order = technique_flags.keys()
 # eval_order = ["abc_shortcut", "ept", "epi", "sc_ept", "sc_epi"]
 # eval_order = ["sc", "epi", "sc_ept_init", "sc_epi_init"]
-# eval_order = ["ric3_orig"]
+eval_order = ["ric3_orig", "ric3_sc"]
 
 with open(log_filename, "w") as log_file:
 
@@ -176,7 +177,7 @@ with open(log_filename, "w") as log_file:
 
 
     log("#### Ensuring `rIC3` is available ####\n")
-    solver_dir = os.path.join(cwd, 'target/debug/')
+    solver_dir = os.path.join(cwd, 'target/release/')
     solver = os.path.join(solver_dir, 'rIC3')
     cmd = f"ln -s $(realpath {solver}) /bin/rIC3_exp"
     cmd = "which rIC3_exp"
