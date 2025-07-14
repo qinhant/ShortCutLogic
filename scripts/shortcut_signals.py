@@ -221,7 +221,8 @@ def add_equiv_predicate(filein, fileout, *, cfg: ShortcutSignalsConfig):
                 module_started = True
                 if cfg.predicate_only:
                     l = l.replace("(", "(dummy_o, property_o, ")
-            
+                else:
+                    l = l.replace("(", "(property_o, ")
             fout.write(l)
 
             if module_started and ";" in l:
