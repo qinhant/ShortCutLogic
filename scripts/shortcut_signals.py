@@ -238,8 +238,8 @@ def add_equiv_predicate(filein, fileout, *, cfg: ShortcutSignalsConfig):
                 lines = itertools.chain([l], lines)
                 break
 
-            if decl_reg.match(l):
-                print(l, cfg.parse_sct_reg(l))
+            # if decl_reg.match(l):
+            #     print(l, cfg.parse_sct_reg(l))
             if decl_reg.match(l) and (reg := cfg.parse_sct_reg(l)):
                 if reg.copy_id == cfg.original:
                     orig_regs[reg.id] = reg
@@ -679,8 +679,8 @@ if __name__ == "__main__":
                 n_elems = abs(int(match.group("elems_end")) - int(match.group("elems_start"))) + 1
             else:
                 n_elems = None
-            print(match.group("fullname"))
-            print(n_elems)
+            # print(match.group("fullname"))
+            # print(n_elems)
             return RegCopy(
                 name,
                 copy_id=match.group("copy"),

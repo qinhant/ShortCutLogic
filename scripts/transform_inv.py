@@ -41,6 +41,8 @@ def inv_to_pla(input_path, map_path, output_path):
                 negated = var[0] == "!"
                 if negated:
                     var = var[1:]
+                if var.find('[') < 0:
+                    var += '[0]'
                 latch_num = latch_map[var]
                 all_latches.add(latch_num)
                 if latch_num in cube_latch_map.keys():

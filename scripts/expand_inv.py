@@ -71,20 +71,29 @@ def expand_inv(latch_map, predicate_map, log_path, output_path, symmetry):
         invariants = []
         final_invariants = []
         for line in file_r:
-            if line.find("Invariant Clauses") >= 0:
-                continue
-            if line.find("PDR Log") >= 0:
-                break
-            line = line.strip()
-            if len(line) == 0:
-                break
-            invariants.append(line)
-        
+            if log_path.find("pdr_") >= 0:
+                if line.find("Invariant Clauses") >= 0:
+                    continue
+                if line.find("PDR Log") >= 0:
+                    break
+                line = line.strip()
+                if len(line) == 0:
+                    break
+                invariants.append(line)
+            elif log_path.find("ric3_") >= 0:
+                if line.find("inducive invariant:") >= 0:
+                    line = line.replace(',', ' && ')
+                    line = line.replace('inducive invariant:', '')
+                    line = line.replace('-', '!')
+                    line = line.strip()
+                    line = line[1:-1]
+                    line = "!(" + line + ")"
+                    invariants.append(line)
         while len(invariants) > 0:
             # Pop one invariant from the queue
             inv = invariants[0]
             invariants = invariants[1: ]
-            if inv.find('!assume_1_violate[0]') < 0:
+            if inv.find('!assume_1_violate') < 0:
                         inv = inv.replace('(', '(!assume_1_violate[0] && ')
 
             error_match = re.search(r'!shortcut\.neq_[^ )]*', inv)

@@ -9,7 +9,7 @@ from typing import Callable
 
 parse = argparse.ArgumentParser()
 parse.add_argument(
-    "--timeout", dest="timeout", default="65", help="timeout in minutes"
+    "--timeout", dest="timeout", default="60", help="timeout in minutes"
 )
 args = parse.parse_args()
 
@@ -92,11 +92,13 @@ examples = {
     "multiplier": "multiplier_miter",
     "sodor": "sodor5_miter_clean",
     "rocket": "rocket_clean",
-    "divider" : "divider_miter",
     "modexp" : "rsa_modexp_miter",
     "secenclave": "SE_leakymul_miter",
     "cache": "cache_miter",
-    "gcd": "gcd_miter"
+    "gcd": "gcd_miter",
+    "fp_divider" : "single_divider_ws_miter",
+    "fp_multiplier": "single_multiplier_ws_miter",
+    "fp_adder": "single_adder_ws_miter"
 }
 
 base_flags = "fay"
@@ -104,29 +106,35 @@ sanity_check_flags = "u"
 
 technique_flags = {
     "abc_orig": "ri",
-    "abc_eq_pred": "risk",
-    "abc_eq_init_pred": "riskt",
+    # "abc_eq_pred": "risk",
+    # "abc_eq_init_pred": "riskt",
     "sc": "rim",
     "ept": "rispk",
-    "ept_init": "rispkt",
+    # "ept_init": "rispkt",
     "epi": "rispdk",
-    "epi_init": "rispdkt",
+    # "epi_init": "rispdkt",
     # "ps": "rispc",
     "sc_ept": "rimspk",
-    "sc_ept_init": "rimspkt",
+    # "sc_ept_init": "rimspkt",
     "sc_epi": "rimspdk",
-    "sc_epi_init": "rimstpdk",
+    # "sc_epi_init": "rimstpdk",
     # "sc_ps": "rimspc",
     "ric3_orig": "g",
-    "ric3_shortcut": "sgk",
+    # "ric3_shortcut": "sgk",
     # "ric3-inn": "slwk"
-    "ric3_sc": "gm"
+    "ric3_sc": "gm",
+    "ric3_ept": "gskp",
+    "ric3_sc_ept": "gmskp",
+    "ric3_epi": "gskpd",
+    "ric3_sc_epi": "gmskpd",
+    "ric3_epx": "gskpx",
+    "ric3_sc_epx": "gmskpx",
 }
 
 # eval_order = technique_flags.keys()
-# eval_order = ["abc_shortcut", "ept", "epi", "sc_ept", "sc_epi"]
+# eval_order = ["ept", "epi", "sc_ept", "sc_epi", "sc", "ric3_orig", "ric3_sc", "ric3_ept", "ric3_sc_ept"]
 # eval_order = ["sc", "epi", "sc_ept_init", "sc_epi_init"]
-eval_order = ["ric3_orig", "ric3_sc"]
+eval_order = ["ric3_epx", "ric3_sc_epx"]
 
 with open(log_filename, "w") as log_file:
 
@@ -205,7 +213,7 @@ with open(log_filename, "w") as log_file:
             log_eval(
                 example=ex,
                 result_file=result_file,
-                flags=base_flags + technique_flags[tech],
+                flags= (f"{base_flags}n" if name is "secenclave" else base_flags) + technique_flags[tech],
                 output_label=tech,
                 timeout=TIMEOUT,
                 valid_retcodes=valid_retcodes,

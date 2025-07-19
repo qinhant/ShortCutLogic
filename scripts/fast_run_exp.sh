@@ -2,6 +2,7 @@
 
 # Exit when any command fails
 # set -e
+# set -x
 OPTIND=1
 # Function to display usage message
 usage() {
@@ -53,11 +54,12 @@ rIC3=false
 rIC3inn=false
 verbose=false
 verify=false
+exhaustive=false
 
-set -e
+# set -e
 
 # Parse command-line options
-while getopts "faswerimpdcqnubgktlvyO:" opt; do
+while getopts "faswerimpdcqnubgktlvyxO:" opt; do
   case $opt in
     f) flatten=true ;;
     a) aig=true ;;
@@ -69,6 +71,7 @@ while getopts "faswerimpdcqnubgktlvyO:" opt; do
     m) symmetry=true ;;
     p) predicate=true ;;
     d) iterative=true ;;
+    x) exhaustive=true ;;
     c) incremental=true ;;
     n) reuse=true ;;
     u) unconstrained="--no_assumption" ;;
@@ -235,6 +238,9 @@ fi
 if $iterative; then
   rIC3_options="${rIC3_options} --iterative-predicate-replacement"
 fi
+if $exhaustive; then
+  rIC3_options="${rIC3_options} --exhaustive-predicate-replacement"
+fi
 # Step 4: Run rIC3 or rIC3-inn
 if $rIC3; then
   rIC3_command="rIC3_exp --engine ic3 ${map_path} ${relation_path} ${rIC3_options} ${output_dir}/${file}.aig"
@@ -251,7 +257,6 @@ fi
 
 if ! $pdr; then
   interpret=false
-  verify=false
 fi
 
 # Step 5: Interpret the PDR log
@@ -266,6 +271,7 @@ if $interpret; then
 fi
 
 
+
 if $verify; then
 # Verify the inductive invariant
 echo "Verifying the inductive invariant for ${design}..."
@@ -275,8 +281,15 @@ if $symmetry; then
 sym_flag="--symmetry"
 fi
 
+log_file=""
+if $pdr; then
+log_file="pdr_${file}_interpreted.log"
+fi
+if $rIC3; then
+log_file="ric3_${file}.log"
+fi
 python3 scripts/expand_inv.py \
-    --log "${output_dir}/pdr_${file}_interpreted.log" \
+    --log "${output_dir}/${log_file}" \
     --map "${output_dir}/${file}.map" \
     --output "${output_dir}/expand_inv.log" \
     $sym_flag \

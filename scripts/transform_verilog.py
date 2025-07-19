@@ -2,7 +2,118 @@ import sys
 import argparse
 import os
 import re
+from pyverilog.vparser.parser import parse
+from pyverilog.vparser.ast import *
+from pyverilog.ast_code_generator.codegen import ASTCodeGenerator
+import subprocess
 
+###############################################################################
+# 1.  Pre‑processing (macro / include expansion)                              #
+###############################################################################
+
+def preprocess_verilog(infile, outfile):
+    """Run `iverilog -E` to expand `define`s and `ifdef`s so Pyverilog sees
+    plain Verilog.  Assumes iverilog is installed."""
+    subprocess.run(["iverilog", "-E", infile, "-o", outfile], check=True)
+
+###############################################################################
+# 2.  Detect *write* slices via simple regex and keep a slice‑map             #
+###############################################################################
+
+#   Map like { 'z': { '31', '30_23', '22_0' } }
+
+def detect_slice_map(path):
+    slice_map = {}
+    # matches  foo[7:0] <=   or foo[15] = etc (allows spaces)
+    part_pat = re.compile(r"^\s*([A-Za-z_]\w*)\s*\[\s*(\d+)\s*:\s*(\d+)\s*\]\s*(?:<=|=)")
+    ptr_pat  = re.compile(r"^\s*([A-Za-z_]\w*)\s*\[\s*(\d+)\s*\]\s*(?:<=|=)")
+    with open(path) as f:
+        for line in f:
+            m = part_pat.match(line) or ptr_pat.match(line)
+            if m:
+                reg = m.group(1)
+                if len(m.groups()) == 3:   # partselect
+                    msb, lsb = m.group(2), m.group(3)
+                    slice_str = f"{msb}_{lsb}"
+                else:                      # pointer
+                    slice_str = m.group(2)
+                slice_map.setdefault(reg, set()).add(slice_str)
+    return slice_map
+
+###############################################################################
+# 3.  Rewrite AST:                                                           #
+#       • replace slice uses (LHS + RHS) with field regs                     #
+#       • append new `reg` declarations                                      #
+###############################################################################
+
+def rewrite_ast(ast, slice_map):
+    module = ast.description.definitions[0]
+
+    # --- helper: build name for a slice
+    def slice_id(reg, slice_str):
+        return f"{reg}_{slice_str}_reg"
+
+    # --- pass 1: replace slice nodes with identifiers ----------------------
+    def replace_slices(node):
+        # LHS/RHS substitution
+        if isinstance(node, Partselect):
+            reg = node.var.name
+            slice_str = f"{node.msb.value}_{node.lsb.value}"
+            if reg in slice_map:
+                return Identifier(slice_id(reg, slice_str))
+        if isinstance(node, Pointer):
+            reg = node.var.name
+            slice_str = f"{node.ptr.value}"
+            if reg in slice_map:
+                return Identifier(slice_id(reg, slice_str))
+        # generic recurse / rebuild
+        for attr in node.children():
+            new_child = replace_slices(attr)
+            if new_child is not attr:
+                # replace reference inside parent
+                node.replace(attr, new_child)
+        return node
+
+    replace_slices(module)
+
+    # --- pass 2: add new `reg` declarations --------------------------------
+    new_decls = []
+    for reg, slices in slice_map.items():
+        for sl in slices:
+            new_id = slice_id(reg, sl)
+            # width: derive from slice_str; if single bit => 1, else bus width
+            if '_' in sl:
+                msb, lsb = map(int, sl.split('_'))
+                width = msb - lsb + 1
+                new_decls.append(Reg(new_id, width-1, 0, None))
+            else:
+                new_decls.append(Reg(new_id, None, None, None))  # 1‑bit reg
+    if new_decls:
+        module.items.insert(0, Decl(new_decls))
+
+    return ast
+
+###############################################################################
+# 4.  Top‑level driver                                                       #
+###############################################################################
+
+def verilog_word_split(src_path):
+    pp_path = "preprocessed.v"
+    preprocess_verilog(src_path, pp_path)
+
+    slice_map = detect_slice_map(pp_path)
+    # Keep only regs with >1 slice writes (true splitting criterion)
+    slice_map = {k: v for k, v in slice_map.items() if len(v) > 1}
+    if slice_map:
+        print("Regs to split (slice writes detected):", sorted(slice_map.keys()))
+    else:
+        print("No slice‑written registers detected.")
+
+    ast, _ = parse([pp_path])
+    new_ast = rewrite_ast(ast, slice_map)
+
+    codegen = ASTCodeGenerator()
+    print(codegen.visit(new_ast))
 
 def flatten_verilog(input_path, output_path, top, no_assumption):
     # create a temporary yosys script using the input arguments
@@ -200,31 +311,31 @@ def remove_f_blocks(input_path, output_path):
 
 if __name__ == "__main__":
 
-    parse = argparse.ArgumentParser()
-    parse.add_argument(
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
         "--input", dest="input_path", required=True, help="input file path"
     )
-    parse.add_argument(
+    parser.add_argument(
         "--output",
         dest="output_path",
         required=True,
         help="output path",
     )
-    parse.add_argument("--top", dest="top", required=True, help="top module")
-    parse.add_argument(
+    parser.add_argument("--top", dest="top", required=True, help="top module")
+    parser.add_argument(
         "--option",
         dest="option",
         required=True,
         help="available options: flatten verilog_to_aig create_miter",
     )
-    parse.add_argument(
+    parser.add_argument(
         "--no_assumption",
         dest="no_assumption",
         action="store_true",
         default=False,
         help="Disable to assumption macro in verilog"
     )
-    args = parse.parse_args()
+    args = parser.parse_args()
     if not args.input_path.endswith(".v") and not args.input_path.endswith(".sv"):
         print("Invalid input file, must be a .v or .sv file")
         sys.exit(1)
@@ -240,3 +351,5 @@ if __name__ == "__main__":
         create_miter(args.input_path, args.output_path, args.top)
     elif args.option == "remove_f_blocks":
         remove_f_blocks(args.input_path, args.output_path)
+    elif args.option == "word_split":
+        verilog_word_split(args.input_path)
