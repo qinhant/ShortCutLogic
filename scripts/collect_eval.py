@@ -118,6 +118,8 @@ technique_flags = {
     # "sc_ept_init": "rimspkt",
     "sc_epi": "rimspdk",
     # "sc_epi_init": "rimstpdk",
+    "epx": "riskpx",
+    "sc_epx": "rimskpx",
     # "sc_ps": "rimspc",
     "ric3_orig": "g",
     # "ric3_shortcut": "sgk",
@@ -132,9 +134,9 @@ technique_flags = {
 }
 
 # eval_order = technique_flags.keys()
-# eval_order = ["ept", "epi", "sc_ept", "sc_epi", "sc", "ric3_orig", "ric3_sc", "ric3_ept", "ric3_sc_ept"]
+# eval_order = ["ept", "epi", "sc_ept", "sc_epi", "sc", "abc_orig"]
 # eval_order = ["sc", "epi", "sc_ept_init", "sc_epi_init"]
-eval_order = ["ric3_epx", "ric3_sc_epx"]
+eval_order = ["abc_orig", "sc", "ept", "epi", "sc_ept", "sc_epi", "epx", "sc_epx"]
 
 with open(log_filename, "w") as log_file:
 
@@ -185,10 +187,10 @@ with open(log_filename, "w") as log_file:
 
 
     log("#### Ensuring `rIC3` is available ####\n")
-    solver_dir = os.path.join(cwd, 'target/release/')
+    solver_dir = os.path.join(cwd, '../rIC3/target/release/')
     solver = os.path.join(solver_dir, 'rIC3')
-    cmd = f"ln -s $(realpath {solver}) /bin/rIC3_exp"
-    cmd = "which rIC3_exp"
+    cmd = f"ln -s $(realpath {solver}) /bin/rIC3_exp_latest"
+    cmd = "which rIC3_exp_latest"
     log(f">> {cmd}   ===>   ")
     try:
         subprocess.run(cmd, shell=True, check=True, capture_output=True)

@@ -4,4 +4,7 @@ prep -top top_module
 flatten
 memory -nordff
 setundef -undriven -init -zero
+opt_share
+opt_merge -share_all
+share
 write_verilog output_path

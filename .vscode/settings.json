@@ -18,6 +18,8 @@
         "regex": "c",
         "type_traits": "c",
         "array": "c",
-        "initializer_list": "c"
-    }
+        "initializer_list": "c",
+        "saig.h": "c"
+    },
+    "cmake.sourceDirectory": "/Users/qinhant/Desktop/Princeton/Formal_Method/solvers/abc/ShortCutLogic/solvers/rIC3/deps/btor-rs/btor2tools/src"
 }

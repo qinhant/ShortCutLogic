@@ -87,6 +87,8 @@ while getopts "faswerimpdcqnubgktlvyxO:" opt; do
 done
 shift $((OPTIND - 1))
 
+senmantic_enforce=true
+
 # Ensure a design is provided
 if [ $# -ne 1 ]; then
   usage
@@ -173,6 +175,7 @@ if $aig && ! $reuse; then
 fi
 
 pdr_commands="read ${output_dir}/${file}.aig;
+    strash
     fold;
     pdr -v -d -T 3600 -I ${output_dir}/${file}.pla -R ${output_dir}/${file}.relation"
 if $verbose; then
@@ -186,6 +189,9 @@ if $predicate; then
 fi
 if $iterative; then
   pdr_commands="${pdr_commands} -b"
+fi
+if $exhaustive; then
+  pdr_commands="${pdr_commands} -X"
 fi
 if $incremental; then
   pdr_commands="${pdr_commands} -E"
@@ -222,10 +228,11 @@ map_path="--model-map ${output_dir}/${file}.map"
 relation_path="--relation-file ${output_dir}/${file}.relation"
 if $verbose; then
 export RUST_LOG=trace
-export RUST_BACKTRACE=1
+else
+export RUST_LOG=info
 fi
 
-rIC3_options="--no-abc "
+rIC3_options=""
 if $symmetry; then
   rIC3_options="${rIC3_options} --symmetry"
 fi
@@ -243,7 +250,7 @@ if $exhaustive; then
 fi
 # Step 4: Run rIC3 or rIC3-inn
 if $rIC3; then
-  rIC3_command="rIC3_exp --engine ic3 ${map_path} ${relation_path} ${rIC3_options} ${output_dir}/${file}.aig"
+  rIC3_command="rIC3_exp_latest --engine ic3 ${map_path} ${relation_path} ${rIC3_options} ${output_dir}/${file}.aig"
   echo "Running rIC3 for ${design}..."
   echo $rIC3_command
   eval "$rIC3_command" > "${output_dir}/ric3_${file}.log" 2>&1
@@ -321,9 +328,11 @@ abc_exp -c "${verify_commands}" >> "${output_dir}/pdr_${file}_interpreted.log"
 
 fi
 
+
+if $pdr && $interpret; then
 grep  " : " "${output_dir}/pdr_${file}_interpreted.log"
 grep  -E -A 200 -m 1 "(Verification .* successful)|(Block =)|(SolverStatistic.*)" "${output_dir}/pdr_${file}_interpreted.log"
-
+fi
 
 echo "Script completed."
 
