@@ -5,7 +5,7 @@ output/
 *.out
 *.vcd
 *.sim
-*log
+log
 *.lock
 jgproject/
 obj_dir/
