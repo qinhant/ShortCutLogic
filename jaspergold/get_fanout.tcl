@@ -17,8 +17,8 @@ clear -all
 # Get fanout for secrets in rocket_clean.sv
 analyze -sva verilog/rocket_clean.sv +define+ASSUME_ON=1
 elaborate -top top
-get_fanout -transitive secret_1 -barrier {copy1.csr_io_retire copy2.csr_io_retire}
-get_fanout -transitive secret_2 -barrier {copy1.csr_io_retire copy2.csr_io_retire}
+get_fanout -transitive secret_1 -barrier {copy1.io_retire copy2.io_retire}
+get_fanout -transitive secret_2 -barrier {copy1.io_retire copy2.io_retire}
 clear -all
 
 # Get fanout for secrets in rsa_modexp_miter.sv
