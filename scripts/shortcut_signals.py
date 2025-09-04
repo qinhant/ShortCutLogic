@@ -4,6 +4,7 @@ import textwrap
 from collections import defaultdict
 from collections.abc import Callable
 from dataclasses import dataclass
+import json
 
 
 RegId = str
@@ -33,20 +34,23 @@ class ShortcutSignalsConfig:
     """Settings for shortcut signals."""
 
     parse_sct_reg: Callable  # [[str], RegCopy | None]
-    original: CopyId
+    prefix1: CopyId
+    prefix2: CopyId
     shortcut_prefix: str
     assume_violate_sig: str = "assume_violate"
     prepend_shortcut_regs: bool = False
     wire_only: bool = False
     predicate_only: bool = False
     enable_eqinit: bool = False
+    fanout_file: str = None
+    design: str = None
 
 
 @dataclass
 class ImplicationSignalsConfig:
     """Settings for implication signals."""
     parse_wire: Callable  # [[str], RegCopy | None]
-    original: CopyId
+    prefix1: CopyId
 
 
 def add_eqinit_predicate(filein, fileout, *, cfg: ShortcutSignalsConfig):
@@ -190,6 +194,22 @@ def add_eqinit_predicate(filein, fileout, *, cfg: ShortcutSignalsConfig):
             fout.write(l)
 
 def add_equiv_predicate(filein, fileout, *, cfg: ShortcutSignalsConfig):
+    assert (not ((cfg.fanout_file == None and cfg.design != None) or (cfg.fanout_file != None and cfg.design == None)))
+    secret_fanout = set()
+    if cfg.fanout_file:
+        fanout_file = cfg.fanout_file
+        with open(fanout_file, "r") as f:
+            data = json.load(f)
+
+        design = parse.parse_args().design
+        filtered = [b for b in data if b.get("design") == design]
+        secret_fanout = []
+        for block in filtered:
+            fanout_signals = block.get("fanout", [])
+            secret_fanout.extend(fanout_signals)
+
+        secret_fanout = set([signal.replace(cfg.prefix1[1:], "".replace(cfg.prefix2[1:], "")) for signal in secret_fanout])
+
 
     commentp = re.compile(r"\(\*.*\*\)")
     comments = re.compile(r"/\*.*\*/")
@@ -242,7 +262,10 @@ def add_equiv_predicate(filein, fileout, *, cfg: ShortcutSignalsConfig):
             # if decl_reg.match(l):
             #     print(l, cfg.parse_sct_reg(l))
             if decl_reg.match(l) and (reg := cfg.parse_sct_reg(l)):
-                if reg.copy_id == cfg.original:
+                if cfg.fanout_file and reg.id not in secret_fanout:
+                    # print(reg.id)
+                    continue
+                if reg.copy_id == cfg.prefix1:
                     orig_regs[reg.id] = reg
                 else:
                     copy_regs[reg.id].append(reg)
@@ -439,7 +462,7 @@ def add_implication_signals(filein, fileout, *, cfg: ImplicationSignalsConfig):
                 break
 
             if decl_wire.match(l) and (wire := cfg.parse_wire(l)):
-                if wire.copy_id == cfg.original:
+                if wire.copy_id == cfg.prefix1:
                     orig_wires[wire.id] = wire
                 else:
                     copy_wires[wire.id].append(wire)
@@ -643,6 +666,20 @@ if __name__ == "__main__":
         default=False,
         help="enable eqinit predicate for every register that has more than 1 bit"
     )
+    
+    parse.add_argument(
+        "--fanout_file",
+        dest="fanout_file",
+        default=None,
+        help="a file of signals inside the secret's fanout"
+    )
+
+    parse.add_argument(
+        "--design",
+        dest="design",
+        default=None,
+        help="the design name, xxx_miter"
+    )
 
     args = parse.parse_args()
     if not args.input_path.endswith(".v") and not args.input_path.endswith(".sv"):
@@ -710,7 +747,7 @@ if __name__ == "__main__":
 
     # FIXME ugly fix for handling multiple modification of one file
     if args.enable_implication:
-        cfg = ImplicationSignalsConfig(parse_wire=parse_wire, original=args.prefix1)
+        cfg = ImplicationSignalsConfig(parse_wire=parse_wire, prefix1=args.prefix1)
         temp_path = args.output_path
         if args.enable_shortcut or args.enable_eqinit:
             temp_path = "temp.sv"
@@ -719,12 +756,15 @@ if __name__ == "__main__":
     if args.enable_shortcut:
         cfg = ShortcutSignalsConfig(
             parse_sct_reg=parse_sct_reg,
-            original=args.prefix1,
+            prefix1=args.prefix1,
+            prefix2=args.prefix2,
             shortcut_prefix=str(args.prefix_sc),
             assume_violate_sig=args.assume_violate_sig,
             wire_only=args.wire_only,
             predicate_only=args.predicate_only,
-            enable_eqinit=args.enable_eqinit
+            enable_eqinit=args.enable_eqinit,
+            fanout_file=args.fanout_file,
+            design=args.design
         )
         temp_path = args.input_path
         if args.enable_implication:
@@ -737,7 +777,7 @@ if __name__ == "__main__":
     if args.enable_eqinit:
         cfg = ShortcutSignalsConfig(
             parse_sct_reg=parse_sct_reg,
-            original=args.prefix1,
+            prefix1=args.prefix1,
             shortcut_prefix=str(args.prefix_sc),
             assume_violate_sig=args.assume_violate_sig,
             wire_only=args.wire_only,

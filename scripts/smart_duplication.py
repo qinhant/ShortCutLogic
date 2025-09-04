@@ -4,6 +4,7 @@ import textwrap
 from collections import defaultdict
 from collections.abc import Callable
 from dataclasses import dataclass
+import json
 
 
 RegId = str
@@ -32,23 +33,23 @@ class WireCopy:
 class ShortcutSignalsConfig:
     """Settings for shortcut signals."""
 
-    parse_sct_reg: Callable  # [[str], RegCopy | None]
+    # parse_sct_reg: Callable  # [[str], RegCopy | None]
     original: CopyId
     shortcut_prefix: str
     prepend_shortcut_regs: bool = False
 
-def extract_regs(expr: str, prefix: str) -> set[str]:
-    """Extracts all registers from an expression."""
-    reg_re = re.compile(
-        rf"(?P<copy>{prefix})(?P<name>[\w\.]+)?"     
-    )
-    regs = set()
+# def extract_regs(expr: str, prefix: str) -> set[str]:
+#     """Extracts all registers from an expression."""
+#     reg_re = re.compile(
+#         rf"(?P<copy>{prefix})(?P<name>[\w\.]+)?"     
+#     )
+#     regs = set()
 
-    for match in reg_re.finditer(expr):
-        # Might need to add the copy prefix to the name
-        regs.add(match.group("name"))
+#     for match in reg_re.finditer(expr):
+#         # Might need to add the copy prefix to the name
+#         regs.add(match.group("name"))
 
-    return regs
+#     return regs
 
 # take in a two-copy version and fanout of secret, delete every variable of copy2 not in fanout_signals
 def smart_duplicate(fanout_signals, miter_file, output_file, prefix1 = r"\copy1.", prefix2 = r"\copy2."):
@@ -74,7 +75,7 @@ def smart_duplicate(fanout_signals, miter_file, output_file, prefix1 = r"\copy1.
                 comments = match.group("comments")
                 rhs = re.sub(copy2_reg, lambda m: (prefix2 if m.group("name") in fanout_signals else prefix1) + m.group("name"), rhs)
                 f.write(
-                    f"{lhs} {var} {rhs} ;{comments}\n"
+                    f"{lhs} {rhs};{comments}"
                 )
             else:
                 f.write(l)
@@ -85,15 +86,39 @@ if __name__ == "__main__":
     parse.add_argument(
         "--copy1_prefix",
         dest="prefix1",
-        default="\\copy1.",
+        default="copy1.",
         help="prefix used to identify copy1",
     )
 
     parse.add_argument(
         "--copy2_prefix",
         dest="prefix2",
-        default="\\copy2.",
+        default="copy2.",
         help="prefix used to identify copy2",
+    )
+
+    parse.add_argument(
+        "--input",
+        dest="input_file",
+        help="input verilog file with two copies",
+    )
+
+    parse.add_argument(
+        "--output",
+        dest="output_file",
+        help="output verilog file with unnecessary copy2 regs removed",
+    )
+
+    parse.add_argument(
+        "--design",
+        dest="design",
+        help="name of the design, xx_miter",
+    )
+
+    parse.add_argument(
+        "--fanout_signals_file",
+        dest="fanout_signals_file",
+        help="file containing fanout signals of the secret",
     )
 
     prefix1 = parse.parse_args().prefix1
@@ -107,32 +132,52 @@ if __name__ == "__main__":
     reg_re = re.compile(rf"\s*reg{width_re} {fullname_re}{elems_re}")
     wire_re = re.compile(rf"\s*(wire|input|output|inout){width_re} {fullname_re}")
 
-    def parse_sct_reg(reg: str):  # -> RegCopy | None:
-        match = reg_re.match(reg)
-        if match is None:
-            return None
-        try:
-            name = match.group("name")
-            if not sct_regs.fullmatch(name):
-                return None
-            if (
-                match.group("elems_end") is not None
-                and match.group("elems_start") is not None
-            ):
-                n_elems = (
-                    abs(int(match.group("elems_end")) - int(match.group("elems_start")))
-                    + 1
-                )
-            else:
-                n_elems = None
-            # print(match.group("fullname"))
-            # print(n_elems)
-            return RegCopy(
-                name,
-                copy_id=match.group("copy"),
-                width=match.group("width"),
-                full_name=match.group("fullname"),
-                n_elements=n_elems,
-            )
-        except KeyError:
-            return None
+    fanout_file = parse.parse_args().fanout_signals_file
+    with open(fanout_file, "r") as f:
+        data = json.load(f)
+
+    design = parse.parse_args().design
+    filtered = [b for b in data if b.get("design") == design]
+    secret_fanout = []
+    for block in filtered:
+        fanout_signals = block.get("fanout", [])
+        secret_fanout.extend(fanout_signals)
+
+    for i in range(len(secret_fanout)):
+        if secret_fanout[i].find('[') >= 0:
+            secret_fanout[i] = secret_fanout[i][: secret_fanout[i].find('[')]
+        secret_fanout[i] = secret_fanout[i].replace(prefix1, "").replace(prefix2, "")
+        
+    # print(f"Secret fanout signals: {secret_fanout}")
+    smart_duplicate(secret_fanout, parse.parse_args().input_file, parse.parse_args().output_file, prefix1, prefix2)
+
+
+    # def parse_sct_reg(reg: str):  # -> RegCopy | None:
+    #     match = reg_re.match(reg)
+    #     if match is None:
+    #         return None
+    #     try:
+    #         name = match.group("name")
+    #         if not sct_regs.fullmatch(name):
+    #             return None
+    #         if (
+    #             match.group("elems_end") is not None
+    #             and match.group("elems_start") is not None
+    #         ):
+    #             n_elems = (
+    #                 abs(int(match.group("elems_end")) - int(match.group("elems_start")))
+    #                 + 1
+    #             )
+    #         else:
+    #             n_elems = None
+    #         # print(match.group("fullname"))
+    #         # print(n_elems)
+    #         return RegCopy(
+    #             name,
+    #             copy_id=match.group("copy"),
+    #             width=match.group("width"),
+    #             full_name=match.group("fullname"),
+    #             n_elements=n_elems,
+    #         )
+    #     except KeyError:
+    #         return None

@@ -89,16 +89,16 @@ def log_eval(
 
 
 examples = {
-    "multiplier": "multiplier_miter",
+    # "multiplier": "multiplier_miter",
     "sodor": "sodor5_miter_clean",
-    "rocket": "rocket_clean",
-    "modexp" : "rsa_modexp_miter",
-    "secenclave": "SE_leakymul_miter",
-    "cache": "cache_miter",
-    "gcd": "gcd_miter",
-    "fp_divider" : "single_divider_ws_miter",
-    "fp_multiplier": "single_multiplier_ws_miter",
-    "fp_adder": "single_adder_ws_miter"
+    "rocket": "rocket_clean"
+    # "modexp" : "rsa_modexp_miter",
+    # "secenclave": "SE_leakymul_miter",
+    # "cache": "cache_miter",
+    # "gcd": "gcd_miter",
+    # "fp_divider" : "single_divider_ws_miter",
+    # "fp_multiplier": "single_multiplier_ws_miter",
+    # "fp_adder": "single_adder_ws_miter"
 }
 
 base_flags = "fay"

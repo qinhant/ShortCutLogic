@@ -27,6 +27,7 @@ usage() {
   echo "  -v   Verbose output"
   echo "  -g   Run rIC3"
   echo "  -l   Run rIC3 with ic3-inn"
+  echo "  -b"  Enable smart duplication option
   echo "  -y"  Verify the generate inductive invariant
   echo "  -O suffix  Specify a suffix for the output directory"
   echo "If no options are provided, all steps will run."
@@ -55,11 +56,12 @@ rIC3inn=false
 verbose=false
 verify=false
 exhaustive=false
+smartdp=false
 
 # set -e
 
 # Parse command-line options
-while getopts "faswerimpdcqnubgktlvyxO:" opt; do
+while getopts "faswerimpdcqnubgktlvyxbO:" opt; do
   case $opt in
     f) flatten=true ;;
     a) aig=true ;;
@@ -81,6 +83,7 @@ while getopts "faswerimpdcqnubgktlvyxO:" opt; do
     k) senmantic_enforce=true ;;
     t) eqinit_predicate=true ;;
     y) verify=true ;;
+    b) smartdp=true ;;
     O) suffix="_$OPTARG" ;;
     *) usage ;;
   esac
@@ -133,6 +136,15 @@ if $flatten; then
       $unconstrained
   fi
   file="flatten"
+  if $smartdp; then
+    echo "Doing smart duplication for ${design}..."
+    python3 scripts/smart_duplication.py \
+      --input "${output_dir}/flatten.sv" \
+      --output "${output_dir}/flatten_smart.sv" \
+      --design "${design}" \
+      --fanout_signals_file "verilog/design_info/secret_fanout.json"
+    file="flatten_smart"
+  fi
 fi
 
 # Step 2: Add shortcut signals and
@@ -153,6 +165,9 @@ if $shortcut || $implication; then
   fi
   if $eqinit_predicate; then
     option="${option}z"
+  fi
+  if $smartdp; then
+    option="${option} --design ${design} --fanout_file verilog/design_info/secret_fanout.json"
   fi
   if  ! $reuse; then
     python3 scripts/shortcut_signals.py \
@@ -175,7 +190,6 @@ if $aig && ! $reuse; then
 fi
 
 pdr_commands="read ${output_dir}/${file}.aig;
-    strash
     fold;
     pdr -v -d -T 3600 -I ${output_dir}/${file}.pla -R ${output_dir}/${file}.relation"
 if $verbose; then
@@ -219,6 +233,7 @@ fi
 
 # Step 4: Run ABC with PDR
 if $pdr; then
+  pdr_commands="${pdr_commands} ps;"
   echo "Running ABC with PDR for ${design}..."
   echo "PDR commands are: ${pdr_commands}"
   abc_exp -c "${pdr_commands}" > "${output_dir}/pdr_${file}.log"
