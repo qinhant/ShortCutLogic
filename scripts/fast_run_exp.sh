@@ -243,6 +243,7 @@ map_path="--model-map ${output_dir}/${file}.map"
 relation_path="--relation-file ${output_dir}/${file}.relation"
 if $verbose; then
 export RUST_LOG=trace
+export RUST_BACKTRACE=1
 else
 export RUST_LOG=info
 fi
