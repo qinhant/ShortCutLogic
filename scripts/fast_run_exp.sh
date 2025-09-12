@@ -140,10 +140,10 @@ if $flatten; then
     echo "Doing smart duplication for ${design}..."
     python3 scripts/smart_duplication.py \
       --input "${output_dir}/flatten.sv" \
-      --output "${output_dir}/flatten_smart.sv" \
+      --output "${output_dir}/flatten.sv" \
       --design "${design}" \
       --fanout_signals_file "verilog/design_info/secret_fanout.json"
-    file="flatten_smart"
+    file="flatten"
   fi
 fi
 
@@ -165,9 +165,6 @@ if $shortcut || $implication; then
   fi
   if $eqinit_predicate; then
     option="${option}z"
-  fi
-  if $smartdp; then
-    option="${option} --design ${design} --fanout_file verilog/design_info/secret_fanout.json"
   fi
   if  ! $reuse; then
     python3 scripts/shortcut_signals.py \

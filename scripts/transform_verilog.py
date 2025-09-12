@@ -107,8 +107,10 @@ def verilog_to_aig(input_path, output_path, top):
                 else copy_prefix2
             )
             symmetric_name = symmetric_prefix + match.group("name")
-            latch_symmetry[l.id] = var_to_latch[(symmetric_name, l.bit_index)].id
-            
+            if (symmetric_name, l.bit_index) in var_to_latch.keys():
+                latch_symmetry[l.id] = var_to_latch[(symmetric_name, l.bit_index)].id
+            else:
+                latch_symmetry[l.id] = l.id
             equiv_predicate_name = f"shortcut.neq_{match.group('name')}_copy2"
             # if match.group('name') == '_r':
             #         print(l.signal_name, l.bit_index)
